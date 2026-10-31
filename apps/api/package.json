@@ -1,0 +1,33 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./app-type": "./src/app-type.ts"
+  },
+  "scripts": {
+    "dev": "bun --env-file=../../.env --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "build": "bun build src/index.ts --target=bun --outdir=dist",
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "1.6.3",
+    "@repo/auth": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@repo/validators": "workspace:*",
+    "@scalar/hono-api-reference": "0.12.17",
+    "drizzle-orm": "0.45.4",
+    "hono": "4.13.14",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@types/bun": "1.4.4",
+    "eslint": "9.39.5",
+    "typescript": "6.0.3"
+  }
+}
