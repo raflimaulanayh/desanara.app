@@ -1,0 +1,9 @@
+{
+  "common": {
+    "appName": "UMKM Desa",
+    "loading": "Memuat…",
+    "error": "Terjadi kesalahan. Coba lagi.",
+    "orderViaWhatsApp": "Pesan via WhatsApp",
+    "seeAll": "Lihat semua"
+  }
+}
