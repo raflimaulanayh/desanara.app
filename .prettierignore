@@ -1,0 +1,8 @@
+bun.lock
+.next
+.turbo
+dist
+coverage
+packages/db/drizzle
+.plop/templates
+next-env.d.ts
