@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "siteName": "UMKM Desa",
+    "title": "UMKM Desa — Temukan produk khas dari desa di Indonesia",
+    "description": "Katalog produk UMKM desa. Temukan produk lokal dan pesan langsung ke penjualnya lewat WhatsApp."
+  },
+  "nav": {
+    "brand": "UMKM Desa",
+    "explore": "Jelajah",
+    "about": "Tentang",
+    "switchLanguage": "Ganti bahasa"
+  },
+  "footer": {
+    "credit": "© {year} HIMA Sistem Informasi SATU University"
+  },
+  "home": {
+    "heroTitle": "Produk khas desa, langsung dari pembuatnya",
+    "heroSubtitle": "Temukan makanan, kerajinan, dan hasil tani dari UMKM desa. Pesan langsung ke penjual lewat WhatsApp.",
+    "heroCta": "Jelajahi produk",
+    "villagesTitle": "Desa",
+    "villagesEmptyTitle": "Belum ada desa yang tampil",
+    "villagesEmptyDescription": "Data desa akan muncul di sini setelah API berjalan dan data seed dimuat.",
+    "businessCount": "{count, plural, =0 {Belum ada UMKM} other {# UMKM}}"
+  },
+  "explore": {
+    "title": "Jelajahi produk",
+    "comingSoonTitle": "Segera hadir",
+    "comingSoonDescription": "Pencarian produk berdasarkan wilayah dan kategori sedang dibangun."
+  },
+  "about": {
+    "title": "Tentang UMKM Desa",
+    "body": "UMKM Desa adalah program HIMA Sistem Informasi SATU University untuk membantu UMKM desa memperkenalkan produknya ke masyarakat luas, disertai pendampingan dan edukasi digital."
+  }
+}

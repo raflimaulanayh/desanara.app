@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "siteName": "UMKM Desa",
+    "title": "UMKM Desa — Discover local products from Indonesian villages",
+    "description": "A catalogue of village micro and small business products. Find local goods and order directly from the seller on WhatsApp."
+  },
+  "nav": {
+    "brand": "UMKM Desa",
+    "explore": "Explore",
+    "about": "About",
+    "switchLanguage": "Switch language"
+  },
+  "footer": {
+    "credit": "© {year} HIMA Information Systems, SATU University"
+  },
+  "home": {
+    "heroTitle": "Village products, straight from the makers",
+    "heroSubtitle": "Discover food, crafts, and farm produce from village businesses. Order directly from the seller on WhatsApp.",
+    "heroCta": "Explore products",
+    "villagesTitle": "Villages",
+    "villagesEmptyTitle": "No villages yet",
+    "villagesEmptyDescription": "Villages will appear here once the API is running and the seed data is loaded.",
+    "businessCount": "{count, plural, =0 {No businesses yet} one {# business} other {# businesses}}"
+  },
+  "explore": {
+    "title": "Explore products",
+    "comingSoonTitle": "Coming soon",
+    "comingSoonDescription": "Product search by region and category is being built."
+  },
+  "about": {
+    "title": "About UMKM Desa",
+    "body": "UMKM Desa is a program by the Information Systems student association (HIMA) of SATU University that helps village businesses reach more customers, with digital mentoring and training."
+  }
+}
