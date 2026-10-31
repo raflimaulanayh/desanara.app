@@ -1,0 +1,29 @@
+{
+  "name": "@repo/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./permissions": "./src/permissions.ts",
+    "./server": "./src/server.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-types": "tsc --noEmit",
+    "test": "bun test"
+  },
+  "dependencies": {
+    "better-auth": "1.7.14"
+  },
+  "peerDependencies": {
+    "@repo/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@repo/config": "workspace:*",
+    "@repo/db": "workspace:*",
+    "@types/bun": "1.4.4",
+    "eslint": "9.39.5",
+    "typescript": "6.0.3"
+  }
+}
