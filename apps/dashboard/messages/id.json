@@ -1,0 +1,25 @@
+{
+  "dashboard": {
+    "title": "Dashboard UMKM Desa",
+    "welcome": "Halo, {name}",
+    "roles": "Peran kamu",
+    "noRoles": "Akun ini belum punya peran. Minta admin desa mengundangmu.",
+    "logout": "Keluar",
+    "loadingSession": "Memeriksa sesi…"
+  },
+  "login": {
+    "title": "Masuk ke Dashboard",
+    "subtitle": "Untuk admin desa, pendamping, dan pemilik UMKM.",
+    "email": "Email",
+    "password": "Kata sandi",
+    "submit": "Masuk",
+    "failed": "Email atau kata sandi salah."
+  },
+  "roles": {
+    "super_admin": "Super admin",
+    "village_admin": "Admin desa",
+    "village_assistant": "Pendamping desa",
+    "owner": "Pemilik UMKM",
+    "assistant": "Pendamping UMKM"
+  }
+}

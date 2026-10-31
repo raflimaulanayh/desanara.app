@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@import '@heroui/styles';
+@import '@repo/ui/theme.css';
+
+@source '../../../../packages/ui/src';
