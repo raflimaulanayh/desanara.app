@@ -1,0 +1,5 @@
+# Automatic HTTPS for the API. Set API_DOMAIN (e.g. api.umkmdesa.id) in the environment.
+{$API_DOMAIN} {
+  encode zstd gzip
+  reverse_proxy api:8787
+}
