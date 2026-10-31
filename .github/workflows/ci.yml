@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: umkm_app
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/umkm_app
+      BETTER_AUTH_SECRET: ci-secret-ci-secret-ci-secret
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: bun install --frozen-lockfile
+      - name: Format
+        run: bun run format:check
+      - name: Lint, typecheck, test
+        run: bunx turbo run lint check-types test
+      - name: Migrations match the schema
+        run: |
+          bun run --cwd packages/db generate --name ci_check
+          if [ -n "$(git status --porcelain packages/db/drizzle)" ]; then
+            echo "::error::Schema changed without a committed migration. Run 'bun run db:generate' and commit packages/db/drizzle."
+            git status --porcelain packages/db/drizzle
+            exit 1
+          fi
+      - name: Migrate and seed a fresh database
+        run: |
+          cd packages/db
+          bunx drizzle-kit migrate
+          bun src/seed/index.ts
+          bun src/seed/index.ts --reset
+      - name: Build apps
+        run: bunx turbo run build

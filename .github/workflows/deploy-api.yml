@@ -1,0 +1,23 @@
+name: Deploy API
+
+# Manual for now. Requires repository secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY, VPS_APP_DIR.
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Pull, rebuild, migrate on the VPS
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd "${{ secrets.VPS_APP_DIR }}"
+            git pull --ff-only
+            docker compose -f docker/docker-compose.prod.yml up -d --build
+            docker compose -f docker/docker-compose.prod.yml run --rm api bun run --cwd packages/db migrate
