@@ -1,0 +1,37 @@
+/*
+ * UMKM Desa design tokens on top of HeroUI v3 (CSS-first, Tailwind v4).
+ * Import AFTER tailwindcss and @heroui/styles in each app's globals.css.
+ * HeroUI reads these variables; dark mode = `.dark` or [data-theme="dark"] on <html>.
+ */
+@layer theme {
+  :root {
+    /* Leafy green accent: fresh, local, agricultural */
+    --accent: oklch(0.56 0.13 152);
+    --accent-foreground: oklch(0.99 0 0);
+    --success: oklch(0.62 0.15 155);
+    --warning: oklch(0.78 0.15 75);
+    --radius: 0.75rem;
+  }
+
+  .dark,
+  [data-theme='dark'] {
+    --accent: oklch(0.7 0.14 152);
+    --accent-foreground: oklch(0.18 0.02 152);
+  }
+}
+
+/*
+ * Village theming (ADR 0007). The wrapper sets --accent, --accent-foreground, --radius and
+ * --village-font inline. HeroUI computes these derived variables once on :root, so they must be
+ * re-declared here to follow the village accent. Keep in sync with
+ * @heroui/styles/dist/themes/default/variables.css when upgrading HeroUI.
+ */
+[data-village-theme] {
+  --focus: var(--accent);
+  --accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
+  --accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
+  --accent-soft-foreground: color-mix(in oklab, var(--accent) 70%, var(--foreground) 30%);
+  --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
+  --field-radius: calc(var(--radius) * 1.5);
+  font-family: var(--village-font, inherit);
+}
