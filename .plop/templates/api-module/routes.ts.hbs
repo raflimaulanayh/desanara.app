@@ -1,0 +1,28 @@
+import { createRoute, z } from '@hono/zod-openapi'
+import { createRouter, errorResponses } from '../../lib/router'
+import { requireUser } from '../../middleware/session'
+import { {{camelCase name}}ListResponseSchema } from './{{kebabCase name}}.schema'
+import * as service from './{{kebabCase name}}.service'
+
+const listRoute = createRoute({
+  method: 'get',
+  path: '/',
+  tags: ['{{pascalCase name}}'],
+  summary: 'List {{name}} of a village',
+  middleware: [requireUser] as const,
+  request: { query: z.object({ villageId: z.uuid() }) },
+  responses: {
+    200: {
+      description: '{{pascalCase name}}',
+      content: { 'application/json': { schema: {{camelCase name}}ListResponseSchema } },
+    },
+    401: errorResponses[401],
+    403: errorResponses[403],
+    422: errorResponses[422],
+  },
+})
+
+export const {{camelCase name}}Routes = createRouter().openapi(listRoute, async (c) => {
+  const { villageId } = c.req.valid('query')
+  return c.json(await service.list{{pascalCase name}}(c.get('db'), c.get('actor'), villageId), 200)
+})

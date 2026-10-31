@@ -1,0 +1,10 @@
+import { z } from '@hono/zod-openapi'
+
+export const {{camelCase name}}ItemSchema = z
+  .object({
+    id: z.uuid(),
+    // TODO: add fields
+  })
+  .openapi('{{pascalCase name}}Item')
+
+export const {{camelCase name}}ListResponseSchema = z.object({ data: z.array({{camelCase name}}ItemSchema) })

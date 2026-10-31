@@ -1,0 +1,9 @@
+import { type Actor, assertCan } from '@repo/auth/permissions'
+import type { Database } from '@repo/db'
+import * as repo from './{{kebabCase name}}.repository'
+
+/** Business rules + authorization. Call assertCan before reading private data or mutating. */
+export async function list{{pascalCase name}}(db: Database, actor: Actor | null, villageId: string) {
+  assertCan(actor, 'village.view_analytics', { type: 'village', villageId }) // TODO: pick the right action
+  return { data: await repo.list{{pascalCase name}}(db, villageId) }
+}

@@ -1,0 +1,8 @@
+import type { Database } from '@repo/db'
+
+/** Drizzle queries only. Always scope by villageId and exclude soft-deleted rows. */
+export async function list{{pascalCase name}}(db: Database, villageId: string) {
+  void db
+  void villageId
+  return [] as { id: string }[] // TODO: implement
+}
