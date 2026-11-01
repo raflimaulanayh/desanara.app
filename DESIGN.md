@@ -166,7 +166,7 @@ The system is flat paper. Depth comes from rules, double rules, and carbon tints
 
 ## Shapes
 
-Shapes are square-cornered paper. Sheets and inputs have sharp corners. Rules are 1px; the closing rule of a kop or sheet header is a 3–5px double rule. Stamps are rectangles with a 2px border plus a 1px outline offset 2px (a double frame), rotated −6° to +9°, and multiplied onto the page. Village seals are circles: a 5px outer ring, a 1.5px inner ring, the village name running around the ring, and the logo re-inked to a single colour in the centre. The village `radius` token (sharp 0.25rem, rounded 0.75rem, pill 1.25rem) affects HeroUI controls inside a village, not sheets.
+Shapes are square-cornered paper. Sheets and inputs have sharp corners. Rules are 1px; the closing rule of a kop or sheet header is a 3–5px double rule. Stamps are rectangles with a 2px border plus a 1px outline offset 2px (a double frame), rotated −6° to +9°, and multiplied onto the page. Village seals are circles: a 5px outer ring, a 1.5px inner ring, the village name running around the ring, and the logo re-inked by luminance into the village ink in the centre (dark prints dense, white prints nothing). The village `radius` token (sharp 0.25rem, rounded 0.75rem, pill 1.25rem) affects HeroUI controls inside a village, not sheets.
 
 ## Components
 
@@ -228,4 +228,4 @@ A carbon-yellow band with a red DATA DEMO stamp and one plain sentence. It appea
 - **Don't** use navy as a village accent, and don't let village ink print the book's ruling.
 - **Don't** put a kicker or eyebrow label above a heading; carry category as a nota field ("Jenis: …").
 - **Don't** fake ink texture with noise filters; stamps stay crisp vector until a real scanned ink asset exists.
-- **Don't** draw or approximate the HIMA SI or SATU University logos; use the marked empty slot until assets arrive.
+- **Don't** redraw or approximate partner logos; print the supplied mono artwork in nota navy through a mask (`BrandMark`), and keep full-colour logos untouched.

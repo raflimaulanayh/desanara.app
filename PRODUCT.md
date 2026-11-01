@@ -39,12 +39,12 @@ Unlike Shopee/Tokopedia, every product is shown as part of a village and its sto
 
 ## Brand Commitments
 
-- Credit to **HIMA Sistem Informasi, SATU University** must appear; the HIMA SI and SATU University logos are required on the public site (assets not yet received — do not draw or approximate them).
-- Partner village logos appear on their village pages. Desa Baros currently uses the KIM (Kelompok Informasi Masyarakat) Desa Baros logo (`/Users/raflimaulana/Documents/PROJECTS/UNIVERSITY/baros/kim-baros/public/kim-logo.png`) as a stand-in until the official village logo is provided.
+- Credit to **HIMA Sistem Informasi, SATU University** must appear with their logos. The official HIMASIF and SATU University logos (white mono versions) are in `apps/web/public/brand/` and are printed in nota navy through a CSS mask (mono recolour, never redrawn). Source: `baros/kim-baros/public/static/images/copyright/`.
+- Partner village logos appear on their village pages. Desa Baros uses the crest of its official Pemerintah Desa Baros logo (`desa-baros.png`, same source folder), shown inside the cap desa seal.
 
 ## Evidence on Hand
 
-- Desa Baros KIM logo and a tourism photo (`baros/kim-baros/public/view-wisata.jpg`).
+- Official logos: Pemerintah Desa Baros, HIMASIF, SATU University, Sistem Informasi SATU University (`baros/kim-baros/public/static/images/copyright/`); Desa Baros tourism photo (`baros/kim-baros/public/view-wisata.jpg`).
 - No real product photos, testimonials, sales figures or partner endorsements yet. Demo businesses, products and statistics are fictional and must stay labelled as demo; never present them as real.
 
 ## Product Principles

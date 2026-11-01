@@ -46,10 +46,17 @@ export function VillageSeal({
         <clipPath id={`${id}-clip`}>
           <circle cx="100" cy="100" r="52" />
         </clipPath>
-        {/* Re-ink the logo: keep its shape (alpha), print it in the stamp's colour. */}
+        {/* Re-ink the logo like a rubber stamp: ink density follows darkness (white prints nothing, ×1.5 so light colours still leave ink),
+            so a coloured crest keeps its detail in the village's single ink. */}
         <filter id={`${id}-ink`} colorInterpolationFilters="sRGB">
+          <feColorMatrix
+            in="SourceGraphic"
+            type="matrix"
+            values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -0.319 -1.073 -0.108 1.5 0"
+            result="density"
+          />
           <feFlood floodColor="currentColor" result="ink" />
-          <feComposite in="ink" in2="SourceAlpha" operator="in" />
+          <feComposite in="ink" in2="density" operator="in" />
         </filter>
       </defs>
       <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" strokeWidth="5" />

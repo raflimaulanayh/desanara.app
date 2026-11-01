@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## 2026-11-01 — Logo resmi HIMASIF, SATU University, dan Desa Baros
+
+- **Area**: apps/web (public/brand, public/media, komponen `BrandMark`, `VillageSeal`), docs, PRODUCT.md, DESIGN.md
+- **Jenis**: Changed
+- Slot "logo menyusul" diganti logo resmi HIMASIF dan SATU University (versi putih/mono dari folder `copyright` repo Desa
+  Baros), dicetak dalam tinta navy nota lewat CSS mask di footer dan halaman Tentang.
+- Cap Desa Baros kini memakai lambang resmi Pemerintah Desa Baros (perisai + pita motto) menggantikan logo KIM.
+- Tinta logo di dalam cap desa kini mengikuti kecerahan (bagian gelap tebal, putih tidak tercetak), sehingga detail
+  lambang tetap terbaca dalam satu warna tinta desa.
+
 ## 2026-11-01 — Halaman publik "Buku Nota & Stempel" + jam buka UMKM
 
 - **Area**: apps/web, apps/api, packages/validators, packages/ui, packages/db, packages/i18n, docs, PRODUCT.md

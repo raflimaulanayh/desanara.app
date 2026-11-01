@@ -2,7 +2,7 @@ import { BRAND_NAME } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import { LogoSlot } from './logo-slot'
+import { BrandMark } from './brand-mark'
 
 /**
  * Closing page of the book. HIMA SI and SATU University are credited in text; their logos are
@@ -21,12 +21,11 @@ export async function SiteFooter() {
           <p className="font-print text-nota-ink text-xs font-semibold tracking-[0.16em] uppercase">
             {t('byline')}
           </p>
-          <p className="mt-1 font-semibold">HIMA Sistem Informasi</p>
-          <p className="text-muted">SATU University</p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <LogoSlot label={t('logoHima')} />
-            <LogoSlot label={t('logoSatu')} />
+          <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <BrandMark mark="himasif" height={34} />
+            <BrandMark mark="satu" height={44} />
           </div>
+          <p className="text-muted mt-3">HIMA Sistem Informasi · SATU University</p>
           <nav aria-label={t('links')} className="mt-4 flex gap-4">
             <Link href="/explore" className="hover:text-accent underline">
               {t('explore')}
