@@ -21,6 +21,9 @@ const summaryColumns = {
   regionName: regions.name,
   description: villages.description,
   businessCount,
+  logoKey: villages.logoKey,
+  isSeed: villages.isSeed,
+  theme: villages.theme,
 }
 
 export async function listPublishedVillages(
@@ -49,8 +52,7 @@ export async function findPublishedVillageBySlug(db: Database, slug: string) {
       contactPhone: villages.contactPhone,
       contactEmail: villages.contactEmail,
       bannerKey: villages.bannerKey,
-      logoKey: villages.logoKey,
-      theme: villages.theme,
+      timezone: villages.timezone,
     })
     .from(villages)
     .leftJoin(regions, eq(regions.code, villages.regionCode))

@@ -10,6 +10,10 @@ import { createRouter } from './lib/router'
 import { sessionMiddleware } from './middleware/session'
 import { healthRoutes } from './modules/health/health.routes'
 import { meRoutes } from './modules/me/me.routes'
+import { businessRoutes } from './modules/businesses/businesses.routes'
+import { catalogRoutes } from './modules/catalog/catalog.routes'
+import { eventRoutes } from './modules/events/events.routes'
+import { regionRoutes } from './modules/regions/regions.routes'
 import { villageRoutes } from './modules/villages/villages.routes'
 
 export interface AppDeps {
@@ -46,6 +50,10 @@ export function createApp({ db, auth, trustedOrigins, logRequests = true }: AppD
     .route('/health', healthRoutes)
     .route('/v1/me', meRoutes)
     .route('/v1/villages', villageRoutes)
+    .route('/v1/businesses', businessRoutes)
+    .route('/v1/regions', regionRoutes)
+    .route('/v1/events', eventRoutes)
+    .route('/v1', catalogRoutes)
 
   app.doc31('/openapi.json', {
     openapi: '3.1.0',

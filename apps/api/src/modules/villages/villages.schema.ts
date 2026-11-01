@@ -10,6 +10,11 @@ export const villageSummarySchema = z
     regionName: z.string().nullable(),
     description: z.string().nullable(),
     businessCount: z.number().int(),
+    logoKey: z.string().nullable(),
+    /** True for demo villages created by the seed (shown with a DATA DEMO stamp). */
+    isSeed: z.boolean(),
+    /** Stamp ink of the village (theme accent), for seals on cross-village pages. */
+    accent: z.string(),
   })
   .openapi('VillageSummary')
 
@@ -19,7 +24,7 @@ export const villageDetailSchema = villageSummarySchema
     contactPhone: z.string().nullable(),
     contactEmail: z.string().nullable(),
     bannerKey: z.string().nullable(),
-    logoKey: z.string().nullable(),
+    timezone: z.string(),
     /** Always a valid theme: stored value parsed with parseVillageTheme (default when unset). */
     theme: z
       .object({

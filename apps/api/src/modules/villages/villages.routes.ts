@@ -3,6 +3,8 @@ import { paginationSchema } from '@repo/validators'
 import { createRouter, errorResponses } from '../../lib/router'
 import { villageDetailResponseSchema, villageListResponseSchema } from './villages.schema'
 import * as service from './villages.service'
+import { businessPublicSchema } from '../businesses/businesses.schema'
+import * as businessService from '../businesses/businesses.service'
 
 const listRoute = createRoute({
   method: 'get',
@@ -34,6 +36,22 @@ const detailRoute = createRoute({
   },
 })
 
+const businessesRoute = createRoute({
+  method: 'get',
+  path: '/{slug}/businesses',
+  tags: ['Villages'],
+  summary: 'Published, verified businesses of a village',
+  request: { params: z.object({ slug: z.string().min(1) }) },
+  responses: {
+    200: {
+      description: 'Businesses',
+      content: {
+        'application/json': { schema: z.object({ data: z.array(businessPublicSchema) }) },
+      },
+    },
+  },
+})
+
 export const villageRoutes = createRouter()
   .openapi(listRoute, async (c) => {
     const { page, pageSize } = c.req.valid('query')
@@ -42,4 +60,8 @@ export const villageRoutes = createRouter()
   .openapi(detailRoute, async (c) => {
     const { slug } = c.req.valid('param')
     return c.json(await service.getVillageBySlug(c.get('db'), slug), 200)
+  })
+  .openapi(businessesRoute, async (c) => {
+    const { slug } = c.req.valid('param')
+    return c.json(await businessService.listVillageBusinesses(c.get('db'), slug), 200)
   })
