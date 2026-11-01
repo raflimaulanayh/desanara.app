@@ -4,7 +4,7 @@
 
 ## Decision
 
-Static path segments are English for every locale: `/id/explore`, `/en/explore`, `/id/villages/sukamaju`.
+Static path segments are English for every locale: `/id/explore`, `/en/explore`, `/id/villages/baros`.
 Dynamic slugs follow the content language (usually Indonesian): `/en/products/keripik-bu-ani-keripik-singkong-original`.
 
 ## Consequences

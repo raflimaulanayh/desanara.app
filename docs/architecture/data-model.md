@@ -27,6 +27,9 @@ erDiagram
   `verification_status` = pending | verified | rejected (verified once by the village admin).
 - `businesses.consentAt` records UU PDP consent; required before publishing.
 - `villages.theme` / `theme_draft` (JSONB) hold per-village branding; shape and rules in
+- `businesses.openingHours` (JSONB, `OpeningHours` in `@repo/validators`), `closedUntil`, `closedNote` drive the
+  open/closed status, computed with `computeOpenStatus()` in the village time zone (`villages.timezone`,
+  default `Asia/Jakarta`). No schedule = no status shown.
   [village-theming.md](village-theming.md). Always read with `parseVillageTheme()`.
 - Translations: Indonesian is the base column; optional rows in `*_translations` (`locale = 'en'`) override it.
   Read with a fallback to the base column.

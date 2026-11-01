@@ -2,18 +2,18 @@
 
 ```bash
 bun run db:seed        # upsert data referensi, lalu buat ulang semua data demo (aman diulang)
-bun run db:seed:reset  # hapus data demo saja (is_seed = true); data referensi & data asli tetap
+bun run db:seed:reset  # hapus data demo saja (is_seed = true); data referensi, data asli & Desa Baros tetap
 ```
 
 ## Isi
 
 - **Referensi (asli, tidak dihapus):** Provinsi Jawa Barat + 27 kabupaten/kota (kode Kemendagri), 6 kategori + terjemahan EN.
-- **Demo (fiktif, `is_seed = true`):** 3 desa (Sukamaju – Kab. Bandung, Mekarwangi – Kab. Garut, Sindangjaya – Kab. Sumedang),
+- **Demo (fiktif, `is_seed = true`):** 3 desa: **Desa Baros** (desa pilot asli, Kec. Arjasari, Kab. Bandung — memakai logo KIM Desa Baros dan foto wisatanya; hanya UMKM/produknya yang demo) serta Mekarwangi (Kab. Garut) dan Sindangjaya (Kab. Sumedang) yang fiktif,
   16 UMKM (3 menunggu verifikasi), 42 produk (38 tayang), ±1.400 event view/klik WA 30 hari terakhir.
-  Tiap desa punya tema berbeda: Sukamaju hijau + Plus Jakarta Sans + rounded, Mekarwangi merah bata + Lora + sharp,
-  Sindangjaya biru + Nunito + pill.
+  Tiap desa punya tema berbeda: Baros teal + Barlow Condensed + sharp, Mekarwangi merah bata + Bitter + sharp,
+  Sindangjaya hijau + Nunito + rounded. Sebagian besar UMKM punya jam buka; Dodol Ibu Euis sedang "tutup sementara" 3 hari.
 
-Nama desa, UMKM, dan orang adalah fiktif. Kecamatan/desa belum diisi kode resmi, jadi desa demo menunjuk kode kabupaten.
+Nama UMKM dan orang adalah fiktif (termasuk UMKM di Desa Baros). Kecamatan/desa belum diisi kode resmi, jadi desa demo menunjuk kode kabupaten.
 
 ## Nomor WhatsApp demo
 
@@ -24,14 +24,14 @@ mengirim pesan ke orang asing. **Isi dengan nomor tim HIMA sebelum seminar.** Ji
 
 Kata sandi semua akun: `demo12345`
 
-| Email                                       | Peran                                        |
-| ------------------------------------------- | -------------------------------------------- |
-| `superadmin@demo.umkmdesa.test`             | Super admin                                  |
-| `admin.sukamaju@demo.umkmdesa.test`         | Admin Desa Sukamaju                          |
-| `admin.mekarwangi@demo.umkmdesa.test`       | Admin Desa Mekarwangi                        |
-| `admin.sindangjaya@demo.umkmdesa.test`      | Admin Desa Sindangjaya                       |
-| `pendamping.sukamaju@demo.umkmdesa.test`    | Pendamping desa Sukamaju + pendamping 4 UMKM |
-| `pemilik.keripik-bu-ani@demo.umkmdesa.test` | Pemilik UMKM Keripik Bu Ani                  |
+| Email                                       | Peran                                     |
+| ------------------------------------------- | ----------------------------------------- |
+| `superadmin@demo.umkmdesa.test`             | Super admin                               |
+| `admin.baros@demo.umkmdesa.test`            | Admin Desa Baros                          |
+| `admin.mekarwangi@demo.umkmdesa.test`       | Admin Desa Mekarwangi                     |
+| `admin.sindangjaya@demo.umkmdesa.test`      | Admin Desa Sindangjaya                    |
+| `pendamping.baros@demo.umkmdesa.test`       | Pendamping desa Baros + pendamping 4 UMKM |
+| `pemilik.keripik-bu-ani@demo.umkmdesa.test` | Pemilik UMKM Keripik Bu Ani               |
 
 ## Production
 

@@ -27,7 +27,9 @@ Admins are not designers, pages must stay fast and readable on cheap phones, and
 ## Consequences
 
 - MVP ships the brand kit + one template (`classic`); new templates/fonts = add to the enum + component, no migration.
-- Fonts are loaded with `next/font` at build time; adding a font is a code change.
+- Fonts are loaded with `next/font` at build time; adding a font is a code change. The village face applies to
+  village/business/product names only, so the platform's nota structure stays consistent (revised 2026-11-01:
+  list is barlow-condensed, bitter, nunito, poppins).
 - Upgrading HeroUI requires re-checking the derived variables list (comment in `theme.css`).
 - Subdomains / custom domains per village (phase 2) reuse the same theme.
 

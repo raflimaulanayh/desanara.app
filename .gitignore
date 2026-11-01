@@ -12,3 +12,6 @@ coverage
 .vercel
 *.log
 next-env.d.ts
+.impeccable/config.local.json
+.impeccable/review/
+.impeccable/build/

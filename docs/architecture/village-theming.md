@@ -6,7 +6,7 @@ Decision and reasons: [ADR 0007](../adr/0007-village-theming.md).
 
 ```ts
 // @repo/validators — villageThemeSchema
-{ version: 1, template: 'classic', accent: '#2e7d32', font: 'plus-jakarta-sans', radius: 'rounded' }
+{ version: 1, template: 'classic', accent: '#1f3a8a', font: 'barlow-condensed', radius: 'sharp' }
 ```
 
 | Field         | Values                                             | Notes                                            |
@@ -31,7 +31,7 @@ import { villageThemeAttributes } from '@repo/ui/village-theme'
 - Server-rendered inline variables → no flash of the platform theme.
 - `[data-village-theme]` (packages/ui/src/theme.css) recomputes HeroUI's derived variables from the village accent.
 - Load the curated fonts once in the web root layout with `next/font/google`, exposing
-  `--font-plus-jakarta-sans`, `--font-nunito`, `--font-poppins`, `--font-lora` (only the subsets used).
+  `--font-barlow-condensed`, `--font-bitter`, `--font-nunito`, `--font-poppins` (`apps/web/src/lib/fonts.ts`; village faces are not preloaded).
 - Use HeroUI tokens (`bg-accent`, `text-accent-foreground`, `rounded-[var(--radius)]`) inside templates; never
   hard-code the platform green there.
 
