@@ -7,7 +7,7 @@
  * Docs: docs/guides/seed-data.md
  */
 import { hashPassword } from 'better-auth/crypto'
-import { eq, inArray } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { createDb, type Database } from '../index'
 import {
   accounts,
@@ -137,19 +137,24 @@ async function insertDemoData(tx: Database) {
   const productIdsForStats: { productId: string; businessId: string; villageId: string }[] = []
 
   for (const [vi, v] of demoVillages.entries()) {
+    const villageValues = {
+      slug: v.slug,
+      name: v.name,
+      regionCode: v.regionCode,
+      description: v.description,
+      contactPhone: demoWhatsApp,
+      logoKey: v.logoKey,
+      bannerKey: v.bannerKey,
+      theme: v.theme,
+      themePublishedAt: new Date(),
+      status: 'published' as const,
+      // A real partner village (Desa Baros) is kept on reset; only its businesses/products are demo.
+      isSeed: !v.isRealVillage,
+    }
     const [village] = await tx
       .insert(villages)
-      .values({
-        slug: v.slug,
-        name: v.name,
-        regionCode: v.regionCode,
-        description: v.description,
-        contactPhone: demoWhatsApp,
-        theme: v.theme,
-        themePublishedAt: new Date(),
-        status: 'published',
-        isSeed: true,
-      })
+      .values(villageValues)
+      .onConflictDoUpdate({ target: villages.slug, set: villageValues })
       .returning({ id: villages.id })
     const villageId = village!.id
 
@@ -186,6 +191,11 @@ async function insertDemoData(tx: Database) {
           ownerName: b.ownerName,
           description: b.description,
           whatsappNumber: demoWhatsApp,
+          openingHours: b.hours ?? null,
+          closedUntil: b.closedForDays
+            ? new Date(Date.now() + b.closedForDays.days * 86_400_000)
+            : null,
+          closedNote: b.closedForDays?.note ?? null,
           verificationStatus: b.verified ? 'verified' : 'pending',
           verifiedAt: b.verified ? new Date() : null,
           verifiedBy: b.verified ? adminId : null,
@@ -274,12 +284,7 @@ try {
     const counts = await t
       .select({ id: businesses.id })
       .from(businesses)
-      .where(
-        inArray(
-          businesses.villageId,
-          t.select({ id: villages.id }).from(villages).where(eq(villages.isSeed, true)),
-        ),
-      )
+      .where(eq(businesses.isSeed, true))
     console.log(
       `Seeded ${demoVillages.length} villages, ${counts.length} businesses, ${result.products} published products, ${result.events} analytics events.`,
     )

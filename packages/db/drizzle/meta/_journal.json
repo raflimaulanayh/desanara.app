@@ -15,6 +15,13 @@
       "when": 1793470714197,
       "tag": "0001_village_theme",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793487547270,
+      "tag": "0002_opening_hours",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { index, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { index, jsonb, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { seedFlag, softDelete, timestamps } from './_shared'
 import { users } from './auth'
 import { businessRole, recordStatus, verificationStatus } from './enums'
@@ -26,6 +26,11 @@ export const businesses = pgTable(
     instagramUrl: text(),
     /** Nomor Induk Berusaha (optional business licence number). */
     nib: text(),
+    /** Weekly schedule, shape = OpeningHours in @repo/validators. Null = status not shown. */
+    openingHours: jsonb().$type<Record<string, unknown>>(),
+    /** "Tutup sementara" override; status is computed, never toggled by hand. */
+    closedUntil: timestamp({ withTimezone: true }),
+    closedNote: text(),
     verificationStatus: verificationStatus().notNull().default('pending'),
     verifiedAt: timestamp({ withTimezone: true }),
     verifiedBy: text().references(() => users.id),

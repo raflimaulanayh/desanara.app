@@ -19,7 +19,15 @@ export interface DemoProduct {
   description: string
 }
 
+/** Weekly hours, shape = OpeningHours in @repo/validators. */
+export type DemoHours = Partial<
+  Record<'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun', { open: string; close: string }[]>
+>
+
 export interface DemoBusiness {
+  hours?: DemoHours
+  /** Days from now the business is "tutup sementara" (demo of the override). */
+  closedForDays?: { days: number; note: string }
   slug: string
   name: string
   ownerName: string
@@ -31,12 +39,30 @@ export interface DemoBusiness {
 export interface DemoVillage {
   /** Branding shown at the demo; shape = VillageTheme in @repo/validators. */
   theme: { version: 1; template: 'classic'; accent: string; font: string; radius: string }
+  /** Keys under the media base URL (apps/web/public/media locally, R2 in production). */
+  logoKey?: string
+  bannerKey?: string
+  /** True for a real partner village (only its businesses/products are demo). */
+  isRealVillage?: boolean
   slug: string
   name: string
   regionCode: string
   description: string
   businesses: DemoBusiness[]
 }
+
+const weekdaysOnly = (open: string, close: string): DemoHours => ({
+  mon: [{ open, close }],
+  tue: [{ open, close }],
+  wed: [{ open, close }],
+  thu: [{ open, close }],
+  fri: [{ open, close }],
+  sat: [{ open, close }],
+})
+const everyDay = (open: string, close: string): DemoHours => ({
+  ...weekdaysOnly(open, close),
+  sun: [{ open, close }],
+})
 
 const p = (
   slug: string,
@@ -53,17 +79,21 @@ export const demoVillages: DemoVillage[] = [
     theme: {
       version: 1,
       template: 'classic',
-      accent: '#2e7d32',
-      font: 'plus-jakarta-sans',
-      radius: 'rounded',
+      accent: '#0e7490',
+      font: 'barlow-condensed',
+      radius: 'sharp',
     },
-    slug: 'sukamaju',
-    name: 'Desa Sukamaju',
+    logoKey: 'seed/villages/baros/logo.webp',
+    bannerKey: 'seed/villages/baros/banner.webp',
+    isRealVillage: true,
+    slug: 'baros',
+    name: 'Desa Baros',
     regionCode: '32.04',
     description:
-      '(Data demo) Desa agraris di kaki gunung dengan UMKM olahan singkong, kopi, dan anyaman bambu.',
+      'Desa di Kecamatan Arjasari, Kabupaten Bandung, Jawa Barat — desa pilot program UMKM Desa bersama HIMA Sistem Informasi SATU University.',
     businesses: [
       {
+        hours: everyDay('07:00', '17:00'),
         slug: 'keripik-bu-ani',
         name: 'Keripik Bu Ani',
         ownerName: 'Ani Suryani',
@@ -108,8 +138,9 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
-        slug: 'kopi-gunung-sukamaju',
-        name: 'Kopi Gunung Sukamaju',
+        hours: everyDay('08:00', '21:00'),
+        slug: 'kopi-gunung-baros',
+        name: 'Kopi Gunung Baros',
         ownerName: 'Dedi Kurnia',
         description: 'Kopi arabika petik merah dari kebun warga, disangrai dalam jumlah kecil.',
         verified: true,
@@ -143,6 +174,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: weekdaysOnly('08:00', '16:00'),
         slug: 'anyaman-bambu-pak-ujang',
         name: 'Anyaman Bambu Pak Ujang',
         ownerName: 'Ujang Saepudin',
@@ -186,8 +218,8 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
-        slug: 'madu-hutan-sukamaju',
-        name: 'Madu Hutan Sukamaju',
+        slug: 'madu-hutan-baros',
+        name: 'Madu Hutan Baros',
         ownerName: 'Siti Rahmawati',
         description: 'Madu hutan murni dari peternak lebah kelompok tani desa.',
         verified: true,
@@ -212,6 +244,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('05:00', '10:00'),
         slug: 'sayur-segar-kelompok-tani',
         name: 'Sayur Segar Kelompok Tani',
         ownerName: 'Asep Hidayat',
@@ -238,6 +271,8 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('08:00', '17:00'),
+        closedForDays: { days: 3, note: 'Sedang mengikuti pameran di kota' },
         slug: 'dodol-ibu-euis',
         name: 'Dodol Ibu Euis',
         ownerName: 'Euis Komalasari',
@@ -272,6 +307,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: weekdaysOnly('07:00', '15:00'),
         slug: 'telur-asin-mang-oding',
         name: 'Telur Asin Mang Oding',
         ownerName: 'Oding Sobari',
@@ -300,13 +336,14 @@ export const demoVillages: DemoVillage[] = [
     ],
   },
   {
-    theme: { version: 1, template: 'classic', accent: '#b23a1e', font: 'lora', radius: 'sharp' },
+    theme: { version: 1, template: 'classic', accent: '#b23a1e', font: 'bitter', radius: 'sharp' },
     slug: 'mekarwangi',
     name: 'Desa Mekarwangi',
     regionCode: '32.05',
     description: '(Data demo) Desa sentra kulit dan dodol dengan banyak perajin rumahan.',
     businesses: [
       {
+        hours: weekdaysOnly('09:00', '17:00'),
         slug: 'kulit-mekarwangi',
         name: 'Kulit Mekarwangi',
         ownerName: 'Hendra Gunawan',
@@ -342,6 +379,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('06:00', '14:00'),
         slug: 'jeruk-garut-pak-darma',
         name: 'Jeruk Pak Darma',
         ownerName: 'Darma Wijaya',
@@ -368,6 +406,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: weekdaysOnly('09:00', '16:00'),
         slug: 'batik-tulis-mekarwangi',
         name: 'Batik Tulis Mekarwangi',
         ownerName: 'Nining Kartika',
@@ -395,6 +434,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('08:00', '20:00'),
         slug: 'abon-ikan-mas',
         name: 'Abon Ikan Mas Bu Lilis',
         ownerName: 'Lilis Suryati',
@@ -421,6 +461,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('16:00', '23:00'),
         slug: 'bandrek-mekarwangi',
         name: 'Bandrek Mekarwangi',
         ownerName: 'Iwan Setiawan',
@@ -449,13 +490,20 @@ export const demoVillages: DemoVillage[] = [
     ],
   },
   {
-    theme: { version: 1, template: 'classic', accent: '#1565c0', font: 'nunito', radius: 'pill' },
+    theme: {
+      version: 1,
+      template: 'classic',
+      accent: '#2e7d32',
+      font: 'nunito',
+      radius: 'rounded',
+    },
     slug: 'sindangjaya',
     name: 'Desa Sindangjaya',
     regionCode: '32.11',
     description: '(Data demo) Desa penghasil tahu, ubi cilembu, dan kerajinan kayu.',
     businesses: [
       {
+        hours: everyDay('06:00', '22:00'),
         slug: 'tahu-sindangjaya',
         name: 'Tahu Sindangjaya',
         ownerName: 'Cecep Supriatna',
@@ -482,6 +530,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('07:00', '18:00'),
         slug: 'ubi-madu-pak-endang',
         name: 'Ubi Madu Pak Endang',
         ownerName: 'Endang Sutisna',
@@ -516,6 +565,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: weekdaysOnly('08:00', '16:00'),
         slug: 'ukir-kayu-sindangjaya',
         name: 'Ukir Kayu Sindangjaya',
         ownerName: 'Yayan Ruhiyat',
@@ -550,6 +600,7 @@ export const demoVillages: DemoVillage[] = [
         ],
       },
       {
+        hours: everyDay('08:00', '17:00'),
         slug: 'sale-pisang-bu-entin',
         name: 'Sale Pisang Bu Entin',
         ownerName: 'Entin Rostiana',

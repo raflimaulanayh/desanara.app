@@ -19,6 +19,8 @@ export const villages = pgTable(
     contactPhone: text(),
     contactEmail: text(),
     address: text(),
+    /** IANA zone used to compute business open/closed status (WIB/WITA/WIT). */
+    timezone: text().notNull().default('Asia/Jakarta'),
     /**
      * Published branding (ADR 0007). Shape = VillageTheme from @repo/validators; always read with
      * parseVillageTheme() so invalid/old values fall back to the default. Null = default theme.
