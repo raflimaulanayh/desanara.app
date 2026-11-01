@@ -21,3 +21,9 @@ export function formatDate(date: Date | string, locale: Locale = 'id'): string {
 export function buildWhatsAppLink(phone: string, message: string): string {
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
 }
+
+/**
+ * Platform brand name (placeholder until the final name is chosen).
+ * Changing the brand: update this constant and `common.appName` / `meta` in every messages/*.json.
+ */
+export const BRAND_NAME = 'UMKM Desa'

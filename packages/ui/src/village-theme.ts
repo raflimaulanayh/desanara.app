@@ -25,10 +25,10 @@ const RADIUS: Record<VillageRadius, string> = {
 
 /** CSS variables set by next/font in apps/web (see docs/architecture/village-theming.md). */
 const FONT_VARIABLE: Record<VillageFont, string> = {
-  'plus-jakarta-sans': 'var(--font-plus-jakarta-sans)',
+  'barlow-condensed': 'var(--font-barlow-condensed)',
+  bitter: 'var(--font-bitter)',
   nunito: 'var(--font-nunito)',
   poppins: 'var(--font-poppins)',
-  lora: 'var(--font-lora)',
 }
 
 export function villageThemeStyle(theme: VillageTheme): CSSProperties {

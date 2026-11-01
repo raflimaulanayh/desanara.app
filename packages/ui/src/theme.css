@@ -1,29 +1,72 @@
 /*
- * UMKM Desa design tokens on top of HeroUI v3 (CSS-first, Tailwind v4).
+ * "Buku Nota & Stempel" design tokens on top of HeroUI v3 (CSS-first, Tailwind v4).
  * Import AFTER tailwindcss and @heroui/styles in each app's globals.css.
- * HeroUI reads these variables; dark mode = `.dark` or [data-theme="dark"] on <html>.
+ *
+ * World: a shop's carbon-copy order book (white paper, blue ruling, printed navy headers)
+ * and rubber stamps. --accent is the stamp ink: platform violet on national pages, the
+ * village's own ink inside [data-village-theme]. See DESIGN.md.
  */
 @layer theme {
   :root {
-    /* Leafy green accent: fresh, local, agricultural */
-    --accent: oklch(0.56 0.13 152);
-    --accent-foreground: oklch(0.99 0 0);
-    --success: oklch(0.62 0.15 155);
-    --warning: oklch(0.78 0.15 75);
-    --radius: 0.75rem;
-  }
+    --accent: #5b21b6;
+    --accent-foreground: #ffffff;
+    --success: #1f7a3d;
+    --warning: #b45309;
+    --danger: #b42318;
+    --radius: 0.25rem;
 
-  .dark,
-  [data-theme='dark'] {
-    --accent: oklch(0.7 0.14 152);
-    --accent-foreground: oklch(0.18 0.02 152);
+    --background: #ffffff;
+    --foreground: #141a2b;
+    --surface: #ffffff;
+    --muted: #4f5874;
+
+    /* Nota paper */
+    --nota-ink: #1f3a8a;
+    --nota-rule: #c7d3ec;
+    --nota-rule-strong: #8fa5d6;
+    --nota-pink: #fbe3ea;
+    --nota-yellow: #fbf1c7;
+    --nota-blue: #eaf0fb;
+    --stamp-demo: #b42318;
   }
+}
+
+@theme inline {
+  --color-nota-ink: var(--nota-ink);
+  --color-nota-rule: var(--nota-rule);
+  --color-nota-rule-strong: var(--nota-rule-strong);
+  --color-nota-pink: var(--nota-pink);
+  --color-nota-yellow: var(--nota-yellow);
+  --color-nota-blue: var(--nota-blue);
+  --color-stamp-demo: var(--stamp-demo);
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-print: var(--font-barlow-condensed), var(--font-barlow), ui-sans-serif, sans-serif;
+  --font-village: var(--village-font, var(--font-barlow-condensed)), var(--font-barlow), sans-serif;
+}
+
+/* Browser surfaces carry the world too */
+::selection {
+  background: color-mix(in oklab, var(--accent) 22%, white);
+  color: var(--foreground);
+}
+html {
+  caret-color: var(--accent);
+  scrollbar-color: var(--nota-rule-strong) transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+a {
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
 }
 
 /*
  * Village theming (ADR 0007). The wrapper sets --accent, --accent-foreground, --radius and
  * --village-font inline. HeroUI computes these derived variables once on :root, so they must be
- * re-declared here to follow the village accent. Keep in sync with
+ * re-declared here to follow the village ink. Keep in sync with
  * @heroui/styles/dist/themes/default/variables.css when upgrading HeroUI.
  */
 [data-village-theme] {
@@ -33,5 +76,4 @@
   --accent-soft-foreground: color-mix(in oklab, var(--accent) 70%, var(--foreground) 30%);
   --accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);
   --field-radius: calc(var(--radius) * 1.5);
-  font-family: var(--village-font, inherit);
 }
