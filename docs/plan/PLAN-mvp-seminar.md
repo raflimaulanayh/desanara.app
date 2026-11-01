@@ -1,4 +1,4 @@
-# PLAN-mvp-seminar — Platform Katalog UMKM Desa
+# PLAN-mvp-seminar — Platform Katalog Sudut Desa
 
 |         |                                                                                                    |
 | ------- | -------------------------------------------------------------------------------------------------- |

@@ -16,7 +16,7 @@ import { Link } from '@/i18n/navigation'
 import { getBusiness, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
 import { initialStatus } from '@/lib/status'
-import { buildWhatsAppLink } from '@repo/i18n'
+import { BRAND_NAME, buildWhatsAppLink } from '@repo/i18n'
 
 export const revalidate = 300
 
@@ -123,7 +123,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
             <a
               href={buildWhatsAppLink(
                 business.whatsappNumber,
-                `Halo ${business.name}, saya melihat toko Anda di UMKM Desa.`,
+                `Halo ${business.name}, saya melihat toko Anda di ${BRAND_NAME}.`,
               )}
               target="_blank"
               rel="noopener noreferrer"

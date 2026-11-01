@@ -32,6 +32,7 @@ export async function generateMetadata({
       siteName: BRAND_NAME,
       locale: locale === 'en' ? 'en_US' : 'id_ID',
       type: 'website',
+      images: [{ url: '/brand/og-default.png', width: 1200, height: 630, alt: BRAND_NAME }],
     },
   }
 }

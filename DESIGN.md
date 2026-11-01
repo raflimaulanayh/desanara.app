@@ -1,6 +1,6 @@
 ---
-name: UMKM Desa
-description: Village specialities as a shop's carbon-copy order book, certified by rubber stamps.
+name: Sudut Desa
+description: Sudut Desa — village specialities as a shop's carbon-copy order book, certified by rubber stamps.
 colors:
   stamp-violet: '#5b21b6'
   nota-ink: '#1f3a8a'
@@ -81,7 +81,7 @@ components:
     padding: '12px 16px'
 ---
 
-# Design System: UMKM Desa
+# Design System: Sudut Desa
 
 ## Overview
 
@@ -199,6 +199,12 @@ Every state is a stamp: Buka (green), Tutup (muted), Tutup sementara and Data de
 ### Cap Desa Seal (signature)
 
 A round SVG seal in the village ink. The village name and region run around the ring, with the re-inked logo or initials in the centre. It is the village's identity on the landing page, the village page, the breadcrumb, and the label strip.
+
+### Brand logo
+
+The Sudut Desa mark is a stamp-frame corner (heavy L + thin inner L) with one dot in the opposite corner, drawn in
+`currentColor`. `Logo` = mark + "SUDUT DESA" in the printed face (header); `LogoStamp` = the same pressed as a rotated
+double-framed rubber stamp with the tagline (footer, print). Full guide and assets: `docs/brand/README.md`.
 
 ### Kop (letterhead)
 

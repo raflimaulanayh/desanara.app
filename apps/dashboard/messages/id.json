@@ -1,6 +1,6 @@
 {
   "dashboard": {
-    "title": "Dashboard UMKM Desa",
+    "title": "Dashboard Sudut Desa",
     "welcome": "Halo, {name}",
     "roles": "Peran kamu",
     "noRoles": "Akun ini belum punya peran. Minta admin desa mengundangmu.",

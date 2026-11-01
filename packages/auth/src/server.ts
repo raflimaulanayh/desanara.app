@@ -13,7 +13,7 @@ export interface CreateAuthOptions {
   secret: string
   baseURL: string
   trustedOrigins: string[]
-  /** Parent domain (e.g. "umkmdesa.id") so web/dashboard/api share the session cookie. */
+  /** Parent domain (e.g. "sudutdesa.id") so web/dashboard/api share the session cookie. */
   cookieDomain?: string
 }
 

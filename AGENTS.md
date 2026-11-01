@@ -1,4 +1,4 @@
-# AGENTS.md — UMKM Desa
+# AGENTS.md — Sudut Desa
 
 Entry point for every AI coding agent (Claude Code, Codex, Cursor, …) and for new developers.
 Read this file first, then the docs it links. Keep it short; details live in `docs/`.

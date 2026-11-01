@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "UMKM Desa — Oleh-oleh khas desa, langsung dari pembuatnya",
+    "title": "Sudut Desa — Oleh-oleh khas desa, langsung dari pembuatnya",
     "description": "Katalog produk UMKM desa. Temukan oleh-oleh dan produk khas desa, lalu kirim pesanan langsung ke pembuatnya lewat WhatsApp."
   },
   "nav": {
@@ -16,7 +16,8 @@
     "links": "Tautan",
     "explore": "Jelajah produk",
     "about_link": "Tentang program",
-    "credit": "© {year} HIMA Sistem Informasi, SATU University"
+    "credit": "© {year} HIMA Sistem Informasi, SATU University",
+    "tagline": "Oleh-oleh khas desa"
   },
   "nota": {
     "name": "Nama barang",
@@ -158,8 +159,8 @@
     "date": "Tgl. {date}"
   },
   "about": {
-    "title": "Tentang UMKM Desa",
-    "lead": "UMKM Desa adalah program HIMA Sistem Informasi, SATU University: katalog produk UMKM dari desa mitra, disertai pendampingan dan edukasi digital untuk pelaku usahanya.",
+    "title": "Tentang Sudut Desa",
+    "lead": "Sudut Desa adalah program HIMA Sistem Informasi, SATU University: katalog produk UMKM dari desa mitra, disertai pendampingan dan edukasi digital untuk pelaku usahanya.",
     "how": "Setiap desa punya halaman sendiri yang dikelola admin desa. UMKM diverifikasi sekali oleh desa, lalu produknya bisa langsung dipesan pembeli lewat WhatsApp — tanpa perantara, tanpa potongan.",
     "pilot": "Desa pilot: Desa Baros, Kecamatan Arjasari, Kabupaten Bandung."
   },

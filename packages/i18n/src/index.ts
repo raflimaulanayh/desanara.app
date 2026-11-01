@@ -23,7 +23,7 @@ export function buildWhatsAppLink(phone: string, message: string): string {
 }
 
 /**
- * Platform brand name (placeholder until the final name is chosen).
+ * Platform brand name (chosen 2026-11-01).
  * Changing the brand: update this constant and `common.appName` / `meta` in every messages/*.json.
  */
-export const BRAND_NAME = 'UMKM Desa'
+export const BRAND_NAME = 'Sudut Desa'

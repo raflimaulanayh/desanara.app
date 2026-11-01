@@ -1,4 +1,4 @@
-# Dokumentasi UMKM Desa
+# Dokumentasi Sudut Desa
 
 Mulai dari [`../AGENTS.md`](../AGENTS.md) untuk aturan kerja dan peta repo.
 
@@ -26,6 +26,10 @@ Mulai dari [`../AGENTS.md`](../AGENTS.md) untuk aturan kerja dan peta repo.
 - [Setup lokal](guides/local-setup.md) · [Onboarding developer](guides/onboarding-dev.md)
 - [Membuat fitur end-to-end](guides/feature-end-to-end.md) · [Data seed & demo](guides/seed-data.md)
 - [Deploy](guides/deploy.md) · [Checklist serah-terima pengurus](guides/handover-checklist.md)
+
+## Brand
+
+- [Panduan brand Sudut Desa](brand/README.md) — logo, warna, tipografi, aturan pakai, aset
 
 ## Rencana & riwayat
 

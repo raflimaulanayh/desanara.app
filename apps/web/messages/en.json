@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "UMKM Desa — Village specialities, straight from the makers",
+    "title": "Sudut Desa — Village specialities, straight from the makers",
     "description": "A catalogue of village small-business products. Find local specialities and souvenirs, then send your order straight to the maker on WhatsApp."
   },
   "nav": {
@@ -16,7 +16,8 @@
     "links": "Links",
     "explore": "Explore products",
     "about_link": "About the programme",
-    "credit": "© {year} HIMA Information Systems, SATU University"
+    "credit": "© {year} HIMA Information Systems, SATU University",
+    "tagline": "Village specialities"
   },
   "nota": {
     "name": "Item",
@@ -158,8 +159,8 @@
     "date": "Date {date}"
   },
   "about": {
-    "title": "About UMKM Desa",
-    "lead": "UMKM Desa is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
+    "title": "About Sudut Desa",
+    "lead": "Sudut Desa is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
     "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
     "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency."
   },

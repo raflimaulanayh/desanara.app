@@ -1,4 +1,4 @@
-# UMKM Desa
+# Sudut Desa
 
 Platform katalog produk UMKM multi-desa + program edukasi UMKM, oleh **HIMA Sistem Informasi SATU University**.
 Desa = tenant; pembeli menemukan produk khas desa lalu memesan langsung lewat WhatsApp.

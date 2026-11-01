@@ -1,8 +1,8 @@
-import { BRAND_NAME } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { BrandMark } from './brand-mark'
+import { LogoStamp } from './brand/logo'
 
 /**
  * Closing page of the book. HIMA SI and SATU University are credited in text; their logos are
@@ -14,8 +14,8 @@ export async function SiteFooter() {
     <footer className="mt-8 border-t-[3px] border-double border-[var(--nota-ink)]">
       <Container className="grid gap-8 py-10 sm:grid-cols-[1.4fr_1fr]">
         <div>
-          <p className="font-print text-accent text-3xl font-bold uppercase">{BRAND_NAME}</p>
-          <p className="text-muted mt-2 max-w-[52ch] text-sm leading-relaxed">{t('about')}</p>
+          <LogoStamp tagline={t('tagline')} />
+          <p className="text-muted mt-6 max-w-[52ch] text-sm leading-relaxed">{t('about')}</p>
         </div>
         <div className="text-sm">
           <p className="font-print text-nota-ink text-xs font-semibold tracking-[0.16em] uppercase">

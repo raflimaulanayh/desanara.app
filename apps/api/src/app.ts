@@ -57,9 +57,9 @@ export function createApp({ db, auth, trustedOrigins, logRequests = true }: AppD
 
   app.doc31('/openapi.json', {
     openapi: '3.1.0',
-    info: { title: 'UMKM Desa API', version: '0.1.0' },
+    info: { title: 'Sudut Desa API', version: '0.1.0' },
   })
-  app.get('/docs', Scalar({ url: '/openapi.json', pageTitle: 'UMKM Desa API' }))
+  app.get('/docs', Scalar({ url: '/openapi.json', pageTitle: 'Sudut Desa API' }))
 
   app.notFound((c) => c.json(errorBody(c, 'NOT_FOUND', 'Route not found'), 404))
   app.onError(handleError)

@@ -3,6 +3,7 @@ import { Container } from '@repo/ui/components/container'
 import { Search } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { Logo } from './brand/logo'
 import { LocaleSwitcher } from './locale-switcher'
 
 /** The cover of the order book: printed wordmark in platform ink, a thin double rule underneath. */
@@ -11,11 +12,8 @@ export async function SiteHeader() {
   return (
     <header className="bg-background/95 sticky top-0 z-20 border-b-[3px] border-double border-[var(--nota-ink)] backdrop-blur-sm">
       <Container className="flex h-14 items-center justify-between gap-3">
-        <Link
-          href="/"
-          className="font-print text-accent flex items-baseline gap-1 text-2xl leading-none font-bold tracking-[0.01em] uppercase"
-        >
-          {BRAND_NAME}
+        <Link href="/" aria-label={BRAND_NAME} className="inline-flex h-11 items-center">
+          <Logo size="md" />
         </Link>
         <nav
           aria-label={t('primary')}

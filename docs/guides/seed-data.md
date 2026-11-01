@@ -24,14 +24,14 @@ mengirim pesan ke orang asing. **Isi dengan nomor tim HIMA sebelum seminar.** Ji
 
 Kata sandi semua akun: `demo12345`
 
-| Email                                       | Peran                                     |
-| ------------------------------------------- | ----------------------------------------- |
-| `superadmin@demo.umkmdesa.test`             | Super admin                               |
-| `admin.baros@demo.umkmdesa.test`            | Admin Desa Baros                          |
-| `admin.mekarwangi@demo.umkmdesa.test`       | Admin Desa Mekarwangi                     |
-| `admin.sindangjaya@demo.umkmdesa.test`      | Admin Desa Sindangjaya                    |
-| `pendamping.baros@demo.umkmdesa.test`       | Pendamping desa Baros + pendamping 4 UMKM |
-| `pemilik.keripik-bu-ani@demo.umkmdesa.test` | Pemilik UMKM Keripik Bu Ani               |
+| Email                                        | Peran                                     |
+| -------------------------------------------- | ----------------------------------------- |
+| `superadmin@demo.sudutdesa.test`             | Super admin                               |
+| `admin.baros@demo.sudutdesa.test`            | Admin Desa Baros                          |
+| `admin.mekarwangi@demo.sudutdesa.test`       | Admin Desa Mekarwangi                     |
+| `admin.sindangjaya@demo.sudutdesa.test`      | Admin Desa Sindangjaya                    |
+| `pendamping.baros@demo.sudutdesa.test`       | Pendamping desa Baros + pendamping 4 UMKM |
+| `pemilik.keripik-bu-ani@demo.sudutdesa.test` | Pemilik UMKM Keripik Bu Ani               |
 
 ## Production
 

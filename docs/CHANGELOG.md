@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## 2026-11-01 — Brand baru: Sudut Desa
+
+- **Area**: seluruh repo (`@repo/i18n` `BRAND_NAME`, pesan ID/EN, apps/web, apps/dashboard, apps/api, docs, PRODUCT.md, DESIGN.md)
+- **Jenis**: Changed / Added
+- Nama platform diganti dari placeholder "UMKM Desa" menjadi **Sudut Desa** (domain rencana `sudutdesa.id`). Email akun demo
+  kini `*@demo.sudutdesa.test` — **jalankan `bun run db:seed`** untuk membuat ulang akun demo.
+- Identitas visual pertama: tanda "sudut" (siku bingkai cap + titik desa), wordmark Barlow Condensed, logo stempel,
+  favicon & ikon aplikasi (web + dashboard), gambar OG default 1200×630, dan aset PNG/SVG di `apps/web/public/brand/`.
+- Panduan brand: `docs/brand/README.md`.
+
 ## 2026-11-01 — Logo resmi HIMASIF, SATU University, dan Desa Baros
 
 - **Area**: apps/web (public/brand, public/media, komponen `BrandMark`, `VillageSeal`), docs, PRODUCT.md, DESIGN.md
