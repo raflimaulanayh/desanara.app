@@ -1,34 +1,173 @@
 {
   "meta": {
-    "siteName": "UMKM Desa",
-    "title": "UMKM Desa — Temukan produk khas dari desa di Indonesia",
-    "description": "Katalog produk UMKM desa. Temukan produk lokal dan pesan langsung ke penjualnya lewat WhatsApp."
+    "title": "UMKM Desa — Oleh-oleh khas desa, langsung dari pembuatnya",
+    "description": "Katalog produk UMKM desa. Temukan oleh-oleh dan produk khas desa, lalu kirim pesanan langsung ke pembuatnya lewat WhatsApp."
   },
   "nav": {
-    "brand": "UMKM Desa",
+    "primary": "Navigasi utama",
     "explore": "Jelajah",
     "about": "Tentang",
-    "switchLanguage": "Ganti bahasa"
+    "switchLanguage": "Pilih bahasa",
+    "skip": "Lompat ke isi"
   },
   "footer": {
-    "credit": "© {year} HIMA Sistem Informasi SATU University"
+    "about": "Katalog produk UMKM dari desa-desa mitra. Pesanan dikirim langsung ke pembuatnya lewat WhatsApp — tanpa perantara, tanpa potongan.",
+    "byline": "Dikelola oleh",
+    "links": "Tautan",
+    "explore": "Jelajah produk",
+    "about_link": "Tentang program",
+    "credit": "© {year} HIMA Sistem Informasi, SATU University",
+    "logoHima": "Logo HIMA SI — menyusul",
+    "logoSatu": "Logo SATU University — menyusul"
+  },
+  "nota": {
+    "name": "Nama barang",
+    "unit": "Satuan",
+    "price": "Harga"
+  },
+  "stamp": {
+    "verified": "Diverifikasi desa",
+    "demo": "Data demo",
+    "partner": "Desa mitra"
+  },
+  "status": {
+    "open": "Buka",
+    "closed": "Tutup",
+    "temporarilyClosed": "Tutup sementara",
+    "closesAt": "tutup pukul {time}",
+    "opensAt": "buka {day} pukul {time}",
+    "until": "sampai {date}",
+    "opensToday": "buka hari ini pukul {time}"
+  },
+  "days": {
+    "mon": "Senin",
+    "tue": "Selasa",
+    "wed": "Rabu",
+    "thu": "Kamis",
+    "fri": "Jumat",
+    "sat": "Sabtu",
+    "sun": "Minggu"
   },
   "home": {
-    "heroTitle": "Produk khas desa, langsung dari pembuatnya",
-    "heroSubtitle": "Temukan makanan, kerajinan, dan hasil tani dari UMKM desa. Pesan langsung ke penjual lewat WhatsApp.",
-    "heroCta": "Jelajahi produk",
-    "villagesTitle": "Desa",
-    "villagesEmptyTitle": "Belum ada desa yang tampil",
-    "villagesEmptyDescription": "Data desa akan muncul di sini setelah API berjalan dan data seed dimuat.",
-    "businessCount": "{count, plural, =0 {Belum ada UMKM} other {# UMKM}}"
+    "heroTitle": "Oleh-oleh khas desa, langsung dari pembuatnya.",
+    "heroSubtitle": "Cari keripik, kopi, anyaman, sampai hasil kebun dari desa-desa di Jawa Barat. Tulis pesananmu, kirim lewat WhatsApp, ngobrol langsung dengan pembuatnya.",
+    "searchLabel": "Cari produk",
+    "searchPlaceholder": "Cari keripik, kopi, anyaman…",
+    "searchSubmit": "Cari",
+    "sealsCaption": "Ketuk capnya untuk masuk ke desa",
+    "latestTitle": "Nota hari ini",
+    "latestAside": "Produk terbaru dari desa mitra",
+    "seeAll": "Lihat semua produk",
+    "howTitle": "Cara pesan",
+    "how": {
+      "1": {
+        "title": "Pilih produk",
+        "body": "Telusuri per desa atau cari langsung namanya."
+      },
+      "2": {
+        "title": "Tulis nota",
+        "body": "Isi jumlah, nama, dan catatan di nota pesanan."
+      },
+      "3": {
+        "title": "Kirim ke pembuat",
+        "body": "Nota terkirim ke WhatsApp penjual. Bayar dan kirim disepakati langsung."
+      }
+    },
+    "trust": {
+      "verified": {
+        "stamp": "Diverifikasi desa",
+        "body": "Setiap UMKM dicek dan disetujui admin desanya sebelum tampil."
+      },
+      "direct": {
+        "stamp": "Langsung ke pembuat",
+        "body": "Tanpa perantara dan tanpa potongan — uangmu sampai ke pembuatnya."
+      },
+      "mentored": {
+        "stamp": "Didampingi HIMA SI",
+        "body": "Mahasiswa SATU University mendampingi UMKM menyiapkan produknya."
+      }
+    },
+    "villagesEmpty": "Belum ada desa yang tampil.",
+    "latestEmpty": "Belum ada produk yang tampil.",
+    "latestDemo": "Semua UMKM dan produk di daftar ini masih data demo. Desa Baros adalah desa pilot yang asli; desa lainnya juga data demo."
   },
   "explore": {
-    "title": "Jelajahi produk",
-    "comingSoonTitle": "Segera hadir",
-    "comingSoonDescription": "Pencarian produk berdasarkan wilayah dan kategori sedang dibangun."
+    "title": "Jelajah produk",
+    "searchPlaceholder": "Nama produk atau UMKM",
+    "region": "Kabupaten/kota",
+    "category": "Kategori",
+    "sort": "Urutkan",
+    "sortNewest": "Terbaru",
+    "sortPriceAsc": "Harga termurah",
+    "sortPriceDesc": "Harga termahal",
+    "all": "Semua",
+    "apply": "Terapkan",
+    "reset": "Hapus filter",
+    "results": "{count, plural, =0 {Tidak ada produk} other {# produk}}",
+    "emptyTitle": "Tidak ada produk yang cocok",
+    "emptyBody": "Coba kata lain, atau hapus filter kabupaten dan kategori.",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "page": "Halaman {page} dari {pages}"
+  },
+  "village": {
+    "businessCount": "{count, plural, =0 {Belum ada UMKM} other {# UMKM}}",
+    "productCount": "{count, plural, =0 {belum ada produk} other {# produk}}",
+    "businessesTitle": "UMKM di {village}",
+    "seeAll": "Semua produk {business}",
+    "demoNotice": "UMKM dan produk di halaman ini masih data demo. Data asli dari warga akan menggantikannya.",
+    "noBusinesses": "Belum ada UMKM terverifikasi di desa ini."
+  },
+  "business": {
+    "owner": "Pemilik: {name}",
+    "hoursTitle": "Jam buka",
+    "closedDay": "Tutup",
+    "noHours": "Jam buka belum diisi.",
+    "chat": "Chat penjual",
+    "marketplaces": "Juga di",
+    "productsTitle": "Daftar barang",
+    "verifiedOn": "Diverifikasi {date}",
+    "village": "UMKM dari {village}"
+  },
+  "product": {
+    "by": "Dibuat oleh {business}",
+    "from": "dari {village}",
+    "per": "per {unit}",
+    "description": "Keterangan",
+    "moreTitle": "Barang lain dari {business}",
+    "photoPending": "Foto menyusul",
+    "unavailable": "Sedang kosong",
+    "kind": "Jenis"
+  },
+  "order": {
+    "title": "Nota pesanan",
+    "copy": "Lembar penjual",
+    "to": "Kepada",
+    "quantity": "Banyak",
+    "decrease": "Kurangi",
+    "increase": "Tambah",
+    "name": "Nama",
+    "nameHint": "Nama kamu (boleh dikosongkan)",
+    "note": "Catatan",
+    "noteHint": "Contoh: pedas, dikirim hari Sabtu",
+    "total": "Jumlah",
+    "send": "Kirim nota lewat WhatsApp",
+    "sendHint": "WhatsApp terbuka dengan nota ini. Harga dan ongkir disepakati langsung dengan penjual.",
+    "unavailable": "Barang ini sedang kosong.",
+    "sent": "Terkirim",
+    "noWhatsApp": "Penjual belum mencantumkan nomor WhatsApp.",
+    "unavailableButton": "Barang sedang kosong",
+    "date": "Tgl. {date}"
   },
   "about": {
     "title": "Tentang UMKM Desa",
-    "body": "UMKM Desa adalah program HIMA Sistem Informasi SATU University untuk membantu UMKM desa memperkenalkan produknya ke masyarakat luas, disertai pendampingan dan edukasi digital."
+    "lead": "UMKM Desa adalah program HIMA Sistem Informasi, SATU University: katalog produk UMKM dari desa mitra, disertai pendampingan dan edukasi digital untuk pelaku usahanya.",
+    "how": "Setiap desa punya halaman sendiri yang dikelola admin desa. UMKM diverifikasi sekali oleh desa, lalu produknya bisa langsung dipesan pembeli lewat WhatsApp — tanpa perantara, tanpa potongan.",
+    "pilot": "Desa pilot: Desa Baros, Kecamatan Arjasari, Kabupaten Bandung."
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "body": "Mungkin produknya sudah tidak dijual, atau tautannya salah ketik.",
+    "back": "Kembali ke beranda"
   }
 }

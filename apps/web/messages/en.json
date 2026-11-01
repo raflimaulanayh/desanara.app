@@ -1,34 +1,173 @@
 {
   "meta": {
-    "siteName": "UMKM Desa",
-    "title": "UMKM Desa — Discover local products from Indonesian villages",
-    "description": "A catalogue of village micro and small business products. Find local goods and order directly from the seller on WhatsApp."
+    "title": "UMKM Desa — Village specialities, straight from the makers",
+    "description": "A catalogue of village small-business products. Find local specialities and souvenirs, then send your order straight to the maker on WhatsApp."
   },
   "nav": {
-    "brand": "UMKM Desa",
+    "primary": "Main navigation",
     "explore": "Explore",
     "about": "About",
-    "switchLanguage": "Switch language"
+    "switchLanguage": "Choose language",
+    "skip": "Skip to content"
   },
   "footer": {
-    "credit": "© {year} HIMA Information Systems, SATU University"
+    "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
+    "byline": "Run by",
+    "links": "Links",
+    "explore": "Explore products",
+    "about_link": "About the programme",
+    "credit": "© {year} HIMA Information Systems, SATU University",
+    "logoHima": "HIMA SI logo — coming soon",
+    "logoSatu": "SATU University logo — coming soon"
+  },
+  "nota": {
+    "name": "Item",
+    "unit": "Unit",
+    "price": "Price"
+  },
+  "stamp": {
+    "verified": "Village verified",
+    "demo": "Demo data",
+    "partner": "Partner village"
+  },
+  "status": {
+    "open": "Open",
+    "closed": "Closed",
+    "temporarilyClosed": "Temporarily closed",
+    "closesAt": "closes at {time}",
+    "opensAt": "opens {day} at {time}",
+    "until": "until {date}",
+    "opensToday": "opens today at {time}"
+  },
+  "days": {
+    "mon": "Monday",
+    "tue": "Tuesday",
+    "wed": "Wednesday",
+    "thu": "Thursday",
+    "fri": "Friday",
+    "sat": "Saturday",
+    "sun": "Sunday"
   },
   "home": {
-    "heroTitle": "Village products, straight from the makers",
-    "heroSubtitle": "Discover food, crafts, and farm produce from village businesses. Order directly from the seller on WhatsApp.",
-    "heroCta": "Explore products",
-    "villagesTitle": "Villages",
-    "villagesEmptyTitle": "No villages yet",
-    "villagesEmptyDescription": "Villages will appear here once the API is running and the seed data is loaded.",
-    "businessCount": "{count, plural, =0 {No businesses yet} one {# business} other {# businesses}}"
+    "heroTitle": "Village specialities, straight from the makers.",
+    "heroSubtitle": "Find cassava chips, coffee, bamboo crafts and farm produce from villages across West Java. Write your order, send it on WhatsApp, and talk to the maker directly.",
+    "searchLabel": "Search products",
+    "searchPlaceholder": "Search chips, coffee, crafts…",
+    "searchSubmit": "Search",
+    "sealsCaption": "Tap a stamp to enter the village",
+    "latestTitle": "Today's nota",
+    "latestAside": "Latest products from partner villages",
+    "seeAll": "See all products",
+    "howTitle": "How to order",
+    "how": {
+      "1": {
+        "title": "Pick a product",
+        "body": "Browse by village or search by name."
+      },
+      "2": {
+        "title": "Write the nota",
+        "body": "Fill in quantity, your name and a note on the order slip."
+      },
+      "3": {
+        "title": "Send it to the maker",
+        "body": "The nota opens in the seller's WhatsApp. Payment and delivery are agreed directly."
+      }
+    },
+    "trust": {
+      "verified": {
+        "stamp": "Village verified",
+        "body": "Every business is checked and approved by its village admin before it appears."
+      },
+      "direct": {
+        "stamp": "Straight to the maker",
+        "body": "No middleman and no commission — your money reaches the maker."
+      },
+      "mentored": {
+        "stamp": "Mentored by HIMA SI",
+        "body": "SATU University students help each business prepare its products."
+      }
+    },
+    "villagesEmpty": "No villages yet.",
+    "latestEmpty": "No products yet.",
+    "latestDemo": "All businesses and products in this list are demo data. Desa Baros is the real pilot village; the other villages are demo data too."
   },
   "explore": {
     "title": "Explore products",
-    "comingSoonTitle": "Coming soon",
-    "comingSoonDescription": "Product search by region and category is being built."
+    "searchPlaceholder": "Product or business name",
+    "region": "Regency/city",
+    "category": "Category",
+    "sort": "Sort by",
+    "sortNewest": "Newest",
+    "sortPriceAsc": "Lowest price",
+    "sortPriceDesc": "Highest price",
+    "all": "All",
+    "apply": "Apply",
+    "reset": "Clear filters",
+    "results": "{count, plural, =0 {No products} one {# product} other {# products}}",
+    "emptyTitle": "No matching products",
+    "emptyBody": "Try another word, or clear the regency and category filters.",
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {pages}"
+  },
+  "village": {
+    "businessCount": "{count, plural, =0 {No businesses yet} one {# business} other {# businesses}}",
+    "productCount": "{count, plural, =0 {no products yet} one {# product} other {# products}}",
+    "businessesTitle": "Businesses in {village}",
+    "seeAll": "All products from {business}",
+    "demoNotice": "The businesses and products on this page are demo data. Real data from residents will replace them.",
+    "noBusinesses": "No verified businesses in this village yet."
+  },
+  "business": {
+    "owner": "Owner: {name}",
+    "hoursTitle": "Opening hours",
+    "closedDay": "Closed",
+    "noHours": "Opening hours not set yet.",
+    "chat": "Chat with the seller",
+    "marketplaces": "Also on",
+    "productsTitle": "Items",
+    "verifiedOn": "Verified {date}",
+    "village": "A business from {village}"
+  },
+  "product": {
+    "by": "Made by {business}",
+    "from": "from {village}",
+    "per": "per {unit}",
+    "description": "Description",
+    "moreTitle": "More from {business}",
+    "photoPending": "Photo coming soon",
+    "unavailable": "Out of stock",
+    "kind": "Kind"
+  },
+  "order": {
+    "title": "Order nota",
+    "copy": "Seller's copy",
+    "to": "To",
+    "quantity": "Qty",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "name": "Name",
+    "nameHint": "Your name (optional)",
+    "note": "Note",
+    "noteHint": "e.g. extra spicy, deliver on Saturday",
+    "total": "Total",
+    "send": "Send nota on WhatsApp",
+    "sendHint": "WhatsApp opens with this nota (sent in Indonesian). Price and shipping are agreed with the seller.",
+    "unavailable": "This item is out of stock.",
+    "sent": "Sent",
+    "noWhatsApp": "The seller has not listed a WhatsApp number yet.",
+    "unavailableButton": "Out of stock",
+    "date": "Date {date}"
   },
   "about": {
     "title": "About UMKM Desa",
-    "body": "UMKM Desa is a program by the Information Systems student association (HIMA) of SATU University that helps village businesses reach more customers, with digital mentoring and training."
+    "lead": "UMKM Desa is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
+    "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
+    "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The product may no longer be sold, or the link has a typo.",
+    "back": "Back to home"
   }
 }
