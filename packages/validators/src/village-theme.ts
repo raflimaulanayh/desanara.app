@@ -10,7 +10,8 @@ import { contrastRatio, HEX_COLOR, WHITE } from './color'
  */
 
 export const villageTemplates = ['classic'] as const
-export const villageFonts = ['plus-jakarta-sans', 'nunito', 'poppins', 'lora'] as const
+/** Display face for village and business names (body text stays in the platform face). */
+export const villageFonts = ['barlow-condensed', 'bitter', 'nunito', 'poppins'] as const
 export const villageRadii = ['sharp', 'rounded', 'pill'] as const
 
 /** Minimum contrast of the accent against the white page (WCAG 1.4.11 non-text contrast). */
@@ -37,13 +38,14 @@ export type VillageRadius = VillageTheme['radius']
 export const DEFAULT_VILLAGE_THEME: VillageTheme = {
   version: 1,
   template: 'classic',
-  accent: '#2e7d32',
-  font: 'plus-jakarta-sans',
-  radius: 'rounded',
+  accent: '#1f3a8a',
+  font: 'barlow-condensed',
+  radius: 'sharp',
 }
 
 /** Ready-made palettes shown first in the dashboard editor (all pass the contrast rule). */
 export const villageThemePresets = [
+  { id: 'nota', label: 'Biru Nota', accent: '#1f3a8a' },
   { id: 'sawah', label: 'Hijau Sawah', accent: '#2e7d32' },
   { id: 'laut', label: 'Biru Laut', accent: '#1565c0' },
   { id: 'kopi', label: 'Cokelat Kopi', accent: '#6d4c41' },
