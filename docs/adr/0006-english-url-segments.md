@@ -1,6 +1,6 @@
 # 0006 — English URL segments
 
-- Status: Accepted (2026-11-01)
+- Status: Superseded by [0008](0008-indonesian-url-segments.md) (2026-11-03)
 
 ## Decision
 

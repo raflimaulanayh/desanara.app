@@ -12,6 +12,7 @@ import { Stamp } from '@/components/stamp'
 import { TrackView } from '@/components/track-view'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
+import { localePath } from '@/lib/paths'
 import { getBusiness, getProduct } from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
@@ -56,17 +57,14 @@ export default async function ProductPage({ params }: { params: Params }) {
         <nav aria-label="Breadcrumb" className="text-muted text-sm">
           <ol className="flex flex-wrap items-center gap-x-2">
             <li>
-              <Link
-                href={`/villages/${business.village.slug}`}
-                className="hover:text-accent underline"
-              >
+              <Link href={`/desa/${business.village.slug}`} className="hover:text-accent underline">
                 {business.village.name}
               </Link>
             </li>
             <li aria-hidden>/</li>
             <li>
               <Link
-                href={`/villages/${business.village.slug}/${business.slug}`}
+                href={`/desa/${business.village.slug}/${business.slug}`}
                 className="hover:text-accent underline"
               >
                 {business.name}
@@ -144,7 +142,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               businessSlug={business.slug}
               villageName={business.village.name}
               whatsappNumber={business.whatsappNumber}
-              productUrl={`${webUrl}/${locale}/products/${product.slug}`}
+              productUrl={`${webUrl}${localePath(locale, `/produk/${product.slug}`)}`}
               available={product.isAvailable}
             />
           </div>
@@ -164,7 +162,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 {product.more.map((m) => (
                   <NotaRow
                     key={m.slug}
-                    href={`/products/${m.slug}`}
+                    href={`/produk/${m.slug}`}
                     name={pick(locale, m.name, m.nameEn)}
                     unit={m.unit}
                     price={formatRupiah(m.price, loc)}

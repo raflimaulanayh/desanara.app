@@ -6,6 +6,7 @@ import { NotaSheet } from '@/components/nota/nota'
 import { ProductRows } from '@/components/product-rows'
 import { SearchForm } from '@/components/search-form'
 import { Link } from '@/i18n/navigation'
+import { localePath } from '@/lib/paths'
 import { getCategories, getRegencies, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
 
@@ -61,7 +62,7 @@ export default async function ExplorePage({
       if (v) params.set(k, v)
     }
     const s = params.toString()
-    return s ? `/explore?${s}` : '/explore'
+    return s ? `/jelajah?${s}` : '/jelajah'
   }
   const selectClass =
     'border-nota-ink h-12 w-full appearance-none border-b-2 bg-transparent bg-[length:1rem] bg-[right_0.25rem_center] bg-no-repeat pr-7 pl-1 text-base focus:outline-none focus-visible:border-[var(--accent)]'
@@ -78,14 +79,14 @@ export default async function ExplorePage({
 
       <div className="mt-8 flex flex-col gap-6">
         <SearchForm
-          action={`/${locale}/explore`}
+          action={localePath(locale, '/jelajah')}
           defaultValue={q}
           placeholder={t('searchPlaceholder')}
           size="md"
           hidden={{ region, category, sort: sort === 'newest' ? undefined : sort }}
         />
         <form
-          action={`/${locale}/explore`}
+          action={localePath(locale, '/jelajah')}
           method="get"
           className="grid grid-cols-2 items-end gap-x-4 gap-y-3 sm:grid-cols-[1fr_1fr_1fr_auto]"
         >
@@ -148,7 +149,7 @@ export default async function ExplorePage({
             {t('results', { count: results.meta.total })}
           </p>
           {hasFilters ? (
-            <Link href="/explore" className="text-accent text-sm underline">
+            <Link href="/jelajah" className="text-accent text-sm underline">
               {t('reset')}
             </Link>
           ) : null}

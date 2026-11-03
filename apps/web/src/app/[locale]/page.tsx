@@ -8,6 +8,7 @@ import { SearchForm } from '@/components/search-form'
 import { VillageSeal } from '@/components/seal'
 import { Stamp } from '@/components/stamp'
 import { Link } from '@/i18n/navigation'
+import { localePath } from '@/lib/paths'
 import { getVillages, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
 
@@ -39,7 +40,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
               {t('heroSubtitle')}
             </p>
             <div className="mt-8">
-              <SearchForm action={`/${locale}/explore`} placeholder={t('searchPlaceholder')} />
+              <SearchForm
+                action={localePath(locale, '/jelajah')}
+                placeholder={t('searchPlaceholder')}
+              />
             </div>
           </div>
 
@@ -51,7 +55,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
                 {villages.slice(0, 6).map((v, i) => (
                   <li key={v.id} className={'relative ' + (i % 2 ? 'lg:translate-y-6' : '')}>
                     <Link
-                      href={`/villages/${v.slug}`}
+                      href={`/desa/${v.slug}`}
                       className="block transition-transform duration-200 ease-out hover:-translate-y-1 hover:rotate-1 focus-visible:-translate-y-1"
                       style={{ color: v.accent }}
                     >
@@ -116,7 +120,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           </NotaSheet>
           <div className="mt-4 flex justify-end">
             <Link
-              href="/explore"
+              href="/jelajah"
               className="font-print text-accent inline-flex h-11 items-center gap-2 text-base font-bold tracking-[0.08em] uppercase hover:underline"
             >
               {t('seeAll')}

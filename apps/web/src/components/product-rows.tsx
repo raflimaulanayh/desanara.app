@@ -25,7 +25,7 @@ export async function ProductRows({
     return (
       <NotaRow
         key={p.id}
-        href={`/products/${p.slug}`}
+        href={`/produk/${p.slug}`}
         name={pick(locale, p.name, p.nameEn)}
         meta={meta || undefined}
         unit={p.unit}

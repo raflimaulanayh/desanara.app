@@ -20,14 +20,14 @@ export async function SiteHeader() {
           className="font-print flex items-center gap-1 text-sm font-semibold tracking-[0.1em] uppercase sm:gap-4"
         >
           <Link
-            href="/explore"
+            href="/jelajah"
             className="hover:text-accent inline-flex h-11 items-center gap-1.5 px-2"
           >
             <Search className="size-4" aria-hidden />
             <span>{t('explore')}</span>
           </Link>
           <Link
-            href="/about"
+            href="/tentang"
             className="hover:text-accent hidden h-11 items-center px-2 sm:inline-flex"
           >
             {t('about')}

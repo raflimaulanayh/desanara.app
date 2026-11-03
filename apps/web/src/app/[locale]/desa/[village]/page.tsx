@@ -118,7 +118,7 @@ export default async function VillagePage({ params }: { params: Params }) {
                 <Kop
                   as="h3"
                   name={
-                    <Link href={`/villages/${village.slug}/${b.slug}`} className="hover:underline">
+                    <Link href={`/desa/${village.slug}/${b.slug}`} className="hover:underline">
                       {b.name}
                     </Link>
                   }
@@ -142,7 +142,7 @@ export default async function VillagePage({ params }: { params: Params }) {
                   </NotaSheet>
                 ) : null}
                 <Link
-                  href={`/villages/${village.slug}/${b.slug}`}
+                  href={`/desa/${village.slug}/${b.slug}`}
                   className="font-print text-accent inline-flex h-11 items-center gap-2 self-end text-sm font-bold tracking-[0.1em] uppercase hover:underline"
                 >
                   {t('seeAll', { business: b.name })}

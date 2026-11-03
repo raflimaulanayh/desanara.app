@@ -21,3 +21,4 @@ Plan adalah dokumen hidup yang disetujui **sebelum** implementasi dan menjadi ba
 | -------------------------------------------------- | ------------------------------------------------------ |
 | [PLAN-mvp-seminar.md](PLAN-mvp-seminar.md)         | Disetujui 2026-11-01 — fondasi selesai, fitur berjalan |
 | [PLAN-village-theming.md](PLAN-village-theming.md) | Disetujui 2026-11-01 — fondasi selesai, UI menyusul    |
+| [PLAN-public-redesign.md](PLAN-public-redesign.md) | Disetujui 2026-11-03 — dalam pengerjaan                |

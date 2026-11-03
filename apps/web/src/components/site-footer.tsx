@@ -27,10 +27,10 @@ export async function SiteFooter() {
           </div>
           <p className="text-muted mt-3">HIMA Sistem Informasi · SATU University</p>
           <nav aria-label={t('links')} className="mt-4 flex gap-4">
-            <Link href="/explore" className="hover:text-accent underline">
+            <Link href="/jelajah" className="hover:text-accent underline">
               {t('explore')}
             </Link>
-            <Link href="/about" className="hover:text-accent underline">
+            <Link href="/tentang" className="hover:text-accent underline">
               {t('about_link')}
             </Link>
           </nav>

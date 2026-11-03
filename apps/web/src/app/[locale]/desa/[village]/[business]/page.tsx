@@ -64,7 +64,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
       <TrackView event={{ type: 'business_view', businessSlug: business.slug }} />
       <nav aria-label="Breadcrumb" className="text-muted flex items-center gap-3 text-sm">
         <Link
-          href={`/villages/${business.village.slug}`}
+          href={`/desa/${business.village.slug}`}
           className="text-accent shrink-0"
           aria-label={business.village.name}
         >
@@ -76,7 +76,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
             rotate={-6}
           />
         </Link>
-        <Link href={`/villages/${business.village.slug}`} className="hover:text-accent underline">
+        <Link href={`/desa/${business.village.slug}`} className="hover:text-accent underline">
           {business.village.name}
         </Link>
         <span aria-hidden>/</span>

@@ -27,7 +27,7 @@ export async function generateMetadata({
     title: { default: t('title'), template: `%s · ${BRAND_NAME}` },
     description: t('description'),
     metadataBase: new URL(process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000'),
-    alternates: { languages: { id: '/id', en: '/en' } },
+    alternates: { languages: { id: '/', en: '/en' } },
     openGraph: {
       siteName: BRAND_NAME,
       locale: locale === 'en' ? 'en_US' : 'id_ID',

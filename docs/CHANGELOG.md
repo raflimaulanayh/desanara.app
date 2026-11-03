@@ -15,6 +15,20 @@ Format:
 
 ---
 
+## 2026-11-03 — URL publik berbahasa Indonesia tanpa awalan `/id`
+
+- **Area**: apps/web, docs/adr
+- **Jenis**: Changed
+- Rute publik dipindah sesuai ADR 0008: `/jelajah`, `/desa/[desa]`, `/desa/[desa]/[umkm]`, `/produk/[produk]`, `/tentang`. Bahasa Indonesia tanpa awalan, Inggris di bawah `/en`. URL lama (`/id/...`, `/explore`, `/villages/...`, dst.) di-redirect permanen. ADR 0006 menjadi Superseded, plan redesign berstatus Approved.
+- Terkait: PLAN-public-redesign.md, ADR 0008
+
+## 2026-11-03 — Plan redesign halaman publik + URL berbahasa Indonesia
+
+- **Area**: docs/plan, docs/adr
+- **Jenis**: Added
+- Plan `PLAN-public-redesign.md` (draft): tampilan publik diganti dari konsep nota/stempel menjadi gaya e-commerce yang ramah dengan desa sebagai pembeda, label demo dihapus dari UI (`is_seed` tetap), dan foto contoh ditambahkan. ADR 0008 (proposed) mengganti URL publik menjadi bahasa Indonesia tanpa awalan `/id` (`/desa/baros`, `/produk/...`, `/jelajah`) dengan redirect dari URL lama.
+- Terkait: PLAN-public-redesign.md, ADR 0008
+
 ## 2026-11-01 — Brand baru: Sudut Desa
 
 - **Area**: seluruh repo (`@repo/i18n` `BRAND_NAME`, pesan ID/EN, apps/web, apps/dashboard, apps/api, docs, PRODUCT.md, DESIGN.md)
