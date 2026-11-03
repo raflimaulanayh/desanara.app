@@ -24,7 +24,7 @@ Storage: `villages.theme` (published, null = default), `villages.theme_draft`, `
 ```tsx
 import { villageThemeAttributes } from '@repo/ui/village-theme'
 
-// app/[locale]/villages/[village]/layout.tsx — wraps the village, its businesses and products
+// app/[locale]/desa/[village]/layout.tsx — wraps the village, its businesses and products
 ;<div {...villageThemeAttributes(village.theme)}>{children}</div>
 ```
 

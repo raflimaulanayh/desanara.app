@@ -73,7 +73,7 @@ Setup from zero: `docs/guides/local-setup.md`.
   `docs/product`, `docs/guides`, `docs/CHANGELOG.md`: **Bahasa Indonesia**. UI copy: ID + EN via next-intl.
 - Glossary of domain terms ↔ code names: `docs/product/glossary.md` (desa = village, UMKM = business,
   pendamping = assistant).
-- URL path segments are English (`/explore`, `/villages/[village]`); slugs follow the content language (ADR 0006).
+- Public URL segments are Indonesian, no `/id` prefix (`/jelajah`, `/desa/[village]`, `/produk/[product]`; English under `/en`); slugs follow the content language (ADR 0008). API paths stay English.
 - API JSON is camelCase; success `{ data, meta? }`; errors `{ error: { code, message, details?, requestId } }`
   (`docs/architecture/api-conventions.md`).
 - API module layout: `apps/api/src/modules/<name>/<name>.{routes,service,repository,schema}.ts`.

@@ -5,7 +5,7 @@ umkm-app/
 ├── AGENTS.md / CLAUDE.md      # agent entry point (CLAUDE.md imports AGENTS.md)
 ├── apps/
 │   ├── web/src/
-│   │   ├── app/[locale]/      # public routes: /, /explore, /about, /villages/[village], /products/[product]
+│   │   ├── app/[locale]/      # public routes: /, /jelajah, /tentang, /desa/[village], /desa/[village]/[business], /produk/[product]
 │   │   ├── components/        # web-only components
 │   │   ├── i18n/              # next-intl routing, request config, navigation
 │   │   ├── lib/api.ts         # server-side API client

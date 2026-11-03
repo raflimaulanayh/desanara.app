@@ -15,7 +15,7 @@ Status: ✅ selesai · 🚧 dikerjakan · ⏳ belum
 | Produk  | CRUD produk, harga Rp, satuan, kategori, terjemahan EN opsional                                        | ⏳                                     |
 | Produk  | Upload foto ke R2 (presigned, kompres di HP)                                                           | ⏳                                     |
 | Publik  | Landing bilingual, jelajah + filter wilayah/kategori + pencarian                                       | ✅ (pencarian ILIKE; pg_trgm menyusul) |
-| Publik  | Halaman UMKM & produk, nota pesanan via WhatsApp, status buka/tutup                                    | ✅ (OG image khusus menyusul)          |
+| Publik  | Halaman UMKM & produk, pesan via WhatsApp, status buka/tutup                                           | ✅ (OG image khusus menyusul)          |
 | Dampak  | Pencatatan view & klik WA, halaman statistik                                                           | ✅ pencatatan, ⏳ halaman statistik    |
 | Legal   | Kebijakan privasi, syarat & ketentuan                                                                  | ⏳                                     |
 

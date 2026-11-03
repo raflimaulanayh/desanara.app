@@ -21,7 +21,7 @@
 
 ## Resolving the tenant
 
-- Now: path based — `/villages/[village]` on web, explicit ids on the API.
+- Now: path based — `/desa/[village]` on web, explicit ids on the API.
 - Later: subdomains (`baros.<domain>`) via the web `proxy.ts`, mapping host → village slug.
   No schema change needed.
 

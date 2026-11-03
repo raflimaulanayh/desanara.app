@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-03 — Redesign halaman publik: gaya e-commerce ramah dengan desa sebagai pembeda
+
+- **Area**: apps/web, packages/ui, docs (DESIGN.md, PRODUCT.md, guides)
+- **Jenis**: Changed | Removed
+- Konsep "Buku Nota & Stempel" diganti tampilan marketplace yang ramah: header dengan pencarian, grid kartu produk (foto atau ubin kategori berwarna desa), halaman desa bergaya destinasi (sampul, lambang, lencana "Diverifikasi desa"), halaman produk dengan tombol **Pesan via WhatsApp** yang menempel di bawah layar HP, dan kartu "Dari desa …". Font platform Plus Jakarta Sans; token warna baru di `theme.css`; tema per desa (ADR 0007) tetap berlaku.
+- Komponen nota/stempel/kop/seal dihapus; komponen baru: `product-card`, `village-card`, `village-logo`, `order-panel`, `open-status` (badge), `verified-badge`. Label "data demo" dihapus dari UI (`is_seed` tetap di database); langkah `db:seed:reset` sebelum rilis publik ditambahkan di `docs/guides/deploy.md`. Foto contoh produk tidak dibuat: produk tanpa foto memakai ubin kategori.
+- Terkait: PLAN-public-redesign.md
+
 ## 2026-11-03 — URL publik berbahasa Indonesia tanpa awalan `/id`
 
 - **Area**: apps/web, docs/adr

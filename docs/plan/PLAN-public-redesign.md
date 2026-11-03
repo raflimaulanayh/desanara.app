@@ -94,13 +94,13 @@ Arah yang dipilih: **campuran marketplace bersih (A) + desa sebagai destinasi (B
 
 ## 5. Langkah implementasi
 
-- [ ] 1. ADR 0008 + update docs URL (dikerjakan bersama plan ini)
-- [ ] 2. Routing: pindah folder route, `localePrefix: 'as-needed'`, redirect URL lama, sitemap/hreflang
-- [ ] 3. Token & komponen dasar baru (`DESIGN.md` baru), hapus komponen nota/stempel
-- [ ] 4. Halaman: beranda → jelajah → produk → UMKM → desa → tentang/404
-- [ ] 5. Foto contoh + seed
-- [ ] 6. Hapus label demo, update `PRODUCT.md`, tambah langkah `db:seed:reset` di checklist rilis
-- [ ] 7. Uji visual 360 px / 390 px / desktop, Lighthouse mobile, `check:all`
+- [x] 1. ADR 0008 + update docs URL (dikerjakan bersama plan ini)
+- [x] 2. Routing: pindah folder route, `localePrefix: 'as-needed'`, redirect URL lama, sitemap/hreflang
+- [x] 3. Token & komponen dasar baru (`DESIGN.md` baru), hapus komponen nota/stempel
+- [x] 4. Halaman: beranda → jelajah → produk → UMKM → desa → tentang/404
+- [x] 5. ~~Foto contoh + seed~~ diganti: produk tanpa foto memakai ubin kategori berwarna desa (tanpa aset foto; foto asli menyusul saat data UMKM masuk)
+- [x] 6. Hapus label demo, update `PRODUCT.md`, tambah langkah `db:seed:reset` di checklist rilis
+- [~] 7. Uji visual 360 px / 390 px / desktop, Lighthouse mobile, `check:all`
 - [ ] 8. Commit per langkah (conventional commits), CHANGELOG di tiap commit
 
 ## 6. Acceptance criteria
@@ -138,6 +138,7 @@ Semua perubahan ada di `apps/web`, docs, dan seed. Rollback = revert commit bran
 
 ## 11. Revision notes
 
-| Tanggal    | Perubahan  |
-| ---------- | ---------- |
-| 2026-11-03 | Draft awal |
+| Tanggal    | Perubahan                                                                                                                                                         |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-11-03 | Draft awal                                                                                                                                                        |
+| 2026-11-03 | Disetujui. Foto contoh dibatalkan (diganti ubin kategori). Langkah 1–6 selesai, uji visual HP/desktop dilakukan sekali; Lighthouse dan uji Android murah menyusul |

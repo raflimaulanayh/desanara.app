@@ -22,5 +22,5 @@
 | Tema desa                  | `villages.theme`                   | Warna, font, gaya sudut, template. Draf di `theme_draft`, tayang setelah "Terapkan".                 |
 | Template tampilan          | `template`                         | Tata letak halaman desa yang dibuat tim (sekarang: `classic`).                                       |
 | Jam buka / tutup sementara | `openingHours` / `closedUntil`     | Status buka/tutup dihitung otomatis dari jadwal; "tutup sementara" menimpa jadwal sampai tanggalnya. |
-| Nota pesanan               | `OrderSlip`                        | Formulir pesanan bergaya nota yang dikirim ke WhatsApp penjual.                                      |
+| Panel pesanan              | `OrderPanel`                       | Jumlah + catatan, lalu tombol Pesan via WhatsApp ke penjual.                                         |
 | Cap desa                   | `VillageSeal`                      | Cap bundar desa (logo di tengah) yang menjadi identitas desa di situs.                               |

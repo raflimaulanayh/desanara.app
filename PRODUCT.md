@@ -32,27 +32,27 @@ Unlike Shopee/Tokopedia, every product is shown as part of a village and its sto
 
 ## Capabilities and Constraints
 
-- Bilingual public site (`/id`, `/en`); English URL segments, Indonesian content slugs; user content written in Indonesian with optional English.
+- Bilingual public site (Indonesian at `/`, English at `/en`); Indonesian URL segments (`/desa/baros`, `/produk/...`, `/jelajah`, `/tentang`) and content slugs; user content written in Indonesian with optional English.
 - Per-village branding: accent colour (contrast-checked), logo, banner, corner style, curated fonts, template choice — no custom CSS/HTML. Applies to village, business and product pages; national pages and the dashboard keep the platform brand. Businesses follow their village's theme.
 - Stack: Next.js 16 + HeroUI v3 + Tailwind CSS v4 (web, dashboard), Hono API, PostgreSQL. See `AGENTS.md`.
 - Brand name: **Sudut Desa** (chosen 2026-11-01; planned domain `sudutdesa.id`). Constant `BRAND_NAME` in `@repo/i18n`.
 
 ## Brand Commitments
 
-- Credit to **HIMA Sistem Informasi, SATU University** must appear with their logos. The official HIMASIF and SATU University logos (white mono versions) are in `apps/web/public/brand/` and are printed in nota navy through a CSS mask (mono recolour, never redrawn). Source: `baros/kim-baros/public/static/images/copyright/`.
-- Partner village logos appear on their village pages. Desa Baros uses the crest of its official Pemerintah Desa Baros logo (`desa-baros.png`, same source folder), shown inside the cap desa seal.
+- Credit to **HIMA Sistem Informasi, SATU University** must appear with their logos. The official HIMASIF and SATU University logos (white mono versions) are in `apps/web/public/brand/` and are printed in a neutral ink through a CSS mask (mono recolour, never redrawn). Source: `baros/kim-baros/public/static/images/copyright/`.
+- Partner village logos appear on their village pages. Desa Baros uses the crest of its official Pemerintah Desa Baros logo (`desa-baros.png`, same source folder), shown in a round frame on its village page and cards.
 
 ## Evidence on Hand
 
 - Official logos: Pemerintah Desa Baros, HIMASIF, SATU University, Sistem Informasi SATU University (`baros/kim-baros/public/static/images/copyright/`); Desa Baros tourism photo (`baros/kim-baros/public/view-wisata.jpg`).
-- No real product photos, testimonials, sales figures or partner endorsements yet. Demo businesses, products and statistics are fictional and must stay labelled as demo; never present them as real.
+- No real product photos, testimonials, sales figures or partner endorsements yet. Sample businesses, products and statistics are fictional: keep `is_seed = true`, keep their WhatsApp on the team number, and replace them with real data before launch.
 
 ## Product Principles
 
 1. The village is the unit of identity: every product is shown with where it comes from and who made it.
 2. One tap to the maker: contacting the seller on WhatsApp is always the clearest action.
 3. Works for the least-equipped user: cheap phones, slow data, non-technical owners.
-4. Honest by default: demo data is labelled, statuses are computed rather than guessed, nothing is fabricated.
+4. Honest by default: statuses are computed rather than guessed, nothing is invented in the UI. Sample data is not labelled on screen (decision 2026-11-03) but is flagged `is_seed` in the database, its WhatsApp number is the team's, and it must be removed with `db:seed:reset` before the site is public.
 5. Trust is visible: verification by the village and mentoring by HIMA are shown, not implied.
 
 ## Accessibility & Inclusion
