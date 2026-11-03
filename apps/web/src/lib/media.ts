@@ -5,6 +5,6 @@
  */
 export function mediaUrl(key: string | null | undefined): string | null {
   if (!key) return null
-  const base = process.env.NEXT_PUBLIC_MEDIA_URL ?? '/media'
+  const base = process.env.NEXT_PUBLIC_MEDIA_URL || '/media'
   return `${base.replace(/\/$/, '')}/${key.replace(/^\//, '')}`
 }
