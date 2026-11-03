@@ -77,7 +77,9 @@
         "title": "Mentored by HIMA SI",
         "body": "SATU University students help each business prepare its products."
       }
-    }
+    },
+    "villagesEmpty": "No villages yet.",
+    "latestEmpty": "No products yet."
   },
   "explore": {
     "title": "Explore products",

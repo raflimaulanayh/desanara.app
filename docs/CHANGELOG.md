@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-03 — Perbaikan: pesan kosong beranda hilang setelah redesign
+
+- **Area**: apps/web (messages)
+- **Jenis**: Fixed
+- Kunci `home.villagesEmpty` dan `home.latestEmpty` ikut terhapus saat pesan beranda ditulis ulang, sehingga muncul `MISSING_MESSAGE` ketika daftar desa/produk kosong. Dikembalikan di ID dan EN.
+- Terkait: PLAN-public-redesign.md
+
 ## 2026-11-03 — Redesign halaman publik: gaya e-commerce ramah dengan desa sebagai pembeda
 
 - **Area**: apps/web, packages/ui, docs (DESIGN.md, PRODUCT.md, guides)
