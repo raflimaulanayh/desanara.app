@@ -17,13 +17,14 @@ import {
   categories,
   categoryTranslations,
   products,
+  productImages,
   productTranslations,
   regions,
   users,
   villageMembers,
   villages,
 } from '../schema'
-import { DEMO_EMAIL_DOMAIN, DEMO_PASSWORD, demoVillages } from './demo-data'
+import { DEMO_EMAIL_DOMAIN, DEMO_PASSWORD, demoVillages, productPhotos } from './demo-data'
 import { categorySeed, regionSeed } from './reference-data'
 
 const args = new Set(process.argv.slice(2))
@@ -243,6 +244,14 @@ async function insertDemoData(tx: Database) {
           await tx
             .insert(productTranslations)
             .values({ productId: product!.id, locale: 'en', name: pr.en })
+        }
+        const photo = productPhotos[pr.slug]
+        if (photo) {
+          await tx.insert(productImages).values({
+            productId: product!.id,
+            storageKey: `seed/products/${photo}.webp`,
+            alt: pr.name,
+          })
         }
         if (b.verified) productIdsForStats.push({ productId: product!.id, businessId, villageId })
       }

@@ -629,3 +629,43 @@ export const demoVillages: DemoVillage[] = [
     ],
   },
 ]
+
+/**
+ * Sample photos per product slug → file under apps/web/public/media/seed/products/<name>.webp
+ * (Wikimedia Commons stock photos; source + licence in the .json next to each file and in CREDITS.md).
+ * Products without an entry show the category tile until a real photo is uploaded.
+ */
+export const productPhotos: Record<string, string> = {
+  'keripik-singkong-original': 'chips-a',
+  'keripik-singkong-balado': 'chips-b',
+  'arabika-biji-200g': 'coffee-beans',
+  'arabika-bubuk-200g': 'coffee-ground',
+  'kopi-susu-gula-aren': 'coffee-iced',
+  'besek-bambu-isi-10': 'besek',
+  'tudung-saji-bambu': 'besek-trays',
+  'lampu-hias-bambu': 'lamp',
+  'keranjang-bambu': 'basket',
+  'madu-hutan-250ml': 'honey-a',
+  'madu-hutan-500ml': 'honey-b',
+  'dodol-ketan-original': 'dodol',
+  'dodol-durian': 'dodol',
+  'telur-asin-isi-10': 'egg-salted',
+  'telur-asin-bakar': 'egg-brown',
+  'dompet-kulit-pria': 'wallet',
+  'sabuk-kulit': 'belt',
+  'tas-selempang-kulit': 'bag',
+  'jeruk-keprok-1kg': 'tangerine',
+  'jeruk-keprok-5kg': 'tangerine',
+  'kain-batik-tulis': 'batik',
+  'syal-batik': 'batik-green',
+  'abon-ikan-original': 'abon-a',
+  'abon-ikan-pedas': 'abon-b',
+  'bandrek-serbuk': 'bandrek',
+  'ubi-oven-1kg': 'ubi-roasted',
+  'keripik-ubi': 'ubi-chips',
+  'talenan-kayu-jati': 'board',
+  'sendok-kayu-set': 'spoons',
+  'hiasan-dinding-ukir': 'carving',
+  'sale-pisang-basah': 'sale-a',
+  'sale-pisang-goreng': 'sale-b',
+}

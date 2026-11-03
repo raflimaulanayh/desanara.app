@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-03 — Foto contoh produk dan perbaikan logo desa yang rusak
+
+- **Area**: apps/web, packages/db (seed), docs
+- **Jenis**: Added | Fixed
+- Fix: `NEXT_PUBLIC_MEDIA_URL` yang dikosongkan di `.env` membuat URL media menjadi `/seed/...` (404), sehingga logo Desa Baros rusak. `mediaUrl()` sekarang memakai `||` agar string kosong jatuh ke `/media`.
+- Seed: 32 produk contoh kini punya foto asli (stok Wikimedia Commons, 800 px WebP) di `apps/web/public/media/seed/products/`, dengan sumber + lisensi di file `.json` dan `CREDITS.md`. Produk tanpa foto tetap memakai ubin kategori. Jalankan `bun run db:seed` untuk mengisi `product_images`. Sebelum rilis publik, foto ini ikut hilang lewat `db:seed:reset` atau perlu halaman kredit bila dipertahankan.
+- Terkait: PLAN-public-redesign.md
+
 ## 2026-11-03 — Perbaikan: pesan kosong beranda hilang setelah redesign
 
 - **Area**: apps/web (messages)
