@@ -1,20 +1,21 @@
-import { Barlow, Barlow_Condensed, Bitter, Nunito, Poppins } from 'next/font/google'
+import { Barlow_Condensed, Bitter, Nunito, Plus_Jakarta_Sans, Poppins } from 'next/font/google'
 
-/** Platform faces: Barlow for reading, Barlow Condensed for everything "printed" on the nota. */
-export const barlow = Barlow({
+/** Platform face: Plus Jakarta Sans — friendly, designed in Indonesia, sturdy on low-end phones. */
+export const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-barlow',
-  display: 'swap',
-})
-export const barlowCondensed = Barlow_Condensed({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
-  variable: '--font-barlow-condensed',
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
 /** Curated village display faces (villageFonts in @repo/validators). Not preloaded: only village pages use them. */
+export const barlowCondensed = Barlow_Condensed({
+  subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-barlow-condensed',
+  display: 'swap',
+  preload: false,
+})
 export const bitter = Bitter({
   subsets: ['latin'],
   weight: ['600', '700'],
@@ -37,6 +38,6 @@ export const poppins = Poppins({
   preload: false,
 })
 
-export const fontVariables = [barlow, barlowCondensed, bitter, nunito, poppins]
+export const fontVariables = [jakarta, barlowCondensed, bitter, nunito, poppins]
   .map((f) => f.variable)
   .join(' ')

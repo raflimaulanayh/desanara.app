@@ -37,16 +37,6 @@ export async function generateMetadata({
   }
 }
 
-/* The direction contract must be the first child of <body> and survive the build. */
-const DIRECTION_CONTRACT = `
-THESIS: Every village is a rubber stamp and every order is a nota sent straight to the maker; we refuse the marketplace grid of identical photo cards and green buttons.
-OWN-WORLD: White order-book paper, blue ruling, navy printed heads in Barlow Condensed caps, tabular prices; stamp ink is the accent (platform violet, each village its own ink); round "cap desa" seals, rectangular rubber stamps for every state.
-STORY: The visitor sees villages as stamps, browses products as lines on a nota, trusts the village stamp, and sends a written order on WhatsApp.
-FIRST VIEWPORT: Printed headline left, search on a ruled line below it, a cluster of partner-village seals beside it (below on phones); the search submit is the primary action.
-FORM: Buku Nota & Stempel, candidate 7 of 7, seed key b9d19e88.
-FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance.
-`
-
 export default async function LocaleLayout({
   children,
   params,
@@ -62,14 +52,9 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={fontVariables}>
       <body className="bg-background text-foreground min-h-dvh antialiased">
-        <div
-          hidden
-          aria-hidden
-          dangerouslySetInnerHTML={{ __html: `<!--${DIRECTION_CONTRACT}-->` }}
-        />
         <a
           href="#main"
-          className="bg-accent text-accent-foreground sr-only z-50 px-4 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+          className="bg-accent text-accent-foreground sr-only z-50 rounded-full px-4 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
         >
           {t('skip')}
         </a>

@@ -8,7 +8,8 @@
     "explore": "Jelajah",
     "about": "Tentang",
     "switchLanguage": "Pilih bahasa",
-    "skip": "Lompat ke isi"
+    "skip": "Lompat ke isi",
+    "home": "Beranda Sudut Desa"
   },
   "footer": {
     "about": "Katalog produk UMKM dari desa-desa mitra. Pesanan dikirim langsung ke pembuatnya lewat WhatsApp — tanpa perantara, tanpa potongan.",
@@ -18,16 +19,6 @@
     "about_link": "Tentang program",
     "credit": "© {year} HIMA Sistem Informasi, SATU University",
     "tagline": "Oleh-oleh khas desa"
-  },
-  "nota": {
-    "name": "Nama barang",
-    "unit": "Satuan",
-    "price": "Harga"
-  },
-  "stamp": {
-    "verified": "Diverifikasi desa",
-    "demo": "Data demo",
-    "partner": "Desa mitra"
   },
   "status": {
     "open": "Buka",
@@ -48,15 +39,16 @@
     "sun": "Minggu"
   },
   "home": {
-    "heroTitle": "Oleh-oleh khas desa, langsung dari pembuatnya.",
-    "heroSubtitle": "Cari keripik, kopi, anyaman, sampai hasil kebun dari desa-desa di Jawa Barat. Tulis pesananmu, kirim lewat WhatsApp, ngobrol langsung dengan pembuatnya.",
     "searchLabel": "Cari produk",
     "searchPlaceholder": "Cari keripik, kopi, anyaman…",
     "searchSubmit": "Cari",
-    "sealsCaption": "Ketuk capnya untuk masuk ke desa",
-    "latestTitle": "Nota hari ini",
-    "latestAside": "Produk terbaru dari desa mitra",
-    "seeAll": "Lihat semua produk",
+    "heroTitle": "Oleh-oleh khas desa, langsung dari pembuatnya.",
+    "heroSubtitle": "Belanja keripik, kopi, anyaman, sampai hasil kebun dari desa-desa di Jawa Barat. Pesan lewat WhatsApp, tanpa perantara.",
+    "categoriesTitle": "Belanja per kategori",
+    "villagesTitle": "Jelajahi desa",
+    "villagesAside": "Setiap produk punya asal dan cerita",
+    "latestTitle": "Produk terbaru",
+    "seeAll": "Lihat semua",
     "howTitle": "Cara pesan",
     "how": {
       "1": {
@@ -64,31 +56,28 @@
         "body": "Telusuri per desa atau cari langsung namanya."
       },
       "2": {
-        "title": "Tulis nota",
-        "body": "Isi jumlah, nama, dan catatan di nota pesanan."
+        "title": "Chat penjual",
+        "body": "Tentukan jumlah, lalu buka WhatsApp dengan pesanan yang sudah tertulis."
       },
       "3": {
-        "title": "Kirim ke pembuat",
-        "body": "Nota terkirim ke WhatsApp penjual. Bayar dan kirim disepakati langsung."
+        "title": "Sepakati langsung",
+        "body": "Bayar dan pengiriman diatur langsung dengan pembuatnya."
       }
     },
     "trust": {
       "verified": {
-        "stamp": "Diverifikasi desa",
+        "title": "Diverifikasi desa",
         "body": "Setiap UMKM dicek dan disetujui admin desanya sebelum tampil."
       },
       "direct": {
-        "stamp": "Langsung ke pembuat",
+        "title": "Langsung ke pembuat",
         "body": "Tanpa perantara dan tanpa potongan — uangmu sampai ke pembuatnya."
       },
       "mentored": {
-        "stamp": "Didampingi HIMA SI",
+        "title": "Didampingi HIMA SI",
         "body": "Mahasiswa SATU University mendampingi UMKM menyiapkan produknya."
       }
-    },
-    "villagesEmpty": "Belum ada desa yang tampil.",
-    "latestEmpty": "Belum ada produk yang tampil.",
-    "latestDemo": "Semua UMKM dan produk di daftar ini masih data demo. Desa Baros adalah desa pilot yang asli; desa lainnya juga data demo."
+    }
   },
   "explore": {
     "title": "Jelajah produk",
@@ -107,14 +96,20 @@
     "emptyBody": "Coba kata lain, atau hapus filter kabupaten dan kategori.",
     "prev": "Sebelumnya",
     "next": "Berikutnya",
-    "page": "Halaman {page} dari {pages}"
+    "page": "Halaman {page} dari {pages}",
+    "filters": "Filter",
+    "allCategories": "Semua"
   },
   "village": {
+    "products": "Produk dari {village}",
+    "productsEmpty": "Belum ada produk.",
+    "businessesTitle": "UMKM di {village}",
+    "about": "Tentang desa",
+    "stats": "{businesses} UMKM · {products} produk",
+    "seeAll": "Semua produk",
+    "verifiedNote": "Semua UMKM di sini sudah diverifikasi oleh admin desa.",
     "businessCount": "{count, plural, =0 {Belum ada UMKM} other {# UMKM}}",
     "productCount": "{count, plural, =0 {belum ada produk} other {# produk}}",
-    "businessesTitle": "UMKM di {village}",
-    "seeAll": "Semua produk {business}",
-    "demoNotice": "UMKM dan produk di halaman ini masih data demo. Data asli dari warga akan menggantikannya.",
     "noBusinesses": "Belum ada UMKM terverifikasi di desa ini."
   },
   "business": {
@@ -123,40 +118,34 @@
     "closedDay": "Tutup",
     "noHours": "Jam buka belum diisi.",
     "chat": "Chat penjual",
-    "marketplaces": "Juga di",
-    "productsTitle": "Daftar barang",
+    "marketplaces": "Juga tersedia di",
+    "productsTitle": "Produk {business}",
     "verifiedOn": "Diverifikasi {date}",
-    "village": "UMKM dari {village}"
+    "origin": "Dari {village}",
+    "aboutTitle": "Tentang UMKM"
   },
   "product": {
-    "by": "Dibuat oleh {business}",
-    "from": "dari {village}",
+    "by": "Dijual oleh",
+    "fromVillage": "Dari desa",
     "per": "per {unit}",
-    "description": "Keterangan",
-    "moreTitle": "Barang lain dari {business}",
-    "photoPending": "Foto menyusul",
-    "unavailable": "Sedang kosong",
-    "kind": "Jenis"
+    "description": "Deskripsi",
+    "moreTitle": "Produk lain dari {business}",
+    "unavailable": "Stok kosong",
+    "visitVillage": "Kunjungi desa",
+    "visitShop": "Lihat toko"
   },
   "order": {
-    "title": "Nota pesanan",
-    "copy": "Lembar penjual",
-    "to": "Kepada",
-    "quantity": "Banyak",
+    "quantity": "Jumlah",
     "decrease": "Kurangi",
     "increase": "Tambah",
-    "name": "Nama",
-    "nameHint": "Nama kamu (boleh dikosongkan)",
-    "note": "Catatan",
+    "note": "Catatan untuk penjual",
     "noteHint": "Contoh: pedas, dikirim hari Sabtu",
-    "total": "Jumlah",
-    "send": "Kirim nota lewat WhatsApp",
-    "sendHint": "WhatsApp terbuka dengan nota ini. Harga dan ongkir disepakati langsung dengan penjual.",
-    "unavailable": "Barang ini sedang kosong.",
-    "sent": "Terkirim",
+    "total": "Total",
+    "send": "Pesan via WhatsApp",
+    "sendHint": "WhatsApp terbuka dengan pesanan ini. Harga akhir dan ongkir disepakati langsung dengan penjual.",
+    "unavailable": "Produk ini sedang kosong.",
     "noWhatsApp": "Penjual belum mencantumkan nomor WhatsApp.",
-    "unavailableButton": "Barang sedang kosong",
-    "date": "Tgl. {date}"
+    "unavailableButton": "Stok kosong"
   },
   "about": {
     "title": "Tentang Sudut Desa",
@@ -168,5 +157,8 @@
     "title": "Halaman tidak ditemukan",
     "body": "Mungkin produknya sudah tidak dijual, atau tautannya salah ketik.",
     "back": "Kembali ke beranda"
+  },
+  "badge": {
+    "verified": "Diverifikasi desa"
   }
 }

@@ -1,15 +1,13 @@
 import { Container } from '@repo/ui/components/container'
-import { ArrowRight, MapPin } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { DemoNotice } from '@/components/demo-notice'
-import { Kop } from '@/components/kop'
-import { NotaSheet } from '@/components/nota/nota'
-import { OpenStatusStamp } from '@/components/open-status'
-import { ProductRows } from '@/components/product-rows'
-import { VillageSeal } from '@/components/seal'
-import { Stamp } from '@/components/stamp'
+import { OpenStatusBadge } from '@/components/open-status'
+import { ProductGrid } from '@/components/product-card'
+import { TrackView } from '@/components/track-view'
+import { VerifiedBadge } from '@/components/verified-badge'
+import { VillageLogo } from '@/components/village-logo'
 import { Link } from '@/i18n/navigation'
 import { getVillage, getVillageBusinesses, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
@@ -33,124 +31,113 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function VillagePage({ params }: { params: Params }) {
   const { locale, village: slug } = await params
   setRequestLocale(locale)
-  const [t, tNota, tStamp, village, businesses, products] = await Promise.all([
+  const [t, village, businesses, products] = await Promise.all([
     getTranslations('village'),
-    getTranslations('nota'),
-    getTranslations('stamp'),
     getVillage(slug),
     getVillageBusinesses(slug),
-    searchProducts({ village: slug, pageSize: 50, sort: 'newest' }),
+    searchProducts({ village: slug, pageSize: 24, sort: 'newest' }),
   ])
   const banner = mediaUrl(village.bannerKey)
-  const hasDemo = businesses.some((b) => b.isSeed)
-  const byBusiness = new Map<string, typeof products.data>()
-  for (const p of products.data) {
-    byBusiness.set(p.business.slug, [...(byBusiness.get(p.business.slug) ?? []), p])
-  }
+  const productTotal = businesses.reduce((n, b) => n + b.productCount, 0)
 
   return (
     <>
-      <section className="border-nota-rule relative border-b">
-        {banner ? (
-          <div className="bg-nota-blue relative h-[clamp(11rem,34vw,22rem)] overflow-hidden">
+      <TrackView event={{ type: 'village_view', villageSlug: village.slug }} />
+      {/* Destination header: cover, crest, place, and the trust claim */}
+      <section>
+        <div className="bg-accent relative h-[clamp(10rem,30vw,20rem)] overflow-hidden">
+          {banner ? (
             <Image src={banner} alt="" fill priority sizes="100vw" className="object-cover" />
+          ) : (
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  'linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent) 55%, black))',
+              }}
+            />
+          )}
+        </div>
+        <Container>
+          <div className="-mt-10 sm:-mt-12">
+            <VillageLogo
+              name={village.name}
+              logoUrl={mediaUrl(village.logoKey)}
+              accent="var(--accent)"
+              size={88}
+            />
           </div>
-        ) : (
-          <div className="bg-accent-soft h-24" />
-        )}
-        <Container className="relative pb-8">
-          <div className="text-accent -mt-[clamp(4rem,9vw,6rem)] flex items-end gap-4">
-            <span className="rounded-full bg-white/95 p-1 shadow-[0_8px_24px_-12px_rgb(20_26_43/0.5)]">
-              <VillageSeal
-                name={village.name}
-                region={village.regionName}
-                logoUrl={mediaUrl(village.logoKey)}
-                size={152}
-                rotate={-5}
-              />
-            </span>
+          <h1 className="font-village mt-3 text-[clamp(1.9rem,6vw,3rem)] leading-tight font-extrabold tracking-tight">
+            {village.name}
+          </h1>
+          <div className="text-muted mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            {village.regionName ? (
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="size-4" aria-hidden />
+                {village.regionName}
+              </span>
+            ) : null}
+            <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
           </div>
-          <Kop
-            as="h1"
-            size="lg"
-            className="mt-5"
-            name={village.name}
-            lines={[
-              village.regionName ? (
-                <>
-                  <MapPin className="size-4" aria-hidden />
-                  {village.regionName}
-                </>
-              ) : null,
-              t('businessCount', { count: village.businessCount }),
-            ].filter(Boolean)}
-            stamps={
-              village.isSeed ? (
-                <Stamp tone="demo" rotate={-4}>
-                  {tStamp('demo')}
-                </Stamp>
-              ) : (
-                <Stamp rotate={-4}>{tStamp('partner')}</Stamp>
-              )
-            }
-          />
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <VerifiedBadge />
+            <span className="text-muted text-sm">{t('verifiedNote')}</span>
+          </div>
           {village.description ? (
-            <p className="mt-5 max-w-[68ch] text-lg leading-relaxed">{village.description}</p>
-          ) : null}
-          {hasDemo ? (
-            <div className="mt-6">
-              <DemoNotice label={tStamp('demo')}>{t('demoNotice')}</DemoNotice>
-            </div>
+            <p className="mt-5 max-w-[68ch] text-base leading-relaxed sm:text-lg">
+              {village.description}
+            </p>
           ) : null}
         </Container>
       </section>
 
-      <section className="py-12">
-        <Container className="flex flex-col gap-12">
-          <h2 className="font-village text-accent text-3xl leading-none font-bold uppercase sm:text-4xl">
+      <section className="pt-12">
+        <Container>
+          <h2 className="font-village text-2xl font-extrabold tracking-tight sm:text-3xl">
             {t('businessesTitle', { village: village.name })}
           </h2>
-          {businesses.length === 0 ? <p className="text-muted">{t('noBusinesses')}</p> : null}
-          {businesses.map((b) => {
-            const items = byBusiness.get(b.slug) ?? []
-            return (
-              <article key={b.id} className="flex flex-col gap-4">
-                <Kop
-                  as="h3"
-                  name={
-                    <Link href={`/desa/${village.slug}/${b.slug}`} className="hover:underline">
-                      {b.name}
-                    </Link>
-                  }
-                  lines={[b.ownerName, t('productCount', { count: b.productCount })].filter(
-                    Boolean,
-                  )}
-                  stamps={
-                    <OpenStatusStamp
-                      initial={initialStatus(b, village.timezone)}
-                      hours={b.openingHours}
-                      closedUntil={b.closedUntil}
-                      closedNote={b.closedNote}
-                      timeZone={village.timezone}
-                      size="sm"
-                    />
-                  }
-                />
-                {items.length > 0 ? (
-                  <NotaSheet head={[tNota('name'), tNota('unit'), tNota('price')]}>
-                    <ProductRows products={items.slice(0, 4)} showBusiness={false} />
-                  </NotaSheet>
-                ) : null}
+          {businesses.length === 0 ? <p className="text-muted mt-4">{t('noBusinesses')}</p> : null}
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {businesses.map((b) => (
+              <li key={b.id}>
                 <Link
                   href={`/desa/${village.slug}/${b.slug}`}
-                  className="font-print text-accent inline-flex h-11 items-center gap-2 self-end text-sm font-bold tracking-[0.1em] uppercase hover:underline"
+                  className="border-line bg-surface flex h-full flex-col gap-2 rounded-(--radius) border p-4 transition-shadow hover:shadow-md"
                 >
-                  {t('seeAll', { business: b.name })}
-                  <ArrowRight className="size-4" aria-hidden />
+                  <p className="text-lg leading-tight font-extrabold">{b.name}</p>
+                  <p className="text-muted text-sm">
+                    {[b.ownerName, t('productCount', { count: b.productCount })]
+                      .filter(Boolean)
+                      .join(' · ')}
+                  </p>
+                  <OpenStatusBadge
+                    className="mt-auto pt-1"
+                    showDetail={false}
+                    initial={initialStatus(b, village.timezone)}
+                    hours={b.openingHours}
+                    closedUntil={b.closedUntil}
+                    closedNote={b.closedNote}
+                    timeZone={village.timezone}
+                  />
                 </Link>
-              </article>
-            )
-          })}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+
+      <section className="pt-12">
+        <Container>
+          <h2 className="font-village text-2xl font-extrabold tracking-tight sm:text-3xl">
+            {t('products', { village: village.name })}
+          </h2>
+          <div className="mt-5">
+            {products.data.length === 0 ? (
+              <p className="text-muted">{t('productsEmpty')}</p>
+            ) : (
+              <ProductGrid products={products.data} />
+            )}
+          </div>
         </Container>
       </section>
     </>

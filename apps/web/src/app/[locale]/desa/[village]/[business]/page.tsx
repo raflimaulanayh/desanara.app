@@ -1,22 +1,18 @@
-import { weekdays } from '@repo/validators'
+import { BRAND_NAME, buildWhatsAppLink } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
-import { ExternalLink, MapPin, MessageCircle, User } from 'lucide-react'
+import { weekdays } from '@repo/validators'
+import { ChevronRight, ExternalLink, MapPin, User } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server'
-import { DemoNotice } from '@/components/demo-notice'
-import { Kop } from '@/components/kop'
-import { NotaSheet } from '@/components/nota/nota'
-import { OpenStatusStamp } from '@/components/open-status'
-import { ProductRows } from '@/components/product-rows'
-import { VillageSeal } from '@/components/seal'
-import { Stamp } from '@/components/stamp'
+import { OpenStatusBadge } from '@/components/open-status'
+import { ProductGrid } from '@/components/product-card'
 import { TrackView } from '@/components/track-view'
+import { VerifiedBadge } from '@/components/verified-badge'
+import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { Link } from '@/i18n/navigation'
 import { getBusiness, searchProducts } from '@/lib/data'
-import { mediaUrl } from '@/lib/media'
 import { initialStatus } from '@/lib/status'
-import { BRAND_NAME, buildWhatsAppLink } from '@repo/i18n'
 
 export const revalidate = 300
 
@@ -31,12 +27,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function BusinessPage({ params }: { params: Params }) {
   const { locale, village: villageSlug, business: slug } = await params
   setRequestLocale(locale)
-  const [t, tNota, tStamp, tDays, tVillage, business, products, activeLocale] = await Promise.all([
+  const [t, tDays, business, products, activeLocale] = await Promise.all([
     getTranslations('business'),
-    getTranslations('nota'),
-    getTranslations('stamp'),
     getTranslations('days'),
-    getTranslations('village'),
     getBusiness(slug),
     searchProducts({ business: slug, pageSize: 50, sort: 'newest' }),
     getLocale(),
@@ -60,109 +53,89 @@ export default async function BusinessPage({ params }: { params: Params }) {
   ].filter((m): m is [string, string] => Boolean(m[1]))
 
   return (
-    <Container className="py-10">
+    <Container className="pt-5 pb-8">
       <TrackView event={{ type: 'business_view', businessSlug: business.slug }} />
-      <nav aria-label="Breadcrumb" className="text-muted flex items-center gap-3 text-sm">
-        <Link
-          href={`/desa/${business.village.slug}`}
-          className="text-accent shrink-0"
-          aria-label={business.village.name}
-        >
-          <VillageSeal
-            name={business.village.name}
-            region={business.village.regionName}
-            logoUrl={mediaUrl(business.village.logoKey)}
-            size={44}
-            rotate={-6}
-          />
-        </Link>
-        <Link href={`/desa/${business.village.slug}`} className="hover:text-accent underline">
-          {business.village.name}
-        </Link>
-        <span aria-hidden>/</span>
-        <span aria-current="page">{business.name}</span>
+      <nav aria-label="Breadcrumb" className="text-muted text-sm">
+        <ol className="flex flex-wrap items-center gap-x-1.5">
+          <li>
+            <Link href={`/desa/${business.village.slug}`} className="hover:text-accent font-medium">
+              {business.village.name}
+            </Link>
+          </li>
+          <ChevronRight className="size-3.5" aria-hidden />
+          <li aria-current="page">{business.name}</li>
+        </ol>
       </nav>
 
-      <Kop
-        as="h1"
-        size="lg"
-        className="mt-6"
-        name={business.name}
-        lines={[
-          business.ownerName ? (
-            <>
-              <User className="size-4" aria-hidden />
-              {t('owner', { name: business.ownerName })}
-            </>
-          ) : null,
-          business.address ? (
-            <>
-              <MapPin className="size-4" aria-hidden />
-              {business.address}
-            </>
-          ) : null,
-        ].filter(Boolean)}
-        stamps={
-          <>
-            {verifiedDate ? (
-              <Stamp rotate={-5} title={t('verifiedOn', { date: verifiedDate })}>
-                {tStamp('verified')}
-              </Stamp>
+      <header className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="font-village text-[clamp(1.8rem,5.5vw,2.75rem)] leading-tight font-extrabold tracking-tight">
+            {business.name}
+          </h1>
+          <div className="text-muted mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            {business.ownerName ? (
+              <span className="inline-flex items-center gap-1">
+                <User className="size-4" aria-hidden />
+                {t('owner', { name: business.ownerName })}
+              </span>
             ) : null}
-            <OpenStatusStamp
+            {business.address ? (
+              <span className="inline-flex items-center gap-1">
+                <MapPin className="size-4" aria-hidden />
+                {business.address}
+              </span>
+            ) : null}
+          </div>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            {verifiedDate ? (
+              <VerifiedBadge title={t('verifiedOn', { date: verifiedDate })} />
+            ) : null}
+            <OpenStatusBadge
               initial={initialStatus(business, business.village.timezone)}
               hours={business.openingHours}
               closedUntil={business.closedUntil}
               closedNote={business.closedNote}
               timeZone={business.village.timezone}
             />
-          </>
-        }
-        actions={
-          business.whatsappNumber ? (
-            <a
-              href={buildWhatsAppLink(
-                business.whatsappNumber,
-                `Halo ${business.name}, saya melihat toko Anda di ${BRAND_NAME}.`,
-              )}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-accent text-accent-foreground font-print inline-flex h-12 items-center gap-2 px-5 text-base font-bold tracking-[0.08em] uppercase transition-colors hover:bg-[var(--accent-hover)]"
-            >
-              <MessageCircle className="size-5" aria-hidden />
-              {t('chat')}
-            </a>
-          ) : null
-        }
-      />
-
-      {business.isSeed ? (
-        <div className="mt-6">
-          <DemoNotice label={tStamp('demo')}>{tVillage('demoNotice')}</DemoNotice>
+          </div>
         </div>
-      ) : null}
+        {business.whatsappNumber ? (
+          <a
+            href={buildWhatsAppLink(
+              business.whatsappNumber,
+              `Halo ${business.name}, saya melihat toko Anda di ${BRAND_NAME}.`,
+            )}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-wa hover:bg-wa-hover inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full px-6 font-bold text-white transition-colors"
+          >
+            <WhatsAppIcon className="size-5" />
+            {t('chat')}
+          </a>
+        ) : null}
+      </header>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_20rem]">
+      <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_20rem]">
         <div>
           {business.description ? (
-            <p className="mb-8 max-w-[68ch] text-lg leading-relaxed">{business.description}</p>
+            <p className="mb-8 max-w-[68ch] text-base leading-relaxed sm:text-lg">
+              {business.description}
+            </p>
           ) : null}
-          <NotaSheet
-            title={t('productsTitle')}
-            head={[tNota('name'), tNota('unit'), tNota('price')]}
-          >
-            <ProductRows products={products.data} showBusiness={false} />
-          </NotaSheet>
+          <h2 className="text-xl font-extrabold">
+            {t('productsTitle', { business: business.name })}
+          </h2>
+          <div className="mt-4">
+            <ProductGrid products={products.data} showVillage={false} />
+          </div>
         </div>
 
-        <aside className="flex flex-col gap-8">
-          <section>
-            <h2 className="font-print text-nota-ink border-nota-ink border-b-2 pb-1 text-sm font-bold tracking-[0.16em] uppercase">
-              {t('hoursTitle')}
-            </h2>
+        <aside className="flex flex-col gap-6 self-start">
+          <section className="border-line rounded-(--radius) border p-4">
+            <h2 className="font-extrabold">{t('hoursTitle')}</h2>
             {hasHours ? (
               <table className="mt-2 w-full text-sm">
-                <tbody className="divide-nota-rule divide-y">
+                <tbody className="divide-line divide-y">
                   {weekdays.map((d) => (
                     <tr key={d}>
                       <th scope="row" className="py-2 text-left font-medium">
@@ -185,10 +158,8 @@ export default async function BusinessPage({ params }: { params: Params }) {
           </section>
 
           {marketplaces.length > 0 ? (
-            <section>
-              <h2 className="font-print text-nota-ink border-nota-ink border-b-2 pb-1 text-sm font-bold tracking-[0.16em] uppercase">
-                {t('marketplaces')}
-              </h2>
+            <section className="border-line rounded-(--radius) border p-4">
+              <h2 className="font-extrabold">{t('marketplaces')}</h2>
               <ul className="mt-2 flex flex-col">
                 {marketplaces.map(([label, url]) => (
                   <li key={label}>
@@ -196,7 +167,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-accent inline-flex h-10 items-center gap-2 underline"
+                      className="hover:text-accent inline-flex h-10 items-center gap-2 font-medium"
                     >
                       {label}
                       <ExternalLink className="size-3.5" aria-hidden />

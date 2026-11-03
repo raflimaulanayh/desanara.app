@@ -7,42 +7,19 @@
 
 body {
   font-family: var(--font-sans);
-  font-feature-settings: 'tnum' 0;
 }
 
-/* The one authored motion: a rubber stamp pressed onto the nota. */
-@keyframes stamp-press {
-  0% {
-    opacity: 0;
-    transform: scale(1.6) rotate(-12deg);
-    filter: blur(2px);
-  }
-  55% {
-    opacity: 1;
-    transform: scale(0.96) rotate(-12deg);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 0.92;
-    transform: scale(1) rotate(-12deg);
-  }
+/* Horizontal chip/scroll rows: no visible scrollbar, still swipeable */
+.no-scrollbar {
+  scrollbar-width: none;
 }
-.stamp-press {
-  animation: stamp-press 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .stamp-press {
-    animation: none;
+  * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-/* Ruled nota paper: the subject's own surface (blue lines every reading line). */
-.nota-ruled {
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent calc(2rem - 1px),
-    var(--nota-rule) calc(2rem - 1px),
-    var(--nota-rule) 2rem
-  );
 }

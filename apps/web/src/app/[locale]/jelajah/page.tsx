@@ -1,14 +1,13 @@
+import { cn } from '@repo/ui/cn'
 import { Container } from '@repo/ui/components/container'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { NotaSheet } from '@/components/nota/nota'
-import { ProductRows } from '@/components/product-rows'
-import { SearchForm } from '@/components/search-form'
+import { ProductGrid } from '@/components/product-card'
 import { Link } from '@/i18n/navigation'
-import { localePath } from '@/lib/paths'
 import { getCategories, getRegencies, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
+import { localePath } from '@/lib/paths'
 
 type Params = Promise<{ locale: string }>
 type Search = Promise<Record<string, string | string[] | undefined>>
@@ -23,6 +22,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 }
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)?.trim() || undefined
+
+const selectClass =
+  'border-line-strong bg-surface focus:border-accent h-11 w-full rounded-full border px-4 text-sm font-medium focus:outline-none'
 
 export default async function ExplorePage({
   params,
@@ -41,9 +43,8 @@ export default async function ExplorePage({
   const sort = SORTS.find((s) => s === sortParam) ?? 'newest'
   const page = Math.max(1, Number.parseInt(one(sp.page) ?? '1', 10) || 1)
 
-  const [t, tNota, results, categories, regencies] = await Promise.all([
+  const [t, results, categories, regencies] = await Promise.all([
     getTranslations('explore'),
-    getTranslations('nota'),
     searchProducts({ q, region, category, sort, page, pageSize: PAGE_SIZE }),
     getCategories(),
     getRegencies(),
@@ -51,7 +52,7 @@ export default async function ExplorePage({
   const pages = Math.max(1, Math.ceil(results.meta.total / PAGE_SIZE))
   const hasFilters = Boolean(q || region || category || sort !== 'newest')
   const query = (overrides: Record<string, string | undefined>) => {
-    const params = new URLSearchParams()
+    const out = new URLSearchParams()
     for (const [k, v] of Object.entries({
       q,
       region,
@@ -59,49 +60,57 @@ export default async function ExplorePage({
       sort: sort === 'newest' ? undefined : sort,
       ...overrides,
     })) {
-      if (v) params.set(k, v)
+      if (v) out.set(k, v)
     }
-    const s = params.toString()
+    const s = out.toString()
     return s ? `/jelajah?${s}` : '/jelajah'
   }
-  const selectClass =
-    'border-nota-ink h-12 w-full appearance-none border-b-2 bg-transparent bg-[length:1rem] bg-[right_0.25rem_center] bg-no-repeat pr-7 pl-1 text-base focus:outline-none focus-visible:border-[var(--accent)]'
-  const chevron = {
-    backgroundImage:
-      "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f3a8a' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
-  }
+  const action = localePath(locale, '/jelajah')
 
   return (
-    <Container className="py-10 sm:py-14">
-      <h1 className="font-print text-[clamp(2.4rem,8vw,4rem)] leading-none font-bold uppercase">
-        {t('title')}
-      </h1>
+    <Container className="py-8 sm:py-10">
+      <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{t('title')}</h1>
 
-      <div className="mt-8 flex flex-col gap-6">
-        <SearchForm
-          action={localePath(locale, '/jelajah')}
-          defaultValue={q}
-          placeholder={t('searchPlaceholder')}
-          size="md"
-          hidden={{ region, category, sort: sort === 'newest' ? undefined : sort }}
-        />
+      <div className="mt-5 flex flex-col gap-4">
+        <nav aria-label={t('category')}>
+          <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0">
+            {[{ slug: undefined as string | undefined, label: t('allCategories') }]
+              .concat(
+                categories.map((c) => ({ slug: c.slug, label: pick(locale, c.name, c.nameEn) })),
+              )
+              .map((c) => {
+                const active = (c.slug ?? undefined) === category
+                return (
+                  <li key={c.slug ?? 'all'} className="shrink-0">
+                    <Link
+                      href={query({ category: c.slug, page: undefined })}
+                      aria-current={active ? 'true' : undefined}
+                      className={cn(
+                        'inline-flex h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors',
+                        active
+                          ? 'bg-accent text-accent-foreground border-transparent'
+                          : 'border-line-strong bg-surface hover:border-accent',
+                      )}
+                    >
+                      {c.label}
+                    </Link>
+                  </li>
+                )
+              })}
+          </ul>
+        </nav>
+
         <form
-          action={localePath(locale, '/jelajah')}
+          action={action}
           method="get"
-          className="grid grid-cols-2 items-end gap-x-4 gap-y-3 sm:grid-cols-[1fr_1fr_1fr_auto]"
+          className="grid grid-cols-2 gap-2 sm:max-w-xl sm:grid-cols-[1fr_1fr_auto]"
         >
           {q ? <input type="hidden" name="q" value={q} /> : null}
-          <label className="col-span-2 flex flex-col gap-1 sm:col-span-1">
-            <span className="font-print text-nota-ink text-xs font-semibold tracking-[0.16em] uppercase">
-              {t('region')}
-            </span>
-            <select
-              name="region"
-              defaultValue={region ?? ''}
-              className={selectClass}
-              style={chevron}
-            >
-              <option value="">{t('all')}</option>
+          {category ? <input type="hidden" name="category" value={category} /> : null}
+          <label>
+            <span className="sr-only">{t('region')}</span>
+            <select name="region" defaultValue={region ?? ''} className={selectClass}>
+              <option value="">{t('region')}</option>
               {regencies.map((r) => (
                 <option key={r.code} value={r.code}>
                   {r.name}
@@ -109,29 +118,9 @@ export default async function ExplorePage({
               ))}
             </select>
           </label>
-          <label className="flex flex-col gap-1">
-            <span className="font-print text-nota-ink text-xs font-semibold tracking-[0.16em] uppercase">
-              {t('category')}
-            </span>
-            <select
-              name="category"
-              defaultValue={category ?? ''}
-              className={selectClass}
-              style={chevron}
-            >
-              <option value="">{t('all')}</option>
-              {categories.map((c) => (
-                <option key={c.slug} value={c.slug}>
-                  {pick(locale, c.name, c.nameEn)}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1">
-            <span className="font-print text-nota-ink text-xs font-semibold tracking-[0.16em] uppercase">
-              {t('sort')}
-            </span>
-            <select name="sort" defaultValue={sort} className={selectClass} style={chevron}>
+          <label>
+            <span className="sr-only">{t('sort')}</span>
+            <select name="sort" defaultValue={sort} className={selectClass}>
               <option value="newest">{t('sortNewest')}</option>
               <option value="price_asc">{t('sortPriceAsc')}</option>
               <option value="price_desc">{t('sortPriceDesc')}</option>
@@ -139,45 +128,44 @@ export default async function ExplorePage({
           </label>
           <button
             type="submit"
-            className="border-nota-ink text-nota-ink hover:bg-nota-blue font-print h-12 border-2 px-5 text-base font-bold tracking-[0.08em] uppercase transition-colors"
+            className="bg-foreground text-background col-span-2 h-11 rounded-full px-6 text-sm font-bold sm:col-span-1"
           >
             {t('apply')}
           </button>
         </form>
+
         <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <p className="font-print text-lg font-semibold" aria-live="polite">
+          <p className="text-muted text-sm font-medium" aria-live="polite">
             {t('results', { count: results.meta.total })}
           </p>
           {hasFilters ? (
-            <Link href="/jelajah" className="text-accent text-sm underline">
+            <Link href="/jelajah" className="text-accent text-sm font-semibold hover:underline">
               {t('reset')}
             </Link>
           ) : null}
         </div>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-5">
         {results.data.length === 0 ? (
-          <div className="border-nota-rule-strong border border-dashed px-6 py-12 text-center">
-            <p className="font-print text-2xl font-bold uppercase">{t('emptyTitle')}</p>
+          <div className="bg-wash rounded-3xl px-6 py-14 text-center">
+            <p className="text-xl font-extrabold">{t('emptyTitle')}</p>
             <p className="text-muted mx-auto mt-2 max-w-[48ch]">{t('emptyBody')}</p>
           </div>
         ) : (
-          <NotaSheet head={[tNota('name'), tNota('unit'), tNota('price')]}>
-            <ProductRows products={results.data} crossVillage />
-          </NotaSheet>
+          <ProductGrid products={results.data} />
         )}
       </div>
 
       {pages > 1 ? (
         <nav
           aria-label={t('page', { page, pages })}
-          className="mt-6 flex items-center justify-between gap-4"
+          className="mt-8 flex items-center justify-between gap-4"
         >
           {page > 1 ? (
             <Link
               href={query({ page: String(page - 1) })}
-              className="font-print text-accent inline-flex h-11 items-center gap-1 font-bold uppercase hover:underline"
+              className="border-line-strong inline-flex h-11 items-center gap-1 rounded-full border px-4 text-sm font-semibold"
             >
               <ChevronLeft className="size-4" aria-hidden />
               {t('prev')}
@@ -189,7 +177,7 @@ export default async function ExplorePage({
           {page < pages ? (
             <Link
               href={query({ page: String(page + 1) })}
-              className="font-print text-accent inline-flex h-11 items-center gap-1 font-bold uppercase hover:underline"
+              className="border-line-strong inline-flex h-11 items-center gap-1 rounded-full border px-4 text-sm font-semibold"
             >
               {t('next')}
               <ChevronRight className="size-4" aria-hidden />

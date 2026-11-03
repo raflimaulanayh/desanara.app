@@ -1,8 +1,8 @@
 import { Container } from '@repo/ui/components/container'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { BadgeCheck, GraduationCap, HandCoins } from 'lucide-react'
 import { BrandMark } from '@/components/brand-mark'
-import { Stamp } from '@/components/stamp'
 
 export async function generateMetadata({
   params,
@@ -14,36 +14,44 @@ export async function generateMetadata({
   return { title: t('title') }
 }
 
+const TRUST = [
+  ['verified', BadgeCheck],
+  ['direct', HandCoins],
+  ['mentored', GraduationCap],
+] as const
+
 export default async function AboutPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
-  const [t, tStamp] = await Promise.all([getTranslations('about'), getTranslations('home')])
+  const [t, th] = await Promise.all([getTranslations('about'), getTranslations('home')])
   return (
-    <Container className="py-12 sm:py-16">
-      <h1 className="font-print max-w-3xl text-[clamp(2.4rem,8vw,4.5rem)] leading-[0.92] font-bold text-balance uppercase">
+    <Container className="py-10 sm:py-14">
+      <h1 className="max-w-3xl text-[clamp(2rem,6vw,3.25rem)] leading-tight font-extrabold tracking-tight text-balance">
         {t('title')}
       </h1>
-      <div className="mt-8 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr]">
         <div className="flex max-w-[66ch] flex-col gap-5 text-lg leading-relaxed">
           <p>{t('lead')}</p>
           <p>{t('how')}</p>
           <p className="text-muted">{t('pilot')}</p>
           <div className="mt-2 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <BrandMark mark="himasif" height={40} />
-            <BrandMark mark="satu" height={52} />
+            <BrandMark mark="himasif" height={36} />
+            <BrandMark mark="satu" height={48} />
           </div>
         </div>
-        <div className="flex flex-wrap content-start gap-5">
-          <Stamp size="lg" rotate={-4}>
-            {tStamp('trust.verified.stamp')}
-          </Stamp>
-          <Stamp size="lg" rotate={3}>
-            {tStamp('trust.direct.stamp')}
-          </Stamp>
-          <Stamp size="lg" rotate={-2}>
-            {tStamp('trust.mentored.stamp')}
-          </Stamp>
-        </div>
+        <ul className="bg-wash flex flex-col gap-5 self-start rounded-3xl p-6">
+          {TRUST.map(([k, Icon]) => (
+            <li key={k} className="flex gap-3">
+              <span className="bg-accent-soft text-accent-soft-foreground grid size-10 shrink-0 place-items-center rounded-full">
+                <Icon className="size-5" aria-hidden />
+              </span>
+              <div>
+                <h2 className="font-bold">{th(`trust.${k}.title`)}</h2>
+                <p className="text-muted mt-1 text-sm">{th(`trust.${k}.body`)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </Container>
   )

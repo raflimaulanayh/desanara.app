@@ -1,6 +1,6 @@
 /**
  * Partner logos (HIMA SI, SATU University) are supplied as white mono artwork. On the nota they are
- * printed in the book's navy ink through a CSS mask — a mono recolour of the official shape,
+ * printed in a neutral ink through a CSS mask — a mono recolour of the official shape,
  * never a redrawing. Sources and provenance: apps/web/public/brand/*.webp(.json).
  */
 const MARKS = {
@@ -14,7 +14,7 @@ export function BrandMark({ mark, height = 36 }: { mark: keyof typeof MARKS; hei
     <span
       role="img"
       aria-label={m.label}
-      className="bg-nota-ink inline-block shrink-0"
+      className="bg-foreground/75 inline-block shrink-0"
       style={{
         height,
         width: Math.round(height * m.ratio),

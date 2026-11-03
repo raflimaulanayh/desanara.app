@@ -1,26 +1,39 @@
 import { Search } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { cn } from '@repo/ui/cn'
 
 /** Plain GET form: works before JavaScript loads and on the slowest phones. */
 export async function SearchForm({
   action,
   defaultValue,
   placeholder,
-  size = 'lg',
+  size = 'md',
   hidden,
+  className,
 }: {
   action: string
   defaultValue?: string
   placeholder: string
   size?: 'lg' | 'md'
   hidden?: Record<string, string | undefined>
+  className?: string
 }) {
   const t = await getTranslations('home')
   return (
-    <form action={action} method="get" role="search" className="flex items-end gap-2">
+    <form
+      action={action}
+      method="get"
+      role="search"
+      className={cn(
+        'border-line-strong bg-surface focus-within:border-accent flex items-center gap-1 rounded-full border pl-4 shadow-sm',
+        size === 'lg' ? 'h-14' : 'h-11',
+        className,
+      )}
+    >
       {Object.entries(hidden ?? {}).map(([k, v]) =>
         v ? <input key={k} type="hidden" name={k} value={v} /> : null,
       )}
+      <Search className="text-muted size-5 shrink-0" aria-hidden />
       <label className="min-w-0 flex-1">
         <span className="sr-only">{t('searchLabel')}</span>
         <input
@@ -29,22 +42,20 @@ export async function SearchForm({
           defaultValue={defaultValue}
           placeholder={placeholder}
           enterKeyHint="search"
-          className={
-            size === 'lg'
-              ? 'border-nota-ink placeholder:text-muted/80 h-14 w-full border-b-2 bg-transparent px-1 text-xl focus:outline-none focus-visible:border-[var(--accent)]'
-              : 'border-nota-ink placeholder:text-muted/80 h-12 w-full border-b-2 bg-transparent px-1 text-lg focus:outline-none focus-visible:border-[var(--accent)]'
-          }
+          className={cn(
+            'placeholder:text-muted/80 w-full bg-transparent px-2 focus:outline-none',
+            size === 'lg' ? 'h-12 text-base sm:text-lg' : 'h-10 text-base',
+          )}
         />
       </label>
       <button
         type="submit"
-        className={
-          (size === 'lg' ? 'h-14 px-6 text-lg ' : 'h-12 px-5 text-base ') +
-          'bg-accent text-accent-foreground font-print inline-flex shrink-0 items-center gap-2 font-bold tracking-[0.08em] uppercase transition-colors hover:bg-[var(--accent-hover)]'
-        }
+        className={cn(
+          'bg-accent text-accent-foreground mr-1 inline-flex shrink-0 items-center justify-center rounded-full font-semibold transition-colors hover:bg-[var(--accent-hover)]',
+          size === 'lg' ? 'h-11 px-6 text-base' : 'h-9 px-4 text-sm',
+        )}
       >
-        <Search className="size-5" aria-hidden />
-        <span className="max-sm:sr-only">{t('searchSubmit')}</span>
+        {t('searchSubmit')}
       </button>
     </form>
   )

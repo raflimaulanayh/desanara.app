@@ -8,7 +8,8 @@
     "explore": "Explore",
     "about": "About",
     "switchLanguage": "Choose language",
-    "skip": "Skip to content"
+    "skip": "Skip to content",
+    "home": "Sudut Desa home"
   },
   "footer": {
     "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
@@ -18,16 +19,6 @@
     "about_link": "About the programme",
     "credit": "© {year} HIMA Information Systems, SATU University",
     "tagline": "Village specialities"
-  },
-  "nota": {
-    "name": "Item",
-    "unit": "Unit",
-    "price": "Price"
-  },
-  "stamp": {
-    "verified": "Village verified",
-    "demo": "Demo data",
-    "partner": "Partner village"
   },
   "status": {
     "open": "Open",
@@ -48,15 +39,16 @@
     "sun": "Sunday"
   },
   "home": {
-    "heroTitle": "Village specialities, straight from the makers.",
-    "heroSubtitle": "Find cassava chips, coffee, bamboo crafts and farm produce from villages across West Java. Write your order, send it on WhatsApp, and talk to the maker directly.",
     "searchLabel": "Search products",
     "searchPlaceholder": "Search chips, coffee, crafts…",
     "searchSubmit": "Search",
-    "sealsCaption": "Tap a stamp to enter the village",
-    "latestTitle": "Today's nota",
-    "latestAside": "Latest products from partner villages",
-    "seeAll": "See all products",
+    "heroTitle": "Village specialities, straight from the makers.",
+    "heroSubtitle": "Shop cassava chips, coffee, bamboo crafts and farm produce from villages across West Java. Order on WhatsApp, no middleman.",
+    "categoriesTitle": "Shop by category",
+    "villagesTitle": "Explore villages",
+    "villagesAside": "Every product has an origin and a story",
+    "latestTitle": "Latest products",
+    "seeAll": "See all",
     "howTitle": "How to order",
     "how": {
       "1": {
@@ -64,31 +56,28 @@
         "body": "Browse by village or search by name."
       },
       "2": {
-        "title": "Write the nota",
-        "body": "Fill in quantity, your name and a note on the order slip."
+        "title": "Chat the seller",
+        "body": "Choose a quantity, then open WhatsApp with your order already written."
       },
       "3": {
-        "title": "Send it to the maker",
-        "body": "The nota opens in the seller's WhatsApp. Payment and delivery are agreed directly."
+        "title": "Agree directly",
+        "body": "Payment and delivery are arranged directly with the maker."
       }
     },
     "trust": {
       "verified": {
-        "stamp": "Village verified",
+        "title": "Village verified",
         "body": "Every business is checked and approved by its village admin before it appears."
       },
       "direct": {
-        "stamp": "Straight to the maker",
+        "title": "Straight to the maker",
         "body": "No middleman and no commission — your money reaches the maker."
       },
       "mentored": {
-        "stamp": "Mentored by HIMA SI",
+        "title": "Mentored by HIMA SI",
         "body": "SATU University students help each business prepare its products."
       }
-    },
-    "villagesEmpty": "No villages yet.",
-    "latestEmpty": "No products yet.",
-    "latestDemo": "All businesses and products in this list are demo data. Desa Baros is the real pilot village; the other villages are demo data too."
+    }
   },
   "explore": {
     "title": "Explore products",
@@ -107,14 +96,20 @@
     "emptyBody": "Try another word, or clear the regency and category filters.",
     "prev": "Previous",
     "next": "Next",
-    "page": "Page {page} of {pages}"
+    "page": "Page {page} of {pages}",
+    "filters": "Filters",
+    "allCategories": "All"
   },
   "village": {
-    "businessCount": "{count, plural, =0 {No businesses yet} one {# business} other {# businesses}}",
-    "productCount": "{count, plural, =0 {no products yet} one {# product} other {# products}}",
+    "products": "Products from {village}",
+    "productsEmpty": "No products yet.",
     "businessesTitle": "Businesses in {village}",
-    "seeAll": "All products from {business}",
-    "demoNotice": "The businesses and products on this page are demo data. Real data from residents will replace them.",
+    "about": "About the village",
+    "stats": "{businesses} businesses · {products} products",
+    "seeAll": "All products",
+    "verifiedNote": "Every business here has been verified by the village admin.",
+    "businessCount": "{count, plural, =0 {No businesses yet} other {# businesses}}",
+    "productCount": "{count, plural, =0 {no products yet} other {# products}}",
     "noBusinesses": "No verified businesses in this village yet."
   },
   "business": {
@@ -123,40 +118,34 @@
     "closedDay": "Closed",
     "noHours": "Opening hours not set yet.",
     "chat": "Chat with the seller",
-    "marketplaces": "Also on",
-    "productsTitle": "Items",
+    "marketplaces": "Also available on",
+    "productsTitle": "Products by {business}",
     "verifiedOn": "Verified {date}",
-    "village": "A business from {village}"
+    "origin": "From {village}",
+    "aboutTitle": "About the business"
   },
   "product": {
-    "by": "Made by {business}",
-    "from": "from {village}",
+    "by": "Sold by",
+    "fromVillage": "From the village",
     "per": "per {unit}",
     "description": "Description",
     "moreTitle": "More from {business}",
-    "photoPending": "Photo coming soon",
     "unavailable": "Out of stock",
-    "kind": "Kind"
+    "visitVillage": "Visit the village",
+    "visitShop": "View shop"
   },
   "order": {
-    "title": "Order nota",
-    "copy": "Seller's copy",
-    "to": "To",
-    "quantity": "Qty",
+    "quantity": "Quantity",
     "decrease": "Decrease",
     "increase": "Increase",
-    "name": "Name",
-    "nameHint": "Your name (optional)",
-    "note": "Note",
-    "noteHint": "e.g. extra spicy, deliver on Saturday",
+    "note": "Note for the seller",
+    "noteHint": "e.g. spicy, deliver on Saturday",
     "total": "Total",
-    "send": "Send nota on WhatsApp",
-    "sendHint": "WhatsApp opens with this nota (sent in Indonesian). Price and shipping are agreed with the seller.",
-    "unavailable": "This item is out of stock.",
-    "sent": "Sent",
-    "noWhatsApp": "The seller has not listed a WhatsApp number yet.",
-    "unavailableButton": "Out of stock",
-    "date": "Date {date}"
+    "send": "Order via WhatsApp",
+    "sendHint": "WhatsApp opens with this order. The final price and shipping are agreed directly with the seller.",
+    "unavailable": "This product is out of stock.",
+    "noWhatsApp": "The seller hasn't added a WhatsApp number yet.",
+    "unavailableButton": "Out of stock"
   },
   "about": {
     "title": "About Sudut Desa",
@@ -168,5 +157,8 @@
     "title": "Page not found",
     "body": "The product may no longer be sold, or the link has a typo.",
     "back": "Back to home"
+  },
+  "badge": {
+    "verified": "Village verified"
   }
 }

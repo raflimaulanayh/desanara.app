@@ -1,21 +1,20 @@
 import { formatRupiah } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
+import { ChevronRight, MapPin, Store } from 'lucide-react'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { DemoNotice } from '@/components/demo-notice'
-import { LocaleLink } from '@/components/link'
-import { NotaRow, NotaSheet } from '@/components/nota/nota'
-import { OpenStatusStamp } from '@/components/open-status'
-import { OrderSlip } from '@/components/order-slip'
-import { ProductPlate } from '@/components/product-plate'
-import { Stamp } from '@/components/stamp'
+import { OpenStatusBadge } from '@/components/open-status'
+import { OrderPanel } from '@/components/order-panel'
+import { ProductPhoto } from '@/components/product-photo'
 import { TrackView } from '@/components/track-view'
+import { VerifiedBadge } from '@/components/verified-badge'
+import { VillageLogo } from '@/components/village-logo'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
-import { localePath } from '@/lib/paths'
 import { getBusiness, getProduct } from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
+import { localePath } from '@/lib/paths'
 import { initialStatus } from '@/lib/status'
 
 export const revalidate = 300
@@ -38,10 +37,9 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function ProductPage({ params }: { params: Params }) {
   const { locale, product: slug } = await params
   setRequestLocale(locale)
-  const [t, tStamp, tVillage, product] = await Promise.all([
+  const [t, tb, product] = await Promise.all([
     getTranslations('product'),
-    getTranslations('stamp'),
-    getTranslations('village'),
+    getTranslations('business'),
     getProduct(slug),
   ])
   const business = await getBusiness(product.business.slug)
@@ -49,23 +47,26 @@ export default async function ProductPage({ params }: { params: Params }) {
   const name = pick(locale, product.name, product.nameEn)
   const description = pick(locale, product.description ?? '', product.descriptionEn)
   const webUrl = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000'
+  const village = business.village
+  const photos = product.images.length > 0 ? product.images : [null]
 
   return (
-    <VillageTheme theme={business.village.theme}>
+    <VillageTheme theme={village.theme}>
       <TrackView event={{ type: 'product_view', productSlug: product.slug }} />
-      <Container className="py-8 sm:py-12">
+      {/* pb reserves room for the sticky order bar on phones */}
+      <Container className="pt-5 pb-28 lg:pb-12">
         <nav aria-label="Breadcrumb" className="text-muted text-sm">
-          <ol className="flex flex-wrap items-center gap-x-2">
+          <ol className="flex flex-wrap items-center gap-x-1.5">
             <li>
-              <Link href={`/desa/${business.village.slug}`} className="hover:text-accent underline">
-                {business.village.name}
+              <Link href={`/desa/${village.slug}`} className="hover:text-accent font-medium">
+                {village.name}
               </Link>
             </li>
-            <li aria-hidden>/</li>
+            <ChevronRight className="size-3.5" aria-hidden />
             <li>
               <Link
-                href={`/desa/${business.village.slug}/${business.slug}`}
-                className="hover:text-accent underline"
+                href={`/desa/${village.slug}/${business.slug}`}
+                className="hover:text-accent font-medium"
               >
                 {business.name}
               </Link>
@@ -73,65 +74,43 @@ export default async function ProductPage({ params }: { params: Params }) {
           </ol>
         </nav>
 
-        {/* Mobile reading order: picture → name, price, order → description. Desktop: two columns. */}
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:grid-rows-[auto_auto_1fr] lg:gap-x-12 lg:gap-y-8">
-          <div className="lg:col-start-1 lg:row-start-1">
-            <ProductPlate
-              imageUrl={mediaUrl(product.images[0]?.key)}
-              alt={product.images[0]?.alt ?? name}
-              category={
-                product.category
-                  ? pick(locale, product.category.name, product.category.nameEn)
-                  : null
-              }
-              village={{
-                name: business.village.name,
-                region: business.village.regionName,
-                logoUrl: mediaUrl(business.village.logoKey),
-              }}
-              categoryLabel={t('kind')}
-              pendingLabel={t('photoPending')}
-            />
-          </div>
-          <div className="flex flex-col gap-6 lg:col-start-2 lg:row-span-3 lg:row-start-1">
-            <div className="border-accent border-b-[5px] border-double pb-4">
-              <h1 className="font-village text-foreground text-[clamp(2rem,6vw,3.25rem)] leading-[0.95] font-bold text-balance uppercase">
-                {name}
-              </h1>
-              <p className="text-muted mt-2">
-                {t('by', { business: business.name })} ·{' '}
-                {t('from', { village: business.village.name })}
-              </p>
-              <div className="mt-4 flex flex-wrap items-baseline gap-x-3 gap-y-2">
-                <span className="font-print text-accent text-4xl font-bold tabular-nums">
-                  {formatRupiah(product.price, loc)}
-                </span>
-                {product.unit ? (
-                  <span className="text-muted">{t('per', { unit: product.unit })}</span>
-                ) : null}
-                {!product.isAvailable ? (
-                  <Stamp tone="muted" rotate={-3}>
-                    {t('unavailable')}
-                  </Stamp>
-                ) : null}
-              </div>
-              <div className="mt-4 flex flex-wrap items-center gap-3">
-                {business.verifiedAt ? <Stamp rotate={-4}>{tStamp('verified')}</Stamp> : null}
-                <OpenStatusStamp
-                  initial={initialStatus(business, business.village.timezone)}
-                  hours={business.openingHours}
-                  closedUntil={business.closedUntil}
-                  closedNote={business.closedNote}
-                  timeZone={business.village.timezone}
+        <div className="mt-4 grid gap-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+          <div className="flex flex-col gap-2">
+            {photos.map((img, i) => (
+              <div key={img?.key ?? 'none'} className={i > 0 ? 'hidden sm:block' : undefined}>
+                <ProductPhoto
+                  src={mediaUrl(img?.key)}
+                  alt={img?.alt ?? name}
+                  category={product.category?.slug}
+                  priority={i === 0}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="aspect-[4/3] rounded-(--radius) sm:aspect-square"
                 />
               </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-5">
+            <div>
+              <h1 className="font-village text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-extrabold tracking-tight text-balance">
+                {name}
+              </h1>
+              <p className="mt-3 text-3xl font-extrabold tabular-nums">
+                {formatRupiah(product.price, loc)}
+                {product.unit ? (
+                  <span className="text-muted ml-2 text-base font-normal">
+                    {t('per', { unit: product.unit })}
+                  </span>
+                ) : null}
+              </p>
+              {product.category ? (
+                <p className="text-muted mt-1 text-sm">
+                  {pick(locale, product.category.name, product.category.nameEn)}
+                </p>
+              ) : null}
             </div>
 
-            {product.isSeed ? (
-              <DemoNotice label={tStamp('demo')}>{tVillage('demoNotice')}</DemoNotice>
-            ) : null}
-
-            <OrderSlip
+            <OrderPanel
               product={{
                 slug: product.slug,
                 name: product.name,
@@ -140,39 +119,105 @@ export default async function ProductPage({ params }: { params: Params }) {
               }}
               businessName={business.name}
               businessSlug={business.slug}
-              villageName={business.village.name}
+              villageName={village.name}
               whatsappNumber={business.whatsappNumber}
               productUrl={`${webUrl}${localePath(locale, `/produk/${product.slug}`)}`}
               available={product.isAvailable}
             />
-          </div>
-          <div className="lg:col-start-1 lg:row-start-2">
+
+            {/* The village is the differentiator: origin card right under the action */}
+            <section className="border-line overflow-hidden rounded-(--radius) border">
+              <Link
+                href={`/desa/${village.slug}`}
+                className="hover:bg-wash flex items-center gap-3 p-4 transition-colors"
+              >
+                <VillageLogo
+                  name={village.name}
+                  logoUrl={mediaUrl(village.logoKey)}
+                  accent="var(--accent)"
+                  size={52}
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="text-muted text-xs font-semibold">{t('fromVillage')}</p>
+                  <p className="font-village truncate text-lg font-extrabold">{village.name}</p>
+                  {village.regionName ? (
+                    <p className="text-muted flex items-center gap-1 text-sm">
+                      <MapPin className="size-3.5" aria-hidden />
+                      {village.regionName}
+                    </p>
+                  ) : null}
+                </div>
+                <ChevronRight className="text-muted size-5" aria-hidden />
+              </Link>
+              <Link
+                href={`/desa/${village.slug}/${business.slug}`}
+                className="border-line hover:bg-wash flex items-center gap-3 border-t p-4 transition-colors"
+              >
+                <span className="bg-wash-strong text-muted grid size-[52px] shrink-0 place-items-center rounded-full">
+                  <Store className="size-5" aria-hidden />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-muted text-xs font-semibold">{t('by')}</p>
+                  <p className="truncate font-bold">{business.name}</p>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                    {business.verifiedAt ? (
+                      <VerifiedBadge
+                        title={tb('verifiedOn', {
+                          date: new Intl.DateTimeFormat(loc === 'en' ? 'en-GB' : 'id-ID', {
+                            dateStyle: 'medium',
+                          }).format(new Date(business.verifiedAt)),
+                        })}
+                      />
+                    ) : null}
+                    <OpenStatusBadge
+                      showDetail={false}
+                      initial={initialStatus(business, village.timezone)}
+                      hours={business.openingHours}
+                      closedUntil={business.closedUntil}
+                      closedNote={business.closedNote}
+                      timeZone={village.timezone}
+                    />
+                  </div>
+                </div>
+                <ChevronRight className="text-muted size-5" aria-hidden />
+              </Link>
+            </section>
+
             {description ? (
               <section>
-                <h2 className="font-print text-nota-ink border-nota-ink border-b-2 pb-1 text-sm font-bold tracking-[0.16em] uppercase">
-                  {t('description')}
-                </h2>
-                <p className="mt-3 max-w-[68ch] text-lg leading-relaxed">{description}</p>
+                <h2 className="text-lg font-extrabold">{t('description')}</h2>
+                <p className="mt-2 max-w-[68ch] leading-relaxed whitespace-pre-line">
+                  {description}
+                </p>
               </section>
             ) : null}
           </div>
-          <div className="lg:col-start-1 lg:row-start-3">
-            {product.more.length > 0 ? (
-              <NotaSheet title={t('moreTitle', { business: business.name })}>
-                {product.more.map((m) => (
-                  <NotaRow
-                    key={m.slug}
-                    href={`/produk/${m.slug}`}
-                    name={pick(locale, m.name, m.nameEn)}
-                    unit={m.unit}
-                    price={formatRupiah(m.price, loc)}
-                    linkComponent={LocaleLink}
-                  />
-                ))}
-              </NotaSheet>
-            ) : null}
-          </div>
         </div>
+
+        {product.more.length > 0 ? (
+          <section className="mt-12">
+            <h2 className="text-xl font-extrabold">
+              {t('moreTitle', { business: business.name })}
+            </h2>
+            <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+              {product.more.map((m) => (
+                <li key={m.slug}>
+                  <Link
+                    href={`/produk/${m.slug}`}
+                    className="border-line flex h-full flex-col gap-1 rounded-(--radius) border p-3 transition-shadow hover:shadow-md"
+                  >
+                    <span className="line-clamp-2 text-sm font-medium">
+                      {pick(locale, m.name, m.nameEn)}
+                    </span>
+                    <span className="mt-auto pt-1 font-extrabold tabular-nums">
+                      {formatRupiah(m.price, loc)}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </Container>
     </VillageTheme>
   )
