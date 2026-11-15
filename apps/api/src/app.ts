@@ -1,11 +1,11 @@
 import type { Auth } from '@repo/auth/server'
 import type { Database } from '@repo/db'
 import { Scalar } from '@scalar/hono-api-reference'
-import { basicAuth } from 'hono/basic-auth'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
 import { secureHeaders } from 'hono/secure-headers'
+import { registerDocsAuth } from './lib/docs-auth'
 import { errorBody, handleError } from './lib/errors'
 import { createRouter } from './lib/router'
 import { sessionMiddleware } from './middleware/session'
@@ -19,10 +19,11 @@ import { villageRoutes } from './modules/villages/villages.routes'
 
 /**
  * Who may read the API reference (/docs, /openapi.json).
- * `open` locally, `basic` (HTTP Basic Auth) in production, `off` when production has no DOCS_PASSWORD.
+ * `open` locally, `password` (branded login page + signed cookie) in production, `off` when
+ * production has no DOCS_PASSWORD.
  */
 export type DocsAccess =
-  { mode: 'open' } | { mode: 'basic'; username: string; password: string } | { mode: 'off' }
+  { mode: 'open' } | { mode: 'password'; username: string; password: string } | { mode: 'off' }
 
 export interface AppDeps {
   db: Database
@@ -47,11 +48,6 @@ export function createApp({
   const app = createRouter()
 
   app.use('*', requestId())
-  if (docs.mode === 'basic') {
-    const guard = basicAuth({ username: docs.username, password: docs.password })
-    app.use('/docs', guard)
-    app.use('/openapi.json', guard)
-  }
   if (logRequests) app.use('*', logger())
   app.use('*', secureHeaders())
   app.use('*', cors({ origin: trustedOrigins, credentials: true, maxAge: 600 }))
@@ -76,13 +72,17 @@ export function createApp({
     .route('/v1', catalogRoutes)
 
   if (docs.mode !== 'off') {
+    if (docs.mode === 'password') {
+      const guard = registerDocsAuth(app, docs)
+      app.use('/docs', guard)
+      app.use('/openapi.json', guard)
+    }
     const docConfig = {
       openapi: '3.1.0',
       info: { title: 'Desanara API', version: '0.1.0' },
     } as const
     app.doc31('/openapi.json', docConfig)
-    // The document is embedded in the page instead of fetched from /openapi.json: Scalar's fetch
-    // does not resend basic-auth credentials, which made browsers re-prompt for the login forever.
+    // The document is embedded in the page, so the reference renders from a single request.
     let document: object | undefined
     app.get(
       '/docs',

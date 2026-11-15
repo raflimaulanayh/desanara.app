@@ -28,8 +28,10 @@ node -e "import('node:http').then(async h=>h.createServer((await import('./apps/
 
 ## API reference
 
-`/docs` (Scalar) and `/openapi.json` are open locally. In production they sit behind HTTP Basic Auth
-(`DOCS_USERNAME`, `DOCS_PASSWORD`); without `DOCS_PASSWORD` they are not served at all. This hides the reference only:
+`/docs` (Scalar) and `/openapi.json` are open locally. In production they sit behind a branded login page
+(`/docs/login`, `DOCS_USERNAME` + `DOCS_PASSWORD`) that sets a signed, HttpOnly, SameSite=Strict cookie for 8 hours;
+changing `DOCS_PASSWORD` signs everyone out, `/docs/logout` signs out. Without `DOCS_PASSWORD` they are not served
+at all. The page embeds the OpenAPI document, so it renders from one request. This hides the reference only:
 the API itself is still protected per endpoint by sessions and `can()`.
 
 ## Database connections

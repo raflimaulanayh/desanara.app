@@ -18,7 +18,7 @@ export function bootstrap(env: Env = loadEnv()) {
     cookieDomain: env.COOKIE_DOMAIN,
   })
   const docs: DocsAccess = env.DOCS_PASSWORD
-    ? { mode: 'basic', username: env.DOCS_USERNAME, password: env.DOCS_PASSWORD }
+    ? { mode: 'password', username: env.DOCS_USERNAME, password: env.DOCS_PASSWORD }
     : env.NODE_ENV === 'production'
       ? { mode: 'off' }
       : { mode: 'open' }

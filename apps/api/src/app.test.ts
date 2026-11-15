@@ -54,47 +54,75 @@ describe('api', () => {
 })
 
 describe('API reference access', () => {
-  const basic = createApp({
+  const creds = { username: 'desanara', password: 'correct-horse-battery' }
+  const locked = createApp({
     db,
     auth,
     trustedOrigins: [],
     logRequests: false,
-    docs: { mode: 'basic', username: 'desanara', password: 'correct-horse-battery' },
+    docs: { mode: 'password', ...creds },
   })
   const off = createApp({ db, auth, trustedOrigins: [], logRequests: false, docs: { mode: 'off' } })
-  const header = (u: string, p: string) => ({ Authorization: `Basic ${btoa(`${u}:${p}`)}` })
+  const form = (username: string, password: string) =>
+    new URLSearchParams({ username, password }).toString()
+  const login = (username: string, password: string) =>
+    locked.request('/docs/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: form(username, password),
+    })
+  const cookieOf = (res: Response) => (res.headers.get('Set-Cookie') ?? '').split(';')[0]!
 
-  test('protected docs require credentials', async () => {
-    const res = await basic.request('/docs')
+  test('without a session, /docs sends the browser to the login page', async () => {
+    const res = await locked.request('/docs')
+    expect(res.status).toBe(302)
+    expect(res.headers.get('Location')).toBe('/docs/login')
+    expect((await locked.request('/openapi.json')).status).toBe(401)
+  })
+
+  test('the login page is a branded form', async () => {
+    const html = await (await locked.request('/docs/login')).text()
+    expect(html).toContain('Dokumentasi API')
+    expect(html).toContain('autocomplete="current-password"')
+  })
+
+  test('wrong credentials stay on the form with an error', async () => {
+    const res = await login('desanara', 'wrong-password')
     expect(res.status).toBe(401)
-    // Without this header the browser shows the JSON body instead of a login prompt.
-    expect(res.headers.get('WWW-Authenticate')).toContain('Basic')
-    expect(((await res.json()) as { error: { code: string } }).error.code).toBe('UNAUTHENTICATED')
-    expect((await basic.request('/openapi.json')).status).toBe(401)
-    expect((await basic.request('/docs', { headers: header('desanara', 'wrong') })).status).toBe(
+    expect(res.headers.get('Set-Cookie')).toBeNull()
+    expect(await res.text()).toContain('role="alert"')
+  })
+
+  test('a correct login sets a strict, http-only session cookie and opens the docs', async () => {
+    const res = await login(creds.username, creds.password)
+    expect(res.status).toBe(303)
+    const setCookie = res.headers.get('Set-Cookie') ?? ''
+    expect(setCookie).toContain('HttpOnly')
+    expect(setCookie).toContain('SameSite=Strict')
+    const cookie = cookieOf(res)
+    const docs = await locked.request('/docs', { headers: { Cookie: cookie } })
+    expect(docs.status).toBe(200)
+    // The document is embedded, so the page needs no second request.
+    expect(await docs.text()).toContain('/v1/villages')
+    expect((await locked.request('/openapi.json', { headers: { Cookie: cookie } })).status).toBe(
+      200,
+    )
+  })
+
+  test('a forged cookie is rejected', async () => {
+    const forged = `desanara_docs=${Date.now() + 1e9}.AAAA`
+    expect((await locked.request('/openapi.json', { headers: { Cookie: forged } })).status).toBe(
       401,
     )
   })
 
-  test('protected docs open with the right credentials', async () => {
-    const ok = header('desanara', 'correct-horse-battery')
-    expect((await basic.request('/docs', { headers: ok })).status).toBe(200)
-    expect((await basic.request('/openapi.json', { headers: ok })).status).toBe(200)
-  })
-
-  test('the docs page embeds the document, so it needs no second authenticated request', async () => {
-    const html = await (
-      await basic.request('/docs', { headers: header('desanara', 'correct-horse-battery') })
-    ).text()
-    expect(html).toContain('/v1/villages')
-  })
-
   test('protection does not touch the public API', async () => {
-    expect((await basic.request('/health')).status).toBe(200)
+    expect((await locked.request('/health')).status).toBe(200)
   })
 
   test('docs can be switched off entirely', async () => {
     expect((await off.request('/docs')).status).toBe(404)
+    expect((await off.request('/docs/login')).status).toBe(404)
     expect((await off.request('/openapi.json')).status).toBe(404)
   })
 })

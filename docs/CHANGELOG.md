@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-15 — Halaman login bermerek untuk dokumentasi API
+
+- **Area**: apps/api, docs
+- **Jenis**: Changed | Security
+- Dialog login bawaan browser (Basic Auth) diganti halaman `/docs/login` bergaya Desanara: logo, warna hijau/krem, tombol lihat kata sandi, pesan salah yang jelas. Setelah masuk, browser menyimpan cookie bertanda tangan (HttpOnly, Secure, SameSite=Strict) selama 8 jam; `/docs/logout` untuk keluar; mengganti `DOCS_PASSWORD` mengeluarkan semua sesi. Percobaan salah diberi jeda singkat.
+- Terkait: ADR 0009
+
 ## 2026-11-15 — Dokumentasi API dikunci di production
 
 - **Area**: apps/api, docs
