@@ -1,4 +1,4 @@
-# Dokumentasi Sudut Desa
+# Dokumentasi Desanara
 
 Mulai dari [`../AGENTS.md`](../AGENTS.md) untuk aturan kerja dan peta repo.
 
@@ -29,7 +29,7 @@ Mulai dari [`../AGENTS.md`](../AGENTS.md) untuk aturan kerja dan peta repo.
 
 ## Brand
 
-- [Panduan brand Sudut Desa](brand/README.md) — logo, warna, tipografi, aturan pakai, aset
+- [Panduan brand Desanara](brand/README.md) — logo, warna, tipografi, aturan pakai, aset
 
 ## Rencana & riwayat
 

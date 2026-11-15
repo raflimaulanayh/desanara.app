@@ -1,15 +1,19 @@
 ---
-name: Sudut Desa
-description: Sudut Desa — a friendly village marketplace where every product carries its village's name, colour and story.
+name: Desanara
+description: Desanara — a friendly village marketplace where every product carries its village's name, colour and story.
 colors:
-  brand-violet: '#5b21b6'
+  brand-green: '#0f5a37'
+  leaf: '#5e8f3e'
+  sun: '#e3a84f'
+  clay: '#c2612c'
+  logo-soil: '#cb8b41'
   paper: '#ffffff'
   ink: '#1c1917'
   muted: '#57534e'
-  wash: '#f7f5f2'
-  wash-strong: '#efebe5'
-  line: '#e7e2da'
-  line-strong: '#cfc8bd'
+  wash: '#f9f4e7'
+  wash-strong: '#f1e8d3'
+  line: '#e8dfcb'
+  line-strong: '#d2c4a8'
   whatsapp-green: '#0f7a3f'
   open-green: '#15803d'
   pause-amber: '#b45309'
@@ -28,7 +32,7 @@ typography:
 rounded: { default: '0.75rem (--radius, village-adjustable)', pill: '9999px' }
 ---
 
-# Design System: Sudut Desa
+# Design System: Desanara
 
 ## Overview
 
@@ -39,13 +43,22 @@ Replaces the earlier "Buku Nota & Stempel" concept (rejected 2026-11-03: too met
 
 ## Colors
 
-- **Brand violet** `#5b21b6`: platform accent (logo, primary buttons, links, search submit). Inside a village page the
-  accent becomes that village's own colour (ADR 0007).
+- **Desanara green** `#0f5a37`: platform accent (primary buttons, links, search submit). White on it 8.3:1. Inside a
+  village page the accent becomes that village's own colour (ADR 0007).
+- **Secondary palette** (tokens `leaf`, `sun`, `clay`): decoration, illustration and highlights only.
+  `sun` `#e3a84f` takes dark text (8.3:1); `leaf` `#5e8f3e` (3.8:1) and `clay` `#c2612c` (4.2:1 with white) only for large
+  text (≥ 19 px bold) or non-text shapes. `logo-soil` `#cb8b41` is the logo's orange and stays inside the logo.
 - **WhatsApp green** `#0f7a3f`: only for ordering/chat actions, in every village, so the action is always recognised.
-- **Neutrals**: white surfaces, warm `wash` backgrounds for sections and tiles, `line` borders. Text is warm near-black.
+- **Neutrals**: white surfaces (cards), warm cream `wash` `#f9f4e7` backgrounds for sections and tiles, `line` borders.
+  Text is warm near-black.
 - **Status**: green = open, amber = temporarily closed, neutral = closed. Verified uses the accent-soft tint.
 - Rules: no gradients except the village cover when it has no banner; no pure `#000`; village accents keep 3:1 contrast
   on white (enforced in code) and are used for headings, icons and badges, not for body text.
+
+## Logo
+
+Vector masters in `docs/brand/desanara/` (one path per letter/element, ids for motion); served copies in
+`apps/web/public/brand/`. Use the `Logo` / `LogoMark` components; never re-type the wordmark in a font. Rules: `docs/brand/README.md`.
 
 ## Typography
 
