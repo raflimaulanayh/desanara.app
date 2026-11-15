@@ -29,9 +29,19 @@
   | 500  | `INTERNAL`                                                |
 
 - Pagination: `?page=1&pageSize=20`, `pageSize ≤ 50` (`paginationSchema`).
+- **Public vs private.** Public, cacheable reads use slugs (`/v1/businesses/{slug}`). Everything the
+  dashboard reads or writes lives under **`/v1/manage/*`**, addressed by uuid, behind `requireUser`, and
+  answered with `Cache-Control: no-store`. Example: `/v1/manage/businesses` (list, create),
+  `/v1/manage/businesses/{id}` (get, `PATCH`, `DELETE`), `/{id}/verify|publish|unpublish|takedown|restore`.
+- `PATCH` is partial: a missing field is unchanged, `null` or `""` clears it. Never give update schemas
+  defaults (a default silently overwrites stored data on every edit).
+- Private responses include `permissions` (booleans from `can()`) so the dashboard can show the right
+  buttons without duplicating the rules.
+- A broken business rule is `409 CONFLICT` with a stable `details.reason` code (e.g. `NOT_VERIFIED`).
 - Every response carries `X-Request-Id`; log it with errors.
 - Throw `AppError` (or let `assertCan` throw `ForbiddenError`) — `handleError` turns it into the envelope.
-- Mutations write an `audit_logs` row in the same transaction.
+- Mutations write an `audit_logs` row in the same transaction (`writeAudit()` in `apps/api/src/lib/audit.ts`;
+  updates store a field diff `{ field: { from, to } }`).
 - Webhooks (payments, later) must be idempotent and verified by signature.
 
 ## Client usage

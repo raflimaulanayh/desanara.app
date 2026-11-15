@@ -15,6 +15,17 @@ Format:
 
 ---
 
+## 2026-11-15 — API kelola UMKM untuk dashboard
+
+- **Area**: apps/api, packages/db, packages/auth, packages/validators, .github, docs
+- **Jenis**: Added | Fixed
+- Endpoint baru `/v1/manage/businesses` (login wajib, tidak di-cache): daftar sesuai hak akses, buat UMKM (slug dibuat otomatis dari nama), ubah, verifikasi/tolak oleh admin desa (penolakan wajib beralasan, setelah diedit otomatis kembali menunggu), publish/unpublish, takedown/pulihkan, dan hapus (soft delete, khusus admin desa). Publish ditolak bila belum diverifikasi, belum ada persetujuan, tanpa nomor WA, atau sedang ditakedown. Setiap perubahan tercatat di `audit_logs`, termasuk penggantian nomor WA.
+- **Migrasi `0003_business_management`** (hanya menambah kolom): bukti persetujuan UU PDP (`consent_method`, `consent_recorded_by`), alasan verifikasi (`verification_note`), dan takedown (`taken_down_at`, `taken_down_by`, `takedown_reason`). UMKM yang ditakedown otomatis hilang dari halaman publik. Jalankan `bun run db:migrate`.
+- Action izin baru: `business.list_all`, `business.list`, `business.view`, `business.change_slug`, `business.delete`.
+- Perbaikan: skema ubah UMKM lama mencabut persetujuan pemilik di setiap edit (nilai bawaan `consentGiven: false`). Skema baru tidak punya nilai bawaan; field kosong berarti dihapus, field tidak dikirim berarti tidak berubah.
+- Test integrasi API memakai Postgres lokal lewat `TEST_DATABASE_URL` (ditolak bila bukan localhost); CI kini memigrasi database sebelum test.
+- Terkait: PLAN-mvp-seminar.md
+
 ## 2026-11-15 — Halaman login bermerek untuk dokumentasi API
 
 - **Area**: apps/api, docs

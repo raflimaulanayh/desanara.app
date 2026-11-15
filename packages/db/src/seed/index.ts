@@ -214,6 +214,8 @@ async function insertDemoData(tx: Database) {
           verifiedAt: b.verified ? new Date() : null,
           verifiedBy: b.verified ? adminId : null,
           consentAt: new Date(),
+          consentMethod: 'paper_form',
+          consentRecordedBy: assistantId ?? adminId,
           status: b.verified ? 'published' : 'draft',
           createdBy: assistantId ?? adminId,
           isSeed: true,

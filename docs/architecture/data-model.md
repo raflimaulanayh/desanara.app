@@ -25,7 +25,14 @@ erDiagram
 - Money: `products.price` is an integer in rupiah.
 - Status: `record_status` = draft | published | archived. Businesses also have
   `verification_status` = pending | verified | rejected (verified once by the village admin).
-- `businesses.consentAt` records UU PDP consent; required before publishing.
+- `businesses.consentAt` records UU PDP consent; required before publishing. `consentMethod`
+  (`paper_form` | `in_app`) and `consentRecordedBy` say how it was obtained and by whom, so consent can be
+  proven later. Staff record `paper_form` from the signed form; the owner confirms `in_app` at hand-over.
+- `businesses.verificationNote` holds the reason of the last review decision.
+- `businesses.takenDownAt` / `takenDownBy` / `takedownReason`: a village admin's takedown. Public queries
+  exclude taken-down businesses (`publicBusiness` in `apps/api/src/lib/visibility.ts`).
+- Business slugs are generated from the name by the API (`toSlug()` in `@repo/validators`, `-2`, `-3` … on
+  duplicates) and only village admins may change them (it breaks shared links).
 - `villages.theme` / `theme_draft` (JSONB) hold per-village branding; shape and rules in
 - `businesses.openingHours` (JSONB, `OpeningHours` in `@repo/validators`), `closedUntil`, `closedNote` drive the
   open/closed status, computed with `computeOpenStatus()` in the village time zone (`villages.timezone`,

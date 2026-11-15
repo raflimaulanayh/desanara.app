@@ -107,6 +107,42 @@ describe('can()', () => {
     expect(can(superAdmin, 'village.customize_theme', village)).toBe(true)
   })
 
+  test('only the super admin lists businesses of every village', () => {
+    expect(can(superAdmin, 'business.list_all', { type: 'platform' })).toBe(true)
+    for (const a of [villageAdmin, villageAssistant, owner]) {
+      expect(can(a, 'business.list_all', { type: 'platform' })).toBe(false)
+    }
+  })
+
+  test('village admin lists the businesses of their village only; assistants do not', () => {
+    expect(can(villageAdmin, 'business.list', { type: 'village', villageId: V1 })).toBe(true)
+    expect(can(villageAdmin, 'business.list', { type: 'village', villageId: V2 })).toBe(false)
+    expect(can(villageAssistant, 'business.list', { type: 'village', villageId: V1 })).toBe(false)
+    expect(can(owner, 'business.list', { type: 'village', villageId: V1 })).toBe(false)
+  })
+
+  test('members view their business; slug change and delete are village admin only', () => {
+    const b1 = { type: 'business', villageId: V1, businessId: B1 } as const
+    const b3 = { type: 'business', villageId: V2, businessId: B3 } as const
+    expect(can(owner, 'business.view', b1)).toBe(true)
+    expect(can(villageAssistant, 'business.view', b1)).toBe(true)
+    expect(can(owner, 'business.view', b3)).toBe(false)
+    for (const action of ['business.change_slug', 'business.delete'] as const) {
+      expect(can(villageAdmin, action, b1)).toBe(true)
+      expect(can(villageAdmin, action, b3)).toBe(false)
+      expect(can(owner, action, b1)).toBe(false)
+      expect(can(villageAssistant, action, b1)).toBe(false)
+      expect(can(superAdmin, action, b3)).toBe(true)
+    }
+  })
+
+  test('takedown is a village admin decision', () => {
+    const village = { type: 'village', villageId: V1 } as const
+    expect(can(villageAdmin, 'business.takedown', village)).toBe(true)
+    expect(can(villageAssistant, 'business.takedown', village)).toBe(false)
+    expect(can(owner, 'business.takedown', village)).toBe(false)
+  })
+
   test('assertCan throws ForbiddenError', () => {
     expect(() => assertCan(owner, 'village.update', { type: 'village', villageId: V1 })).toThrow(
       ForbiddenError,

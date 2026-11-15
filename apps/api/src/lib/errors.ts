@@ -34,6 +34,10 @@ export class AppError extends Error {
   static unauthenticated() {
     return new AppError(401, 'UNAUTHENTICATED', 'Login required')
   }
+  /** 409. `reason` is a stable machine code the dashboard can translate (in `details.reason`). */
+  static conflict(message: string, reason: string) {
+    return new AppError(409, 'CONFLICT', message, { reason })
+  }
 }
 
 export function errorBody(c: Context<AppEnv>, code: ErrorCode, message: string, details?: unknown) {

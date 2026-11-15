@@ -6,6 +6,8 @@ export const villageRole = pgEnum('village_role', ['village_admin', 'village_ass
 export const businessRole = pgEnum('business_role', ['owner', 'assistant'])
 export const recordStatus = pgEnum('record_status', ['draft', 'published', 'archived'])
 export const verificationStatus = pgEnum('verification_status', ['pending', 'verified', 'rejected'])
+/** How UU PDP consent was obtained: signed paper form (recorded by staff) or confirmed by the owner in-app. */
+export const consentMethod = pgEnum('consent_method', ['paper_form', 'in_app'])
 export const invitationTarget = pgEnum('invitation_target', ['village', 'business'])
 export const invitationStatus = pgEnum('invitation_status', [
   'pending',

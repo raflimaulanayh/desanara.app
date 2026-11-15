@@ -1,7 +1,7 @@
 import { index, jsonb, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core'
 import { seedFlag, softDelete, timestamps } from './_shared'
 import { users } from './auth'
-import { businessRole, recordStatus, verificationStatus } from './enums'
+import { businessRole, consentMethod, recordStatus, verificationStatus } from './enums'
 import { villages } from './villages'
 
 /** A UMKM (micro/small business) that belongs to exactly one village. */
@@ -34,8 +34,17 @@ export const businesses = pgTable(
     verificationStatus: verificationStatus().notNull().default('pending'),
     verifiedAt: timestamp({ withTimezone: true }),
     verifiedBy: text().references(() => users.id),
+    /** Reason given by the village admin on the last decision (shown to the assistant on rejection). */
+    verificationNote: text(),
     /** When the owner consented to publishing their data (UU PDP). Required before publish. */
     consentAt: timestamp({ withTimezone: true }),
+    /** Who recorded the consent (staff for a paper form, the owner for in-app). */
+    consentRecordedBy: text().references(() => users.id),
+    consentMethod: consentMethod(),
+    /** Set by a village admin; while set the business is hidden and cannot be republished. */
+    takenDownAt: timestamp({ withTimezone: true }),
+    takenDownBy: text().references(() => users.id),
+    takedownReason: text(),
     status: recordStatus().notNull().default('draft'),
     createdBy: text().references(() => users.id),
     updatedBy: text().references(() => users.id),

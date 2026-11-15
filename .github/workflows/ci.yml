@@ -23,6 +23,7 @@ jobs:
           --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/umkm_app
+      TEST_DATABASE_URL: postgres://postgres:postgres@localhost:5432/umkm_app
       BETTER_AUTH_SECRET: ci-secret-ci-secret-ci-secret
     steps:
       - uses: actions/checkout@v4
@@ -32,8 +33,6 @@ jobs:
       - run: bun install --frozen-lockfile
       - name: Format
         run: bun run format:check
-      - name: Lint, typecheck, test
-        run: bunx turbo run lint check-types test
       - name: Migrations match the schema
         run: |
           bun run --cwd packages/db generate --name ci_check
@@ -42,10 +41,14 @@ jobs:
             git status --porcelain packages/db/drizzle
             exit 1
           fi
-      - name: Migrate and seed a fresh database
+      - name: Migrate a fresh database
+        run: cd packages/db && bunx drizzle-kit migrate
+      # API integration tests need the migrated database (TEST_DATABASE_URL).
+      - name: Lint, typecheck, test
+        run: bunx turbo run lint check-types test
+      - name: Seed and reset the demo data
         run: |
           cd packages/db
-          bunx drizzle-kit migrate
           bun src/seed/index.ts
           bun src/seed/index.ts --reset
       - name: Build apps
