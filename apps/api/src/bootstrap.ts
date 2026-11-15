@@ -1,6 +1,6 @@
 import { createAuth } from '@repo/auth/server'
 import { createDb } from '@repo/db'
-import { createApp } from './app'
+import { createApp, type DocsAccess } from './app'
 import { type Env, loadEnv } from './env'
 
 /**
@@ -17,6 +17,11 @@ export function bootstrap(env: Env = loadEnv()) {
     trustedOrigins: env.TRUSTED_ORIGINS,
     cookieDomain: env.COOKIE_DOMAIN,
   })
-  const app = createApp({ db, auth, trustedOrigins: env.TRUSTED_ORIGINS })
+  const docs: DocsAccess = env.DOCS_PASSWORD
+    ? { mode: 'basic', username: env.DOCS_USERNAME, password: env.DOCS_PASSWORD }
+    : env.NODE_ENV === 'production'
+      ? { mode: 'off' }
+      : { mode: 'open' }
+  const app = createApp({ db, auth, trustedOrigins: env.TRUSTED_ORIGINS, docs })
   return { env, app }
 }

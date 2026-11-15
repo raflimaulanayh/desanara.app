@@ -26,6 +26,12 @@ bun run --cwd apps/api build:vercel
 node -e "import('node:http').then(async h=>h.createServer((await import('./apps/api/.vercel/output/functions/index.func/index.mjs')).default).listen(8799))"
 ```
 
+## API reference
+
+`/docs` (Scalar) and `/openapi.json` are open locally. In production they sit behind HTTP Basic Auth
+(`DOCS_USERNAME`, `DOCS_PASSWORD`); without `DOCS_PASSWORD` they are not served at all. This hides the reference only:
+the API itself is still protected per endpoint by sessions and `can()`.
+
 ## Database connections
 
 | Who                      | Supabase string                    | Why                                                      |

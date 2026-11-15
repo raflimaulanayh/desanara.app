@@ -23,6 +23,13 @@ const envSchema = z.object({
         .map((o) => o.trim())
         .filter(Boolean),
     ),
+  /** Login for /docs and /openapi.json. Without DOCS_PASSWORD, production serves no API reference at all. */
+  DOCS_USERNAME: z.string().min(1).default('desanara'),
+  DOCS_PASSWORD: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined)
+    .pipe(z.string().min(12).optional()),
   COOKIE_DOMAIN: z
     .string()
     .optional()

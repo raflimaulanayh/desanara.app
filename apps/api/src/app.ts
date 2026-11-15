@@ -1,6 +1,7 @@
 import type { Auth } from '@repo/auth/server'
 import type { Database } from '@repo/db'
 import { Scalar } from '@scalar/hono-api-reference'
+import { basicAuth } from 'hono/basic-auth'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { requestId } from 'hono/request-id'
@@ -16,11 +17,19 @@ import { eventRoutes } from './modules/events/events.routes'
 import { regionRoutes } from './modules/regions/regions.routes'
 import { villageRoutes } from './modules/villages/villages.routes'
 
+/**
+ * Who may read the API reference (/docs, /openapi.json).
+ * `open` locally, `basic` (HTTP Basic Auth) in production, `off` when production has no DOCS_PASSWORD.
+ */
+export type DocsAccess =
+  { mode: 'open' } | { mode: 'basic'; username: string; password: string } | { mode: 'off' }
+
 export interface AppDeps {
   db: Database
   auth: Auth
   trustedOrigins: string[]
   logRequests?: boolean
+  docs?: DocsAccess
 }
 
 /**
@@ -28,10 +37,21 @@ export interface AppDeps {
  * Add a module: create src/modules/<name>/{<name>.routes,service,repository,schema}.ts
  * and chain `.route('/v1/<name>', <name>Routes)` below (keep the chain for RPC types).
  */
-export function createApp({ db, auth, trustedOrigins, logRequests = true }: AppDeps) {
+export function createApp({
+  db,
+  auth,
+  trustedOrigins,
+  logRequests = true,
+  docs = { mode: 'open' },
+}: AppDeps) {
   const app = createRouter()
 
   app.use('*', requestId())
+  if (docs.mode === 'basic') {
+    const guard = basicAuth({ username: docs.username, password: docs.password })
+    app.use('/docs', guard)
+    app.use('/openapi.json', guard)
+  }
   if (logRequests) app.use('*', logger())
   app.use('*', secureHeaders())
   app.use('*', cors({ origin: trustedOrigins, credentials: true, maxAge: 600 }))
@@ -55,11 +75,13 @@ export function createApp({ db, auth, trustedOrigins, logRequests = true }: AppD
     .route('/v1/events', eventRoutes)
     .route('/v1', catalogRoutes)
 
-  app.doc31('/openapi.json', {
-    openapi: '3.1.0',
-    info: { title: 'Desanara API', version: '0.1.0' },
-  })
-  app.get('/docs', Scalar({ url: '/openapi.json', pageTitle: 'Desanara API' }))
+  if (docs.mode !== 'off') {
+    app.doc31('/openapi.json', {
+      openapi: '3.1.0',
+      info: { title: 'Desanara API', version: '0.1.0' },
+    })
+    app.get('/docs', Scalar({ url: '/openapi.json', pageTitle: 'Desanara API' }))
+  }
 
   app.notFound((c) => c.json(errorBody(c, 'NOT_FOUND', 'Route not found'), 404))
   app.onError(handleError)

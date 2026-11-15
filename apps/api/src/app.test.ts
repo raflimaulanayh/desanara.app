@@ -52,3 +52,38 @@ describe('api', () => {
     expect(Object.keys(doc.paths)).toContain('/v1/villages')
   })
 })
+
+describe('API reference access', () => {
+  const basic = createApp({
+    db,
+    auth,
+    trustedOrigins: [],
+    logRequests: false,
+    docs: { mode: 'basic', username: 'desanara', password: 'correct-horse-battery' },
+  })
+  const off = createApp({ db, auth, trustedOrigins: [], logRequests: false, docs: { mode: 'off' } })
+  const header = (u: string, p: string) => ({ Authorization: `Basic ${btoa(`${u}:${p}`)}` })
+
+  test('protected docs require credentials', async () => {
+    expect((await basic.request('/docs')).status).toBe(401)
+    expect((await basic.request('/openapi.json')).status).toBe(401)
+    expect((await basic.request('/docs', { headers: header('desanara', 'wrong') })).status).toBe(
+      401,
+    )
+  })
+
+  test('protected docs open with the right credentials', async () => {
+    const ok = header('desanara', 'correct-horse-battery')
+    expect((await basic.request('/docs', { headers: ok })).status).toBe(200)
+    expect((await basic.request('/openapi.json', { headers: ok })).status).toBe(200)
+  })
+
+  test('protection does not touch the public API', async () => {
+    expect((await basic.request('/health')).status).toBe(200)
+  })
+
+  test('docs can be switched off entirely', async () => {
+    expect((await off.request('/docs')).status).toBe(404)
+    expect((await off.request('/openapi.json')).status).toBe(404)
+  })
+})

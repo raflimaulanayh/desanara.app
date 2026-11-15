@@ -16,11 +16,11 @@ Detail teknis: `docs/architecture/deployment.md`. Keputusan: ADR 0009 (semua di 
 
 ### 2. Vercel (tiga project dari repo GitHub yang sama)
 
-| Project              | Root directory   | Env (Production + Preview)                                                                                                                                                                   |
-| -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `desanara-api`       | `apps/api`       | `DATABASE_URL` (transaction pooler), `DB_POOL_MAX=2`, `BETTER_AUTH_SECRET`, `API_URL`, `AUTH_BASE_URL` (= URL dashboard), `TRUSTED_ORIGINS` (= URL web,URL dashboard), `NODE_ENV=production` |
-| `desanara-web`       | `apps/web`       | `API_URL`, `NEXT_PUBLIC_API_URL` (= URL API), `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_DASHBOARD_URL`                                                                                             |
-| `desanara-dashboard` | `apps/dashboard` | `NEXT_PUBLIC_API_URL` (= URL dashboard sendiri), `API_PROXY_TARGET` (= URL API), `NEXT_PUBLIC_WEB_URL`                                                                                       |
+| Project              | Root directory   | Env (Production + Preview)                                                                                                                                                                                                                     |
+| -------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `desanara-api`       | `apps/api`       | `DATABASE_URL` (transaction pooler), `DB_POOL_MAX=2`, `BETTER_AUTH_SECRET`, `API_URL`, `AUTH_BASE_URL` (= URL dashboard), `TRUSTED_ORIGINS` (= URL web,URL dashboard), `NODE_ENV=production`, `DOCS_USERNAME`, `DOCS_PASSWORD` (login `/docs`) |
+| `desanara-web`       | `apps/web`       | `API_URL`, `NEXT_PUBLIC_API_URL` (= URL API), `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_DASHBOARD_URL`                                                                                                                                               |
+| `desanara-dashboard` | `apps/dashboard` | `NEXT_PUBLIC_API_URL` (= URL dashboard sendiri), `API_PROXY_TARGET` (= URL API), `NEXT_PUBLIC_WEB_URL`                                                                                                                                         |
 
 Pengaturan build sudah ada di `apps/*/vercel.json` (region Singapura `sin1`; API memakai `bun run build:vercel`).
 Saat import di Vercel, biarkan "Include files outside the root directory" menyala (monorepo).
@@ -34,7 +34,7 @@ di env di atas dan isi `COOKIE_DOMAIN=desanara.id` di API.
 
 1. CI hijau, merge ke `main` → ketiga project ter-deploy otomatis. Branch lain mendapat preview (memakai database yang sama).
 2. Ada migrasi baru? Jalankan `bun run db:migrate` dari laptop (session pooler) **sebelum** merge.
-3. Cek `https://<api>/health/ready` → `{"status":"ok","database":true}`.
+3. Cek `https://<api>/health/ready` → `{"status":"ok","database":true}`. Dokumentasi API (`/docs`) di production dikunci dengan `DOCS_USERNAME`/`DOCS_PASSWORD`; tanpa `DOCS_PASSWORD` halaman itu mati (404).
 4. Tambah tag rilis (`v0.1.0`) dan catat di CHANGELOG.
 
 ## Sebelum situs dibuka untuk umum

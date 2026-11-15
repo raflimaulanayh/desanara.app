@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-15 — Dokumentasi API dikunci di production
+
+- **Area**: apps/api, docs
+- **Jenis**: Security
+- `/docs` dan `/openapi.json` sekarang memakai HTTP Basic Auth bila `DOCS_PASSWORD` diisi, dan tidak tersedia sama sekali di production tanpa `DOCS_PASSWORD`. Lokal tetap terbuka. Env baru: `DOCS_USERNAME` (bawaan `desanara`), `DOCS_PASSWORD` (min. 12 karakter).
+- Terkait: ADR 0009
+
 ## 2026-11-15 — API siap di-deploy ke Vercel, database Supabase
 
 - **Area**: apps/api, apps/dashboard, apps/web, packages/db (seed), packages/config, docs
