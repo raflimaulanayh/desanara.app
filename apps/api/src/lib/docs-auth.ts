@@ -79,12 +79,12 @@ const escapeHtml = (s: string) =>
 
 function loginPage({ username = '', error = false }: { username?: string; error?: boolean }) {
   return `<!doctype html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Masuk · Dokumentasi API Desanara</title>
+<title>Sign in · Desanara API Reference</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -155,25 +155,25 @@ function loginPage({ username = '', error = false }: { username?: string; error?
 <body>
 <main>
   <div class="card">
-    <div class="brand">${BRAND_MARK_SVG}<span class="eyebrow">Dokumentasi API</span></div>
-    <h1>Masuk ke referensi API</h1>
-    <p class="lead">Halaman ini khusus tim pengembang Desanara.</p>
+    <div class="brand">${BRAND_MARK_SVG}<span class="eyebrow">API Reference</span></div>
+    <h1>Sign in to the API reference</h1>
+    <p class="lead">For the Desanara development team only.</p>
     ${
       error
-        ? `<p class="alert" role="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.01"/></svg>Nama pengguna atau kata sandi salah. Coba lagi.</p>`
+        ? `<p class="alert" role="alert"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v5M12 16.5v.01"/></svg>Incorrect username or password. Please try again.</p>`
         : ''
     }
     <form method="post" action="/docs/login" class="${error ? 'error' : ''}" novalidate>
       <div class="field">
-        <label for="username">Nama pengguna</label>
+        <label for="username">Username</label>
         <input id="username" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required value="${escapeHtml(username)}" ${username ? '' : 'autofocus'}>
       </div>
       <div class="field password">
-        <label for="password">Kata sandi</label>
+        <label for="password">Password</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required ${username ? 'autofocus' : ''}>
-        <button type="button" class="toggle" aria-controls="password" aria-pressed="false">Lihat</button>
+        <button type="button" class="toggle" aria-controls="password" aria-pressed="false">Show</button>
       </div>
-      <button type="submit">Masuk</button>
+      <button type="submit">Sign in</button>
     </form>
   </div>
 </main>
@@ -182,7 +182,7 @@ function loginPage({ username = '', error = false }: { username?: string; error?
   t.addEventListener('click', () => {
     const show = p.type === 'password';
     p.type = show ? 'text' : 'password';
-    t.textContent = show ? 'Sembunyikan' : 'Lihat';
+    t.textContent = show ? 'Hide' : 'Show';
     t.setAttribute('aria-pressed', String(show));
     p.focus();
   });

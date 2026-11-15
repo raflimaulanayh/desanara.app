@@ -82,7 +82,7 @@ describe('API reference access', () => {
 
   test('the login page is a branded form', async () => {
     const html = await (await locked.request('/docs/login')).text()
-    expect(html).toContain('Dokumentasi API')
+    expect(html).toContain('API Reference')
     expect(html).toContain('autocomplete="current-password"')
   })
 
