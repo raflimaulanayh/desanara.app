@@ -17,7 +17,7 @@ export async function SiteHeader() {
     <header className="bg-surface/95 border-line sticky top-0 z-20 border-b backdrop-blur-sm">
       <Container className="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5 md:flex-nowrap">
         <Link href="/" aria-label={t('home')} className="inline-flex h-10 shrink-0 items-center">
-          <Logo size="md" />
+          <Logo size="md" priority />
         </Link>
         <div className="order-3 w-full md:order-none md:max-w-xl md:flex-1">
           <SearchForm

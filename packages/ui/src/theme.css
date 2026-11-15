@@ -1,14 +1,14 @@
 /*
- * Sudut Desa design tokens on top of HeroUI v3 (CSS-first, Tailwind v4).
+ * Desanara design tokens on top of HeroUI v3 (CSS-first, Tailwind v4).
  * Import AFTER tailwindcss and @heroui/styles in each app's globals.css.
  *
- * World: a friendly village marketplace. White surfaces, warm neutral washes, one brand accent.
- * --accent is the platform violet on national pages and the village's own colour inside
+ * World: a friendly village marketplace. White surfaces, warm cream washes, one brand accent.
+ * --accent is the platform green on national pages and the village's own colour inside
  * [data-village-theme]. WhatsApp actions always use --wa so buyers recognise them. See DESIGN.md.
  */
 @layer theme {
   :root {
-    --accent: #5b21b6;
+    --accent: #0f5a37;
     --accent-foreground: #ffffff;
     --success: #15803d;
     --warning: #b45309;
@@ -20,11 +20,16 @@
     --surface: #ffffff;
     --muted: #57534e;
 
-    /* Warm neutrals for washes, tiles and borders */
-    --wash: #f7f5f2;
-    --wash-strong: #efebe5;
-    --line: #e7e2da;
-    --line-strong: #cfc8bd;
+    /* Warm cream neutrals for washes, tiles and borders (Desanara "Netral" #f9f4e7) */
+    --wash: #f9f4e7;
+    --wash-strong: #f1e8d3;
+    --line: #e8dfcb;
+    --line-strong: #d2c4a8;
+
+    /* Desanara secondary palette: decoration and highlights, not body text (see DESIGN.md) */
+    --leaf: #5e8f3e;
+    --sun: #e3a84f;
+    --clay: #c2612c;
 
     /* WhatsApp action (white text, 5.2:1) */
     --wa: #0f7a3f;
@@ -39,6 +44,9 @@
   --color-line-strong: var(--line-strong);
   --color-wa: var(--wa);
   --color-wa-hover: var(--wa-hover);
+  --color-leaf: var(--leaf);
+  --color-sun: var(--sun);
+  --color-clay: var(--clay);
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-village: var(--village-font, var(--font-jakarta)), ui-sans-serif, sans-serif;
 }

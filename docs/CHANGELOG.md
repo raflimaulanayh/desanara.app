@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-15 — Rebranding: Sudut Desa menjadi Desanara
+
+- **Area**: apps/web, apps/dashboard, apps/api, packages/ui, packages/i18n, packages/db (seed), docs
+- **Jenis**: Changed
+- Nama platform menjadi **Desanara** ("Ragam Karya, Cerita Nusantara."). Logo baru berupa SVG vektor murni (satu path per huruf/elemen dengan id, siap animasi) di `docs/brand/desanara/`, dipasang sebagai logo header/footer, favicon, ikon aplikasi, dan gambar share. Aset Sudut Desa dihapus.
+- Warna utama platform berubah dari ungu `#5b21b6` ke hijau `#0f5a37`, latar krem `#f9f4e7`, plus token sekunder `leaf`, `sun`, `clay`. Tombol WhatsApp tetap hijau WhatsApp; halaman desa tetap memakai warna desanya.
+- Akun demo pindah ke `@demo.desanara.test`: jalankan `bun run db:seed` agar akun lama diganti. Tata letak dari mockup brand guideline belum dikerjakan (fase 2, perlu diskusi).
+- Terkait: PLAN-rebranding.md
+
 ## 2026-11-03 — Foto contoh produk dan perbaikan logo desa yang rusak
 
 - **Area**: apps/web, packages/db (seed), docs

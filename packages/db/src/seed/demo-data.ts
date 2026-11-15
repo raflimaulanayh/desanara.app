@@ -7,7 +7,7 @@ import type { CategorySlug } from './reference-data'
  */
 
 export const DEMO_PASSWORD = 'demo12345'
-export const DEMO_EMAIL_DOMAIN = 'demo.sudutdesa.test'
+export const DEMO_EMAIL_DOMAIN = 'demo.desanara.test'
 
 export interface DemoProduct {
   slug: string
@@ -90,7 +90,7 @@ export const demoVillages: DemoVillage[] = [
     name: 'Desa Baros',
     regionCode: '32.04',
     description:
-      'Desa di Kecamatan Arjasari, Kabupaten Bandung, Jawa Barat — desa pilot program Sudut Desa bersama HIMA Sistem Informasi SATU University.',
+      'Desa di Kecamatan Arjasari, Kabupaten Bandung, Jawa Barat — desa pilot program Desanara bersama HIMA Sistem Informasi SATU University.',
     businesses: [
       {
         hours: everyDay('07:00', '17:00'),

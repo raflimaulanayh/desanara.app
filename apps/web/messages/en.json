@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Sudut Desa — Village specialities, straight from the makers",
+    "title": "Desanara — Village crafts and stories from across Indonesia",
     "description": "A catalogue of village small-business products. Find local specialities and souvenirs, then send your order straight to the maker on WhatsApp."
   },
   "nav": {
@@ -9,7 +9,7 @@
     "about": "About",
     "switchLanguage": "Choose language",
     "skip": "Skip to content",
-    "home": "Sudut Desa home"
+    "home": "Desanara home"
   },
   "footer": {
     "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
@@ -150,8 +150,8 @@
     "unavailableButton": "Out of stock"
   },
   "about": {
-    "title": "About Sudut Desa",
-    "lead": "Sudut Desa is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
+    "title": "About Desanara",
+    "lead": "Desanara is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
     "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
     "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency."
   },
