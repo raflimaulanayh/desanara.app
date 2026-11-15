@@ -48,7 +48,23 @@ export function handleError(err: Error, c: Context<AppEnv>) {
     return c.json(errorBody(c, 'FORBIDDEN', 'You are not allowed to do this'), 403)
   }
   if (err instanceof HTTPException) {
-    return c.json(errorBody(c, 'BAD_REQUEST', err.message), err.status)
+    // Middleware errors (basic auth, body limit, …). Keep their headers: a 401 from basic auth
+    // carries WWW-Authenticate, which is what makes the browser show its login prompt.
+    const code: ErrorCode =
+      err.status === 401
+        ? 'UNAUTHENTICATED'
+        : err.status === 403
+          ? 'FORBIDDEN'
+          : err.status === 404
+            ? 'NOT_FOUND'
+            : 'BAD_REQUEST'
+    const fallback = err.status === 401 ? 'Login required' : 'Bad request'
+    const res = c.json(errorBody(c, code, err.message || fallback), err.status)
+    err.getResponse().headers.forEach((value, key) => {
+      if (!['content-type', 'content-length'].includes(key.toLowerCase()))
+        res.headers.set(key, value)
+    })
+    return res
   }
   console.error(`[${c.get('requestId')}]`, err)
   return c.json(errorBody(c, 'INTERNAL', 'Internal server error'), 500)

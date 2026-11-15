@@ -65,7 +65,11 @@ describe('API reference access', () => {
   const header = (u: string, p: string) => ({ Authorization: `Basic ${btoa(`${u}:${p}`)}` })
 
   test('protected docs require credentials', async () => {
-    expect((await basic.request('/docs')).status).toBe(401)
+    const res = await basic.request('/docs')
+    expect(res.status).toBe(401)
+    // Without this header the browser shows the JSON body instead of a login prompt.
+    expect(res.headers.get('WWW-Authenticate')).toContain('Basic')
+    expect(((await res.json()) as { error: { code: string } }).error.code).toBe('UNAUTHENTICATED')
     expect((await basic.request('/openapi.json')).status).toBe(401)
     expect((await basic.request('/docs', { headers: header('desanara', 'wrong') })).status).toBe(
       401,

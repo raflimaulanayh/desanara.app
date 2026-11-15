@@ -20,6 +20,7 @@ Format:
 - **Area**: apps/api, docs
 - **Jenis**: Security
 - `/docs` dan `/openapi.json` sekarang memakai HTTP Basic Auth bila `DOCS_PASSWORD` diisi, dan tidak tersedia sama sekali di production tanpa `DOCS_PASSWORD`. Lokal tetap terbuka. Env baru: `DOCS_USERNAME` (bawaan `desanara`), `DOCS_PASSWORD` (min. 12 karakter).
+- Perbaikan: penangan error API sempat membuang header `WWW-Authenticate`, sehingga browser menampilkan JSON `BAD_REQUEST` alih-alih kotak login. Header dari middleware kini dipertahankan dan 401 berkode `UNAUTHENTICATED`.
 - Terkait: ADR 0009
 
 ## 2026-11-15 — API siap di-deploy ke Vercel, database Supabase
