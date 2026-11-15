@@ -2,7 +2,7 @@
 
 |         |                                                                                                                |
 | ------- | -------------------------------------------------------------------------------------------------------------- |
-| Status  | Approved (2026-11-15) — kode siap, menunggu login Vercel                                                       |
+| Status  | Done (2026-11-15) — live di Vercel + Supabase Singapura                                                        |
 | Owner   | HIMA Sistem Informasi                                                                                          |
 | Tanggal | 2026-11-14                                                                                                     |
 | Terkait | [ADR 0009](../adr/0009-api-on-vercel.md), [ADR 0003](../adr/0003-supabase-as-plain-postgres.md), deployment.md |
@@ -54,12 +54,12 @@ login tapi hanya ada satu project lama yang sedang dijeda. API masih diasumsikan
 
 ## 5. Langkah implementasi
 
-- [ ] 1. Persiapan (pemilik): ~~repo GitHub~~ (selesai, `raflimaulanayh/desanara.id`, public), ~~project Supabase Singapura~~ (selesai), `vercel login`, buat/izinkan project Supabase (lihat §10)
+- [x] 1. Persiapan (pemilik): ~~repo GitHub~~ (selesai, `raflimaulanayh/desanara.id`, public), ~~project Supabase Singapura~~ (selesai), `vercel login`, buat/izinkan project Supabase (lihat §10)
 - [x] 2. Kode: entry API untuk Vercel, pool DB, rewrites dashboard, `/health` + cron, `vercel.json` region
 - [x] 3. Uji lokal: `check:all`, `vercel build` untuk API, login dashboard lewat rewrites
-- [ ] 4. Supabase (1 project): migrasi + seed demo (dihapus dengan `db:seed:reset` sebelum situs dibuka umum)
-- [ ] 5. Vercel: 3 project, env Production dan Preview menunjuk ke database yang sama
-- [ ] 6. Deploy + smoke test: beranda, `/desa/baros`, produk, klik WA, login dashboard, `/docs` API
+- [x] 4. Supabase (1 project): migrasi + seed demo (dihapus dengan `db:seed:reset` sebelum situs dibuka umum)
+- [x] 5. Vercel: 3 project, env Production dan Preview menunjuk ke database yang sama
+- [x] 6. Deploy + smoke test: beranda, `/desa/baros`, produk, klik WA, login dashboard, `/docs` API
 - [x] 7. Docs + CHANGELOG, ADR 0009 → Accepted
 
 ## 6. Acceptance criteria
@@ -99,7 +99,8 @@ Fallback hosting API: Docker di VPS (`docker/docker-compose.prod.yml`) tetap ada
 
 ## 11. Revision notes
 
-| Tanggal    | Perubahan                                     |
-| ---------- | --------------------------------------------- |
-| 2026-11-14 | Draft awal                                    |
-| 2026-11-14 | Satu project Supabase dulu (bukan dev + prod) |
+| Tanggal    | Perubahan                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------------- |
+| 2026-11-14 | Draft awal                                                                                  |
+| 2026-11-14 | Satu project Supabase dulu (bukan dev + prod)                                               |
+| 2026-11-15 | Live: desanara-web/-dashboard/-api.vercel.app; API via Build Output API (bukan preset Hono) |

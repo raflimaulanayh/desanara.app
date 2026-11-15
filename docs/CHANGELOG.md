@@ -22,6 +22,7 @@ Format:
 - API dibundel Bun menjadi satu Vercel Function (Node 22, Build Output API, region Singapura) lewat `bun run build:vercel`; entry lokal (Bun) dan Vercel memakai `src/bootstrap.ts` yang sama. Endpoint baru `/health/ready` (ping database) dipanggil cron harian agar Supabase gratis tidak dijeda.
 - Dashboard meneruskan `/api/auth/*` dan `/v1/*` ke API bila `API_PROXY_TARGET` diisi, sehingga cookie login tetap milik domain dashboard di `*.vercel.app`. Env baru: `DB_POOL_MAX`, `AUTH_BASE_URL`, `API_PROXY_TARGET`, `SEED_DEMO_PASSWORD` (lihat `.env.example`).
 - Seed menolak database non-lokal tanpa `SEED_DEMO_PASSWORD`, karena kata sandi demo bawaan tertulis di repo publik. ADR 0009 diterima; panduan deploy dan setup lokal diperbarui.
+- Live 2026-11-15: https://desanara-web.vercel.app, https://desanara-dashboard.vercel.app, https://desanara-api.vercel.app (Supabase `ap-southeast-1`, sudah dimigrasi dan di-seed).
 - Terkait: PLAN-deploy-vercel-supabase.md, ADR 0009
 
 ## 2026-11-15 — Rebranding: Sudut Desa menjadi Desanara
