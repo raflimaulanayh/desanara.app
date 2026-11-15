@@ -149,8 +149,6 @@ function loginPage({ username = '', error = false }: { username?: string; error?
   button[type=submit]:hover { background: var(--green-hover); }
   button[type=submit]:active { transform: translateY(1px); }
   button[type=submit]:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
-  .note { margin: 18px 4px 0; text-align: center; color: var(--muted); font-size: 13px; }
-  .note strong { color: var(--ink); font-weight: 600; }
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
@@ -178,7 +176,6 @@ function loginPage({ username = '', error = false }: { username?: string; error?
       <button type="submit">Masuk</button>
     </form>
   </div>
-  <p class="note">Lupa kata sandi? Tanyakan ke <strong>pengelola project di Vercel</strong>.</p>
 </main>
 <script>
   const t = document.querySelector('.toggle'), p = document.getElementById('password');
