@@ -76,11 +76,21 @@ export function createApp({
     .route('/v1', catalogRoutes)
 
   if (docs.mode !== 'off') {
-    app.doc31('/openapi.json', {
+    const docConfig = {
       openapi: '3.1.0',
       info: { title: 'Desanara API', version: '0.1.0' },
-    })
-    app.get('/docs', Scalar({ url: '/openapi.json', pageTitle: 'Desanara API' }))
+    } as const
+    app.doc31('/openapi.json', docConfig)
+    // The document is embedded in the page instead of fetched from /openapi.json: Scalar's fetch
+    // does not resend basic-auth credentials, which made browsers re-prompt for the login forever.
+    let document: object | undefined
+    app.get(
+      '/docs',
+      Scalar(() => {
+        document ??= app.getOpenAPI31Document(docConfig)
+        return { content: document, pageTitle: 'Desanara API' }
+      }),
+    )
   }
 
   app.notFound((c) => c.json(errorBody(c, 'NOT_FOUND', 'Route not found'), 404))

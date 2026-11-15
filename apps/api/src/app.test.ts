@@ -82,6 +82,13 @@ describe('API reference access', () => {
     expect((await basic.request('/openapi.json', { headers: ok })).status).toBe(200)
   })
 
+  test('the docs page embeds the document, so it needs no second authenticated request', async () => {
+    const html = await (
+      await basic.request('/docs', { headers: header('desanara', 'correct-horse-battery') })
+    ).text()
+    expect(html).toContain('/v1/villages')
+  })
+
   test('protection does not touch the public API', async () => {
     expect((await basic.request('/health')).status).toBe(200)
   })
