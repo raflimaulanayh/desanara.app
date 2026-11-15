@@ -20,6 +20,12 @@ describe('api', () => {
     expect(((await res.json()) as { status: string }).status).toBe('ok')
   })
 
+  test('GET /health/ready reports an unreachable database as 503', async () => {
+    const res = await app.request('/health/ready')
+    expect(res.status).toBe(503)
+    expect(((await res.json()) as { database: boolean }).database).toBe(false)
+  })
+
   test('unknown route uses the error envelope', async () => {
     const res = await app.request('/nope')
     expect(res.status).toBe(404)

@@ -43,6 +43,19 @@ if (!databaseUrl) {
   process.exit(1)
 }
 
+/**
+ * Demo login password. The default (demo12345) is public in the repo, so any database that is not
+ * on this machine must get its own SEED_DEMO_PASSWORD (otherwise anyone could sign in as super admin).
+ */
+const isLocalDatabase = /@(localhost|127\.0\.0\.1|\[::1\])[:/]/.test(databaseUrl)
+const demoPassword = process.env.SEED_DEMO_PASSWORD || (isLocalDatabase ? DEMO_PASSWORD : '')
+if (!resetOnly && !demoPassword) {
+  console.error(
+    'Refusing to seed a non-local database with the public demo password. Set SEED_DEMO_PASSWORD in .env.',
+  )
+  process.exit(1)
+}
+
 /** All demo businesses share one WhatsApp number so demo clicks never reach strangers. */
 const demoWhatsApp = process.env.SEED_WHATSAPP_NUMBER || '6281200000000'
 
@@ -118,7 +131,7 @@ async function createDemoUser(
 }
 
 async function insertDemoData(tx: Database) {
-  const passwordHash = await hashPassword(DEMO_PASSWORD)
+  const passwordHash = await hashPassword(demoPassword)
   const email = (local: string) => `${local}@${DEMO_EMAIL_DOMAIN}`
   const categoryIds = Object.fromEntries(
     (await tx.select({ id: categories.id, slug: categories.slug }).from(categories)).map((c) => [
@@ -298,7 +311,7 @@ try {
       `Seeded ${demoVillages.length} villages, ${counts.length} businesses, ${result.products} published products, ${result.events} analytics events.`,
     )
     console.log(
-      `Demo accounts: *@${DEMO_EMAIL_DOMAIN} / password "${DEMO_PASSWORD}" (see docs/guides/seed-data.md)`,
+      `Demo accounts: *@${DEMO_EMAIL_DOMAIN} / password ${process.env.SEED_DEMO_PASSWORD ? 'from SEED_DEMO_PASSWORD' : `"${DEMO_PASSWORD}"`} (see docs/guides/seed-data.md)`,
     )
   })
   if (resetOnly) console.log('Demo data removed (reference data kept).')

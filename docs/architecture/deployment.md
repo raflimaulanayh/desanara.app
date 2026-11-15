@@ -1,44 +1,70 @@
 # Deployment
 
-| Component        | Where                                                  | How                                                                       |
-| ---------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `apps/web`       | Vercel project `umkm-web` → `<domain>`                 | Git integration, root `apps/web`, ignored build step on unrelated changes |
-| `apps/dashboard` | Vercel project `umkm-dashboard` → `dashboard.<domain>` | same                                                                      |
-| `apps/api`       | Campus VPS (fallback: rented VPS) → `api.<domain>`     | Docker image from `docker/api.Dockerfile`, Caddy for HTTPS                |
-| Postgres         | Supabase (plain Postgres) → later campus VPS           | `bun run db:migrate` from CI or the VPS                                   |
-| Files            | Cloudflare R2                                          | presigned uploads                                                         |
+Decision and reasons: [ADR 0009](../adr/0009-api-on-vercel.md). Step-by-step setup: [docs/guides/deploy.md](../guides/deploy.md).
+
+| Component        | Where                                                      | How                                                                         |
+| ---------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `apps/web`       | Vercel project `desanara-web` → `<domain>`                 | Git integration, root `apps/web`, Next.js preset, region `sin1`             |
+| `apps/dashboard` | Vercel project `desanara-dashboard` → `dashboard.<domain>` | same; proxies `/api/auth/*` and `/v1/*` to the API (`API_PROXY_TARGET`)     |
+| `apps/api`       | Vercel project `desanara-api` → `api.<domain>`             | root `apps/api`, `bun run build:vercel` → Build Output API, Node 22, `sin1` |
+| Postgres         | Supabase (plain Postgres, ADR 0003), `ap-southeast-1`      | Drizzle migrations from a laptop or CI through the session pooler           |
+| Files            | Cloudflare R2                                              | presigned uploads                                                           |
+| Fallback API     | VPS with Docker + Caddy (`docker/`)                        | same code, `bun src/index.ts`                                               |
+
+## API on Vercel
+
+`apps/api/vercel.json` sets `framework: null`, `buildCommand: bun run build:vercel`, `outputDirectory: .vercel/output`,
+`regions: ["sin1"]`. `scripts/build-vercel.ts` bundles `src/vercel.ts` (Hono app behind `@hono/node-server`'s
+request listener) with every workspace package into `functions/index.func/index.mjs`, routes every path to it, and
+registers a daily cron on `/health/ready` (DB ping; keeps Supabase Free from pausing).
+
+Check a build locally before pushing:
+
+```bash
+bun run --cwd apps/api build:vercel
+# run the bundle under Node against any database:
+node -e "import('node:http').then(async h=>h.createServer((await import('./apps/api/.vercel/output/functions/index.func/index.mjs')).default).listen(8799))"
+```
+
+## Database connections
+
+| Who                      | Supabase string                    | Why                                                      |
+| ------------------------ | ---------------------------------- | -------------------------------------------------------- |
+| API on Vercel            | Transaction pooler, port 6543      | many short-lived instances; `prepare: false` already set |
+| Laptop, migrations, seed | Session pooler, port 5432          | IPv4, supports everything Drizzle and the seed need      |
+| Never                    | Direct `db.<ref>.supabase.co:5432` | IPv6 only on the Free plan                               |
+
+`DB_POOL_MAX` limits connections per API instance (1–3 on Vercel, 10 locally).
+
+## Login across hosts
+
+Without a shared domain the apps live on separate `*.vercel.app` hosts, where a cookie set by the API host would be a
+third-party cookie for the dashboard (blocked by Safari). The dashboard therefore rewrites `/api/auth/*` and `/v1/*` to
+the API, and the browser only ever talks to the dashboard origin. API env: `AUTH_BASE_URL` = dashboard origin,
+`TRUSTED_ORIGINS` = web + dashboard origins. Dashboard env: `NEXT_PUBLIC_API_URL` = its own origin,
+`API_PROXY_TARGET` = API origin. With a custom domain later, `COOKIE_DOMAIN=<domain>` also works.
 
 ## Environments
 
-- `local`: Postgres from `docker/docker-compose.dev.yml` (or any local Postgres), seed data.
-- `demo/dev`: Supabase dev project, seeded; Vercel preview deployments.
-- `production`: separate Supabase project; seed only for the seminar demo, then cleaned (`db:seed:reset`).
-
-## API on the VPS
-
-```bash
-# on the VPS (Docker + Compose installed), repo checked out
-cp .env.example .env    # fill production values
-docker compose -f docker/docker-compose.prod.yml up -d --build
-docker compose -f docker/docker-compose.prod.yml run --rm api bun run --cwd packages/db migrate
-```
-
-Minimum VPS for API + Caddy: 1 vCPU, 1 GB RAM. If Postgres also moves to the VPS: 2 vCPU, 4 GB RAM.
+- `local`: Postgres on the laptop (or the Supabase session pooler), seed data.
+- `production` (+ Vercel previews for now): one Supabase project. A separate dev project once the team works in
+  parallel or real UMKM data arrives (previews currently write to the same database).
 
 ## Backups
 
-Nightly `pg_dump --format=custom` to R2 (cron on the VPS); keep 14 days. Test a restore once a month.
+Supabase Free keeps daily backups for 7 days (not downloadable). Before real data arrives, add a scheduled GitHub
+Action running `pg_dump --format=custom` through the session pooler to R2; keep 14 days.
 
-## Moving Postgres from Supabase to the VPS
+## Moving Postgres to a VPS
 
 ```bash
-pg_dump --format=custom --no-owner --no-acl "$SUPABASE_URL" > umkm.dump
-pg_restore --no-owner --dbname "$VPS_URL" umkm.dump
-# switch DATABASE_URL, restart the API
+pg_dump --format=custom --no-owner --no-acl "$SUPABASE_SESSION_URL" > desanara.dump
+pg_restore --no-owner --dbname "$VPS_URL" desanara.dump
+# switch DATABASE_URL in Vercel (or on the VPS), redeploy the API
 ```
 
 Same Postgres major version on both sides. Only standard extensions (`pg_trgm`, `unaccent`).
 
 ## Vercel Hobby limits
 
-Hobby is for non-commercial use. Move to Pro before enabling payments or any commercial traffic.
+Hobby is for non-commercial use, one cron per day per project. Move to Pro before enabling payments or any commercial traffic.

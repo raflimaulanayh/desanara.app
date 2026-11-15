@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-15 — API siap di-deploy ke Vercel, database Supabase
+
+- **Area**: apps/api, apps/dashboard, apps/web, packages/db (seed), packages/config, docs
+- **Jenis**: Added | Changed
+- API dibundel Bun menjadi satu Vercel Function (Node 22, Build Output API, region Singapura) lewat `bun run build:vercel`; entry lokal (Bun) dan Vercel memakai `src/bootstrap.ts` yang sama. Endpoint baru `/health/ready` (ping database) dipanggil cron harian agar Supabase gratis tidak dijeda.
+- Dashboard meneruskan `/api/auth/*` dan `/v1/*` ke API bila `API_PROXY_TARGET` diisi, sehingga cookie login tetap milik domain dashboard di `*.vercel.app`. Env baru: `DB_POOL_MAX`, `AUTH_BASE_URL`, `API_PROXY_TARGET`, `SEED_DEMO_PASSWORD` (lihat `.env.example`).
+- Seed menolak database non-lokal tanpa `SEED_DEMO_PASSWORD`, karena kata sandi demo bawaan tertulis di repo publik. ADR 0009 diterima; panduan deploy dan setup lokal diperbarui.
+- Terkait: PLAN-deploy-vercel-supabase.md, ADR 0009
+
 ## 2026-11-15 — Rebranding: Sudut Desa menjadi Desanara
 
 - **Area**: apps/web, apps/dashboard, apps/api, packages/ui, packages/i18n, packages/db (seed), docs
@@ -23,6 +32,13 @@ Format:
 - Warna utama platform berubah dari ungu `#5b21b6` ke hijau `#0f5a37`, latar krem `#f9f4e7`, plus token sekunder `leaf`, `sun`, `clay`. Tombol WhatsApp tetap hijau WhatsApp; halaman desa tetap memakai warna desanya.
 - Akun demo pindah ke `@demo.desanara.test`: jalankan `bun run db:seed` agar akun lama diganti. Tata letak dari mockup brand guideline belum dikerjakan (fase 2, perlu diskusi).
 - Terkait: PLAN-rebranding.md
+
+## 2026-11-14 — Rencana deploy ke Vercel dan Supabase
+
+- **Area**: docs (plan, ADR)
+- **Jenis**: Added
+- Draft rencana menaruh web, dashboard, dan API di Vercel dengan database Supabase (dev + production, Singapura), karena VPS kampus belum siap sampai batas 14 November. ADR 0009 (Proposed) menjadikan VPS sebagai cadangan. Belum ada perubahan kode atau deploy.
+- Terkait: PLAN-deploy-vercel-supabase.md, ADR 0009
 
 ## 2026-11-03 — Foto contoh produk dan perbaikan logo desa yang rusak
 

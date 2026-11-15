@@ -7,7 +7,16 @@ import tseslint from 'typescript-eslint'
  * Import boundaries live here so AI agents and humans get the same guard rails.
  */
 export const base = tseslint.config(
-  { ignores: ['**/node_modules/**', '**/dist/**', '**/.next/**', '**/.turbo/**', '**/drizzle/**'] },
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/.next/**',
+      '**/.turbo/**',
+      '**/drizzle/**',
+      '**/.vercel/**',
+    ],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

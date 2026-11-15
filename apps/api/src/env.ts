@@ -5,6 +5,14 @@ const envSchema = z.object({
   API_PORT: z.coerce.number().int().default(8787),
   API_URL: z.url().default('http://localhost:8787'),
   DATABASE_URL: z.string().min(1),
+  /** Connections per API instance. Keep small (1–3) on Vercel behind the Supabase transaction pooler. */
+  DB_POOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
+  /** Public origin for Better Auth when the API is reached through a proxy (the dashboard). Defaults to API_URL. */
+  AUTH_BASE_URL: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined)
+    .pipe(z.url().optional()),
   BETTER_AUTH_SECRET: z.string().min(16),
   TRUSTED_ORIGINS: z
     .string()

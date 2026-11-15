@@ -1,24 +1,41 @@
 # Panduan deploy
 
-Detail teknis: `docs/architecture/deployment.md`.
+Detail teknis: `docs/architecture/deployment.md`. Keputusan: ADR 0009 (semua di Vercel, database di Supabase).
 
 ## Sekali di awal
 
-1. Beli domain (dana HIMA), arahkan DNS: `@` dan `dashboard` → Vercel, `api` → IP VPS.
-2. Vercel: buat 2 project dari repo GitHub organisasi HIMA (root `apps/web` dan `apps/dashboard`), isi env dari `.env.example`.
-3. Supabase: buat project **dev** dan **production**; salin connection string ke `DATABASE_URL`.
-4. Cloudflare R2: buat bucket + custom domain `cdn.<domain>`, buat API token, isi env `R2_*`.
-5. VPS: pasang Docker, clone repo, isi `.env`, jalankan `docker compose -f docker/docker-compose.prod.yml up -d --build`.
-6. Production env API: `COOKIE_DOMAIN=<domain>`, `TRUSTED_ORIGINS=https://<domain>,https://dashboard.<domain>`,
-   `API_URL=https://api.<domain>`.
+### 1. Supabase
+
+1. Buat project di region **Southeast Asia (Singapore)**. Data API dan "expose new tables" dimatikan, automatic RLS
+   dinyalakan, GitHub integration dikosongkan.
+2. Tombol **Connect** → salin dua string, ganti `[YOUR-PASSWORD]` dengan password database (tanpa kurung siku):
+   - **Session pooler** (port 5432) → `DATABASE_URL` di `.env` laptop (untuk migrasi dan seed).
+   - **Transaction pooler** (port 6543) → `DATABASE_URL` di Vercel project API.
+   - Jangan pakai "Direct connection" (`db.<ref>.supabase.co`): di paket gratis hanya IPv6.
+3. Dari laptop: `bun run db:migrate`, lalu (untuk demo) `bun run db:seed` dengan `SEED_DEMO_PASSWORD` terisi di `.env`.
+
+### 2. Vercel (tiga project dari repo GitHub yang sama)
+
+| Project              | Root directory   | Env (Production + Preview)                                                                                                                                                                   |
+| -------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `desanara-api`       | `apps/api`       | `DATABASE_URL` (transaction pooler), `DB_POOL_MAX=2`, `BETTER_AUTH_SECRET`, `API_URL`, `AUTH_BASE_URL` (= URL dashboard), `TRUSTED_ORIGINS` (= URL web,URL dashboard), `NODE_ENV=production` |
+| `desanara-web`       | `apps/web`       | `API_URL`, `NEXT_PUBLIC_API_URL` (= URL API), `NEXT_PUBLIC_WEB_URL`, `NEXT_PUBLIC_DASHBOARD_URL`                                                                                             |
+| `desanara-dashboard` | `apps/dashboard` | `NEXT_PUBLIC_API_URL` (= URL dashboard sendiri), `API_PROXY_TARGET` (= URL API), `NEXT_PUBLIC_WEB_URL`                                                                                       |
+
+Pengaturan build sudah ada di `apps/*/vercel.json` (region Singapura `sin1`; API memakai `bun run build:vercel`).
+Saat import di Vercel, biarkan "Include files outside the root directory" menyala (monorepo).
+
+### 3. Domain (setelah dibeli)
+
+Tambahkan `desanara.id` ke web, `dashboard.desanara.id` ke dashboard, `api.desanara.id` ke API. Lalu ganti semua URL
+di env di atas dan isi `COOKIE_DOMAIN=desanara.id` di API.
 
 ## Setiap rilis
 
-1. CI hijau di `main`.
-2. Web/dashboard ter-deploy otomatis oleh Vercel.
-3. API: workflow "Deploy API" (manual) atau di VPS: `git pull && docker compose -f docker/docker-compose.prod.yml up -d --build`.
-4. Migrasi: `docker compose -f docker/docker-compose.prod.yml run --rm api bun run --cwd packages/db migrate`.
-5. Tambah tag rilis (`v0.1.0`) dan catat di CHANGELOG.
+1. CI hijau, merge ke `main` → ketiga project ter-deploy otomatis. Branch lain mendapat preview (memakai database yang sama).
+2. Ada migrasi baru? Jalankan `bun run db:migrate` dari laptop (session pooler) **sebelum** merge.
+3. Cek `https://<api>/health/ready` → `{"status":"ok","database":true}`.
+4. Tambah tag rilis (`v0.1.0`) dan catat di CHANGELOG.
 
 ## Sebelum situs dibuka untuk umum
 
@@ -29,6 +46,7 @@ Tampilan publik **tidak** melabeli data contoh sebagai demo, jadi sebelum link d
 3. Cek tidak ada nomor WhatsApp tim (`SEED_WHATSAPP_NUMBER`) yang tersisa di UMKM.
 4. Cek halaman `/desa/baros`, `/jelajah`, dan satu halaman produk di HP.
 
-## Batas waktu VPS kampus
+## Cadangan: API di VPS
 
-Jika VPS kampus belum siap atau tidak layak sampai **14 November 2026**, sewa VPS (±1–2 GB RAM). Langkahnya sama persis.
+Jika Vercel tidak lagi cocok, API bisa jalan di VPS (±1–2 GB RAM) dengan `docker compose -f docker/docker-compose.prod.yml up -d --build`.
+Kodenya sama; cukup ganti URL API di env web dan dashboard.

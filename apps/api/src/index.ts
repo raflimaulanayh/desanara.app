@@ -1,19 +1,7 @@
-import { createAuth } from '@repo/auth/server'
-import { createDb } from '@repo/db'
-import { createApp } from './app'
-import { loadEnv } from './env'
+import { bootstrap } from './bootstrap'
 
-const env = loadEnv()
-const db = createDb(env.DATABASE_URL)
-const auth = createAuth({
-  db,
-  secret: env.BETTER_AUTH_SECRET,
-  baseURL: env.API_URL,
-  trustedOrigins: env.TRUSTED_ORIGINS,
-  cookieDomain: env.COOKIE_DOMAIN,
-})
-
-const app = createApp({ db, auth, trustedOrigins: env.TRUSTED_ORIGINS })
+/** Local server (Bun). Production on Vercel uses src/vercel.ts. */
+const { env, app } = bootstrap()
 
 console.log(`API listening on http://localhost:${env.API_PORT} (docs: /docs)`)
 
