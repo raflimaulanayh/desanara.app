@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-15 — Penyimpanan Cloudflare R2 disiapkan
+
+- **Area**: docs, .env.example
+- **Jenis**: Added | Security
+- R2 diaktifkan di akun Cloudflare **HIMASIF** (bukan akun pribadi) dengan dua bucket di APAC: `desanara-media` (publik lewat URL `r2.dev` untuk sementara, CORS hanya untuk dashboard) dan `desanara-backups` (privat). Backup dipisah bucket karena akses publik R2 berlaku untuk seluruh bucket; dokumen lama yang menyebut "bucket/prefix" diperbaiki.
+- Env: `R2_BUCKET=desanara-media`, `R2_ACCOUNT_ID`, `R2_PUBLIC_URL` (URL `r2.dev`). Kunci S3 dibuat lewat R2 API token yang dibatasi ke satu bucket. Pindah ke domain sendiri nanti tanpa migrasi data.
+- Terkait: PLAN-mvp-seminar.md, docs/architecture/storage.md
+
 ## 2026-11-15 — API kelola UMKM untuk dashboard
 
 - **Area**: apps/api, packages/db, packages/auth, packages/validators, .github, docs

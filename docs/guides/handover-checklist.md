@@ -5,6 +5,7 @@
 - [ ] GitHub organization HIMA: pengurus baru jadi owner, pengurus lama dikeluarkan/diturunkan
 - [ ] Domain: akun registrar, tanggal perpanjangan, siapa yang membayar
 - [ ] Vercel team, Supabase organization, Cloudflare account (R2 + DNS): owner dipindahkan
+- [ ] Cloudflare akun **HIMASIF**: Super Administrator memakai email HIMA; anggota pribadi pengurus lama dihapus; R2 API token dirotasi (bucket `desanara-media`, `desanara-backups`)
 - [ ] Akses SSH VPS (kampus/sewa): kunci lama dicabut, kunci baru ditambahkan
 - [ ] Password manager/vault bersama berisi secret production (bukan di chat)
 - [ ] Nomor WhatsApp yang dipakai untuk demo/admin
