@@ -44,6 +44,24 @@ the API itself is still protected per endpoint by sessions and `can()`.
 
 `DB_POOL_MAX` limits connections per API instance (1–3 on Vercel, 10 locally).
 
+## Domains
+
+Decision (2026-11-15): no custom domain during development. The apps run on free hosts and the domain is
+bought later; nothing in the code depends on it.
+
+| Today                                                           | Later                |
+| --------------------------------------------------------------- | -------------------- |
+| `desanara-web.vercel.app`                                       | `<domain>`           |
+| `desanara-dashboard.vercel.app`                                 | `dashboard.<domain>` |
+| `desanara-api.vercel.app`                                       | `api.<domain>`       |
+| `pub-12c3014fd3e2402dbd0f89d1517f7b4b.r2.dev` (`R2_PUBLIC_URL`) | `cdn.<domain>`       |
+
+Switching checklist: add the domains in Vercel and keep the `*.vercel.app` hosts redirecting to them (shared links keep
+working); update `TRUSTED_ORIGINS`, `AUTH_BASE_URL`, `API_PROXY_TARGET`, `NEXT_PUBLIC_*` URLs; connect `cdn.<domain>`
+to `desanara-media` and set `R2_PUBLIC_URL` + `NEXT_PUBLIC_MEDIA_URL`; add the dashboard origin to the bucket CORS
+(`docs/architecture/storage.md`). Buy it before anything is printed for the seminar (QR codes, flyers), so printed
+links use the final address.
+
 ## Login across hosts
 
 Without a shared domain the apps live on separate `*.vercel.app` hosts, where a cookie set by the API host would be a

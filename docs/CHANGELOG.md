@@ -15,6 +15,12 @@ Format:
 
 ---
 
+## 2026-11-15 — Keputusan: domain gratis selama development
+
+- **Area**: docs
+- **Jenis**: Changed
+- Selama development aplikasi tetap di `*.vercel.app` dan foto di URL `r2.dev`; domain sendiri dibeli nanti. Langkah pindah domain dicatat di `docs/architecture/deployment.md`. Domain sebaiknya dibeli sebelum materi seminar (QR, brosur) dicetak.
+
 ## 2026-11-15 — Penyimpanan Cloudflare R2 disiapkan
 
 - **Area**: docs, .env.example
