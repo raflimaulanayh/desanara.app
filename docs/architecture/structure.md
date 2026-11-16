@@ -11,14 +11,17 @@ umkm-app/
 │   │   ├── lib/api.ts         # server-side API client
 │   │   └── proxy.ts           # next-intl locale negotiation (Next.js 16 "proxy")
 │   ├── dashboard/src/
-│   │   ├── app/               # /login, / (role-aware home), /villages, /businesses, …
-│   │   ├── components/        # dashboard-only components
-│   │   └── lib/               # api client, auth client, env
+│   │   ├── app/login/         # /login (?next= returns to the page that asked for a session)
+│   │   ├── app/(app)/         # behind the session check: / (role-aware home), /businesses, /businesses/new, /businesses/[id], /businesses/[id]/edit
+│   │   ├── components/        # app shell, business pages, form fields
+│   │   ├── lib/               # api client, session, nav rules, form drafts, upload-image, api-errors
+│   │   └── messages/id.json   # UI copy (dashboard is Indonesian only)
 │   └── api/src/
 │       ├── app.ts             # createApp(): middleware + module mounting
 │       ├── index.ts           # Bun entry (reads env, builds deps)
 │       ├── env.ts             # env validation
-│       ├── lib/               # errors, router factory, actor loader, context types
+│       ├── vercel.ts          # Node entry for Vercel (bundled by scripts/build-vercel.ts)
+│       ├── lib/               # errors, router factory, actor loader, audit, storage (R2), context types
 │       ├── middleware/        # session, requireUser
 │       └── modules/<name>/    # <name>.routes.ts / .service.ts / .repository.ts / .schema.ts
 ├── packages/                  # see AGENTS.md table

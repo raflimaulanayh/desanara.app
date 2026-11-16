@@ -11,20 +11,21 @@ MVP deadline: seminar on **2026-12-11** (feature freeze 2026-11-28). Product con
 
 ## Repository map
 
-| Path                  | What                                                                               | Runs on      |
-| --------------------- | ---------------------------------------------------------------------------------- | ------------ |
-| `apps/web`            | Public site, bilingual `/id` `/en` (Next.js 16, next-intl, HeroUI v3, Tailwind v4) | Vercel       |
-| `apps/dashboard`      | Logged-in app for every role (Next.js 16, TanStack Query)                          | Vercel       |
-| `apps/api`            | REST API `/v1` + Better Auth `/api/auth/*` (Hono on Bun)                           | VPS (Docker) |
-| `packages/db`         | Drizzle schema, migrations (`drizzle/`), seed                                      | —            |
-| `packages/auth`       | `permissions.ts` (`can()`), `server.ts` (Better Auth, API only), `client.ts`       | —            |
-| `packages/validators` | Zod schemas shared by API, dashboard, mobile                                       | —            |
-| `packages/api-client` | Typed Hono RPC client + `unwrap()`                                                 | —            |
-| `packages/ui`         | HeroUI theme tokens + neutral components                                           | —            |
-| `packages/i18n`       | Locales, shared messages, `formatRupiah`, `buildWhatsAppLink`                      | —            |
-| `packages/config`     | tsconfig + ESLint presets (import boundaries live here)                            | —            |
+| Path                  | What                                                                               | Runs on |
+| --------------------- | ---------------------------------------------------------------------------------- | ------- |
+| `apps/web`            | Public site, bilingual `/id` `/en` (Next.js 16, next-intl, HeroUI v3, Tailwind v4) | Vercel  |
+| `apps/dashboard`      | Logged-in app for every role (Next.js 16, TanStack Query)                          | Vercel  |
+| `apps/api`            | REST API `/v1` + Better Auth `/api/auth/*` (Hono; Bun locally, Node on Vercel)     | Vercel  |
+| `packages/db`         | Drizzle schema, migrations (`drizzle/`), seed                                      | —       |
+| `packages/auth`       | `permissions.ts` (`can()`), `server.ts` (Better Auth, API only), `client.ts`       | —       |
+| `packages/validators` | Zod schemas shared by API, dashboard, mobile                                       | —       |
+| `packages/api-client` | Typed Hono RPC client + `unwrap()`                                                 | —       |
+| `packages/ui`         | HeroUI theme tokens + neutral components                                           | —       |
+| `packages/i18n`       | Locales, shared messages, `formatRupiah`, `buildWhatsAppLink`                      | —       |
+| `packages/config`     | tsconfig + ESLint presets (import boundaries live here)                            | —       |
 
-Architecture: `docs/architecture/overview.md`. Decisions and their reasons: `docs/adr/`.
+Architecture: `docs/architecture/overview.md`. Security and personal data: `docs/architecture/security-privacy.md`.
+Decisions and their reasons: `docs/adr/`. Index of every document by reader: `docs/README.md`.
 Product context: `PRODUCT.md`. Visual system for any new UI: `DESIGN.md` (read before building pages).
 
 ## Commands (run from the repo root)

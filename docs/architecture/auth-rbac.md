@@ -57,13 +57,27 @@ transaction. Business rules that are not "who" questions live in services, not i
 - Dashboard lists: super admin sees all; a village admin sees their villages; everyone else sees only the
   businesses they are a member of.
 
-## Account hand-over (pendamping → pemilik)
+## Account hand-over and registration (planned, invitations module)
+
+Not built yet. Decided on 2026-11-16; details go into a plan before implementation.
+
+### Hand-over (pendamping → pemilik)
 
 1. Assistant creates the business (owner has no account yet).
 2. Assistant creates an invitation (`target = business`, `businessRole = owner`); the API returns a one-time link;
    only a hash is stored.
 3. The link is sent through WhatsApp. The owner opens `/invite/[token]`, sets a password, becomes `owner`.
 4. The assistant keeps the `assistant` membership until the owner removes it.
+
+### Self-registration
+
+- Two entry points: a per-village link/QR (`/gabung/<village>`) and an open form where the applicant searches
+  their village (Turnstile + rate limit).
+- An application has no password. After the village approves it, a WhatsApp invitation link creates the account.
+  Rejected applications are deleted after a retention period.
+- This lets the open Better Auth sign-up be closed completely: every account comes from an approved application
+  or an invitation.
+- New villages apply through an "Ajukan desa" form; the HIMA team verifies them and a super admin activates them.
 
 ## Tests
 

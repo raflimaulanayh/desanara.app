@@ -16,6 +16,10 @@
 | Verifikasi UMKM            | `verificationStatus`               | Dilakukan sekali oleh admin desa.                                                                    |
 | Persetujuan publikasi      | `consentAt`                        | Persetujuan pemilik (UU PDP) sebelum data tayang.                                                    |
 | Tayang / draf / arsip      | `published` / `draft` / `archived` | `record_status`.                                                                                     |
+| Turunkan / pulihkan        | `takenDownAt`, `takedownReason`    | Admin desa menyembunyikan paksa UMKM dengan alasan; UMKM tidak bisa tayang sampai dipulihkan.        |
+| Harga coret                | `compareAtPrice`                   | Harga normal sebelum promo; harus lebih tinggi dari `price`. Badge diskon dihitung dari keduanya.    |
+| Gratis                     | `price = 0` (`isFree`)             | Produk tanpa harga, misalnya sampel atau layanan sosial. Harga berbayar minimal Rp100.               |
+| Foto / logo / banner       | `media` target, `storageKey`       | File di Cloudflare R2; database menyimpan key-nya, bukan URL.                                        |
 | Serah-terima akun          | invitation `businessRole = owner`  | Pendamping menyerahkan akun UMKM ke pemilik.                                                         |
 | NIB                        | `nib`                              | Nomor Induk Berusaha (OSS), 13 digit.                                                                |
 | Data demo                  | `isSeed`                           | Baris dari seed; dihapus dengan `db:seed:reset`.                                                     |

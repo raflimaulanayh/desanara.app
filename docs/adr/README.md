@@ -16,6 +16,6 @@ An ADR records **why** a decision was made, so future HIMA boards (and AI agents
 | [0006](0006-english-url-segments.md)       | English URL segments, content-language slugs                                | Superseded by 0008 |
 | [0007](0007-village-theming.md)            | Per-village theming: curated tokens + code templates, no custom CSS         | Accepted           |
 | [0008](0008-indonesian-url-segments.md)    | Indonesian URL segments, no prefix for the default locale (supersedes 0006) | Accepted           |
-| [0009](0009-api-on-vercel.md)              | Host the API on Vercel (Node runtime); VPS becomes the fallback             | Proposed           |
+| [0009](0009-api-on-vercel.md)              | Host the API on Vercel (Node runtime); VPS becomes the fallback             | Accepted           |
 
 Template: copy any ADR and keep the headings (Context, Decision, Consequences, Alternatives).
