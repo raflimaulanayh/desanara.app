@@ -10,7 +10,7 @@ Status: ✅ selesai · 🚧 dikerjakan · ⏳ belum
 | Desa    | Daftar & detail desa publik                                                                            | ✅ API + halaman desa bertema                  |
 | Desa    | Kelola desa (super admin), kelola anggota (admin desa)                                                 | ⏳                                             |
 | Desa    | Tampilan custom: brand kit (logo, banner, warna + cek kontras), 1 template `classic`, editor + preview | ✅ fondasi, ⏳ UI                              |
-| UMKM    | Buat/ubah UMKM (admin desa, pendamping), verifikasi sekali oleh admin desa, consent UU PDP             | ✅ API, ⏳ halaman dashboard                   |
+| UMKM    | Buat/ubah UMKM (admin desa, pendamping), verifikasi sekali oleh admin desa, consent UU PDP             | ✅ API + halaman dashboard                     |
 | UMKM    | Undangan & serah-terima akun ke pemilik lewat link WA                                                  | ⏳                                             |
 | Produk  | CRUD produk, harga Rp (gratis & harga coret/diskon), satuan, kategori wajib, terjemahan EN opsional    | ✅ API + tampilan publik, ⏳ halaman dashboard |
 | Produk  | Upload foto ke R2 (presigned, kompres di HP), maks. 10 foto + slider; logo UMKM, logo & banner desa    | ✅ API + slider publik, ⏳ halaman dashboard   |

@@ -25,7 +25,9 @@
     "assistant": "Pendamping UMKM"
   },
   "common": {
-    "retry": "Coba lagi"
+    "retry": "Coba lagi",
+    "loading": "Memuat…",
+    "cancel": "Batal"
   },
   "nav": {
     "label": "Menu utama",
@@ -65,5 +67,131 @@
       "TOO_MANY_FILES": "Jumlah foto sudah maksimal.",
       "LAST_PHOTO": "Produk yang tayang harus punya minimal 1 foto. Tambah foto lain atau sembunyikan produk dulu."
     }
+  },
+  "form": {
+    "tooShort": "Minimal {min} karakter.",
+    "tooLong": "Maksimal {max} karakter.",
+    "invalidUrl": "Tulis link lengkap, diawali https://",
+    "invalid": "Isian ini belum benar."
+  },
+  "businessStatus": {
+    "published": "Tayang",
+    "draft": "Draf",
+    "pending": "Menunggu verifikasi",
+    "verified": "Terverifikasi",
+    "rejected": "Ditolak",
+    "takenDown": "Diturunkan"
+  },
+  "businessList": {
+    "title": "UMKM",
+    "add": "Tambah UMKM",
+    "search": "Cari nama UMKM",
+    "filter": "Saring UMKM",
+    "count": "{count, plural, =0 {Tidak ada UMKM} other {# UMKM}}",
+    "products": "{count, plural, =0 {belum ada produk} other {# produk}}",
+    "empty": "Belum ada UMKM di sini.",
+    "emptySearch": "Tidak ada UMKM dengan nama itu.",
+    "emptyHint": "Mulai dengan menekan Tambah UMKM.",
+    "more": "Muat lagi",
+    "tabs": {
+      "all": "Semua",
+      "pending": "Perlu dicek",
+      "published": "Tayang",
+      "draft": "Draf",
+      "rejected": "Ditolak"
+    }
+  },
+  "businessForm": {
+    "newTitle": "Tambah UMKM",
+    "editTitle": "Ubah data UMKM",
+    "progress": "Langkah {step} dari {total}",
+    "steps": {
+      "about": "Data usaha",
+      "contact": "Kontak dan toko online",
+      "consent": "Persetujuan pemilik"
+    },
+    "fields": {
+      "villageId": "Desa",
+      "name": "Nama usaha",
+      "ownerName": "Nama pemilik",
+      "description": "Cerita singkat usaha",
+      "whatsappNumber": "Nomor WhatsApp",
+      "address": "Alamat",
+      "shopeeUrl": "Link Shopee",
+      "tokopediaUrl": "Link Tokopedia",
+      "tiktokShopUrl": "Link TikTok Shop",
+      "instagramUrl": "Link Instagram",
+      "nib": "NIB (Nomor Induk Berusaha)"
+    },
+    "hints": {
+      "name": "Nama yang dikenal pembeli, misalnya \"Keripik Bu Ani\".",
+      "description": "Apa yang dijual dan apa yang membuatnya khas. Tampil di halaman publik.",
+      "whatsappNumber": "Pesanan pembeli masuk ke nomor ini. Wajib diisi sebelum tayang.",
+      "address": "Hanya untuk tim desa. Tidak pernah ditampilkan di halaman publik.",
+      "nib": "Opsional. 13 digit angka dari OSS."
+    },
+    "onlineShops": "Toko online (opsional)",
+    "chooseVillage": "Pilih desa",
+    "consentExplain": "Sebelum UMKM ditayangkan, pemilik harus menyetujui datanya dipublikasikan (UU Pelindungan Data Pribadi). Bacakan ini kepada pemilik dan minta ia menandatangani formulir persetujuan kertas:",
+    "consentPublic": "Yang tampil di internet: nama usaha, nama pemilik, cerita usaha, produk, nomor WhatsApp, dan nama desa.",
+    "consentPrivate": "Alamat lengkap tidak pernah ditampilkan; hanya tim desa yang bisa melihatnya.",
+    "consentWithdraw": "Pemilik bisa menarik persetujuan kapan saja; UMKM langsung disembunyikan.",
+    "consentCheck": "Pemilik sudah menandatangani formulir persetujuan.",
+    "consentWithdrawWarning": "Menarik persetujuan akan langsung menyembunyikan UMKM ini dari halaman publik.",
+    "back": "Kembali",
+    "next": "Lanjut",
+    "create": "Simpan UMKM",
+    "save": "Simpan perubahan",
+    "saveNow": "Simpan sekarang",
+    "draftFound": "Ada isian yang belum tersimpan dari sebelumnya. Mau dilanjutkan?",
+    "draftRestore": "Lanjutkan isian",
+    "draftDiscard": "Buang"
+  },
+  "businessDetail": {
+    "backToList": "Daftar UMKM",
+    "edit": "Ubah data",
+    "publishTitle": "Tayang di Desanara",
+    "publishHint": "UMKM bisa ditayangkan setelah semua syarat ini terpenuhi.",
+    "isPublished": "UMKM ini sedang tampil di halaman publik.",
+    "check": {
+      "notTakenDown": "Tidak sedang diturunkan admin desa",
+      "verified": "Sudah diverifikasi admin desa",
+      "consent": "Pemilik sudah memberi persetujuan",
+      "whatsapp": "Nomor WhatsApp sudah diisi"
+    },
+    "done": "Terpenuhi",
+    "missing": "Belum",
+    "publish": "Tayangkan",
+    "unpublish": "Sembunyikan",
+    "published": "UMKM sudah tayang.",
+    "unpublished": "UMKM disembunyikan dari halaman publik.",
+    "viewPublic": "Lihat halaman publik",
+    "reviewTitle": "Verifikasi",
+    "reviewHint": "Pastikan usaha ini benar ada di desa dan datanya sesuai sebelum menyetujui.",
+    "verify": "Setujui",
+    "verified": "UMKM sudah diverifikasi.",
+    "reject": "Tolak",
+    "rejectTitle": "Tolak verifikasi",
+    "rejectNote": "Alasan penolakan (dibaca pendamping)",
+    "rejected": "UMKM ditolak. Pendamping bisa memperbaiki lalu mengajukan lagi.",
+    "rejectedTitle": "Ditolak admin desa",
+    "rejectedHint": "Perbaiki datanya; setelah disimpan, UMKM otomatis kembali menunggu verifikasi.",
+    "takenDownTitle": "Diturunkan admin desa",
+    "dataTitle": "Data UMKM",
+    "addressInternal": "Alamat (internal)",
+    "onlineShops": "Toko online",
+    "consent": "Persetujuan pemilik",
+    "consentGiven": "Diberikan {date} (formulir kertas)",
+    "consentMissing": "Belum ada",
+    "products": "Produk",
+    "dangerTitle": "Tindakan admin desa",
+    "takedown": "Turunkan",
+    "takedownTitle": "Turunkan UMKM ini dari halaman publik",
+    "takedownReason": "Alasan (tercatat dan dibaca tim UMKM)",
+    "takenDown": "UMKM diturunkan.",
+    "restore": "Pulihkan",
+    "restored": "UMKM dipulihkan sebagai draf.",
+    "delete": "Hapus UMKM",
+    "deleteTitle": "Hapus {name}? Data tidak tampil lagi di mana pun."
   }
 }
