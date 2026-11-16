@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-16 — Halaman UMKM di dashboard
+
+- **Area**: apps/dashboard, docs
+- **Jenis**: Added
+- Menu **UMKM**: daftar dengan pencarian dan tab (Semua, Perlu dicek, Tayang, Draf, Ditolak), dibatasi API sesuai peran, plus tombol "Muat lagi".
+- **Tambah/ubah UMKM** dalam 3 langkah pendek untuk HP (data usaha → kontak dan toko online → persetujuan pemilik). Validasi memakai skema bersama dengan pesan bahasa Indonesia, isian tersimpan otomatis di HP, dan saat mengubah data hanya kolom yang berubah yang dikirim. Langkah persetujuan berisi teks yang dibacakan ke pemilik (apa yang tampil, alamat tidak pernah tampil, persetujuan bisa ditarik).
+- **Halaman detail**: checklist syarat tayang (sama dengan aturan API), tombol Tayangkan/Sembunyikan, Setujui/Tolak (alasan wajib) untuk admin desa, Turunkan (alasan wajib)/Pulihkan, dan Hapus, masing-masing hanya muncul bila `permissions` dari API mengizinkan. Alamat ditandai "internal".
+- Kartu UMKM di beranda kini menuju halaman detailnya.
+
 ## 2026-11-16 — Kerangka dashboard: menu sesuai peran, beranda, dan sesi
 
 - **Area**: apps/dashboard, apps/api, docs

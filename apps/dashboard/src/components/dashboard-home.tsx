@@ -7,6 +7,7 @@ import { Container } from '@repo/ui/components/container'
 import { EmptyState } from '@repo/ui/components/empty-state'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { api } from '@/lib/api'
 import { useSession } from '@/lib/session'
 
@@ -98,12 +99,13 @@ export function DashboardHome() {
           <ul className="grid gap-3 md:grid-cols-2">
             {memberships.businesses.map((b) => (
               <li key={b.id}>
-                <Card>
-                  <Card.Header className="flex-row items-center justify-between gap-3">
-                    <Card.Title className="font-bold">{b.name}</Card.Title>
-                    <Chip size="sm">{t(`roles.${b.role}`)}</Chip>
-                  </Card.Header>
-                </Card>
+                <Link
+                  href={`/businesses/${b.id}`}
+                  className="border-line bg-surface hover:bg-wash flex items-center justify-between gap-3 rounded-2xl border p-4"
+                >
+                  <span className="font-bold">{b.name}</span>
+                  <Chip size="sm">{t(`roles.${b.role}`)}</Chip>
+                </Link>
               </li>
             ))}
           </ul>

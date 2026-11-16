@@ -26,6 +26,7 @@ const villageIds = (a: Actor) => Object.keys(a.villageRoles)
 
 export const NAV_RULES: NavRule[] = [
   { href: '/', label: 'home', icon: 'home', visible: () => true },
+  { href: '/businesses', label: 'businesses', icon: 'store', visible: (a) => canSeeBusinesses(a) },
 ]
 
 export function navFor(actor: Actor, t: (key: Label) => string): NavItem[] {
