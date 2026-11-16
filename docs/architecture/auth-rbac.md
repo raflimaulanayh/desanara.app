@@ -29,6 +29,7 @@ The API session middleware builds an `Actor` (`apps/api/src/lib/actor.ts`) from 
 | ----------------------------------------------------------------------------------------------- | ----------- | --------------------------- | ----------------- | ----------- | -------------------- |
 | `village.create`, `category.manage`, `user.manage`                                              | Yes         | No                          | No                | No          | No                   |
 | `business.list_all` (dashboard list across villages)                                            | Yes         | No                          | No                | No          | No                   |
+| `village.view` (village settings, map centre)                                                   | Yes         | Yes                         | Yes               | No          | No                   |
 | `village.update`, `village.manage_members`, `village.view_analytics`, `village.customize_theme` | Yes         | Yes                         | No                | No          | No                   |
 | `business.list` (every business of the village, incl. drafts)                                   | Yes         | Yes                         | No                | No          | No                   |
 | `business.create`                                                                               | Yes         | Yes                         | Yes               | No          | No                   |

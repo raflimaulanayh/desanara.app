@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## 2026-11-16 — Lokasi UMKM di peta dan menu Pengaturan desa
+
+- **Area**: apps/dashboard, apps/api, packages/db, packages/validators, packages/auth, docs, .env.example
+- **Jenis**: Added | Fixed
+- Form UMKM kini 4 langkah. Langkah baru **Lokasi** (hanya untuk tim desa): jalan atau patokan, RT/RW (tersimpan 3 digit), dan titik peta Leaflet + OpenStreetMap yang terbuka di sekitar desa. Pin bisa ditaruh dengan ketukan, digeser, atau diambil dari GPS HP (izin diminta saat tombol ditekan; akurasi rendah dan lokasi di luar Indonesia diberi tahu). Halaman UMKM menampilkan lokasi internal dengan tautan Google Maps. API publik tetap tidak pernah mengirim alamat, RT/RW, atau koordinat (diuji).
+- Menu baru **Pengaturan desa** untuk admin desa: titik desa di peta (titik awal dari data wilayah resmi, bisa digeser dan dikembalikan) dan profil serta kontak kantor desa. Endpoint baru `GET`/`PATCH /v1/manage/villages/{id}`, hak akses baru `village.view` (admin dan pendamping desa), setiap perubahan tercatat di jejak audit.
+- Performa: Leaflet (42 KB gzip) dimuat terpisah hanya saat peta tampil; halaman form UMKM bertambah sekitar 5 KB gzip, halaman lain tidak berubah. Alamat tile peta bisa diganti lewat `NEXT_PUBLIC_MAP_TILE_URL` dan `NEXT_PUBLIC_MAP_ATTRIBUTION`.
+- **Migrasi `0007_business_location`** (hanya menambah kolom `rt`, `rw`, `lat`, `lng` di `businesses`).
+- Perbaikan panduan dashboard: letak isian NIB dan alamat kini sesuai form.
+
 ## 2026-11-16 — Data wilayah Kepmendagri lengkap dan pencarian wilayah
 
 - **Area**: packages/db, packages/validators, apps/api, docs

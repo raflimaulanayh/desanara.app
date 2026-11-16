@@ -66,6 +66,7 @@ Photo upload (dash)     → compress in browser → POST /v1/manage/media/presig
 | `events`                                       | `POST /v1/events`                                                                                         | public, view and WhatsApp click tracking |
 | `me`                                           | `/v1/me`                                                                                                  | logged in: actor + memberships           |
 | `manage-businesses`                            | `/v1/manage/businesses…` (list, create, edit, verify, publish, takedown, delete)                          | logged in, `can()`                       |
+| `manage-villages`                              | `/v1/manage/villages/{id}` (read: `village.view`, edit profile and map centre: `village.update`)          | logged in, `can()`                       |
 | `manage-products`                              | `/v1/manage/businesses/{id}/products`, `/v1/manage/products/{id}…`                                        | logged in, `can()`                       |
 | `media`                                        | `/v1/manage/media/presign`, `/v1/manage/media`                                                            | logged in, `can()`                       |
 

@@ -1,4 +1,5 @@
 import type { Business } from './businesses'
+import type { LatLng } from './map'
 
 /**
  * Pure helpers for the business form (no React), so the rules are unit-tested:
@@ -16,12 +17,16 @@ export const TEXT_FIELDS = [
   'tiktokShopUrl',
   'instagramUrl',
   'nib',
+  'rt',
+  'rw',
 ] as const
 export type TextField = (typeof TEXT_FIELDS)[number]
 
 export type BusinessFormValues = Record<TextField, string> & {
   villageId: string
   consentGiven: boolean
+  /** Internal map pin; null = not set. */
+  pin: LatLng | null
 }
 
 /** Steps of the form, one screen each on a phone. */
@@ -29,16 +34,10 @@ export const STEPS = [
   { id: 'about', fields: ['villageId', 'name', 'ownerName', 'description'] },
   {
     id: 'contact',
-    fields: [
-      'whatsappNumber',
-      'address',
-      'shopeeUrl',
-      'tokopediaUrl',
-      'tiktokShopUrl',
-      'instagramUrl',
-      'nib',
-    ],
+    fields: ['whatsappNumber', 'shopeeUrl', 'tokopediaUrl', 'tiktokShopUrl', 'instagramUrl', 'nib'],
   },
+  /** Internal only (never public): street or landmark, RT/RW, map pin. */
+  { id: 'location', fields: ['address', 'rt', 'rw', 'lat', 'lng'] },
   { id: 'consent', fields: ['consentGiven'] },
 ] as const
 
@@ -52,7 +51,12 @@ export function valuesFrom(b: Business | null, villageId = ''): BusinessFormValu
     TextField,
     string
   >
-  return { ...text, villageId: b?.village.id ?? villageId, consentGiven: Boolean(b?.consentAt) }
+  return {
+    ...text,
+    villageId: b?.village.id ?? villageId,
+    consentGiven: Boolean(b?.consentAt),
+    pin: b && b.lat !== null && b.lng !== null ? { lat: b.lat, lng: b.lng } : null,
+  }
 }
 
 /** Body for POST /v1/manage/businesses: trimmed, empty fields left out. */
@@ -62,6 +66,7 @@ export function toCreateInput(v: BusinessFormValues) {
     const value = v[f].trim()
     if (value) out[f] = value
   }
+  if (v.pin) Object.assign(out, v.pin)
   return out
 }
 
@@ -74,6 +79,11 @@ export function toPatch(original: Business, v: BusinessFormValues) {
     if (after !== before) out[f] = after
   }
   if (v.consentGiven !== Boolean(original.consentAt)) out.consentGiven = v.consentGiven
+  if (v.pin?.lat !== (original.lat ?? undefined) || v.pin?.lng !== (original.lng ?? undefined)) {
+    // Both together (the API refuses half a pin); null on both removes it.
+    out.lat = v.pin?.lat ?? null
+    out.lng = v.pin?.lng ?? null
+  }
   return out
 }
 
@@ -82,6 +92,8 @@ interface Issue {
   path: PropertyKey[]
   message: string
   minimum?: unknown
+  /** What was measured: 'string' (length), 'number' (value), … */
+  origin?: string
   maximum?: unknown
   format?: string
 }
@@ -98,6 +110,12 @@ export function fieldMessages(issues: Issue[], t: T): Record<string, string> {
     const field = String(issue.path[0] ?? '')
     if (!field || out[field]) continue
     if (issue.code === 'custom' || (issue.code === 'invalid_format' && issue.format === 'regex')) {
+      out[field] = issue.message
+    } else if (
+      (issue.code === 'too_small' || issue.code === 'too_big') &&
+      issue.origin !== 'string'
+    ) {
+      // Number limits carry their own sentence ("Titik harus berada di Indonesia").
       out[field] = issue.message
     } else if (issue.code === 'too_small') {
       out[field] = t('form.tooShort', { min: Number(issue.minimum) })

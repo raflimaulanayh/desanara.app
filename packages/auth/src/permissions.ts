@@ -35,6 +35,8 @@ export type PlatformAction =
   /** List businesses of every village (dashboard). */
   | 'business.list_all'
 export type VillageAction =
+  /** Read the village settings (profile, map centre): its admins and assistants. */
+  | 'village.view'
   | 'village.update'
   | 'village.manage_members'
   | 'village.view_analytics'
@@ -71,6 +73,7 @@ export type Action = PlatformAction | VillageAction | BusinessAction | ProductAc
 
 const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
   village_admin: [
+    'village.view',
     'village.update',
     'village.manage_members',
     'village.view_analytics',
@@ -80,7 +83,7 @@ const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
     'business.verify',
     'business.takedown',
   ],
-  village_assistant: ['business.create'],
+  village_assistant: ['village.view', 'business.create'],
 }
 
 const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | ProductAction)[]> = {

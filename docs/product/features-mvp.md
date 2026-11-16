@@ -28,18 +28,19 @@ Cara setiap peran memakai fitur ini: [alur pengguna](user-flows.md).
 
 ## Dashboard
 
-| Fitur                                                                                                                         | Status                              |
-| ----------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| Login, cek sesi, menu sesuai peran (HP: menu bawah, laptop: sidebar), beranda per peran                                       | Selesai                             |
-| UMKM: daftar + pencarian + tab status, form 3 langkah dengan draf otomatis di HP, persetujuan UU PDP                          | Selesai                             |
-| UMKM: verifikasi (setujui/tolak + alasan), tayang/sembunyikan dengan checklist syarat, turunkan/pulihkan                      | Selesai                             |
-| Produk: daftar per UMKM, form (Rp, Gratis, harga coret, kategori, stok kosong, terjemahan EN), tayang; ukuran ditulis di nama | Selesai                             |
-| Foto: upload maks. 10 foto/produk (kompres + hapus GPS di HP), urutan + sampul, logo UMKM                                     | Selesai                             |
-| Lokasi UMKM: RT/RW, jalan/patokan, titik peta (Leaflet + OpenStreetMap); data wilayah Kemendagri lengkap + pencarian wilayah  | Direncanakan                        |
-| Pengaturan UMKM: jam buka, tutup sementara, ganti alamat link (slug) oleh admin desa                                          | Direncanakan                        |
-| Pengaturan desa: profil, titik tengah desa, logo + banner, editor tema dengan pratinjau, anggota tim                          | Direncanakan (fondasi tema selesai) |
-| Antrean verifikasi lintas UMKM untuk admin desa                                                                               | Direncanakan                        |
-| Statistik: kunjungan dan klik WhatsApp per UMKM dan per desa                                                                  | Direncanakan (pencatatan selesai)   |
+| Fitur                                                                                                                                   | Status                              |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| Login, cek sesi, menu sesuai peran (HP: menu bawah, laptop: sidebar), beranda per peran                                                 | Selesai                             |
+| UMKM: daftar + pencarian + tab status, form 4 langkah dengan draf otomatis di HP, persetujuan UU PDP                                    | Selesai                             |
+| UMKM: verifikasi (setujui/tolak + alasan), tayang/sembunyikan dengan checklist syarat, turunkan/pulihkan                                | Selesai                             |
+| Produk: daftar per UMKM, form (Rp, Gratis, harga coret, kategori, stok kosong, terjemahan EN), tayang; ukuran ditulis di nama           | Selesai                             |
+| Foto: upload maks. 10 foto/produk (kompres + hapus GPS di HP), urutan + sampul, logo UMKM                                               | Selesai                             |
+| Lokasi UMKM: RT/RW, jalan/patokan, titik peta (Leaflet + OpenStreetMap) dengan GPS; data wilayah Kemendagri lengkap + pencarian wilayah | Selesai                             |
+| Pengaturan UMKM: jam buka, tutup sementara, ganti alamat link (slug) oleh admin desa                                                    | Direncanakan                        |
+| Pengaturan desa: profil dan kontak kantor desa, titik desa di peta                                                                      | Selesai                             |
+| Pengaturan desa: logo + banner, editor tema dengan pratinjau, anggota tim                                                               | Direncanakan (fondasi tema selesai) |
+| Antrean verifikasi lintas UMKM untuk admin desa                                                                                         | Direncanakan                        |
+| Statistik: kunjungan dan klik WhatsApp per UMKM dan per desa                                                                            | Direncanakan (pencatatan selesai)   |
 
 ## Akun dan pendaftaran
 

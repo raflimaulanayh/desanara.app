@@ -1,4 +1,13 @@
-import { index, jsonb, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import {
+  doublePrecision,
+  index,
+  jsonb,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core'
 import { seedFlag, softDelete, timestamps } from './_shared'
 import { users } from './auth'
 import { businessRole, consentMethod, recordStatus, verificationStatus } from './enums'
@@ -18,7 +27,15 @@ export const businesses = pgTable(
     description: text(),
     /** International format without "+", e.g. 6281234567890 (used for wa.me links). */
     whatsappNumber: text(),
+    /**
+     * Internal location: street or landmark, RT/RW (three digits, "001") and map pin (WGS84). Never
+     * returned by public endpoints; a public location stops at the village (data-model.md).
+     */
     address: text(),
+    rt: text(),
+    rw: text(),
+    lat: doublePrecision(),
+    lng: doublePrecision(),
     logoKey: text(),
     shopeeUrl: text(),
     tokopediaUrl: text(),

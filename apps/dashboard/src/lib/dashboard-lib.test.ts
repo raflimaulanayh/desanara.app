@@ -4,7 +4,14 @@ import { ApiError } from '@repo/api-client'
 import type { Actor } from '@repo/auth/permissions'
 import { describeApiError, fieldErrors } from './api-errors'
 import { clearDrafts, draftKey, readDraft, writeDraft } from './form-draft'
-import { canReview, canSeeBusinesses, isActive, safeNext } from './nav'
+import {
+  canReview,
+  canSeeBusinesses,
+  isActive,
+  manageableVillageIds,
+  navFor,
+  safeNext,
+} from './nav'
 
 const actor = (over: Partial<Actor> = {}): Actor => ({
   userId: 'u1',
@@ -108,4 +115,16 @@ describe('form drafts', () => {
     expect(store.has(draftKey('u2', 'a'))).toBe(true)
     expect(store.has('other')).toBe(true)
   })
+})
+
+test('Pengaturan desa: village admins and super admins, never assistants or owners', () => {
+  const labels = (a: Parameters<typeof navFor>[0]) => navFor(a, (k) => k).map((i) => i.label)
+  const admin = actor({ villageRoles: { v1: 'village_admin', v2: 'village_assistant' } })
+  expect(manageableVillageIds(admin)).toEqual(['v1'])
+  expect(labels(admin)).toContain('villageSettings')
+  expect(labels(actor({ globalRole: 'super_admin' }))).toContain('villageSettings')
+  expect(labels(actor({ villageRoles: { v1: 'village_assistant' } }))).not.toContain(
+    'villageSettings',
+  )
+  expect(labels(actor({ businessRoles: { b1: 'owner' } }))).not.toContain('villageSettings')
 })

@@ -14,6 +14,10 @@ const original = {
   description: 'Renyah',
   whatsappNumber: '6281234567890',
   address: null,
+  rt: '001',
+  rw: null,
+  lat: -7.065772,
+  lng: 107.630174,
   shopeeUrl: null,
   tokopediaUrl: null,
   tiktokShopUrl: null,
@@ -71,6 +75,32 @@ describe('business form', () => {
     expect(msgs.instagramUrl).toBe('form.invalidUrl')
     expect(stepOf('name')).toBe(0)
     expect(stepOf('whatsappNumber')).toBe(1)
-    expect(stepOf('consentGiven')).toBe(2)
+    expect(stepOf('address')).toBe(2)
+    expect(stepOf('lat')).toBe(2)
+    expect(stepOf('consentGiven')).toBe(3)
+  })
+
+  test('location: RT/RW go as typed, the pin as a pair, and removing it sends null on both', () => {
+    const create = toCreateInput({
+      ...valuesFrom(null, original.village.id),
+      name: 'Kopi Gayo',
+      rt: '3',
+      pin: { lat: -7.06, lng: 107.63 },
+    })
+    expect(create).toMatchObject({ rt: '3', lat: -7.06, lng: 107.63 })
+    expect(businessCreateSchema.parse(create)).toMatchObject({ rt: '003' })
+
+    const moved = toPatch(original, { ...valuesFrom(original), pin: { lat: -7.07, lng: 107.63 } })
+    expect(moved).toEqual({ lat: -7.07, lng: 107.63 })
+    const removed = toPatch(original, { ...valuesFrom(original), pin: null })
+    expect(removed).toEqual({ lat: null, lng: null })
+    expect(businessUpdateSchema.safeParse(removed).success).toBe(true)
+    expect(toPatch(original, { ...valuesFrom(original), rt: '' })).toEqual({ rt: '' })
+  })
+
+  test('a map pin outside Indonesia keeps its own message (not a character count)', () => {
+    const r = businessUpdateSchema.safeParse({ lat: 7.2, lng: 107.6 })
+    expect(r.success).toBe(false)
+    expect(fieldMessages(r.error!.issues as never, t).lat).toBe('Titik harus berada di Indonesia')
   })
 })

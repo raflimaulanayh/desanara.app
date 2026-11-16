@@ -1,4 +1,4 @@
-import { businessMembers, businesses, products, villages } from '@repo/db'
+import { businessMembers, businesses, products, regions, villages } from '@repo/db'
 import { type SQL, and, count, desc, eq, ilike, inArray, isNull, like, or, sql } from 'drizzle-orm'
 import type { DbOrTx } from '../../lib/audit'
 
@@ -17,12 +17,19 @@ export const manageColumns = {
   villageId: businesses.villageId,
   villageSlug: villages.slug,
   villageName: villages.name,
+  /** Village map centre: what the village admin chose, else its region's point (left join). */
+  villageCenterLat: sql<number | null>`coalesce(${villages.centerLat}, ${regions.lat})`,
+  villageCenterLng: sql<number | null>`coalesce(${villages.centerLng}, ${regions.lng})`,
   slug: businesses.slug,
   name: businesses.name,
   ownerName: businesses.ownerName,
   description: businesses.description,
   whatsappNumber: businesses.whatsappNumber,
   address: businesses.address,
+  rt: businesses.rt,
+  rw: businesses.rw,
+  lat: businesses.lat,
+  lng: businesses.lng,
   logoKey: businesses.logoKey,
   shopeeUrl: businesses.shopeeUrl,
   tokopediaUrl: businesses.tokopediaUrl,
@@ -92,6 +99,7 @@ export async function listForScope(db: DbOrTx, scope: ListScope, f: ListFilters)
       .select(manageColumns)
       .from(businesses)
       .innerJoin(villages, eq(villages.id, businesses.villageId))
+      .leftJoin(regions, eq(regions.code, villages.regionCode))
       .where(where)
       .orderBy(desc(businesses.updatedAt))
       .limit(f.pageSize)
@@ -110,6 +118,7 @@ export async function findById(db: DbOrTx, id: string) {
     .select(manageColumns)
     .from(businesses)
     .innerJoin(villages, eq(villages.id, businesses.villageId))
+    .leftJoin(regions, eq(regions.code, villages.regionCode))
     .where(and(eq(businesses.id, id), isNull(businesses.deletedAt), isNull(villages.deletedAt)))
   return row ?? null
 }

@@ -47,9 +47,10 @@ Situs tersedia dalam Bahasa Indonesia (`/`) dan Inggris (`/en`). Teks produk ber
 Pendamping desa boleh mendaftarkan UMKM baru di desanya. Setelah mendaftarkan, ia otomatis menjadi pendamping UMKM tersebut.
 
 1. **Masuk** ke dashboard, buka menu **UMKM**, lalu tekan **Tambah UMKM**.
-2. Isi form 3 langkah:
-   - **Data usaha**: desa, nama usaha, nama pemilik, cerita singkat, alamat (hanya untuk tim desa), NIB (opsional).
-   - **Kontak dan toko online**: nomor WhatsApp (wajib sebelum tayang), link Shopee/Tokopedia/TikTok Shop/Instagram.
+2. Isi form 4 langkah:
+   - **Data usaha**: desa, nama usaha, nama pemilik, cerita singkat.
+   - **Kontak dan toko online**: nomor WhatsApp (wajib sebelum tayang), link Shopee/Tokopedia/TikTok Shop/Instagram, NIB (opsional).
+   - **Lokasi** (hanya untuk tim desa): jalan atau patokan, RT/RW, titik peta dengan GPS HP.
    - **Persetujuan pemilik**: bacakan teks persetujuan ke pemilik, minta tanda tangan formulir kertas, lalu centang.
 3. Isian tersimpan otomatis di HP. Kalau sinyal putus atau aplikasi tertutup, isian bisa dilanjutkan.
 4. Setelah disimpan, UMKM berstatus **Draf** dan **Menunggu verifikasi**.
@@ -67,7 +68,8 @@ Pendamping desa boleh mendaftarkan UMKM baru di desanya. Setelah mendaftarkan, i
 4. Halaman UMKM menampilkan **syarat tayang** sebagai daftar centang: terverifikasi, ada persetujuan pemilik, ada nomor WhatsApp, tidak sedang diturunkan.
 5. **Turunkan** menyembunyikan UMKM dari publik dan mencatat alasannya, misalnya karena ada laporan warga. Selama diturunkan, UMKM tidak bisa ditayangkan.
    **Pulihkan** mencabut penurunan. UMKM kembali ke draf dan perlu ditayangkan lagi.
-6. (belum tersedia) Pengaturan desa: titik tengah desa di peta, logo dan banner, warna tema, anggota tim desa.
+6. **Pengaturan desa**: titik desa di peta (titik awal dari data wilayah resmi) dan profil serta kontak kantor desa.
+   Logo, banner, warna tema, dan anggota tim desa (belum tersedia).
 7. (belum tersedia) Statistik: jumlah kunjungan dan klik WhatsApp per UMKM, untuk laporan dampak.
 
 ## 4. Pemilik UMKM
