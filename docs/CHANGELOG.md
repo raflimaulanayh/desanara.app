@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## 2026-11-16 — API kelola produk, produk gratis, dan harga coret
+
+- **Area**: apps/api, apps/web, packages/db, packages/validators, docs
+- **Jenis**: Added | Fixed
+- Endpoint baru (login wajib, tidak di-cache): `/v1/manage/businesses/{id}/products` (daftar, buat) dan `/v1/manage/products/{id}` (lihat, ubah, hapus soft, publish/unpublish). Slug dibuat otomatis dari nama; bila sudah dipakai, ditambah nama UMKM lalu angka. Kategori wajib. Publish ditolak bila belum ada foto (`NO_PHOTO`) atau kategori. Desa produk selalu diambil dari UMKM-nya. Setiap perubahan tercatat di `audit_logs`.
+- Harga: `0` = **Gratis**, selain itu minimal Rp100 (mencegah salah ketik; teks seperti `"15000"` tidak lagi diterima). Kolom baru **harga coret** (`compareAtPrice`) untuk diskon dan promo gratis, harus lebih tinggi dari harga jual. Web publik menampilkan badge **Gratis** / **-X%** dan harga normal dicoret di kartu, halaman produk, panel pesan, dan nota WhatsApp (nota menyebut harga normal agar penjual menghormati promo). Dua produk demo diberi harga coret.
+- **Migrasi `0004_product_compare_at_price`** (aditif): kolom `compare_at_price` dan dua check constraint (harga tidak negatif, harga coret > harga). Jalankan `bun run db:migrate`.
+- Perbaikan: skema ubah produk lama menandai produk "stok habis" kembali tersedia di setiap edit (nilai bawaan `isAvailable: true`). Skema baru tidak punya nilai bawaan.
+- `apps/web` kini punya `bun test` (test nota WhatsApp).
+
 ## 2026-11-16 — Alamat UMKM tidak lagi tampil di halaman publik
 
 - **Area**: apps/api, apps/web, docs

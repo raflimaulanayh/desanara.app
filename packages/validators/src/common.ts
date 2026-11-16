@@ -31,3 +31,12 @@ export const optionalUrl = z
   .url()
   .optional()
   .or(z.literal('').transform(() => undefined))
+
+/** Optional text that a form can clear (PATCH): '' or null → null, missing → unchanged. */
+export const clearableText = (max: number) =>
+  z
+    .string()
+    .trim()
+    .max(max)
+    .nullish()
+    .transform((v) => (v === '' ? null : v))

@@ -1,15 +1,12 @@
 import { z } from 'zod'
-import { optionalUrl, paginationSchema, slugSchema, whatsappNumberSchema } from './common'
+import {
+  clearableText,
+  optionalUrl,
+  paginationSchema,
+  slugSchema,
+  whatsappNumberSchema,
+} from './common'
 import { openingHoursSchema } from './opening-hours'
-
-/** Optional text that a form can clear: '' or null → null, missing → unchanged. */
-const clearableText = (max: number) =>
-  z
-    .string()
-    .trim()
-    .max(max)
-    .nullish()
-    .transform((v) => (v === '' ? null : v))
 
 const clearableUrl = z
   .union([z.url(), z.literal(''), z.null()])

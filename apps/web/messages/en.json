@@ -134,7 +134,10 @@
     "moreTitle": "More from {business}",
     "unavailable": "Out of stock",
     "visitVillage": "Visit the village",
-    "visitShop": "View shop"
+    "visitShop": "View shop",
+    "free": "Free",
+    "off": "-{pct}%",
+    "normalPrice": "Normal price"
   },
   "order": {
     "quantity": "Quantity",

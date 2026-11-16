@@ -74,6 +74,15 @@ const p = (
   en?: string,
 ): DemoProduct => ({ slug, name, category, price, unit, description, en })
 
+/**
+ * Demo promos (product slug → normal price shown struck through), so the seminar shows the
+ * "-X%" badge. Only demo data: real UMKM fill this in themselves.
+ */
+export const demoCompareAtPrices: Record<string, number> = {
+  'keripik-singkong-balado': 20000,
+  'syal-batik': 120000,
+}
+
 export const demoVillages: DemoVillage[] = [
   {
     theme: {

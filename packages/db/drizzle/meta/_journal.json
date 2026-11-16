@@ -29,6 +29,13 @@
       "when": 1794728235589,
       "tag": "0003_business_management",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794790519880,
+      "tag": "0004_product_compare_at_price",
+      "breakpoints": true
     }
   ]
 }

@@ -31,6 +31,7 @@ const summaryColumns = {
   name: products.name,
   nameEn: enName,
   price: products.price,
+  compareAtPrice: products.compareAtPrice,
   unit: products.unit,
   isAvailable: products.isAvailable,
   imageKey: firstImage,
@@ -153,6 +154,7 @@ export async function findPublicProductBySlug(db: Database, slug: string) {
         name: products.name,
         nameEn: enName,
         price: products.price,
+        compareAtPrice: products.compareAtPrice,
         unit: products.unit,
       })
       .from(products)
