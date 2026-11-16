@@ -7,7 +7,6 @@ export const businessPublicSchema = z
     name: z.string(),
     ownerName: z.string().nullable(),
     description: z.string().nullable(),
-    address: z.string().nullable(),
     logoKey: z.string().nullable(),
     whatsappNumber: z.string().nullable(),
     shopeeUrl: z.string().nullable(),
