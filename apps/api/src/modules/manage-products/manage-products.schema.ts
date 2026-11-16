@@ -24,7 +24,6 @@ export const productManageSchema = z
     /** Normal price shown struck through, or null. */
     compareAtPrice: z.number().int().nullable(),
     isFree: z.boolean(),
-    unit: z.string().nullable(),
     isAvailable: z.boolean(),
     status: z.enum(['draft', 'published', 'archived']),
     en: z.object({ name: z.string(), description: z.string().nullable() }).nullable(),

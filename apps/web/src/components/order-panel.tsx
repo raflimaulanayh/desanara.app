@@ -24,7 +24,6 @@ export function OrderPanel({
   product: {
     slug: string
     name: string
-    unit: string | null
     price: number
     compareAtPrice: number | null
   }
@@ -53,7 +52,6 @@ export function OrderPanel({
     villageName,
     line: {
       name: product.name,
-      unit: product.unit,
       price: product.price,
       compareAtPrice: product.compareAtPrice,
       quantity,

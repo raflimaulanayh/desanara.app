@@ -113,7 +113,7 @@ describeDb('/v1/manage products', () => {
 
   let productId = ''
   let productSlug = ''
-  const keripik = () => ({ categoryId, name: `Keripik ${tag}`, price: 15000, unit: 'pack 250 gr' })
+  const keripik = () => ({ categoryId, name: `Keripik ${tag}`, price: 15000 })
 
   test('401 without a session', async () => {
     expect((await call(null, 'GET', `/businesses/${bizA}/products`)).status).toBe(401)

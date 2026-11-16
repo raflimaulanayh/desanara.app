@@ -7,14 +7,14 @@ const base = {
   villageName: 'Desa Baros',
   productUrl: 'https://desanara.example/produk/keripik',
 }
-const line = { name: 'Keripik Singkong', unit: 'pack 250 gr', quantity: 2 }
+const line = { name: 'Keripik Singkong 250 gr', quantity: 2 }
 // formatRupiah uses Intl, which may put a non-breaking space after "Rp".
 const plain = (s: string) => s.replace(/\u00a0/g, ' ')
 
 describe('buildOrderMessage', () => {
   test('regular price: unit price and total', () => {
     const msg = plain(buildOrderMessage({ ...base, line: { ...line, price: 15000 } }))
-    expect(msg).toContain('2 × Keripik Singkong (pack 250 gr)')
+    expect(msg).toContain('2 × Keripik Singkong 250 gr')
     expect(msg).toMatch(/@ Rp ?15\.000 = Rp ?30\.000/)
     expect(msg).not.toContain('harga normal')
   })

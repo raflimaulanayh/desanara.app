@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: `${name} · ${p.business.name}`,
     description:
-      `${price}${p.unit ? ` / ${p.unit}` : ''} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
+      `${price} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
     openGraph: image ? { images: [image] } : undefined,
   }
 }
@@ -98,11 +98,6 @@ export default async function ProductPage({ params }: { params: Params }) {
                   strikeClassName="text-lg"
                   showBadge
                 />
-                {product.unit ? (
-                  <span className="text-muted ml-2 text-base font-normal whitespace-nowrap">
-                    {t('per', { unit: product.unit })}
-                  </span>
-                ) : null}
               </p>
               {product.category ? (
                 <p className="text-muted mt-1 text-sm">
@@ -115,7 +110,6 @@ export default async function ProductPage({ params }: { params: Params }) {
               product={{
                 slug: product.slug,
                 name: product.name,
-                unit: product.unit,
                 price: product.price,
                 compareAtPrice: product.compareAtPrice,
               }}

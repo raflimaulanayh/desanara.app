@@ -21,7 +21,6 @@ export const productSummarySchema = z
     /** Normal price shown struck through (discount or free promo), or null. */
     compareAtPrice: z.number().int().nullable(),
     isFree: z.boolean(),
-    unit: z.string().nullable(),
     isAvailable: z.boolean(),
     imageKey: z.string().nullable(),
     category: z
@@ -65,7 +64,6 @@ export const productDetailSchema = productSummarySchema
         price: true,
         compareAtPrice: true,
         isFree: true,
-        unit: true,
       }),
     ),
   })

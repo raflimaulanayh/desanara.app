@@ -59,7 +59,11 @@ export const products = pgTable(
      * misleading "harga coret" is a consumer-protection problem. Null = no strikethrough.
      */
     compareAtPrice: integer(),
-    /** e.g. "pcs", "pack 250 gr", "kg". */
+    /**
+     * Deprecated (2026-11-16): no longer read or written. Size and packaging now go in the name, like
+     * marketplace titles. Migration 0005 moved existing values into `name`; the column is dropped in a
+     * later release (two-step change, see the new-db-migration skill).
+     */
     unit: text(),
     isAvailable: boolean().notNull().default(true),
     status: recordStatus().notNull().default('draft'),

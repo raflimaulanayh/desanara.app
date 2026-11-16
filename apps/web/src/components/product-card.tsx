@@ -52,7 +52,6 @@ export async function ProductCard({
             className="text-base font-extrabold tabular-nums sm:text-lg"
             strikeClassName="text-xs"
           />
-          {p.unit ? <span className="text-muted ml-1 text-xs font-normal">/ {p.unit}</span> : null}
         </p>
         <p className="text-muted flex items-center gap-1 text-xs">
           <MapPin className="size-3.5 shrink-0" style={{ color: p.village.accent }} aria-hidden />
