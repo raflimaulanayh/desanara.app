@@ -3,9 +3,14 @@ import { BRAND_NAME, buildWhatsAppLink, formatRupiah, type Locale } from '@repo/
 export interface OrderLine {
   name: string
   unit: string | null
+  /** Selling price; 0 = free. */
   price: number
+  /** Normal price shown struck through, repeated so the seller honours the promo. */
+  compareAtPrice?: number | null
   quantity: number
 }
+
+const rupiah = (n: number) => (n === 0 ? 'Gratis' : formatRupiah(n, 'id' satisfies Locale))
 
 /**
  * The order "nota" sent to the seller. Always written in Indonesian: the seller reads it,
@@ -21,15 +26,15 @@ export function buildOrderMessage(input: {
 }): string {
   const { line } = input
   const total = line.price * line.quantity
-  const id: Locale = 'id'
+  const normal = line.compareAtPrice ? ` (harga normal ${rupiah(line.compareAtPrice)})` : ''
   const rows = [
     'NOTA PESANAN',
     `Kepada: ${input.businessName} (${input.villageName})`,
     '',
     `${line.quantity} × ${line.name}${line.unit ? ` (${line.unit})` : ''}`,
-    `@ ${formatRupiah(line.price, id)} = ${formatRupiah(total, id)}`,
+    line.price === 0 ? `@ Gratis${normal}` : `@ ${rupiah(line.price)}${normal} = ${rupiah(total)}`,
     '',
-    `Jumlah: ${formatRupiah(total, id)}`,
+    `Jumlah: ${rupiah(total)}`,
   ]
   if (input.buyerName) rows.push(`Atas nama: ${input.buyerName}`)
   if (input.note) rows.push(`Catatan: ${input.note}`)

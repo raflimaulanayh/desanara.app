@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
+import { Price } from '@/components/price'
 import { ProductPhoto } from '@/components/product-photo'
 import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
@@ -23,13 +24,17 @@ type Params = Promise<{ locale: string; product: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, product: slug } = await params
-  const p = await getProduct(slug)
+  const [p, t] = await Promise.all([
+    getProduct(slug),
+    getTranslations({ locale, namespace: 'product' }),
+  ])
   const name = pick(locale, p.name, p.nameEn)
   const image = mediaUrl(p.images[0]?.key)
+  const price = p.price === 0 ? t('free') : formatRupiah(p.price, asLocale(locale))
   return {
     title: `${name} · ${p.business.name}`,
     description:
-      `${formatRupiah(p.price, asLocale(locale))}${p.unit ? ` / ${p.unit}` : ''} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
+      `${price}${p.unit ? ` / ${p.unit}` : ''} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
     openGraph: image ? { images: [image] } : undefined,
   }
 }
@@ -95,8 +100,14 @@ export default async function ProductPage({ params }: { params: Params }) {
               <h1 className="font-village text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-extrabold tracking-tight text-balance">
                 {name}
               </h1>
-              <p className="mt-3 text-3xl font-extrabold tabular-nums">
-                {formatRupiah(product.price, loc)}
+              <p className="mt-3">
+                <Price
+                  price={product.price}
+                  compareAtPrice={product.compareAtPrice}
+                  className="text-3xl font-extrabold tabular-nums"
+                  strikeClassName="text-lg"
+                  showBadge
+                />
                 {product.unit ? (
                   <span className="text-muted ml-2 text-base font-normal">
                     {t('per', { unit: product.unit })}
@@ -116,6 +127,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                 name: product.name,
                 unit: product.unit,
                 price: product.price,
+                compareAtPrice: product.compareAtPrice,
               }}
               businessName={business.name}
               businessSlug={business.slug}
@@ -209,8 +221,13 @@ export default async function ProductPage({ params }: { params: Params }) {
                     <span className="line-clamp-2 text-sm font-medium">
                       {pick(locale, m.name, m.nameEn)}
                     </span>
-                    <span className="mt-auto pt-1 font-extrabold tabular-nums">
-                      {formatRupiah(m.price, loc)}
+                    <span className="mt-auto pt-1">
+                      <Price
+                        price={m.price}
+                        compareAtPrice={m.compareAtPrice}
+                        className="font-extrabold tabular-nums"
+                        strikeClassName="text-xs"
+                      />
                     </span>
                   </Link>
                 </li>

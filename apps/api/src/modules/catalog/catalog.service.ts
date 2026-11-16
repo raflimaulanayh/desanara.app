@@ -12,6 +12,8 @@ export function toSummary(r: Row) {
     name: r.name,
     nameEn: r.nameEn,
     price: r.price,
+    compareAtPrice: r.compareAtPrice,
+    isFree: r.price === 0,
     unit: r.unit,
     isAvailable: r.isAvailable,
     imageKey: r.imageKey,
@@ -59,7 +61,7 @@ export async function getProduct(db: Database, slug: string) {
         closedNote: row.closedNote,
         verifiedAt: row.verifiedAt?.toISOString() ?? null,
       },
-      more,
+      more: more.map((m) => ({ ...m, isFree: m.price === 0 })),
     },
   }
 }

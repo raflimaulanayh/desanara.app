@@ -15,6 +15,7 @@ import { businessRoutes } from './modules/businesses/businesses.routes'
 import { catalogRoutes } from './modules/catalog/catalog.routes'
 import { eventRoutes } from './modules/events/events.routes'
 import { manageBusinessRoutes } from './modules/manage-businesses/manage-businesses.routes'
+import { manageProductRoutes } from './modules/manage-products/manage-products.routes'
 import { regionRoutes } from './modules/regions/regions.routes'
 import { villageRoutes } from './modules/villages/villages.routes'
 
@@ -73,6 +74,7 @@ export function createApp({
     .route('/v1/regions', regionRoutes)
     .route('/v1/events', eventRoutes)
     .route('/v1/manage/businesses', manageBusinessRoutes)
+    .route('/v1/manage', manageProductRoutes)
     .route('/v1', catalogRoutes)
 
   if (docs.mode !== 'off') {

@@ -49,6 +49,11 @@ transaction. Business rules that are not "who" questions live in services, not i
   business puts it back to `pending`.
 - Takedown (`takenDownAt`) hides the business and blocks publishing until a village admin restores it.
 - Withdrawing consent unpublishes the business immediately.
+- Products: reading needs `business.view` on the product's business; creating needs `product.create` on the
+  business; edit, publish and delete use `product.*` on the product (ids from the database row).
+  Publishing a product needs a category and at least one photo (409 `NO_CATEGORY` | `NO_PHOTO`); it shows
+  publicly only while its business is public too. There is no product takedown: a village admin can delete
+  (soft) a product, and the reason is in `audit_logs`.
 - Dashboard lists: super admin sees all; a village admin sees their villages; everyone else sees only the
   businesses they are a member of.
 

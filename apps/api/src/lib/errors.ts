@@ -38,6 +38,13 @@ export class AppError extends Error {
   static conflict(message: string, reason: string) {
     return new AppError(409, 'CONFLICT', message, { reason })
   }
+  /** 422 for a rule checked by the service, in the same `details` shape as request validation. */
+  static invalid(field: string, message: string) {
+    return new AppError(422, 'VALIDATION_FAILED', 'Invalid request', {
+      errors: [],
+      properties: { [field]: { errors: [message] } },
+    })
+  }
 }
 
 export function errorBody(c: Context<AppEnv>, code: ErrorCode, message: string, details?: unknown) {

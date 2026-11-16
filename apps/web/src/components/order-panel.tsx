@@ -21,7 +21,13 @@ export function OrderPanel({
   productUrl,
   available,
 }: {
-  product: { slug: string; name: string; unit: string | null; price: number }
+  product: {
+    slug: string
+    name: string
+    unit: string | null
+    price: number
+    compareAtPrice: number | null
+  }
   businessName: string
   businessSlug: string
   villageName: string
@@ -31,7 +37,8 @@ export function OrderPanel({
 }) {
   const t = useTranslations('order')
   const locale = useLocale()
-  const fmt = (n: number) => formatRupiah(n, locale === 'en' ? 'en' : 'id')
+  const tp = useTranslations('product')
+  const fmt = (n: number) => (n === 0 ? tp('free') : formatRupiah(n, locale === 'en' ? 'en' : 'id'))
   const [quantity, setQuantity] = useState(1)
   const [note, setNote] = useState('')
   const ids = { qty: useId(), note: useId() }
@@ -44,7 +51,13 @@ export function OrderPanel({
   const message = buildOrderMessage({
     businessName,
     villageName,
-    line: { name: product.name, unit: product.unit, price: product.price, quantity },
+    line: {
+      name: product.name,
+      unit: product.unit,
+      price: product.price,
+      compareAtPrice: product.compareAtPrice,
+      quantity,
+    },
     note: note.trim() || undefined,
     productUrl,
   })

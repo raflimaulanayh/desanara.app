@@ -22,7 +22,13 @@ erDiagram
 - Ids: `uuid` (random) for domain tables; Better Auth tables use text ids.
 - `createdAt` / `updatedAt` everywhere; `deletedAt` (soft delete) on villages, businesses, products.
 - `isSeed` on rows created by the demo seed; `db:seed:reset` deletes only those.
-- Money: `products.price` is an integer in rupiah.
+- Money: `products.price` is an integer in rupiah. `0` means free ("Gratis"); otherwise at least Rp100
+  (validator, catches typos). `products.compareAtPrice` (nullable) is the normal price shown struck through
+  for a discount or a free promo; a check constraint keeps it above `price`, and a non-negative check guards
+  `price`. There is no separate `is_free` column (one source of truth); the API derives `isFree`.
+- Product slugs are generated from the name by the API, unique platform-wide; a taken name gets the business
+  name appended, then `-2`, `-3` … (`keripik-singkong` → `keripik-singkong-keripik-bu-ani`). The village of a
+  product is always its business's village. Variants (size, flavour) are separate products in the MVP.
 - Status: `record_status` = draft | published | archived. Businesses also have
   `verification_status` = pending | verified | rejected (verified once by the village admin).
 - `businesses.consentAt` records UU PDP consent; required before publishing. `consentMethod`

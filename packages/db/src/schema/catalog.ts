@@ -1,4 +1,14 @@
-import { boolean, index, integer, pgTable, primaryKey, text, uuid } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
+import {
+  boolean,
+  check,
+  index,
+  integer,
+  pgTable,
+  primaryKey,
+  text,
+  uuid,
+} from 'drizzle-orm/pg-core'
 import { seedFlag, softDelete, timestamps } from './_shared'
 import { users } from './auth'
 import { businesses } from './businesses'
@@ -42,8 +52,13 @@ export const products = pgTable(
     slug: text().notNull().unique(),
     name: text().notNull(),
     description: text(),
-    /** Price in whole rupiah (no decimals). */
+    /** Selling price in whole rupiah (no decimals). 0 = free ("Gratis"). */
     price: integer().notNull(),
+    /**
+     * Normal price shown struck through (discount or free promo). Must be a real earlier price:
+     * misleading "harga coret" is a consumer-protection problem. Null = no strikethrough.
+     */
+    compareAtPrice: integer(),
     /** e.g. "pcs", "pack 250 gr", "kg". */
     unit: text(),
     isAvailable: boolean().notNull().default(true),
@@ -59,6 +74,11 @@ export const products = pgTable(
     index().on(t.villageId),
     index().on(t.categoryId),
     index().on(t.status),
+    check('products_price_non_negative', sql`${t.price} >= 0`),
+    check(
+      'products_compare_at_price_above_price',
+      sql`${t.compareAtPrice} is null or ${t.compareAtPrice} > ${t.price}`,
+    ),
   ],
 )
 

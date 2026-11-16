@@ -32,12 +32,17 @@
 - **Public vs private.** Public, cacheable reads use slugs (`/v1/businesses/{slug}`). Everything the
   dashboard reads or writes lives under **`/v1/manage/*`**, addressed by uuid, behind `requireUser`, and
   answered with `Cache-Control: no-store`. Example: `/v1/manage/businesses` (list, create),
-  `/v1/manage/businesses/{id}` (get, `PATCH`, `DELETE`), `/{id}/verify|publish|unpublish|takedown|restore`.
+  `/v1/manage/businesses/{id}` (get, `PATCH`, `DELETE`), `/{id}/verify|publish|unpublish|takedown|restore`;
+  `/v1/manage/businesses/{id}/products` (list, create), `/v1/manage/products/{id}` (get, `PATCH`, `DELETE`),
+  `/v1/manage/products/{id}/publish|unpublish`.
 - `PATCH` is partial: a missing field is unchanged, `null` or `""` clears it. Never give update schemas
   defaults (a default silently overwrites stored data on every edit).
 - Private responses include `permissions` (booleans from `can()`) so the dashboard can show the right
   buttons without duplicating the rules.
 - A broken business rule is `409 CONFLICT` with a stable `details.reason` code (e.g. `NOT_VERIFIED`).
+- A field rule the service checks against the stored row (e.g. `compareAtPrice` must stay above the new
+  `price`) is `422 VALIDATION_FAILED` in the same `details` shape as request validation
+  (`AppError.invalid(field, message)`), so the dashboard shows it next to the field.
 - Every response carries `X-Request-Id`; log it with errors.
 - Throw `AppError` (or let `assertCan` throw `ForbiddenError`) — `handleError` turns it into the envelope.
 - Mutations write an `audit_logs` row in the same transaction (`writeAudit()` in `apps/api/src/lib/audit.ts`;

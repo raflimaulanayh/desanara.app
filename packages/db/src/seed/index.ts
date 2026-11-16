@@ -24,7 +24,13 @@ import {
   villageMembers,
   villages,
 } from '../schema'
-import { DEMO_EMAIL_DOMAIN, DEMO_PASSWORD, demoVillages, productPhotos } from './demo-data'
+import {
+  DEMO_EMAIL_DOMAIN,
+  DEMO_PASSWORD,
+  demoCompareAtPrices,
+  demoVillages,
+  productPhotos,
+} from './demo-data'
 import { categorySeed, regionSeed } from './reference-data'
 
 const args = new Set(process.argv.slice(2))
@@ -249,6 +255,7 @@ async function insertDemoData(tx: Database) {
             name: pr.name,
             description: pr.description,
             price: pr.price,
+            compareAtPrice: demoCompareAtPrices[pr.slug] ?? null,
             unit: pr.unit,
             status: b.verified ? 'published' : 'draft',
             createdBy: assistantId ?? adminId,

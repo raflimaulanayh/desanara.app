@@ -1,10 +1,10 @@
-import { formatRupiah } from '@repo/i18n'
 import { MapPin } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import type { ProductSummary } from '@/lib/data'
-import { asLocale, pick } from '@/lib/localize'
+import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
+import { Price, PromoBadge } from './price'
 import { ProductPhoto } from './product-photo'
 
 /** Marketplace card: photo, name, price, and where it comes from (the village is the differentiator). */
@@ -37,11 +37,21 @@ export async function ProductCard({
             {t('unavailable')}
           </span>
         ) : null}
+        <PromoBadge
+          price={p.price}
+          compareAtPrice={p.compareAtPrice}
+          className="absolute top-2 right-2"
+        />
       </div>
       <div className="flex flex-1 flex-col gap-1 p-3">
         <h3 className="line-clamp-2 text-sm leading-snug font-medium sm:text-base">{name}</h3>
-        <p className="mt-auto pt-1 text-base font-extrabold tabular-nums sm:text-lg">
-          {formatRupiah(p.price, asLocale(locale))}
+        <p className="mt-auto pt-1">
+          <Price
+            price={p.price}
+            compareAtPrice={p.compareAtPrice}
+            className="text-base font-extrabold tabular-nums sm:text-lg"
+            strikeClassName="text-xs"
+          />
           {p.unit ? <span className="text-muted ml-1 text-xs font-normal">/ {p.unit}</span> : null}
         </p>
         <p className="text-muted flex items-center gap-1 text-xs">

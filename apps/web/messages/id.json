@@ -134,7 +134,10 @@
     "moreTitle": "Produk lain dari {business}",
     "unavailable": "Stok kosong",
     "visitVillage": "Kunjungi desa",
-    "visitShop": "Lihat toko"
+    "visitShop": "Lihat toko",
+    "free": "Gratis",
+    "off": "-{pct}%",
+    "normalPrice": "Harga normal"
   },
   "order": {
     "quantity": "Jumlah",

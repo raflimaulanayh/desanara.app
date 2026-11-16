@@ -16,7 +16,11 @@ export const productSummarySchema = z
     slug: z.string(),
     name: z.string(),
     nameEn: z.string().nullable(),
+    /** Selling price in whole rupiah; 0 = free ("Gratis"). */
     price: z.number().int(),
+    /** Normal price shown struck through (discount or free promo), or null. */
+    compareAtPrice: z.number().int().nullable(),
+    isFree: z.boolean(),
     unit: z.string().nullable(),
     isAvailable: z.boolean(),
     imageKey: z.string().nullable(),
@@ -54,7 +58,15 @@ export const productDetailSchema = productSummarySchema
       verifiedAt: z.string().nullable(),
     }),
     more: z.array(
-      productSummarySchema.pick({ slug: true, name: true, nameEn: true, price: true, unit: true }),
+      productSummarySchema.pick({
+        slug: true,
+        name: true,
+        nameEn: true,
+        price: true,
+        compareAtPrice: true,
+        isFree: true,
+        unit: true,
+      }),
     ),
   })
   .openapi('ProductDetail')
