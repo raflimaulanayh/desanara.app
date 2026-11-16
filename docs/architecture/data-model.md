@@ -53,9 +53,26 @@ erDiagram
 
 ## Regions
 
-`regions.code` uses Kemendagri codes: `32` → `32.04` → `32.04.10` → `32.04.10.2001`.
-The seed includes Jawa Barat and its 27 regencies/cities. District and village levels must be imported from the
-official dataset (never invented); villages can reference any level until then.
+`regions.code` uses Kemendagri codes: `32` (province), `32.04` (regency/city), `32.04.16` (district),
+`32.04.16.2005` (village). All 91,599 regions of Kepmendagri 2025 are loaded from
+`packages/db/data/regions` by `bun run db:regions:import` (also run by `db:seed`); source, version and licence
+are in `packages/db/data/regions/SOURCE.md`. Codes are never invented by hand.
+
+- The code is the key and encodes the hierarchy, so "everything in Kabupaten Bandung" is
+  `code LIKE '32.04.%'` (btree index with `text_pattern_ops`); no recursive joins.
+- `fullName` ("Baros, Kec. Arjasari, Kabupaten Bandung, Jawa Barat") is built at import and searched through a
+  `pg_trgm` GIN index on `lower(full_name)`. Every search word must match (`GET /v1/regions/search`).
+- `lat`/`lng`: the region's centre point (WGS84) from the open boundaries dataset; 91,439 rows have one.
+- Rows are never deleted. When a newer dataset drops a code (regions split or merged), the import sets
+  `retiredAt`; villages and businesses that point at it stay valid and searches hide it. `sourceVersion` records
+  the dataset version that last wrote each row, so a repeated import is skipped.
+- Size: about 37 MB with indexes. Clients never load the whole table: search returns at most 20 rows and a
+  children list one level, both cached (`s-maxage` one day).
+
+`villages.regionCode` should be the village-level code (the seeded Desa Baros is `32.04.16.2005`; the fictional
+demo villages point at a regency). A unique partial index allows one live tenant per region code, so a desa cannot
+be registered twice. `villages.centerLat`/`centerLng` hold the map centre the village admin chose; null means the
+region's centre point.
 
 ## Personal data on public pages
 

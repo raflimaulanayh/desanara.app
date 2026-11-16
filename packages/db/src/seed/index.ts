@@ -19,7 +19,6 @@ import {
   products,
   productImages,
   productTranslations,
-  regions,
   users,
   villageMembers,
   villages,
@@ -31,7 +30,8 @@ import {
   demoVillages,
   productPhotos,
 } from './demo-data'
-import { categorySeed, regionSeed } from './reference-data'
+import { importRegions } from '../regions/import'
+import { categorySeed } from './reference-data'
 
 const args = new Set(process.argv.slice(2))
 const resetOnly = args.has('--reset')
@@ -87,15 +87,9 @@ async function resetDemoData(tx: Database) {
 }
 
 async function upsertReferenceData(tx: Database) {
-  for (const r of regionSeed) {
-    await tx
-      .insert(regions)
-      .values({ code: r.code, name: r.name, level: r.level, parentCode: r.parentCode })
-      .onConflictDoUpdate({
-        target: regions.code,
-        set: { name: r.name, level: r.level, parentCode: r.parentCode },
-      })
-  }
+  // Every Kemendagri region (skipped when the dataset version is already loaded).
+  const imported = await importRegions(tx)
+  if (!imported.skipped) console.log(`Imported ${imported.upserted} regions.`)
 
   for (const [i, c] of categorySeed.entries()) {
     const [row] = await tx

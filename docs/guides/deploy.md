@@ -12,7 +12,8 @@ Detail teknis: `docs/architecture/deployment.md`. Keputusan: ADR 0009 (semua di 
    - **Session pooler** (port 5432) → `DATABASE_URL` di `.env` laptop (untuk migrasi dan seed).
    - **Transaction pooler** (port 6543) → `DATABASE_URL` di Vercel project API.
    - Jangan pakai "Direct connection" (`db.<ref>.supabase.co`): di paket gratis hanya IPv6.
-3. Dari laptop: `bun run db:migrate`, lalu (untuk demo) `bun run db:seed` dengan `SEED_DEMO_PASSWORD` terisi di `.env`.
+3. Dari laptop: `bun run db:migrate`, lalu `bun run db:regions:import` (data wilayah resmi), lalu (untuk demo) `bun run db:seed`
+   dengan `SEED_DEMO_PASSWORD` terisi di `.env`.
 
 ### 2. Vercel (tiga project dari repo GitHub yang sama)
 
@@ -33,7 +34,8 @@ di env di atas dan isi `COOKIE_DOMAIN=desanara.id` di API.
 ## Setiap rilis
 
 1. CI hijau, merge ke `main` → ketiga project ter-deploy otomatis. Branch lain mendapat preview (memakai database yang sama).
-2. Ada migrasi baru? Jalankan `bun run db:migrate` dari laptop (session pooler) **sebelum** merge.
+2. Ada migrasi baru? Jalankan `bun run db:migrate` dari laptop (session pooler) **sebelum** merge. Bila `REGION_DATASET_VERSION`
+   berubah, jalankan juga `bun run db:regions:import`.
 3. Cek `https://<api>/health/ready` → `{"status":"ok","database":true}`. Dokumentasi API (`/docs`) di production dikunci dengan `DOCS_USERNAME`/`DOCS_PASSWORD`; tanpa `DOCS_PASSWORD` halaman itu mati (404).
 4. Tambah tag rilis (`v0.1.0`) dan catat di CHANGELOG.
 

@@ -96,7 +96,8 @@ export const demoVillages: DemoVillage[] = [
     isRealVillage: true,
     slug: 'baros',
     name: 'Desa Baros',
-    regionCode: '32.04',
+    /** Real Kemendagri village code: Baros, Kec. Arjasari, Kab. Bandung. */
+    regionCode: '32.04.16.2005',
     description:
       'Desa di Kecamatan Arjasari, Kabupaten Bandung, Jawa Barat — desa pilot program Desanara bersama HIMA Sistem Informasi SATU University.',
     businesses: [

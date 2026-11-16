@@ -272,6 +272,7 @@ bun run db:generate       # membuat migrasi setelah mengubah skema di packages/d
 bun run db:migrate        # menjalankan migrasi
 bun run db:seed           # mengisi ulang data contoh (aman diulang)
 bun run db:seed:reset     # menghapus data contoh saja
+bun run db:regions:import # memperbarui data wilayah Kepmendagri (juga dijalankan oleh db:seed)
 bun run db:studio         # melihat isi database di browser
 bun run generate          # membuat kerangka modul API baru
 ```
