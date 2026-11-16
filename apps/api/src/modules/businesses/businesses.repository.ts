@@ -13,7 +13,6 @@ export const businessColumns = {
   name: businesses.name,
   ownerName: businesses.ownerName,
   description: businesses.description,
-  address: businesses.address,
   logoKey: businesses.logoKey,
   whatsappNumber: businesses.whatsappNumber,
   shopeeUrl: businesses.shopeeUrl,
