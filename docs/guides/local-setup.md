@@ -24,6 +24,20 @@ Buka:
 - http://localhost:3001/login — dashboard (akun demo di [seed-data.md](seed-data.md))
 - http://localhost:8787/docs — dokumentasi API
 
+## Test integrasi API
+
+Test di `apps/api` yang butuh database (mis. `/v1/manage/businesses`) hanya jalan bila `TEST_DATABASE_URL`
+diisi dengan database **lokal** yang sudah dimigrasi. Tanpa itu test tersebut dilewati. Test menolak host
+selain localhost, jadi tidak mungkin menyentuh Supabase.
+
+```bash
+createdb umkm_test   # atau pakai database dari docker-compose
+(cd packages/db && DATABASE_URL=postgres://postgres:postgres@localhost:5432/umkm_test bunx drizzle-kit migrate)
+TEST_DATABASE_URL=postgres://postgres:postgres@localhost:5432/umkm_test bun run --cwd apps/api test
+```
+
+Test membuat desa/akun sendiri dengan penanda unik dan menghapusnya lagi di akhir. CI menjalankannya otomatis.
+
 ## Sebelum commit
 
 ```bash

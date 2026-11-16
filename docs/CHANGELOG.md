@@ -21,6 +21,31 @@ Format:
 - **Jenis**: Security
 - Halaman UMKM publik dan `GET /v1/businesses/{slug}` tidak lagi menampilkan alamat UMKM. Lokasi publik berhenti di level desa (nama desa dan wilayahnya), seperti marketplace yang hanya menampilkan kota penjual. Alamat jalan dan RT/RW sering kali alamat rumah pemilik (UU PDP), jadi hanya dipakai di dashboard.
 
+## 2026-11-15 — Keputusan: domain gratis selama development
+
+- **Area**: docs
+- **Jenis**: Changed
+- Selama development aplikasi tetap di `*.vercel.app` dan foto di URL `r2.dev`; domain sendiri dibeli nanti. Langkah pindah domain dicatat di `docs/architecture/deployment.md`. Domain sebaiknya dibeli sebelum materi seminar (QR, brosur) dicetak.
+
+## 2026-11-15 — Penyimpanan Cloudflare R2 disiapkan
+
+- **Area**: docs, .env.example
+- **Jenis**: Added | Security
+- R2 diaktifkan di akun Cloudflare **HIMASIF** (bukan akun pribadi) dengan dua bucket di APAC: `desanara-media` (publik lewat URL `r2.dev` untuk sementara, CORS hanya untuk dashboard) dan `desanara-backups` (privat). Backup dipisah bucket karena akses publik R2 berlaku untuk seluruh bucket; dokumen lama yang menyebut "bucket/prefix" diperbaiki.
+- Env: `R2_BUCKET=desanara-media`, `R2_ACCOUNT_ID`, `R2_PUBLIC_URL` (URL `r2.dev`). Kunci S3 dibuat lewat R2 API token yang dibatasi ke satu bucket. Pindah ke domain sendiri nanti tanpa migrasi data.
+- Terkait: PLAN-mvp-seminar.md, docs/architecture/storage.md
+
+## 2026-11-15 — API kelola UMKM untuk dashboard
+
+- **Area**: apps/api, packages/db, packages/auth, packages/validators, .github, docs
+- **Jenis**: Added | Fixed
+- Endpoint baru `/v1/manage/businesses` (login wajib, tidak di-cache): daftar sesuai hak akses, buat UMKM (slug dibuat otomatis dari nama), ubah, verifikasi/tolak oleh admin desa (penolakan wajib beralasan, setelah diedit otomatis kembali menunggu), publish/unpublish, takedown/pulihkan, dan hapus (soft delete, khusus admin desa). Publish ditolak bila belum diverifikasi, belum ada persetujuan, tanpa nomor WA, atau sedang ditakedown. Setiap perubahan tercatat di `audit_logs`, termasuk penggantian nomor WA.
+- **Migrasi `0003_business_management`** (hanya menambah kolom): bukti persetujuan UU PDP (`consent_method`, `consent_recorded_by`), alasan verifikasi (`verification_note`), dan takedown (`taken_down_at`, `taken_down_by`, `takedown_reason`). UMKM yang ditakedown otomatis hilang dari halaman publik. Jalankan `bun run db:migrate`.
+- Action izin baru: `business.list_all`, `business.list`, `business.view`, `business.change_slug`, `business.delete`.
+- Perbaikan: skema ubah UMKM lama mencabut persetujuan pemilik di setiap edit (nilai bawaan `consentGiven: false`). Skema baru tidak punya nilai bawaan; field kosong berarti dihapus, field tidak dikirim berarti tidak berubah.
+- Test integrasi API memakai Postgres lokal lewat `TEST_DATABASE_URL` (ditolak bila bukan localhost); CI kini memigrasi database sebelum test.
+- Terkait: PLAN-mvp-seminar.md
+
 ## 2026-11-15 — Halaman login bermerek untuk dokumentasi API
 
 - **Area**: apps/api, docs

@@ -28,17 +28,29 @@ The API session middleware builds an `Actor` (`apps/api/src/lib/actor.ts`) from 
 | Action                                                                                          | super_admin | village_admin (own village) | village_assistant | owner (own) | assistant (assigned) |
 | ----------------------------------------------------------------------------------------------- | ----------- | --------------------------- | ----------------- | ----------- | -------------------- |
 | `village.create`, `category.manage`, `user.manage`                                              | ✅          | —                           | —                 | —           | —                    |
+| `business.list_all` (dashboard list across villages)                                            | ✅          | —                           | —                 | —           | —                    |
 | `village.update`, `village.manage_members`, `village.view_analytics`, `village.customize_theme` | ✅          | ✅                          | —                 | —           | —                    |
+| `business.list` (every business of the village, incl. drafts)                                   | ✅          | ✅                          | —                 | —           | —                    |
 | `business.create`                                                                               | ✅          | ✅                          | ✅                | —           | —                    |
 | `business.verify`, `business.takedown`                                                          | ✅          | ✅                          | —                 | —           | —                    |
-| `business.update`, `business.publish`, `business.view_analytics`                                | ✅          | ✅                          | via assignment    | ✅          | ✅                   |
+| `business.view`, `business.update`, `business.publish`, `business.view_analytics`               | ✅          | ✅                          | via assignment    | ✅          | ✅                   |
+| `business.change_slug`, `business.delete` (soft)                                                | ✅          | ✅                          | —                 | —           | —                    |
 | `business.manage_members`                                                                       | ✅          | ✅                          | —                 | ✅          | —                    |
 | `business.invite_owner` (hand-over)                                                             | ✅          | ✅                          | via assignment    | ✅          | ✅                   |
 | `product.create/update/publish/delete`                                                          | ✅          | ✅                          | via assignment    | ✅          | ✅                   |
 
 A village assistant who creates a business becomes its `assistant` (business membership) in the same
-transaction. Business rules that are not "who" questions (e.g. _a business must be verified and have
-consent before publishing_) live in services, not in `can()`.
+transaction. Business rules that are not "who" questions live in services, not in `can()`:
+
+- Publish needs `verificationStatus = verified`, consent (`consentAt`), a WhatsApp number, and no takedown.
+  The API answers 409 `CONFLICT` with `details.reason` = `NOT_VERIFIED` | `NO_CONSENT` | `NO_WHATSAPP` |
+  `TAKEN_DOWN` so the dashboard can explain what is missing.
+- Only a `pending` business can be reviewed; rejection needs a note (`verificationNote`). Editing a rejected
+  business puts it back to `pending`.
+- Takedown (`takenDownAt`) hides the business and blocks publishing until a village admin restores it.
+- Withdrawing consent unpublishes the business immediately.
+- Dashboard lists: super admin sees all; a village admin sees their villages; everyone else sees only the
+  businesses they are a member of.
 
 ## Account hand-over (pendamping → pemilik)
 

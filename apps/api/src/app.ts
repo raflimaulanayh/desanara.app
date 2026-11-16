@@ -8,12 +8,13 @@ import { secureHeaders } from 'hono/secure-headers'
 import { registerDocsAuth } from './lib/docs-auth'
 import { errorBody, handleError } from './lib/errors'
 import { createRouter } from './lib/router'
-import { sessionMiddleware } from './middleware/session'
+import { requireUser, sessionMiddleware } from './middleware/session'
 import { healthRoutes } from './modules/health/health.routes'
 import { meRoutes } from './modules/me/me.routes'
 import { businessRoutes } from './modules/businesses/businesses.routes'
 import { catalogRoutes } from './modules/catalog/catalog.routes'
 import { eventRoutes } from './modules/events/events.routes'
+import { manageBusinessRoutes } from './modules/manage-businesses/manage-businesses.routes'
 import { regionRoutes } from './modules/regions/regions.routes'
 import { villageRoutes } from './modules/villages/villages.routes'
 
@@ -61,6 +62,8 @@ export function createApp({
   app.on(['GET', 'POST'], '/api/auth/*', (c) => auth.handler(c.req.raw))
 
   app.use('/v1/*', sessionMiddleware)
+  // Everything under /v1/manage is the logged-in dashboard: private, never cached.
+  app.use('/v1/manage/*', requireUser)
 
   const routes = app
     .route('/health', healthRoutes)
@@ -69,6 +72,7 @@ export function createApp({
     .route('/v1/businesses', businessRoutes)
     .route('/v1/regions', regionRoutes)
     .route('/v1/events', eventRoutes)
+    .route('/v1/manage/businesses', manageBusinessRoutes)
     .route('/v1', catalogRoutes)
 
   if (docs.mode !== 'off') {

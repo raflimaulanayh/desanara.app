@@ -28,17 +28,30 @@ export type Resource =
   | { type: 'business'; villageId: string; businessId: string }
   | { type: 'product'; villageId: string; businessId: string }
 
-export type PlatformAction = 'village.create' | 'category.manage' | 'user.manage'
+export type PlatformAction =
+  | 'village.create'
+  | 'category.manage'
+  | 'user.manage'
+  /** List businesses of every village (dashboard). */
+  | 'business.list_all'
 export type VillageAction =
   | 'village.update'
   | 'village.manage_members'
   | 'village.view_analytics'
   | 'village.customize_theme'
+  /** See every business of the village, including drafts of others (dashboard list). */
+  | 'business.list'
   | 'business.create'
   | 'business.verify'
   | 'business.takedown'
 export type BusinessAction =
+  /** Read the private view of one business (consent, verification, takedown). */
+  | 'business.view'
   | 'business.update'
+  /** Change the public URL slug; breaks shared links, so village admins only. */
+  | 'business.change_slug'
+  /** Soft delete (duplicates, mistakes); village admins only. */
+  | 'business.delete'
   | 'business.publish'
   | 'business.manage_members'
   | 'business.invite_owner'
@@ -62,6 +75,7 @@ const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
     'village.manage_members',
     'village.view_analytics',
     'village.customize_theme',
+    'business.list',
     'business.create',
     'business.verify',
     'business.takedown',
@@ -71,6 +85,7 @@ const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
 
 const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | ProductAction)[]> = {
   owner: [
+    'business.view',
     'business.update',
     'business.publish',
     'business.manage_members',
@@ -82,6 +97,7 @@ const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | Pro
     'product.delete',
   ],
   assistant: [
+    'business.view',
     'business.update',
     'business.publish',
     'business.invite_owner',
