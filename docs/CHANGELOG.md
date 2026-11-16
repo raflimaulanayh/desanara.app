@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-16 — Halaman produk dan foto di dashboard, isian satuan dihapus
+
+- **Area**: apps/dashboard, apps/api, apps/web, packages/db, packages/validators, docs
+- **Jenis**: Added | Changed | Fixed
+- Dashboard: daftar produk di halaman UMKM (foto sampul, harga, status, stok kosong), halaman **Tambah produk** dan halaman produk (`/products/[id]`) berisi syarat tayang, foto, data, dan hapus. Form: harga dengan titik ribuan (hanya angka), **Gratis**, **Sedang promo** dengan pratinjau persen potongan, stok tersedia, versi Inggris, draf otomatis di perangkat.
+- Foto: sampai 10 per produk, dipilih langsung di form tambah produk lalu diunggah satu per satu setelah produk tersimpan, dengan progres, **Coba lagi**, peringatan saat menutup halaman, **Jadikan sampul**, geser kiri/kanan, dan hapus dengan konfirmasi. Logo UMKM bisa diunggah, diganti, dan dihapus dari halaman UMKM.
+- Isian satuan dihapus (keputusan 2026-11-16): seperti judul di marketplace, ukuran ditulis di nama produk. API, validator, situs publik, dan pesan WhatsApp tidak lagi memakai `unit`; nama produk demo diperbarui. **Migrasi `0005_product_unit_into_name`** hanya memindahkan isi `unit` ke nama dan mengosongkan kolomnya (aman dijalankan sebelum merge); kolomnya dihapus di rilis berikutnya.
+- Perbaikan: draf form yang ditulis tertunda setelah tombol simpan ditekan tidak lagi memunculkan "Ada isian yang belum tersimpan" (juga berlaku untuk form UMKM); draf yang isinya sama dengan data tersimpan dibuang. Menu UMKM tetap aktif di halaman produk.
+
 ## 2026-11-16 — Dokumentasi dirapikan untuk repositori publik
 
 - **Area**: README.md, LICENSE, docs, .env.example

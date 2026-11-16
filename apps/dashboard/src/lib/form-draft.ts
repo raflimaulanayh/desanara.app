@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
  * Form drafts kept on this device so a dropped signal or a closed tab does not lose what was
@@ -70,17 +70,31 @@ export function clearDrafts(userId: string) {
  * state initializer is safe; give the form a React `key` per record so a new key re-reads it.
  */
 export function useFormDraft<T>(key: string | null, value: T, dirty: boolean) {
-  const [draft, setDraft] = useState<Stored<T> | null>(() =>
-    key && typeof window !== 'undefined' ? readDraft<T>(key) : null,
-  )
+  const [draft, setDraft] = useState<Stored<T> | null>(() => {
+    if (!key || typeof window === 'undefined') return null
+    const stored = readDraft<T>(key)
+    // A draft identical to what the form already shows has nothing to restore.
+    if (stored && JSON.stringify(stored.value) === JSON.stringify(value)) {
+      removeDraft(key)
+      return null
+    }
+    return stored
+  })
+  const pending = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     if (!key || !dirty) return
-    const id = setTimeout(() => writeDraft(key, value), 800)
-    return () => clearTimeout(id)
+    pending.current = setTimeout(() => writeDraft(key, value), 800)
+    return () => {
+      if (pending.current) clearTimeout(pending.current)
+    }
   }, [key, value, dirty])
 
+  // Also cancels a write still waiting for its delay: saving right after typing must not leave a
+  // stale draft behind (regression: "Ada isian yang belum tersimpan" after a successful save).
   const discard = useCallback(() => {
+    if (pending.current) clearTimeout(pending.current)
+    pending.current = null
     if (key) removeDraft(key)
     setDraft(null)
   }, [key])

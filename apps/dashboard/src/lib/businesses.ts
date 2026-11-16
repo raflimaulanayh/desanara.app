@@ -47,6 +47,7 @@ export function useBusinessList(filters: BusinessFilters) {
 export function useBusiness(id: string) {
   return useQuery({
     queryKey: businessKeys.one(id),
+    enabled: Boolean(id),
     queryFn: async () =>
       (await unwrap(await api.v1.manage.businesses[':id'].$get({ param: { id } }))).data,
   })

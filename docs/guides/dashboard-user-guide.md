@@ -56,7 +56,39 @@ dan **formulir persetujuan kertas** yang sudah ditandatangani.
 - **Terverifikasi**: kotak **Tayang di Desanara** menampilkan syarat yang sudah dan belum terpenuhi. Bila semuanya
   **Terpenuhi**, tekan **Tayangkan**. Tekan **Lihat halaman publik** untuk mengecek tampilannya.
 - **Sembunyikan** menurunkan UMKM dari situs tanpa menghapus datanya.
-- (belum tersedia) Menambah produk dan foto, mengisi jam buka, dan menyerahkan akun ke pemilik.
+- (belum tersedia) Mengisi jam buka dan menyerahkan akun ke pemilik.
+
+## Menambah dan mengelola produk
+
+Produk dikelola dari halaman UMKM, di bagian **Produk**.
+
+1. Tekan **Tambah produk**.
+2. **Foto produk**: tekan **Tambah foto** dan pilih sampai 10 foto. Foto pertama menjadi **Sampul**. Urutannya bisa diatur
+   dengan tombol bintang (**Jadikan sampul**) dan panah kiri/kanan. Foto otomatis diperkecil dan data lokasinya dihapus.
+3. **Data produk**:
+   - **Nama produk**: tulis ukuran atau isinya di nama, seperti di marketplace, misalnya "Keripik Singkong Balado 250 gr".
+     Ukuran lain (misalnya 500 gr) dibuat sebagai produk terpisah.
+   - **Kategori**: wajib dipilih.
+   - **Harga (Rp)**: ketik angkanya saja, titik ribuan muncul sendiri. Minimal Rp100. Untuk sampel atau hadiah,
+     nyalakan **Gratis**.
+   - **Sedang promo**: nyalakan bila ada potongan harga, lalu isi **Harga normal sebelum promo**. Harga normal harus lebih
+     tinggi dan memang pernah berlaku. Dashboard menampilkan berapa persen potongannya.
+   - **Deskripsi**: rasa, bahan, ukuran, cara pakai, atau berapa lama tahan.
+   - **Stok tersedia**: matikan bila stok sedang kosong. Produk tetap tampil dengan tanda **Stok kosong** dan tidak bisa
+     dipesan.
+   - **Versi bahasa Inggris** (opsional): nama dan deskripsi untuk situs berbahasa Inggris.
+4. Tekan **Simpan produk**. Produk tersimpan sebagai draf, lalu foto diunggah satu per satu. Jangan tutup halaman sampai
+   halaman produk terbuka. Bila ada foto yang gagal (misalnya sinyal putus), tekan **Coba lagi** pada foto itu, atau
+   **Lanjut ke halaman produk** dan unggah lagi nanti.
+5. Di halaman produk, kotak **Tayang di Desanara** menunjukkan syaratnya: kategori sudah dipilih dan minimal 1 foto. Tekan
+   **Tayangkan**. Produk baru terlihat di situs bila UMKM-nya juga sedang tayang.
+
+Di halaman produk yang sama kamu bisa mengubah data (**Simpan perubahan**), menambah atau menghapus foto,
+**Sembunyikan** produk, atau **Hapus produk**. Foto terakhir dari produk yang sedang tayang tidak bisa dihapus;
+sembunyikan produknya dulu atau tambah foto lain.
+
+**Logo UMKM** juga diatur di halaman UMKM: tekan **Unggah logo** (gambar persegi paling rapi). Logo baru otomatis
+menggantikan logo lama.
 
 ## Admin desa: memverifikasi UMKM
 

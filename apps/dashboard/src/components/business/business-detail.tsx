@@ -15,7 +15,9 @@ import {
   useBusinessAction,
   useDeleteBusiness,
 } from '@/lib/businesses'
-import { Field } from '../field'
+import { ConfirmPanel } from '../confirm-panel'
+import { ProductSection } from '../product/product-section'
+import { LogoCard } from './logo-card'
 import { StatusChips } from './status-chips'
 
 const WEB_URL = process.env.NEXT_PUBLIC_WEB_URL?.replace(/\/$/, '')
@@ -35,61 +37,6 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
     <div className="border-line grid gap-1 border-b py-3 last:border-0 sm:grid-cols-[12rem_1fr]">
       <dt className="text-muted text-sm">{label}</dt>
       <dd className="text-sm font-medium break-words">{children}</dd>
-    </div>
-  )
-}
-
-/** A confirm step with a required text (reject note, takedown reason) or none (delete). */
-function ConfirmPanel({
-  title,
-  label,
-  min,
-  danger,
-  confirm,
-  pending,
-  onConfirm,
-  onCancel,
-}: {
-  title: string
-  label?: string
-  min?: number
-  danger?: boolean
-  confirm: string
-  pending: boolean
-  onConfirm: (text: string) => void
-  onCancel: () => void
-}) {
-  const t = useTranslations()
-  const [text, setText] = useState('')
-  const [error, setError] = useState('')
-  return (
-    <div className="bg-wash flex flex-col gap-3 rounded-2xl p-4">
-      <p className="font-bold">{title}</p>
-      {label ? (
-        <Field
-          name="reason"
-          multiline
-          label={label}
-          value={text}
-          onChange={setText}
-          error={error}
-        />
-      ) : null}
-      <div className="flex gap-2">
-        <Button
-          variant={danger ? 'danger' : 'primary'}
-          isPending={pending}
-          onPress={() => {
-            if (min && text.trim().length < min) return setError(t('form.tooShort', { min }))
-            onConfirm(text.trim())
-          }}
-        >
-          {confirm}
-        </Button>
-        <Button variant="ghost" onPress={onCancel}>
-          {t('common.cancel')}
-        </Button>
-      </div>
     </div>
   )
 }
@@ -324,12 +271,13 @@ export function BusinessDetail({ id }: { id: string }) {
                   })
                 : t('businessDetail.consentMissing')}
             </Row>
-            <Row label={t('businessDetail.products')}>
-              {t('businessList.products', { count: b.productCount })}
-            </Row>
           </dl>
         </Card.Content>
       </Card>
+
+      <ProductSection business={b} />
+
+      <LogoCard business={b} />
 
       {p.takedown || p.delete ? (
         <Card className="border-danger/30 border">
