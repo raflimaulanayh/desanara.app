@@ -36,10 +36,18 @@ const iso = (d: Date | null) => d?.toISOString() ?? null
 export function toManageDto(row: repo.ManageBusinessRow, actor: Actor): BusinessManage {
   const business = { type: 'business', villageId: row.villageId, businessId: row.id } as const
   const village = { type: 'village', villageId: row.villageId } as const
-  const { villageId, villageSlug, villageName, ...b } = row
+  const { villageId, villageSlug, villageName, villageCenterLat, villageCenterLng, ...b } = row
   return {
     ...b,
-    village: { id: villageId, slug: villageSlug, name: villageName },
+    village: {
+      id: villageId,
+      slug: villageSlug,
+      name: villageName,
+      center:
+        villageCenterLat !== null && villageCenterLng !== null
+          ? { lat: villageCenterLat, lng: villageCenterLng }
+          : null,
+    },
     closedUntil: iso(b.closedUntil),
     verifiedAt: iso(b.verifiedAt),
     consentAt: iso(b.consentAt),

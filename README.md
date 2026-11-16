@@ -115,12 +115,13 @@ dipakai di ponsel.
 | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
 | Masuk, pemeriksaan sesi, menu sesuai peran, beranda per peran                                               | Selesai                                  |
 | Daftar UMKM dengan pencarian dan tab status                                                                 | Selesai                                  |
-| Form UMKM tiga langkah; isian tersimpan otomatis di perangkat bila sinyal putus                             | Selesai                                  |
+| Form UMKM empat langkah; isian tersimpan otomatis di perangkat bila sinyal putus                            | Selesai                                  |
 | Verifikasi UMKM, tayang dan sembunyikan dengan daftar syarat, turunkan dan pulihkan oleh admin desa         | Selesai                                  |
 | Produk: harga rupiah, gratis, harga coret, kategori, stok kosong, terjemahan Inggris                        | Selesai                                  |
 | Foto: sampai 10 foto per produk, dikompres dan dibersihkan dari data lokasi di perangkat, urutan dan sampul | Selesai                                  |
 | Logo UMKM                                                                                                   | Selesai                                  |
-| Lokasi UMKM untuk keperluan internal (RT/RW, patokan, titik peta) dan data wilayah Kemendagri lengkap       | Direncanakan                             |
+| Lokasi UMKM untuk keperluan internal (RT/RW, patokan, titik peta dengan GPS) dan data wilayah Kemendagri    | Selesai                                  |
+| Pengaturan desa: titik desa di peta dan profil kantor desa                                                  | Selesai                                  |
 | Jam buka, tutup sementara, pengaturan desa, editor tampilan desa                                            | Direncanakan                             |
 | Undangan dan serah-terima akun ke pemilik, pendaftaran UMKM lewat tautan desa, pengajuan desa baru          | Direncanakan                             |
 | Statistik kunjungan dan klik WhatsApp                                                                       | Pencatatan selesai, halaman direncanakan |

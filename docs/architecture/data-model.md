@@ -74,6 +74,14 @@ demo villages point at a regency). A unique partial index allows one live tenant
 be registered twice. `villages.centerLat`/`centerLng` hold the map centre the village admin chose; null means the
 region's centre point.
 
+## Business location (internal)
+
+`businesses.address` (street or landmark), `rt`, `rw` (three digits, "001") and `lat`/`lng` (map pin, WGS84, six
+decimals) are internal: they are returned only by `/v1/manage/businesses` and never by public endpoints (covered by a
+test). Validators keep the pin inside Indonesia and require latitude and longitude together. No PostGIS yet: plain
+`double precision` columns; a "nearby" feature can add a generated `geography` column and index later without moving
+data.
+
 ## Personal data on public pages
 
 `businesses.address` (and the RT/RW and map pin planned next) is often the owner's home. Public API responses and

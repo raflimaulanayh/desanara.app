@@ -16,13 +16,26 @@ export const businessPermissionsSchema = z
 export const businessManageSchema = z
   .object({
     id: z.uuid(),
-    village: z.object({ id: z.uuid(), slug: z.string(), name: z.string() }),
+    village: z.object({
+      id: z.uuid(),
+      slug: z.string(),
+      name: z.string(),
+      /** Map centre for the location picker: the village's own point, else its region's. */
+      center: z.object({ lat: z.number(), lng: z.number() }).nullable(),
+    }),
     slug: z.string(),
     name: z.string(),
     ownerName: z.string().nullable(),
     description: z.string().nullable(),
     whatsappNumber: z.string().nullable(),
+    /** Street or landmark (internal). */
     address: z.string().nullable(),
+    /** Three digits ("001"), internal. */
+    rt: z.string().nullable(),
+    rw: z.string().nullable(),
+    /** Map pin (WGS84), internal; never on public endpoints. */
+    lat: z.number().nullable(),
+    lng: z.number().nullable(),
     logoKey: z.string().nullable(),
     shopeeUrl: z.string().nullable(),
     tokopediaUrl: z.string().nullable(),

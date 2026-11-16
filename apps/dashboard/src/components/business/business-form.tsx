@@ -24,7 +24,9 @@ import {
 import { type Business, useCreateBusiness, useUpdateBusiness } from '@/lib/businesses'
 import { draftKey, useFormDraft } from '@/lib/form-draft'
 import { useSession } from '@/lib/session'
+import { useVillageSettings } from '@/lib/villages'
 import { Field } from '../field'
+import { MapPicker } from '../map/map-picker'
 
 /** Villages where the user may create a business (super admin: every published village). */
 function useCreatableVillages() {
@@ -73,8 +75,17 @@ export function BusinessForm({ business }: { business?: Business }) {
   const update = useUpdateBusiness(business?.id ?? '')
   const pending = create.isPending || update.isPending
 
+  // Map opens on the village: from the business row when editing, else from the chosen village.
+  const villageSettings = useVillageSettings(editing ? null : values.villageId || null)
+  const villageCenter = business?.village.center ?? villageSettings.data?.mapCenter ?? null
+
   const set = (field: TextField | 'villageId') => (value: string) => {
-    setValues((v) => ({ ...v, [field]: value }))
+    setValues((v) => ({
+      ...v,
+      [field]: value,
+      // A pin belongs to the village it was placed in: choosing another village drops it.
+      ...(field === 'villageId' && value !== v.villageId ? { pin: null } : {}),
+    }))
     setErrors((e) => ({ ...e, [field]: '' }))
   }
 
@@ -137,7 +148,8 @@ export function BusinessForm({ business }: { business?: Business }) {
             <Button
               size="sm"
               onPress={() => {
-                setValues(draft.value)
+                // Drafts saved by an older version may lack newer fields: fill them from the defaults.
+                setValues({ ...initial, ...draft.value })
                 dismiss()
               }}
             >
@@ -245,15 +257,6 @@ export function BusinessForm({ business }: { business?: Business }) {
                 onChange={set('whatsappNumber')}
                 error={errors.whatsappNumber}
               />
-              <Field
-                name="address"
-                multiline
-                label={t('businessForm.fields.address')}
-                hint={t('businessForm.hints.address')}
-                value={values.address}
-                onChange={set('address')}
-                error={errors.address}
-              />
               <fieldset className="flex flex-col gap-4">
                 <legend className="mb-3 text-sm font-bold">{t('businessForm.onlineShops')}</legend>
                 {(['shopeeUrl', 'tokopediaUrl', 'tiktokShopUrl', 'instagramUrl'] as const).map(
@@ -281,6 +284,60 @@ export function BusinessForm({ business }: { business?: Business }) {
                 onChange={set('nib')}
                 error={errors.nib}
               />
+            </>
+          ) : null}
+
+          {stepInfo.id === 'location' ? (
+            <>
+              <p className="bg-wash rounded-xl p-3 text-sm">{t('businessForm.locationPrivate')}</p>
+              <Field
+                name="address"
+                multiline
+                label={t('businessForm.fields.address')}
+                hint={t('businessForm.hints.address')}
+                value={values.address}
+                onChange={set('address')}
+                error={errors.address}
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <Field
+                  name="rt"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="001"
+                  label={t('businessForm.fields.rt')}
+                  value={values.rt}
+                  onChange={set('rt')}
+                  error={errors.rt}
+                />
+                <Field
+                  name="rw"
+                  inputMode="numeric"
+                  autoComplete="off"
+                  placeholder="002"
+                  label={t('businessForm.fields.rw')}
+                  value={values.rw}
+                  onChange={set('rw')}
+                  error={errors.rw}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <p className="text-sm font-medium">{t('businessForm.fields.pin')}</p>
+                <MapPicker
+                  value={values.pin}
+                  onChange={(pin) => {
+                    setValues((v) => ({ ...v, pin }))
+                    setErrors((e) => ({ ...e, lat: '', lng: '' }))
+                  }}
+                  fallbackCenter={villageCenter}
+                  hint={t('businessForm.hints.pin')}
+                />
+                {errors.lat || errors.lng ? (
+                  <p role="alert" className="text-danger text-sm">
+                    {errors.lat || errors.lng}
+                  </p>
+                ) : null}
+              </div>
             </>
           ) : null}
 

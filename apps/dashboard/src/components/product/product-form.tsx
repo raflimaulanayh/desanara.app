@@ -194,7 +194,7 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
             <Button
               size="sm"
               onPress={() => {
-                setValues(draft.value)
+                setValues({ ...initial, ...draft.value })
                 setShowEn(Boolean(draft.value.enName))
                 dismiss()
               }}

@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type ReactNode, useState } from 'react'
+import { formatRtRw } from '@repo/validators'
 import { describeApiError } from '@/lib/api-errors'
 import {
   type Business,
@@ -15,6 +16,7 @@ import {
   useBusinessAction,
   useDeleteBusiness,
 } from '@/lib/businesses'
+import { googleMapsUrl } from '@/lib/map'
 import { ConfirmPanel } from '../confirm-panel'
 import { ProductSection } from '../product/product-section'
 import { LogoCard } from './logo-card'
@@ -38,6 +40,31 @@ function Row({ label, children }: { label: string; children: ReactNode }) {
       <dt className="text-muted text-sm">{label}</dt>
       <dd className="text-sm font-medium break-words">{children}</dd>
     </div>
+  )
+}
+
+/** Street, RT/RW and a Google Maps link for the team. Internal: never on public pages. */
+function LocationText({ b }: { b: Business }) {
+  const t = useTranslations()
+  const rtRw = formatRtRw(b.rt, b.rw)
+  const pin = b.lat !== null && b.lng !== null ? { lat: b.lat, lng: b.lng } : null
+  if (!b.address && !rtRw && !pin) return <>—</>
+  return (
+    <span className="flex flex-col gap-1">
+      {b.address ? <span>{b.address}</span> : null}
+      {rtRw ? <span>{rtRw}</span> : null}
+      {pin ? (
+        <a
+          href={googleMapsUrl(pin)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent inline-flex items-center gap-1 font-semibold hover:underline"
+        >
+          {t('map.openInMaps')}
+          <ExternalLink className="size-3.5" aria-hidden />
+        </a>
+      ) : null}
+    </span>
   )
 }
 
@@ -242,7 +269,9 @@ export function BusinessDetail({ id }: { id: string }) {
             <Row label={t('businessForm.fields.whatsappNumber')}>
               {b.whatsappNumber ? `+${b.whatsappNumber}` : '—'}
             </Row>
-            <Row label={t('businessDetail.addressInternal')}>{b.address ?? '—'}</Row>
+            <Row label={t('businessDetail.locationInternal')}>
+              <LocationText b={b} />
+            </Row>
             <Row label={t('businessForm.fields.description')}>{b.description ?? '—'}</Row>
             <Row label={t('businessDetail.onlineShops')}>
               {[b.shopeeUrl, b.tokopediaUrl, b.tiktokShopUrl, b.instagramUrl].filter(Boolean).length

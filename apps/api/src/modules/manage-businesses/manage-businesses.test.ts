@@ -200,6 +200,41 @@ describeDb('/v1/manage/businesses', () => {
     expect((await app.request(`/v1/businesses/${bizSlug}`)).status).toBe(200)
   })
 
+  test('internal location is saved (RT/RW padded, pin rounded) and never reaches public pages', async () => {
+    await db
+      .update(villages)
+      .set({ centerLat: -7.0658, centerLng: 107.6302 })
+      .where(eq(villages.id, v1))
+    const b = await data(
+      await call('assistantV1', 'PATCH', `/${bizId}`, {
+        address: 'Jl. Raya Baros, dekat masjid',
+        rt: '1',
+        rw: '12',
+        lat: -7.065772264163892,
+        lng: 107.630174005714,
+      }),
+    )
+    expect(b).toMatchObject({ rt: '001', rw: '012', lat: -7.065772, lng: 107.630174 })
+    expect(b.village.center).toEqual({ lat: -7.0658, lng: 107.6302 })
+
+    const half = await call('assistantV1', 'PATCH', `/${bizId}`, { lat: -7.06 })
+    expect(half.status).toBe(422)
+    const abroad = await call('assistantV1', 'PATCH', `/${bizId}`, { lat: 51.5, lng: -0.12 })
+    expect(abroad.status).toBe(422)
+
+    const pub = await app.request(`/v1/businesses/${bizSlug}`)
+    expect(pub.status).toBe(200)
+    const text = await pub.text()
+    for (const secret of ['Jl. Raya Baros', '"rt"', '"rw"', '"lat"', '"lng"', '-7.065772']) {
+      expect(text).not.toContain(secret)
+    }
+
+    const cleared = await data(
+      await call('assistantV1', 'PATCH', `/${bizId}`, { rt: '', lat: null, lng: null }),
+    )
+    expect(cleared).toMatchObject({ rt: null, rw: '012', lat: null, lng: null })
+  })
+
   test('editing another field keeps consent (regression: PATCH used to revoke it)', async () => {
     const b = await data(
       await call('assistantV1', 'PATCH', `/${bizId}`, { description: 'Kopi arabika' }),

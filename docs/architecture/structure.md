@@ -12,7 +12,7 @@ umkm-app/
 │   │   └── proxy.ts           # next-intl locale negotiation (Next.js 16 "proxy")
 │   ├── dashboard/src/
 │   │   ├── app/login/         # /login (?next= returns to the page that asked for a session)
-│   │   ├── app/(app)/         # behind the session check: / (role-aware home), /businesses, /businesses/new, /businesses/[id], /businesses/[id]/edit, /businesses/[id]/products/new, /products/[id]
+│   │   ├── app/(app)/         # behind the session check: / (role-aware home), /businesses, /businesses/new, /businesses/[id], /businesses/[id]/edit, /businesses/[id]/products/new, /products/[id], /villages, /villages/[id]
 │   │   ├── components/        # app shell, business pages, form fields
 │   │   ├── lib/               # api client, session, nav rules, form drafts, upload-image, api-errors
 │   │   └── messages/id.json   # UI copy (dashboard is Indonesian only)

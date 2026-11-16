@@ -33,15 +33,20 @@ dan **formulir persetujuan kertas** yang sudah ditandatangani.
    - **Nama usaha**: nama yang dikenal pembeli, misalnya "Keripik Bu Ani".
    - **Nama pemilik**.
    - **Cerita singkat usaha**: apa yang dijual dan apa yang membuatnya khas. Ini tampil di situs.
-   - **Alamat**: hanya untuk tim desa, tidak pernah tampil di situs.
-   - **NIB**: opsional, 13 digit dari OSS.
 3. **Langkah 2, Kontak dan toko online**
    - **Nomor WhatsApp**: pesanan pembeli masuk ke nomor ini. Boleh ditulis `0812…`, otomatis diubah ke `62812…`.
    - Link Shopee, Tokopedia, TikTok Shop, Instagram: opsional, tulis lengkap diawali `https://`.
-4. **Langkah 3, Persetujuan pemilik**
+   - **NIB**: opsional, 13 digit dari OSS.
+4. **Langkah 3, Lokasi** (hanya untuk tim desa, tidak pernah tampil di situs)
+   - **Jalan atau patokan**: misalnya "Jl. Raya Baros, dekat masjid".
+   - **RT** dan **RW**: cukup angkanya, misalnya `1`; tersimpan sebagai `001`.
+   - **Titik di peta** (opsional): peta terbuka di sekitar desa. Ketuk peta untuk menaruh pin, geser pin bila kurang pas.
+     Saat berada di tempat usaha, tekan **Pakai lokasi saya**; browser akan meminta izin lokasi. Bila akurasinya rendah,
+     dashboard memberi tahu agar pin diperiksa.
+5. **Langkah 4, Persetujuan pemilik**
    - Bacakan teks di layar ke pemilik: apa yang tampil di internet, bahwa alamat tidak pernah tampil, dan bahwa persetujuan bisa ditarik kapan saja.
    - Centang **Pemilik sudah menandatangani formulir persetujuan** hanya bila formulirnya sudah ditandatangani.
-5. Tekan **Simpan UMKM**. UMKM masuk dengan status **Draf** dan **Menunggu verifikasi**.
+6. Tekan **Simpan UMKM**. UMKM masuk dengan status **Draf** dan **Menunggu verifikasi**.
 
 **Isian tersimpan otomatis di HP.** Kalau aplikasi tertutup atau sinyal hilang, buka lagi **Tambah UMKM** dan pilih
 **Lanjutkan isian**. Isian yang tersimpan di HP hilang setelah 14 hari atau saat kamu **Keluar**.
@@ -98,6 +103,18 @@ menggantikan logo lama.
 4. Tekan **Setujui**. Atau tekan **Tolak**, tulis alasannya (dibaca pendamping), lalu konfirmasi.
 
 Verifikasi cukup sekali. Perubahan data setelahnya tidak perlu diverifikasi ulang, kecuali UMKM yang ditolak.
+
+## Admin desa: Pengaturan desa
+
+Menu **Pengaturan desa** hanya tampil untuk admin desa.
+
+- **Titik desa di peta**: titik awalnya diambil dari data wilayah resmi Kemendagri. Ketuk peta di lokasi kantor desa,
+  lalu tekan **Simpan titik**. Peta lokasi UMKM di desa ini akan terbuka di titik tersebut. **Kembalikan ke titik data
+  resmi** membatalkannya.
+- **Profil desa**: cerita singkat desa, telepon, email, dan alamat kantor desa. Bagian ini tampil di halaman desa, jadi
+  isi dengan kontak kantor, bukan nomor pribadi. Tekan **Simpan profil**.
+
+Logo, banner, warna tampilan, dan anggota tim desa akan menyusul di menu yang sama.
 
 ## Admin desa: menurunkan dan memulihkan UMKM
 

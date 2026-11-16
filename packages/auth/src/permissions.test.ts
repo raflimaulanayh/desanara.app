@@ -149,3 +149,22 @@ describe('can()', () => {
     )
   })
 })
+
+describe('village settings', () => {
+  const v1 = { type: 'village', villageId: V1 } as const
+  const v2 = { type: 'village', villageId: V2 } as const
+
+  test('admins and assistants of the village may read them, only admins may change them', () => {
+    expect(can(villageAdmin, 'village.view', v1)).toBe(true)
+    expect(can(villageAdmin, 'village.update', v1)).toBe(true)
+    expect(can(villageAssistant, 'village.view', v1)).toBe(true)
+    expect(can(villageAssistant, 'village.update', v1)).toBe(false)
+    expect(can(superAdmin, 'village.update', v2)).toBe(true)
+  })
+
+  test('nobody outside the village, and no business-only role', () => {
+    expect(can(villageAdmin, 'village.view', v2)).toBe(false)
+    expect(can(villageAssistant, 'village.view', v2)).toBe(false)
+    expect(can(owner, 'village.view', v1)).toBe(false)
+  })
+})

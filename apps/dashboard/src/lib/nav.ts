@@ -27,6 +27,12 @@ const villageIds = (a: Actor) => Object.keys(a.villageRoles)
 export const NAV_RULES: NavRule[] = [
   { href: '/', label: 'home', icon: 'home', visible: () => true },
   { href: '/businesses', label: 'businesses', icon: 'store', visible: (a) => canSeeBusinesses(a) },
+  {
+    href: '/villages',
+    label: 'villageSettings',
+    icon: 'settings',
+    visible: (a) => manageableVillageIds(a).length > 0 || isSuperAdmin(a),
+  },
 ]
 
 export function navFor(actor: Actor, t: (key: Label) => string): NavItem[] {
@@ -42,6 +48,12 @@ export const canSeeBusinesses = (a: Actor) =>
   can(a, 'business.list_all', { type: 'platform' }) ||
   villageIds(a).length > 0 ||
   Object.keys(a.businessRoles).length > 0
+
+const isSuperAdmin = (a: Actor) => can(a, 'village.create', { type: 'platform' })
+
+/** Villages whose settings this person may change (super admins: every village, listed separately). */
+export const manageableVillageIds = (a: Actor) =>
+  villageIds(a).filter((villageId) => can(a, 'village.update', { type: 'village', villageId }))
 
 export const canReview = (a: Actor) =>
   can(a, 'business.list_all', { type: 'platform' }) ||

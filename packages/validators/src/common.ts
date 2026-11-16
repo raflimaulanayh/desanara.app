@@ -40,3 +40,10 @@ export const clearableText = (max: number) =>
     .max(max)
     .nullish()
     .transform((v) => (v === '' ? null : v))
+
+/** Any optional field a form can clear (PATCH): '' or null → null, missing → unchanged. */
+export const clearable = <T extends z.ZodType>(schema: T) =>
+  z
+    .union([schema, z.literal(''), z.null()])
+    .optional()
+    .transform((v) => (v === '' ? null : v))

@@ -108,6 +108,7 @@
     "steps": {
       "about": "Data usaha",
       "contact": "Kontak dan toko online",
+      "location": "Lokasi",
       "consent": "Persetujuan pemilik"
     },
     "fields": {
@@ -116,19 +117,23 @@
       "ownerName": "Nama pemilik",
       "description": "Cerita singkat usaha",
       "whatsappNumber": "Nomor WhatsApp",
-      "address": "Alamat",
+      "address": "Jalan atau patokan",
       "shopeeUrl": "Link Shopee",
       "tokopediaUrl": "Link Tokopedia",
       "tiktokShopUrl": "Link TikTok Shop",
       "instagramUrl": "Link Instagram",
-      "nib": "NIB (Nomor Induk Berusaha)"
+      "nib": "NIB (Nomor Induk Berusaha)",
+      "rt": "RT",
+      "rw": "RW",
+      "pin": "Titik di peta (opsional)"
     },
     "hints": {
       "name": "Nama yang dikenal pembeli, misalnya \"Keripik Bu Ani\".",
       "description": "Apa yang dijual dan apa yang membuatnya khas. Tampil di halaman publik.",
       "whatsappNumber": "Pesanan pembeli masuk ke nomor ini. Wajib diisi sebelum tayang.",
-      "address": "Hanya untuk tim desa. Tidak pernah ditampilkan di halaman publik.",
-      "nib": "Opsional. 13 digit angka dari OSS."
+      "address": "Nama jalan, gang, atau patokan, misalnya \"Jl. Raya Baros, dekat masjid\".",
+      "nib": "Opsional. 13 digit angka dari OSS.",
+      "pin": "Ketuk peta atau geser pin ke tempat usaha. Saat berada di tempat usaha, tekan Pakai lokasi saya."
     },
     "onlineShops": "Toko online (opsional)",
     "chooseVillage": "Pilih desa",
@@ -145,7 +150,8 @@
     "saveNow": "Simpan sekarang",
     "draftFound": "Ada isian yang belum tersimpan dari sebelumnya. Mau dilanjutkan?",
     "draftRestore": "Lanjutkan isian",
-    "draftDiscard": "Buang"
+    "draftDiscard": "Buang",
+    "locationPrivate": "Lokasi hanya untuk tim desa dan pendamping. Tidak pernah ditampilkan di halaman publik; pembeli hanya melihat nama desanya."
   },
   "businessDetail": {
     "backToList": "Daftar UMKM",
@@ -178,7 +184,6 @@
     "rejectedHint": "Perbaiki datanya; setelah disimpan, UMKM otomatis kembali menunggu verifikasi.",
     "takenDownTitle": "Diturunkan admin desa",
     "dataTitle": "Data UMKM",
-    "addressInternal": "Alamat (internal)",
     "onlineShops": "Toko online",
     "consent": "Persetujuan pemilik",
     "consentGiven": "Diberikan {date} (formulir kertas)",
@@ -191,7 +196,8 @@
     "restore": "Pulihkan",
     "restored": "UMKM dipulihkan sebagai draf.",
     "delete": "Hapus UMKM",
-    "deleteTitle": "Hapus {name}? Data tidak tampil lagi di mana pun."
+    "deleteTitle": "Hapus {name}? Data tidak tampil lagi di mana pun.",
+    "locationInternal": "Lokasi (internal)"
   },
   "productStatus": {
     "published": "Tayang",
@@ -290,5 +296,47 @@
     "replace": "Ganti logo",
     "remove": "Hapus logo",
     "none": "Belum ada logo."
+  },
+  "map": {
+    "label": "Peta. Ketuk untuk menaruh pin, geser pin untuk memindahkannya.",
+    "pin": "Pin lokasi",
+    "useMyLocation": "Pakai lokasi saya",
+    "clear": "Hapus titik",
+    "point": "Titik",
+    "noPoint": "Belum ada titik di peta.",
+    "openInMaps": "Buka di Google Maps",
+    "gps": {
+      "ok": "Lokasi ditemukan (akurasi sekitar {meters} m).",
+      "poor": "Lokasi kurang akurat (sekitar {meters} m). Periksa pin dan geser bila perlu.",
+      "denied": "Izin lokasi ditolak. Izinkan lokasi untuk situs ini di pengaturan browser, atau ketuk peta.",
+      "unavailable": "Lokasi tidak bisa didapat. Nyalakan GPS lalu coba lagi, atau ketuk peta.",
+      "timeout": "Mencari lokasi terlalu lama. Coba lagi di tempat terbuka, atau ketuk peta.",
+      "outside": "Lokasi yang terbaca berada di luar Indonesia. Matikan VPN bila ada, atau ketuk peta.",
+      "unsupported": "Browser ini tidak bisa membaca lokasi. Ketuk peta untuk menaruh pin.",
+      "outsideMap": "Titik itu berada di luar Indonesia. Perbesar peta dan ketuk lokasi usaha."
+    }
+  },
+  "villageSettings": {
+    "none": "Kamu belum menjadi admin desa mana pun.",
+    "noRegion": "Belum terhubung ke kode wilayah resmi.",
+    "centerTitle": "Titik desa di peta",
+    "centerFromRegion": "Titik awal diambil dari data wilayah resmi. Geser ke kantor desa agar peta UMKM terbuka di tempat yang tepat.",
+    "centerCustom": "Titik ini dipilih oleh admin desa.",
+    "centerHint": "Peta lokasi UMKM di desa ini akan terbuka di titik ini.",
+    "saveCenter": "Simpan titik",
+    "resetCenter": "Kembalikan ke titik data resmi",
+    "centerSaved": "Titik desa tersimpan.",
+    "profileTitle": "Profil desa",
+    "profileHint": "Cerita singkat dan kontak kantor desa. Tampil di halaman desa.",
+    "fields": {
+      "description": "Cerita singkat desa",
+      "contactPhone": "Telepon kantor desa",
+      "contactEmail": "Email kantor desa",
+      "address": "Alamat kantor desa"
+    },
+    "saveProfile": "Simpan profil",
+    "profileSaved": "Profil desa tersimpan.",
+    "search": "Cari nama desa",
+    "noMatch": "Tidak ada desa dengan nama itu."
   }
 }
