@@ -14,7 +14,10 @@
     "seed": "bun --env-file=../../.env src/seed/index.ts",
     "seed:reset": "bun --env-file=../../.env src/seed/index.ts --reset",
     "lint": "eslint .",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "regions:import": "bun --env-file=../../.env src/regions/cli.ts",
+    "regions:build": "bun src/regions/build-dataset.ts",
+    "test": "bun test"
   },
   "dependencies": {
     "drizzle-orm": "0.45.4",

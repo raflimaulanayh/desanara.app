@@ -1,4 +1,15 @@
-import { index, jsonb, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import { sql } from 'drizzle-orm'
+import {
+  doublePrecision,
+  index,
+  jsonb,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  uniqueIndex,
+  uuid,
+} from 'drizzle-orm/pg-core'
 import { seedFlag, softDelete, timestamps } from './_shared'
 import { users } from './auth'
 import { recordStatus, villageRole } from './enums'
@@ -11,8 +22,17 @@ export const villages = pgTable(
     id: uuid().primaryKey().defaultRandom(),
     slug: text().notNull().unique(),
     name: text().notNull(),
-    /** Most specific known region (ideally the village-level Kemendagri code). */
+    /**
+     * Most specific known region, ideally the village-level Kemendagri code. One live tenant per code
+     * (unique index below), so the same desa cannot be registered twice.
+     */
     regionCode: text().references(() => regions.code),
+    /**
+     * Village centre on maps (WGS84). Starts from the region's centre point; the village admin can
+     * move it. Null = fall back to the region's point.
+     */
+    centerLat: doublePrecision(),
+    centerLng: doublePrecision(),
     description: text(),
     bannerKey: text(),
     logoKey: text(),
@@ -34,7 +54,13 @@ export const villages = pgTable(
     ...softDelete,
     ...timestamps,
   },
-  (t) => [index().on(t.regionCode), index().on(t.status)],
+  (t) => [
+    index().on(t.regionCode),
+    index().on(t.status),
+    uniqueIndex('villages_region_code_live_idx')
+      .on(t.regionCode)
+      .where(sql`${t.deletedAt} is null`),
+  ],
 )
 
 export const villageMembers = pgTable(

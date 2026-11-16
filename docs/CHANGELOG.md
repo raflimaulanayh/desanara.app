@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-16 — Data wilayah Kepmendagri lengkap dan pencarian wilayah
+
+- **Area**: packages/db, packages/validators, apps/api, docs
+- **Jenis**: Added | Changed
+- Seluruh 91.599 wilayah Kepmendagri 2025 (38 provinsi, 514 kabupaten/kota, 7.285 kecamatan, 83.762 desa/kelurahan) beserta titik tengahnya kini ada di database. Sumber: dataset terbuka cahyadsn/wilayah dan cahyadsn/wilayah_boundaries (MIT), disimpan di `packages/db/data/regions` beserta sumber, versi, dan lisensinya. Perintah baru `bun run db:regions:import` (aman diulang, dilewati bila versinya sama, wilayah tidak pernah dihapus melainkan ditandai tidak berlaku); `db:seed` menjalankannya otomatis.
+- API publik baru: `GET /v1/regions/search` (setiap kata harus cocok, misalnya "baros arjasari"), `GET /v1/regions?parent=` (wilayah di bawahnya), dan `GET /v1/regions/{code}`, dengan cache satu hari di CDN.
+- **Migrasi `0006_region_dataset`**: mengaktifkan `pg_trgm`, menambah kolom nama lengkap, titik tengah, versi sumber, dan tanda tidak berlaku di `regions`, titik tengah di `villages`, serta aturan satu tenant aktif per kode desa. Setelah migrasi, jalankan `bun run db:regions:import`.
+- Desa Baros kini menunjuk kode desanya yang resmi (`32.04.16.2005`).
+
 ## 2026-11-16 — Halaman produk dan foto di dashboard, isian satuan dihapus
 
 - **Area**: apps/dashboard, apps/api, apps/web, packages/db, packages/validators, docs
