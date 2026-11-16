@@ -3,7 +3,7 @@
 Dokumen ini menjelaskan cara Desanara dipakai oleh setiap peran, tanpa perlu membaca kode.
 Istilah teknis ada di [glosarium](glossary.md). Panduan langkah demi langkah di dashboard: [panduan dashboard](../guides/dashboard-user-guide.md).
 
-Status: ✅ sudah bisa dipakai · ⏳ direncanakan sebelum feature freeze 28 November 2026.
+Bagian bertanda **(belum tersedia)** direncanakan selesai sebelum feature freeze 28 November 2026.
 
 ## Gambaran besar
 
@@ -26,7 +26,7 @@ flowchart TB
 Setiap UMKM dan produk **milik satu desa**. Admin desa hanya bisa mengelola UMKM di desanya sendiri.
 Pendamping dan pemilik hanya bisa mengelola UMKM tempat mereka terdaftar.
 
-## 1. Pembeli ✅
+## 1. Pembeli
 
 Pembeli tidak perlu akun.
 
@@ -42,23 +42,23 @@ Yang **tidak** pernah tampil ke pembeli: alamat jalan, RT/RW, dan titik peta UMK
 
 Situs tersedia dalam Bahasa Indonesia (`/`) dan Inggris (`/en`). Teks produk berbahasa Inggris tampil bila UMKM mengisinya.
 
-## 2. Pendamping (mahasiswa/KKN) ✅ sebagian
+## 2. Pendamping (mahasiswa atau peserta KKN)
 
 Pendamping desa boleh mendaftarkan UMKM baru di desanya. Setelah mendaftarkan, ia otomatis menjadi pendamping UMKM tersebut.
 
-1. **Masuk** ke dashboard, buka menu **UMKM** → **Tambah UMKM**.
+1. **Masuk** ke dashboard, buka menu **UMKM**, lalu tekan **Tambah UMKM**.
 2. Isi form 3 langkah:
    - **Data usaha**: desa, nama usaha, nama pemilik, cerita singkat, alamat (hanya untuk tim desa), NIB (opsional).
    - **Kontak dan toko online**: nomor WhatsApp (wajib sebelum tayang), link Shopee/Tokopedia/TikTok Shop/Instagram.
    - **Persetujuan pemilik**: bacakan teks persetujuan ke pemilik, minta tanda tangan formulir kertas, lalu centang.
 3. Isian tersimpan otomatis di HP. Kalau sinyal putus atau aplikasi tertutup, isian bisa dilanjutkan.
-4. Setelah disimpan, UMKM berstatus **Draf · Menunggu verifikasi**.
+4. Setelah disimpan, UMKM berstatus **Draf** dan **Menunggu verifikasi**.
 5. Bila ditolak admin desa, alasannya tampil di halaman UMKM. Perbaiki datanya. Setelah disimpan, UMKM otomatis kembali menunggu verifikasi.
 6. Setelah terverifikasi, pendamping bisa menekan **Tayangkan**.
-7. Menambah produk dan foto ⏳ (API sudah ada, halaman dashboard sedang dibuat).
-8. Menyerahkan akun ke pemilik lewat link undangan WhatsApp ⏳.
+7. Menambah produk dan foto (belum tersedia; API sudah ada, halaman dashboard sedang dibuat).
+8. Menyerahkan akun ke pemilik lewat link undangan WhatsApp (belum tersedia).
 
-## 3. Admin desa ✅ sebagian
+## 3. Admin desa
 
 1. **Masuk**, lalu buka menu **UMKM**. Tab **Perlu dicek** berisi UMKM yang menunggu verifikasi.
 2. Buka satu UMKM dan periksa bahwa usaha itu benar ada di desa dan datanya sesuai.
@@ -66,12 +66,12 @@ Pendamping desa boleh mendaftarkan UMKM baru di desanya. Setelah mendaftarkan, i
 4. Halaman UMKM menampilkan **syarat tayang** sebagai daftar centang: terverifikasi, ada persetujuan pemilik, ada nomor WhatsApp, tidak sedang diturunkan.
 5. **Turunkan** menyembunyikan UMKM dari publik dan mencatat alasannya, misalnya karena ada laporan warga. Selama diturunkan, UMKM tidak bisa ditayangkan.
    **Pulihkan** mencabut penurunan. UMKM kembali ke draf dan perlu ditayangkan lagi.
-6. ⏳ Pengaturan desa: titik tengah desa di peta, logo dan banner, warna tema, anggota tim desa.
-7. ⏳ Statistik: jumlah kunjungan dan klik WhatsApp per UMKM, untuk laporan dampak.
+6. (belum tersedia) Pengaturan desa: titik tengah desa di peta, logo dan banner, warna tema, anggota tim desa.
+7. (belum tersedia) Statistik: jumlah kunjungan dan klik WhatsApp per UMKM, untuk laporan dampak.
 
-## 4. Pemilik UMKM ⏳ sebagian
+## 4. Pemilik UMKM
 
-Pemilik bisa masuk dengan akun yang sudah dibuatkan (akun contoh `pemilik.keripik-bu-ani@…`) dan melihat UMKM-nya.
+Pemilik bisa masuk dengan akun yang dibuatkan pengurus dan melihat UMKM-nya.
 Yang direncanakan:
 
 - Menerima **link undangan** lewat WhatsApp dari pendamping, membuat kata sandi, lalu menjadi pemilik.
@@ -79,21 +79,21 @@ Yang direncanakan:
 - Mengubah data usaha, produk, foto, dan jam buka sendiri. Pendamping tetap bisa membantu sampai pemilik mencabut aksesnya.
 - Menarik persetujuan publikasi kapan saja. UMKM langsung disembunyikan.
 
-## 5. Super admin (HIMA) ✅ sebagian
+## 5. Super admin (pengurus HIMA)
 
 - Melihat semua UMKM di semua desa dari dashboard.
-- ⏳ Membuat dan mengaktifkan desa baru. Desa mengajukan diri lewat form **Ajukan desa**, tim HIMA memverifikasi (telepon, kunjungan, MoU), lalu super admin mengaktifkan.
-- ⏳ Mengelola kategori dan pengguna.
+- (belum tersedia) Membuat dan mengaktifkan desa baru. Desa mengajukan diri lewat form **Ajukan desa**, tim HIMA memverifikasi (telepon, kunjungan, MoU), lalu super admin mengaktifkan.
+- (belum tersedia) Mengelola kategori dan pengguna.
 
 ## Status UMKM
 
 Sebuah UMKM punya tiga sisi status yang berjalan bersamaan:
 
-| Sisi       | Nilai                              | Artinya                                             |
-| ---------- | ---------------------------------- | --------------------------------------------------- |
-| Verifikasi | Menunggu · Terverifikasi · Ditolak | Sudah dicek admin desa atau belum. Cukup sekali.    |
-| Tayang     | Draf · Tayang                      | Tampil di situs publik atau tidak.                  |
-| Penurunan  | — · Diturunkan                     | Disembunyikan paksa oleh admin desa, dengan alasan. |
+| Sisi       | Nilai                            | Artinya                                             |
+| ---------- | -------------------------------- | --------------------------------------------------- |
+| Verifikasi | Menunggu, Terverifikasi, Ditolak | Sudah dicek admin desa atau belum. Cukup sekali.    |
+| Tayang     | Draf, Tayang                     | Tampil di situs publik atau tidak.                  |
+| Penurunan  | Normal, Diturunkan               | Disembunyikan paksa oleh admin desa, dengan alasan. |
 
 ```mermaid
 stateDiagram-v2

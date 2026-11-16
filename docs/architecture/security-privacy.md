@@ -3,8 +3,8 @@
 How Desanara protects accounts, tenant data and the personal data of business owners, and which gaps are still
 open. Indonesian context: the platform processes personal data under **UU No. 27/2022 (UU PDP)**.
 
-Related: [Auth & RBAC](auth-rbac.md) · [Multi-tenancy](multi-tenancy.md) · [Storage](storage.md) ·
-[Data model → personal data on public pages](data-model.md) · [Deployment](deployment.md).
+Related: [Auth & RBAC](auth-rbac.md), [Multi-tenancy](multi-tenancy.md), [Storage](storage.md),
+[Data model (personal data on public pages)](data-model.md), [Deployment](deployment.md).
 
 ## Threat model in one table
 
@@ -24,7 +24,7 @@ Related: [Auth & RBAC](auth-rbac.md) · [Multi-tenancy](multi-tenancy.md) · [St
   minimum length 8.
 - Sessions are HttpOnly cookies. Without a shared parent domain the dashboard proxies `/api/auth/*` and `/v1/*` to
   the API, so the cookie is first-party for the browser (no third-party cookie, works in Safari).
-  See [Deployment → Login across hosts](deployment.md#login-across-hosts).
+  See [Deployment, Login across hosts](deployment.md#login-across-hosts).
 - `TRUSTED_ORIGINS` limits which origins may call auth endpoints with credentials; CORS uses the same list.
 - `/v1/me` and every `/v1/manage/*` response is `Cache-Control: no-store`.
 - The API reference (`/docs`, `/openapi.json`) is behind its own login in production and not served at all without
@@ -100,13 +100,13 @@ Action names are stable so a future notification service can subscribe to them.
 - Supabase is reached through the poolers only; the Supabase Data API is disabled.
 - Integration tests run only against a local database (`TEST_DATABASE_URL`, non-local hosts are refused).
 
-## Known gaps and planned work
+## Planned hardening
 
-| Gap                                                                             | Risk                                                                                       | Plan                                                                                                       |
-| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
-| Open Better Auth sign-up is still enabled                                       | Anyone can create an account; it has no roles, so it can do nothing beyond the public site | Close it with the invitations module; accounts are created only from an approved application or invitation |
-| Login rate limiting is Better Auth's default, in memory per serverless instance | Weak against distributed password guessing                                                 | Persistent rate limit store (database) with the registration work; Turnstile on public forms               |
-| `POST /v1/events` has no rate limit or de-duplication                           | View and click counts can be inflated by a script                                          | Per-IP hashed throttling or bot filtering before the statistics page is used for reports                   |
-| No automated off-site backups yet                                               | Supabase Free keeps 7 days, not downloadable                                               | Scheduled `pg_dump` to the private R2 backup bucket (see [deployment](deployment.md#backups))              |
-| Vercel previews share the production database                                   | A preview build can write production data                                                  | Separate dev database before more developers join or real data arrives                                     |
-| `r2.dev` public URL                                                             | Rate-limited, development-only by Cloudflare                                               | Move to `cdn.<domain>` after the domain is bought                                                          |
+These are scheduled with the modules that need them and tracked in [features-mvp](../product/features-mvp.md):
+
+- Accounts are created only from an approved registration or an invitation (invitations module).
+- Public forms use Turnstile, and login and registration use a persistent rate limit store.
+- Analytics events are filtered for bots and repeated hits before statistics are used in reports.
+- Scheduled `pg_dump` backups to a private bucket ([deployment](deployment.md#backups)).
+- A separate development database for preview deployments.
+- Media served from a custom domain once the domain is bought.

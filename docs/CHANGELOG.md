@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-16 — Dokumentasi dirapikan untuk repositori publik
+
+- **Area**: README.md, docs, .env.example
+- **Jenis**: Changed | Security
+- Email dan kata sandi akun contoh dihapus dari README, panduan dashboard, dan panduan seed; panduan kini menyebut perannya saja dan merujuk ke kode seed serta `SEED_DEMO_PASSWORD`. URL bucket R2 yang persis diganti placeholder. Daftar celah keamanan diganti rencana penguatan yang umum.
+- README diperdalam: latar belakang, peran, fitur per halaman, prinsip arsitektur, tabel data utama, teknologi beserta alasannya, variabel lingkungan, alur kontribusi, deploy, serta kontak HIMASIF (Instagram @himasif.su).
+- Emoji status diganti teks (Selesai, Dikerjakan, Direncanakan, Yes/No di matriks hak akses), dan panah serta titik tengah diganti kalimat biasa.
+
 ## 2026-11-16 — README dan dokumentasi untuk dibagikan ke tim
 
 - **Area**: README.md, AGENTS.md, docs
