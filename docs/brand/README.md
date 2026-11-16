@@ -71,6 +71,12 @@ judulnya sendiri di halaman desa (ADR 0007).
   foto ramai tanpa blok warna.
 - Logo mitra (HIMASIF, SATU University, Pemerintah Desa) selalu ditampilkan **terpisah** dari logo Desanara, tidak digabung.
 
+## Hak penggunaan
+
+Nama, logo, dan identitas visual Desanara milik HIMA Sistem Informasi, SATU University, dan tidak termasuk dalam
+lisensi MIT kode sumber. Logo HIMASIF, SATU University, dan Desa Baros milik pemiliknya masing-masing. Rinciannya ada
+di bagian Lisensi pada [README](../../README.md#lisensi).
+
 ## Suara
 
 Hangat, sederhana, dekat, seperti tetangga yang bercerita tentang hasil desanya. Pakai "kamu", hindari jargon teknis.

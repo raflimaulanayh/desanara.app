@@ -30,6 +30,7 @@ adalah data contoh.
 10. [Deploy](#deploy)
 11. [Peta dokumentasi](#peta-dokumentasi)
 12. [Tim dan kontak](#tim-dan-kontak)
+13. [Lisensi](#lisensi)
 
 ## Latar belakang
 
@@ -326,4 +327,20 @@ Desanara dikembangkan oleh **HIMA Sistem Informasi (HIMASIF), SATU University**,
 Foto contoh di situs berasal dari sumber berlisensi terbuka; daftar penulisnya ada di halaman
 [kredit foto](https://desanara-web.vercel.app/tentang/kredit-foto). Panduan identitas visual: [docs/brand/README.md](docs/brand/README.md).
 
-Repositori ini belum memakai lisensi terbuka. Hubungi HIMASIF sebelum memakai kode atau aset di luar proyek ini.
+## Lisensi
+
+Kode sumber Desanara dirilis dengan [lisensi MIT](LICENSE), hak cipta 2026 HIMA Sistem Informasi, SATU University.
+Kode boleh dipakai, diubah, dan dibagikan ulang, termasuk untuk keperluan komersial, selama teks lisensi dan
+pemberitahuan hak cipta tetap disertakan.
+
+Lisensi MIT **tidak** mencakup aset berikut. Aset ini tetap milik pemiliknya masing-masing dan tidak boleh dipakai di
+luar proyek ini tanpa izin:
+
+| Aset                                      | Lokasi                                                                              | Pemilik                                                                                                                                                    |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nama, logo, dan identitas visual Desanara | `docs/brand/`, `apps/*/public/brand/desanara-*`, ikon aplikasi di `apps/*/src/app/` | HIMA Sistem Informasi, SATU University                                                                                                                     |
+| Logo HIMASIF dan SATU University          | `apps/web/public/brand/himasif.webp`, `apps/web/public/brand/satu-university.webp`  | HIMASIF dan SATU University                                                                                                                                |
+| Logo dan foto Desa Baros                  | `apps/web/public/media/seed/villages/baros/`                                        | Pemerintah Desa Baros                                                                                                                                      |
+| Foto contoh produk                        | `apps/web/public/media/seed/products/`                                              | Fotografer masing-masing, sesuai lisensi yang tercatat di file `.webp.json` dan halaman [kredit foto](https://desanara-web.vercel.app/tentang/kredit-foto) |
+
+Proyek turunan wajib memakai nama dan logo sendiri.
