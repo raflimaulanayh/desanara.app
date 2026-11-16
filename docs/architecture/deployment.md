@@ -49,12 +49,12 @@ the API itself is still protected per endpoint by sessions and `can()`.
 Decision (2026-11-15): no custom domain during development. The apps run on free hosts and the domain is
 bought later; nothing in the code depends on it.
 
-| Today                                                           | Later                |
-| --------------------------------------------------------------- | -------------------- |
-| `desanara-web.vercel.app`                                       | `<domain>`           |
-| `desanara-dashboard.vercel.app`                                 | `dashboard.<domain>` |
-| `desanara-api.vercel.app`                                       | `api.<domain>`       |
-| `pub-12c3014fd3e2402dbd0f89d1517f7b4b.r2.dev` (`R2_PUBLIC_URL`) | `cdn.<domain>`       |
+| Today                           | Later                |
+| ------------------------------- | -------------------- |
+| `desanara-web.vercel.app`       | `<domain>`           |
+| `desanara-dashboard.vercel.app` | `dashboard.<domain>` |
+| `desanara-api.vercel.app`       | `api.<domain>`       |
+| `<id>.r2.dev` (`R2_PUBLIC_URL`) | `cdn.<domain>`       |
 
 Switching checklist: add the domains in Vercel and keep the `*.vercel.app` hosts redirecting to them (shared links keep
 working); update `TRUSTED_ORIGINS`, `AUTH_BASE_URL`, `API_PROXY_TARGET`, `NEXT_PUBLIC_*` URLs; connect `cdn.<domain>`

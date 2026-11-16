@@ -22,18 +22,19 @@ mengirim pesan ke orang asing. **Isi dengan nomor tim HIMA sebelum seminar.** Ji
 
 ## Akun demo
 
-Kata sandi semua akun di database **lokal**: `demo12345`. Database lain (Supabase/production) wajib memakai
-`SEED_DEMO_PASSWORD` dari `.env`; seed menolak berjalan tanpa itu, supaya tidak ada yang bisa masuk sebagai super admin
-dengan kata sandi yang tertulis di repo. Kata sandi production dipegang pengurus tim.
+Seed membuat satu akun untuk setiap peran agar dashboard bisa dicoba:
 
-| Email                                       | Peran                                     |
-| ------------------------------------------- | ----------------------------------------- |
-| `superadmin@demo.desanara.test`             | Super admin                               |
-| `admin.baros@demo.desanara.test`            | Admin Desa Baros                          |
-| `admin.mekarwangi@demo.desanara.test`       | Admin Desa Mekarwangi                     |
-| `admin.sindangjaya@demo.desanara.test`      | Admin Desa Sindangjaya                    |
-| `pendamping.baros@demo.desanara.test`       | Pendamping desa Baros + pendamping 4 UMKM |
-| `pemilik.keripik-bu-ani@demo.desanara.test` | Pemilik UMKM Keripik Bu Ani               |
+| Peran        | Cakupan                                                  |
+| ------------ | -------------------------------------------------------- |
+| Super admin  | Seluruh platform                                         |
+| Admin desa   | Satu akun per desa demo (Baros, Mekarwangi, Sindangjaya) |
+| Pendamping   | Pendamping Desa Baros dan pendamping 4 UMKM              |
+| Pemilik UMKM | Pemilik satu UMKM demo                                   |
+
+Alamat email akun-akun ini dibuat di `packages/db/src/seed/index.ts`. Kata sandinya diambil dari `SEED_DEMO_PASSWORD`
+di `.env`. Bila kosong, seed memakai kata sandi bawaan yang hanya diizinkan untuk database lokal; untuk database lain
+(Supabase/production) seed menolak berjalan tanpa `SEED_DEMO_PASSWORD`. Kata sandi akun demo di production tidak
+pernah ditulis di repositori dan dipegang pengurus tim.
 
 ## Production
 

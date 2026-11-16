@@ -72,7 +72,7 @@ login tapi hanya ada satu project lama yang sedang dijeda. API masih diasumsikan
 
 ## 7. Risiko & mitigasi
 
-- **Kata sandi akun demo (`demo12345`) tertulis di repo publik** → siapa pun bisa login sebagai super admin di situs online.
+- **Kata sandi bawaan akun demo tertulis di repo publik** → siapa pun bisa login sebagai super admin di situs online.
   Seed membaca `SEED_DEMO_PASSWORD` dari env (wajib saat menyeed database online); nilai acak disimpan di password manager tim.
 - **Cold start** pada request pertama → region `sin1` dekat DB, bundle API kecil; terima untuk MVP.
 - **Koneksi DB habis** (banyak instance serverless) → transaction pooler + pool kecil per instance.

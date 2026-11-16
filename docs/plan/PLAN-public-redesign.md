@@ -40,7 +40,7 @@ Arah yang dipilih: **campuran marketplace bersih (A) + desa sebagai destinasi (B
 | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Beranda      | Pencarian besar di atas, chip kategori, kartu "Desa unggulan" (foto sampul + logo), grid produk terbaru                                                                    |
 | Jelajah      | Pola marketplace: pencarian + filter (kategori, kabupaten, desa) + urutkan, grid 2 kolom di HP / 4–5 di desktop                                                            |
-| Kartu produk | Foto 1:1, nama (2 baris), harga tebal, baris kecil "📍 Desa Baros · Arjasari", status buka/tutup bila ada                                                                  |
+| Kartu produk | Foto 1:1, nama (2 baris), harga tebal, baris kecil dengan ikon pin lokasi "Desa Baros, Arjasari", status buka/tutup bila ada                                               |
 | Desa         | Gaya destinasi: foto sampul lebar, logo desa, nama + wilayah, cerita singkat, angka (jumlah UMKM, produk), badge "UMKM diverifikasi desa", lalu tab/daftar UMKM dan produk |
 | UMKM         | Header toko: foto/logo, nama, desa, status buka, jam buka, tombol WhatsApp, lalu grid produk                                                                               |
 | Produk       | Galeri foto, harga, satuan, deskripsi, tombol **Pesan via WhatsApp** menempel di bawah layar HP, kartu "Dari Desa …" dan "Dijual oleh …"                                   |
