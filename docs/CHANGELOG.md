@@ -54,6 +54,12 @@ Format:
 - Perbaikan: skema ubah produk lama menandai produk "stok habis" kembali tersedia di setiap edit (nilai bawaan `isAvailable: true`). Skema baru tidak punya nilai bawaan.
 - `apps/web` kini punya `bun test` (test nota WhatsApp).
 
+## 2026-11-16 — Alamat UMKM tidak lagi tampil di halaman publik
+
+- **Area**: apps/api, apps/web, docs
+- **Jenis**: Security
+- Halaman UMKM publik dan `GET /v1/businesses/{slug}` tidak lagi menampilkan alamat UMKM. Lokasi publik berhenti di level desa (nama desa dan wilayahnya), seperti marketplace yang hanya menampilkan kota penjual. Alamat jalan dan RT/RW sering kali alamat rumah pemilik (UU PDP), jadi hanya dipakai di dashboard.
+
 ## 2026-11-15 — Keputusan: domain gratis selama development
 
 - **Area**: docs

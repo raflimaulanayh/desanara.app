@@ -79,12 +79,12 @@ export default async function BusinessPage({ params }: { params: Params }) {
                 {t('owner', { name: business.ownerName })}
               </span>
             ) : null}
-            {business.address ? (
-              <span className="inline-flex items-center gap-1">
-                <MapPin className="size-4" aria-hidden />
-                {business.address}
-              </span>
-            ) : null}
+            {/* Location stops at the village, like marketplaces show only the seller's city: the
+                street/RT/RW is often the owner's home (UU PDP), so it never leaves the dashboard. */}
+            <span className="inline-flex items-center gap-1">
+              <MapPin className="size-4" aria-hidden />
+              {[business.village.name, business.village.regionName].filter(Boolean).join(', ')}
+            </span>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             {verifiedDate ? (
