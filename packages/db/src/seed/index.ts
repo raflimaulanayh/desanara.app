@@ -256,7 +256,6 @@ async function insertDemoData(tx: Database) {
             description: pr.description,
             price: pr.price,
             compareAtPrice: demoCompareAtPrices[pr.slug] ?? null,
-            unit: pr.unit,
             status: b.verified ? 'published' : 'draft',
             createdBy: assistantId ?? adminId,
             isSeed: true,

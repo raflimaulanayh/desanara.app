@@ -36,6 +36,13 @@
       "when": 1794790519880,
       "tag": "0004_product_compare_at_price",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794819441122,
+      "tag": "0005_product_unit_into_name",
+      "breakpoints": true
     }
   ]
 }

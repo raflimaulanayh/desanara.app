@@ -57,7 +57,6 @@ export function toManageDto(
     price: row.price,
     compareAtPrice: row.compareAtPrice,
     isFree: row.price === 0,
-    unit: row.unit,
     isAvailable: row.isAvailable,
     status: row.status,
     en: row.nameEn ? { name: row.nameEn, description: row.descriptionEn } : null,

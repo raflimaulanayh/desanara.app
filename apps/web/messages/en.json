@@ -130,7 +130,6 @@
   "product": {
     "by": "Sold by",
     "fromVillage": "From the village",
-    "per": "per {unit}",
     "description": "Description",
     "moreTitle": "More from {business}",
     "unavailable": "Out of stock",

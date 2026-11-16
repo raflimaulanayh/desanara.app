@@ -47,9 +47,16 @@ export const canReview = (a: Actor) =>
   can(a, 'business.list_all', { type: 'platform' }) ||
   villageIds(a).some((villageId) => can(a, 'business.verify', { type: 'village', villageId }))
 
+/** Pages that live outside a section's path but belong to it (a product belongs to its UMKM). */
+const SECTION_ALIASES: Record<string, string[]> = { '/businesses': ['/products'] }
+
+const under = (pathname: string, href: string) =>
+  pathname === href || pathname.startsWith(`${href}/`)
+
 /** Exact match for "/", prefix match for sections ("/businesses" covers "/businesses/123"). */
 export function isActive(pathname: string, href: string) {
-  return href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`)
+  if (href === '/') return pathname === '/'
+  return [href, ...(SECTION_ALIASES[href] ?? [])].some((h) => under(pathname, h))
 }
 
 /** Only same-site paths, so `/login?next=` cannot send people to another site after login. */

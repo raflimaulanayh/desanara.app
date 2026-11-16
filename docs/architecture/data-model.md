@@ -29,6 +29,10 @@ erDiagram
 - Product slugs are generated from the name by the API, unique platform-wide; a taken name gets the business
   name appended, then `-2`, `-3` … (`keripik-singkong` → `keripik-singkong-keripik-bu-ani`). The village of a
   product is always its business's village. Variants (size, flavour) are separate products in the MVP.
+- No unit field (decided 2026-11-16): like marketplace titles, size and packaging are part of the product name
+  ("Keripik Singkong Balado 250 gr"). `products.unit` is deprecated: migration `0005_product_unit_into_name`
+  appended any stored value to the name and emptied the column; nothing reads or writes it, and a later
+  migration drops it (two-step removal).
 - Status: `record_status` = draft | published | archived. Businesses also have
   `verification_status` = pending | verified | rejected (verified once by the village admin).
 - `businesses.consentAt` records UU PDP consent; required before publishing. `consentMethod`

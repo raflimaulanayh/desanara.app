@@ -38,7 +38,6 @@ export const manageColumns = {
   description: products.description,
   price: products.price,
   compareAtPrice: products.compareAtPrice,
-  unit: products.unit,
   isAvailable: products.isAvailable,
   status: products.status,
   nameEn: enName,

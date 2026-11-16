@@ -2,7 +2,6 @@ import { BRAND_NAME, buildWhatsAppLink, formatRupiah, type Locale } from '@repo/
 
 export interface OrderLine {
   name: string
-  unit: string | null
   /** Selling price; 0 = free. */
   price: number
   /** Normal price shown struck through, repeated so the seller honours the promo. */
@@ -31,7 +30,7 @@ export function buildOrderMessage(input: {
     'NOTA PESANAN',
     `Kepada: ${input.businessName} (${input.villageName})`,
     '',
-    `${line.quantity} × ${line.name}${line.unit ? ` (${line.unit})` : ''}`,
+    `${line.quantity} × ${line.name}`,
     line.price === 0 ? `@ Gratis${normal}` : `@ ${rupiah(line.price)}${normal} = ${rupiah(total)}`,
     '',
     `Jumlah: ${rupiah(total)}`,

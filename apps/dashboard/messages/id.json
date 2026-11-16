@@ -183,7 +183,6 @@
     "consent": "Persetujuan pemilik",
     "consentGiven": "Diberikan {date} (formulir kertas)",
     "consentMissing": "Belum ada",
-    "products": "Produk",
     "dangerTitle": "Tindakan admin desa",
     "takedown": "Turunkan",
     "takedownTitle": "Turunkan UMKM ini dari halaman publik",
@@ -193,5 +192,103 @@
     "restored": "UMKM dipulihkan sebagai draf.",
     "delete": "Hapus UMKM",
     "deleteTitle": "Hapus {name}? Data tidak tampil lagi di mana pun."
+  },
+  "productStatus": {
+    "published": "Tayang",
+    "draft": "Draf",
+    "soldOut": "Stok kosong"
+  },
+  "productList": {
+    "title": "Produk",
+    "add": "Tambah produk",
+    "empty": "Belum ada produk.",
+    "emptyHint": "Tambahkan produk pertama dengan foto yang jelas dan harga yang lengkap.",
+    "more": "Muat lagi"
+  },
+  "productForm": {
+    "newTitle": "Tambah produk",
+    "photosTitle": "Foto produk",
+    "dataTitle": "Data produk",
+    "fields": {
+      "name": "Nama produk",
+      "categoryId": "Kategori",
+      "price": "Harga (Rp)",
+      "compareAtPrice": "Harga normal sebelum promo (Rp)",
+      "description": "Deskripsi",
+      "enName": "Nama dalam bahasa Inggris",
+      "enDescription": "Deskripsi dalam bahasa Inggris"
+    },
+    "hints": {
+      "name": "Tulis ukuran atau isinya di nama, seperti di marketplace. Contoh: \"Keripik Singkong Balado 250 gr\". Ukuran lain dibuat sebagai produk terpisah.",
+      "price": "Harga untuk satu barang seperti yang tertulis di nama. Minimal Rp100.",
+      "compareAtPrice": "Harus lebih tinggi dari harga jual dan memang pernah berlaku. Ditampilkan dicoret.",
+      "description": "Rasa, bahan, ukuran, cara pakai, atau berapa lama tahan. Tampil di halaman produk."
+    },
+    "chooseCategory": "Pilih kategori",
+    "isFree": "Gratis",
+    "isFreeHint": "Untuk sampel, hadiah, atau layanan tanpa biaya.",
+    "onPromo": "Sedang promo",
+    "onPromoHint": "Tampilkan harga normal yang dicoret di samping harga jual.",
+    "discountPreview": "Pembeli akan melihat potongan {percent}%.",
+    "isAvailable": "Stok tersedia",
+    "isAvailableHint": "Matikan bila stok sedang kosong. Produk tetap tampil dengan tanda Stok kosong dan tidak bisa dipesan.",
+    "english": "Versi bahasa Inggris (opsional)",
+    "englishHint": "Tampil di situs berbahasa Inggris. Bila kosong, teks Indonesia yang dipakai.",
+    "priceRequired": "Isi harga, atau pilih Gratis.",
+    "priceTooLow": "Harga minimal Rp100.",
+    "compareAtRequired": "Isi harga normal, atau matikan Sedang promo.",
+    "create": "Simpan produk",
+    "save": "Simpan perubahan",
+    "saved": "Perubahan tersimpan.",
+    "uploading": "Produk tersimpan sebagai draf. Mengunggah foto, jangan tutup halaman ini…",
+    "someFailed": "{count, plural, other {# foto}} gagal diunggah. Tekan Coba lagi pada foto itu, atau lanjut dan unggah nanti dari halaman produk.",
+    "continue": "Lanjut ke halaman produk"
+  },
+  "productDetail": {
+    "publishTitle": "Tayang di Desanara",
+    "publishHint": "Produk bisa ditayangkan setelah syarat ini terpenuhi.",
+    "isPublished": "Produk ini sedang tampil di halaman UMKM.",
+    "check": {
+      "category": "Kategori sudah dipilih",
+      "photo": "Ada minimal 1 foto"
+    },
+    "businessHidden": "UMKM ini belum tayang, jadi produknya baru terlihat publik setelah UMKM ditayangkan.",
+    "publish": "Tayangkan",
+    "unpublish": "Sembunyikan",
+    "published": "Produk sudah tayang.",
+    "unpublished": "Produk disembunyikan dari halaman publik.",
+    "viewPublic": "Lihat di situs",
+    "dangerTitle": "Hapus produk",
+    "delete": "Hapus produk",
+    "deleteTitle": "Hapus produk \"{name}\"? Produk hilang dari situs dan dari daftar ini."
+  },
+  "photos": {
+    "hint": "Foto pertama menjadi sampul. Foto otomatis diperkecil dan data lokasinya dihapus sebelum diunggah.",
+    "empty": "Belum ada foto. Produk butuh minimal 1 foto untuk tayang.",
+    "alt": "Foto produk ke-{index}",
+    "cover": "Sampul",
+    "makeCover": "Jadikan sampul",
+    "moveLeft": "Geser ke kiri",
+    "moveRight": "Geser ke kanan",
+    "remove": "Hapus foto",
+    "removeConfirm": "Hapus foto ini?",
+    "retry": "Coba lagi",
+    "waiting": "Menunggu giliran",
+    "uploading": "Mengunggah {percent}%",
+    "failed": "Gagal diunggah",
+    "add": "Tambah foto",
+    "count": "{count} dari {max} foto",
+    "full": "Sudah {max} foto. Hapus satu untuk menambah.",
+    "skipped": "{count, plural, other {# foto}} tidak ditambahkan karena batasnya 10 foto.",
+    "queued": "Diunggah setelah disimpan"
+  },
+  "logo": {
+    "title": "Logo UMKM",
+    "hint": "Tampil bulat di halaman UMKM. Gambar persegi paling rapi.",
+    "alt": "Logo {name}",
+    "upload": "Unggah logo",
+    "replace": "Ganti logo",
+    "remove": "Hapus logo",
+    "none": "Belum ada logo."
   }
 }

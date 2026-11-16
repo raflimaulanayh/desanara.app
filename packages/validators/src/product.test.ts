@@ -47,9 +47,11 @@ describe('productUpdateSchema', () => {
   })
 
   test('empty strings and null clear optional fields', () => {
-    expect(
-      productUpdateSchema.parse({ description: '', unit: null, compareAtPrice: null, en: null }),
-    ).toEqual({ description: null, unit: null, compareAtPrice: null, en: null })
+    expect(productUpdateSchema.parse({ description: '', compareAtPrice: null, en: null })).toEqual({
+      description: null,
+      compareAtPrice: null,
+      en: null,
+    })
   })
 })
 

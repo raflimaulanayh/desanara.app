@@ -77,7 +77,7 @@ rounded pills. Tap targets ≥ 44 px.
 - **Header**: logo, always-visible search pill, Jelajah/Tentang, ID|EN switch. Sticky. Search stays in the header on phones (second row).
 - **Search form**: plain GET form, works without JavaScript.
 - **Product card**: square photo (or tinted category tile in the village colour when there is no photo), name (2 lines),
-  price with unit, a pin line "Desa · UMKM". Out-of-stock shows a dark pill on the photo.
+  price, a pin line "Desa · UMKM". Out-of-stock shows a dark pill on the photo.
 - **Village card / village page**: cover (photo or gradient in the village colour), round crest with white frame, name in
   the village font, region, counts, "Diverifikasi desa" badge. Official crests are shown untouched.
 - **Order panel (product page)**: quantity stepper, note, then one WhatsApp-green button. On phones the total and button

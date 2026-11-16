@@ -117,8 +117,9 @@ dipakai di ponsel.
 | Daftar UMKM dengan pencarian dan tab status                                                                 | Selesai                                  |
 | Form UMKM tiga langkah; isian tersimpan otomatis di perangkat bila sinyal putus                             | Selesai                                  |
 | Verifikasi UMKM, tayang dan sembunyikan dengan daftar syarat, turunkan dan pulihkan oleh admin desa         | Selesai                                  |
-| Produk: harga rupiah, gratis, harga coret, satuan, kategori, terjemahan Inggris                             | API selesai, halaman sedang dikerjakan   |
-| Foto: sampai 10 foto per produk, dikompres dan dibersihkan dari data lokasi di perangkat, urutan dan sampul | API selesai, halaman sedang dikerjakan   |
+| Produk: harga rupiah, gratis, harga coret, kategori, stok kosong, terjemahan Inggris                        | Selesai                                  |
+| Foto: sampai 10 foto per produk, dikompres dan dibersihkan dari data lokasi di perangkat, urutan dan sampul | Selesai                                  |
+| Logo UMKM                                                                                                   | Selesai                                  |
 | Lokasi UMKM untuk keperluan internal (RT/RW, patokan, titik peta) dan data wilayah Kemendagri lengkap       | Direncanakan                             |
 | Jam buka, tutup sementara, pengaturan desa, editor tampilan desa                                            | Direncanakan                             |
 | Undangan dan serah-terima akun ke pemilik, pendaftaran UMKM lewat tautan desa, pengajuan desa baru          | Direncanakan                             |

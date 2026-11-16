@@ -14,7 +14,6 @@ export function toSummary(r: Row) {
     price: r.price,
     compareAtPrice: r.compareAtPrice,
     isFree: r.price === 0,
-    unit: r.unit,
     isAvailable: r.isAvailable,
     imageKey: r.imageKey,
     isSeed: r.isSeed,

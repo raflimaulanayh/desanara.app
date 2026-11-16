@@ -34,7 +34,7 @@ Pembeli tidak perlu akun.
 2. Menjelajah lewat **beranda**, **Jelajah** (pencarian, filter wilayah dan kategori, urutan), atau langsung ke **halaman desa**.
 3. Halaman desa menampilkan cerita desa, tampilannya bertema sesuai desa (warna, logo, huruf), dan daftar UMKM-nya.
 4. Halaman UMKM menampilkan cerita usaha, status **buka/tutup** (dihitung dari jam buka), link toko online, dan produknya.
-5. Halaman produk menampilkan foto (bisa digeser), harga (atau **Gratis**, atau harga coret saat promo), dan satuan.
+5. Halaman produk menampilkan foto (bisa digeser), harga (atau **Gratis**, atau harga coret saat promo), dan ukuran atau isi yang tertulis di nama produk (misalnya "Keripik Singkong Balado 250 gr").
 6. Pembeli mengatur **jumlah** dan **catatan**, lalu menekan **Pesan via WhatsApp**. WhatsApp terbuka dengan pesan yang sudah terisi.
    Pembayaran dan pengiriman disepakati langsung dengan penjual.
 
@@ -55,7 +55,8 @@ Pendamping desa boleh mendaftarkan UMKM baru di desanya. Setelah mendaftarkan, i
 4. Setelah disimpan, UMKM berstatus **Draf** dan **Menunggu verifikasi**.
 5. Bila ditolak admin desa, alasannya tampil di halaman UMKM. Perbaiki datanya. Setelah disimpan, UMKM otomatis kembali menunggu verifikasi.
 6. Setelah terverifikasi, pendamping bisa menekan **Tayangkan**.
-7. Menambah produk dan foto (belum tersedia; API sudah ada, halaman dashboard sedang dibuat).
+7. Menambah produk dari halaman UMKM: foto (sampai 10, foto pertama jadi sampul), nama beserta ukurannya, kategori,
+   harga atau Gratis, harga coret saat promo, dan deskripsi. Produk tersimpan sebagai draf, lalu bisa ditayangkan.
 8. Menyerahkan akun ke pemilik lewat link undangan WhatsApp (belum tersedia).
 
 ## 3. Admin desa
@@ -113,7 +114,9 @@ Bila satu syarat belum terpenuhi, dashboard menjelaskan apa yang kurang.
 ## Status produk
 
 - Produk bisa **Draf** atau **Tayang**.
-- Syarat tayang: punya kategori dan minimal 1 foto (maksimal 10).
+- Syarat tayang: punya kategori dan minimal 1 foto (maksimal 10). Foto terakhir produk yang sedang tayang tidak bisa dihapus.
+- Tidak ada isian satuan. Seperti judul di marketplace, ukuran atau isi ditulis di nama produk, dan ukuran lain dibuat sebagai produk terpisah.
+- **Stok kosong**: produk tetap tampil tetapi tidak bisa dipesan.
 - Produk hanya tampil bila UMKM-nya juga sedang tayang.
 - Harga dalam rupiah bulat: `0` berarti **Gratis**, selain itu minimal Rp100. Harga coret (harga normal) harus lebih tinggi dari harga jual. Badge diskon dihitung otomatis.
 - Tidak ada "turunkan produk". Admin desa bisa menghapus produk yang bermasalah, dan penghapusannya tercatat di jejak audit.

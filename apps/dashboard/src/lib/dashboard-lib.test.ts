@@ -26,6 +26,8 @@ describe('nav', () => {
     expect(isActive('/', '/')).toBe(true)
     expect(isActive('/businesses', '/')).toBe(false)
     expect(isActive('/businesses/abc', '/businesses')).toBe(true)
+    expect(isActive('/products/abc', '/businesses')).toBe(true)
+    expect(isActive('/productsx', '/businesses')).toBe(false)
     expect(isActive('/businessesx', '/businesses')).toBe(false)
   })
 

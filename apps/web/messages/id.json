@@ -130,7 +130,6 @@
   "product": {
     "by": "Dijual oleh",
     "fromVillage": "Dari desa",
-    "per": "per {unit}",
     "description": "Deskripsi",
     "moreTitle": "Produk lain dari {business}",
     "unavailable": "Stok kosong",
