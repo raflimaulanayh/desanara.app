@@ -15,6 +15,18 @@ Format:
 
 ---
 
+## 2026-11-17 — Pindah ke domain desanara.app
+
+- **Area**: docs, .env.example, komentar di apps/web, apps/dashboard, packages/auth, docker
+- **Jenis**: Changed
+- Production sekarang di `desanara.app` (web), `dashboard.desanara.app`, `api.desanara.app`, dan foto di
+  `cdn.desanara.app` (custom domain R2; URL `r2.dev` dimatikan). Alamat lama `*.vercel.app` dialihkan 308 ke alamat
+  baru. DNS di Cloudflare akun HIMASIF; domain `desanara.app` terverifikasi di Resend untuk email.
+- Env Vercel diperbarui: `API_URL`, `AUTH_BASE_URL`, `TRUSTED_ORIGINS`, `API_PROXY_TARGET`, `R2_PUBLIC_URL`, dan semua
+  `NEXT_PUBLIC_*` URL. Env baru `RESEND_API_KEY` (API, _Sending access_ saja) untuk modul email berikutnya. CORS bucket
+  media hanya `https://dashboard.desanara.app` dan `http://localhost:3001`. Semua pengguna perlu login ulang sekali.
+- Repositori GitHub berganti nama menjadi `desanara.app`; README dan dokumen di `docs/` memakai alamat baru.
+
 ## 2026-11-16 — Lokasi UMKM di peta dan menu Pengaturan desa
 
 - **Area**: apps/dashboard, apps/api, packages/db, packages/validators, packages/auth, docs, .env.example

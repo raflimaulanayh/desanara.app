@@ -5,8 +5,9 @@
 - Mounted by the API at `/api/auth/*` (`packages/auth/src/server.ts`, created in `apps/api/src/index.ts`).
 - Email + password for the MVP. Tables: `users`, `sessions`, `accounts`, `verifications` (Drizzle, plural).
 - Extra user fields: `phone`, `globalRole` (server-set only), `isSeed`.
-- Web/dashboard: HTTP-only session cookie. In production set `COOKIE_DOMAIN=<parent domain>` so
-  `dashboard.<domain>` and `api.<domain>` share it (`crossSubDomainCookies`). `TRUSTED_ORIGINS` lists the apps.
+- Dashboard: HTTP-only session cookie, first-party on `dashboard.desanara.app` because the dashboard proxies the API.
+  `COOKIE_DOMAIN=desanara.app` (`crossSubDomainCookies`) is available if another subdomain must read the session;
+  it is empty today. `TRUSTED_ORIGINS` lists the apps.
 - Dashboard client: `createUmkmAuthClient()` from `@repo/auth/client` (`signIn.email`, `signOut`).
 - Mobile (later): Better Auth Expo/bearer plugin.
 

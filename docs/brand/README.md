@@ -1,7 +1,7 @@
 # Panduan Brand — Desanara
 
 **Desanara** — _Ragam Karya, Cerita Nusantara._
-Nama dipilih 2026-11-15, menggantikan Sudut Desa. Domain rencana: `desanara.id` (dan `desanara.com`). Akun sosial: amankan `@desanara`.
+Nama dipilih 2026-11-15, menggantikan Sudut Desa. Domain: `desanara.app` (aktif sejak 2026-11-17). Akun sosial: amankan `@desanara`.
 
 ## Cerita
 

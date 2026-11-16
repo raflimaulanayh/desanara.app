@@ -7,7 +7,8 @@
 `docs/architecture/deployment.md` puts `apps/api` on the campus VPS (Docker + Caddy). The deadline for the campus VPS
 decision is 2026-11-14 and the VPS is not ready. The seminar is on 2026-12-11 (freeze 2026-11-28). Web and dashboard
 already target Vercel, and Vercel runs Hono as a function with zero configuration. Traffic for the MVP is small
-(one pilot village). No domain has been bought yet, so the apps live on separate `*.vercel.app` hosts for now.
+(one pilot village). No domain had been bought yet, so the apps lived on separate `*.vercel.app` hosts (since 2026-11-17 they run on
+`desanara.app` and its subdomains, see `docs/architecture/deployment.md`).
 
 ## Decision
 

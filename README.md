@@ -8,8 +8,8 @@ Pembeli menemukan produk khas sebuah desa, lalu memesan langsung ke pembuatnya l
 Proyek ini dikembangkan oleh **HIMA Sistem Informasi, SATU University**, bersama program edukasi digital untuk pelaku
 UMKM desa.
 
-- Situs publik: https://desanara-web.vercel.app
-- Dashboard pengelola: https://desanara-dashboard.vercel.app
+- Situs publik: https://desanara.app
+- Dashboard pengelola: https://dashboard.desanara.app
 - Instagram HIMASIF: [@himasif.su](https://www.instagram.com/himasif.su/)
 
 Desa pilot pertama adalah **Desa Baros, Kecamatan Arjasari, Kabupaten Bandung, Jawa Barat**. Versi MVP dipresentasikan
@@ -232,7 +232,7 @@ Penjelasan teknis: [docs/architecture/security-privacy.md](docs/architecture/sec
 ### Langkah
 
 ```bash
-git clone https://github.com/raflimaulanayh/desanara.id.git desanara
+git clone https://github.com/raflimaulanayh/desanara.app.git desanara
 cd desanara
 bun install
 cp .env.example .env     # isi DATABASE_URL dan BETTER_AUTH_SECRET (buat dengan: openssl rand -base64 32)
@@ -325,10 +325,10 @@ Desanara dikembangkan oleh **HIMA Sistem Informasi (HIMASIF), SATU University**,
 
 - Instagram: [@himasif.su](https://www.instagram.com/himasif.su/)
 - Pertanyaan atau kerja sama desa: hubungi HIMASIF lewat Instagram.
-- Masalah teknis: buka [issue](https://github.com/raflimaulanayh/desanara.id/issues) di repositori ini.
+- Masalah teknis: buka [issue](https://github.com/raflimaulanayh/desanara.app/issues) di repositori ini.
 
 Foto contoh di situs berasal dari sumber berlisensi terbuka; daftar penulisnya ada di halaman
-[kredit foto](https://desanara-web.vercel.app/tentang/kredit-foto). Panduan identitas visual: [docs/brand/README.md](docs/brand/README.md).
+[kredit foto](https://desanara.app/tentang/kredit-foto). Panduan identitas visual: [docs/brand/README.md](docs/brand/README.md).
 
 ## Lisensi
 
@@ -339,11 +339,11 @@ pemberitahuan hak cipta tetap disertakan.
 Lisensi MIT **tidak** mencakup aset berikut. Aset ini tetap milik pemiliknya masing-masing dan tidak boleh dipakai di
 luar proyek ini tanpa izin:
 
-| Aset                                      | Lokasi                                                                              | Pemilik                                                                                                                                                    |
-| ----------------------------------------- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Nama, logo, dan identitas visual Desanara | `docs/brand/`, `apps/*/public/brand/desanara-*`, ikon aplikasi di `apps/*/src/app/` | HIMA Sistem Informasi, SATU University                                                                                                                     |
-| Logo HIMASIF dan SATU University          | `apps/web/public/brand/himasif.webp`, `apps/web/public/brand/satu-university.webp`  | HIMASIF dan SATU University                                                                                                                                |
-| Logo dan foto Desa Baros                  | `apps/web/public/media/seed/villages/baros/`                                        | Pemerintah Desa Baros                                                                                                                                      |
-| Foto contoh produk                        | `apps/web/public/media/seed/products/`                                              | Fotografer masing-masing, sesuai lisensi yang tercatat di file `.webp.json` dan halaman [kredit foto](https://desanara-web.vercel.app/tentang/kredit-foto) |
+| Aset                                      | Lokasi                                                                              | Pemilik                                                                                                                                         |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Nama, logo, dan identitas visual Desanara | `docs/brand/`, `apps/*/public/brand/desanara-*`, ikon aplikasi di `apps/*/src/app/` | HIMA Sistem Informasi, SATU University                                                                                                          |
+| Logo HIMASIF dan SATU University          | `apps/web/public/brand/himasif.webp`, `apps/web/public/brand/satu-university.webp`  | HIMASIF dan SATU University                                                                                                                     |
+| Logo dan foto Desa Baros                  | `apps/web/public/media/seed/villages/baros/`                                        | Pemerintah Desa Baros                                                                                                                           |
+| Foto contoh produk                        | `apps/web/public/media/seed/products/`                                              | Fotografer masing-masing, sesuai lisensi yang tercatat di file `.webp.json` dan halaman [kredit foto](https://desanara.app/tentang/kredit-foto) |
 
 Proyek turunan wajib memakai nama dan logo sendiri.
