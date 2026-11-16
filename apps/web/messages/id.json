@@ -18,7 +18,8 @@
     "explore": "Jelajah produk",
     "about_link": "Tentang program",
     "credit": "© {year} HIMA Sistem Informasi, SATU University",
-    "tagline": "Oleh-oleh khas desa"
+    "tagline": "Oleh-oleh khas desa",
+    "credits": "Kredit foto"
   },
   "status": {
     "open": "Buka",
@@ -137,7 +138,11 @@
     "visitShop": "Lihat toko",
     "free": "Gratis",
     "off": "-{pct}%",
-    "normalPrice": "Harga normal"
+    "normalPrice": "Harga normal",
+    "gallery": "Foto produk",
+    "photoOf": "Foto {n} dari {total}",
+    "prevPhoto": "Foto sebelumnya",
+    "nextPhoto": "Foto berikutnya"
   },
   "order": {
     "quantity": "Jumlah",
@@ -165,5 +170,13 @@
   },
   "badge": {
     "verified": "Diverifikasi desa"
+  },
+  "credits": {
+    "title": "Kredit foto",
+    "lead": "Sebagian foto produk contoh di Desanara berasal dari Wikimedia Commons dan dipakai sampai UMKM mengunggah foto aslinya. Terima kasih kepada para fotografer berikut.",
+    "by": "oleh {author}",
+    "unknownAuthor": "Pembuat tidak dicantumkan",
+    "source": "Sumber",
+    "changes": "Semua foto diubah ukurannya dan dikompres ulang ke format WebP. Logo dan foto Desa Baros milik Pemerintah Desa Baros (desa mitra)."
   }
 }

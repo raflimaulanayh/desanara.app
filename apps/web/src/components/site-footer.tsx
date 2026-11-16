@@ -20,6 +20,9 @@ export async function SiteFooter() {
             <Link href="/tentang" className="hover:text-accent">
               {t('about_link')}
             </Link>
+            <Link href="/tentang/kredit-foto" className="hover:text-accent">
+              {t('credits')}
+            </Link>
           </nav>
         </div>
         <div className="text-sm">

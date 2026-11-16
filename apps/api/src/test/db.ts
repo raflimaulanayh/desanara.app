@@ -2,6 +2,7 @@ import { describe } from 'bun:test'
 import { createAuth } from '@repo/auth/server'
 import { createDb, type Database } from '@repo/db'
 import { createApp } from '../app'
+import { type Storage, createMemoryStorage } from '../lib/storage'
 
 /**
  * Integration tests run against a real, migrated Postgres given by TEST_DATABASE_URL.
@@ -19,7 +20,10 @@ if (testDatabaseUrl) {
 
 export const describeDb = testDatabaseUrl ? describe : describe.skip
 
-export function createTestApp() {
+/** `storage: null` simulates an API without R2 configured. */
+export function createTestApp({
+  storage = createMemoryStorage(),
+}: { storage?: ReturnType<typeof createMemoryStorage> | Storage | null } = {}) {
   const db: Database = createDb(testDatabaseUrl!, { max: 4 })
   const auth = createAuth({
     db,
@@ -27,8 +31,8 @@ export function createTestApp() {
     baseURL: 'http://localhost:8787',
     trustedOrigins: [],
   })
-  const app = createApp({ db, auth, trustedOrigins: [], logRequests: false })
-  return { db, auth, app }
+  const app = createApp({ db, auth, storage, trustedOrigins: [], logRequests: false })
+  return { db, auth, app, storage }
 }
 
 /** Signs up a user through Better Auth and returns its id and session cookie. */

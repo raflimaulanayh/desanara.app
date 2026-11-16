@@ -13,7 +13,7 @@ Status: ✅ selesai · 🚧 dikerjakan · ⏳ belum
 | UMKM    | Buat/ubah UMKM (admin desa, pendamping), verifikasi sekali oleh admin desa, consent UU PDP             | ✅ API, ⏳ halaman dashboard                   |
 | UMKM    | Undangan & serah-terima akun ke pemilik lewat link WA                                                  | ⏳                                             |
 | Produk  | CRUD produk, harga Rp (gratis & harga coret/diskon), satuan, kategori wajib, terjemahan EN opsional    | ✅ API + tampilan publik, ⏳ halaman dashboard |
-| Produk  | Upload foto ke R2 (presigned, kompres di HP)                                                           | ⏳                                             |
+| Produk  | Upload foto ke R2 (presigned, kompres di HP), maks. 10 foto + slider; logo UMKM, logo & banner desa    | ✅ API + slider publik, ⏳ halaman dashboard   |
 | Publik  | Landing bilingual, jelajah + filter wilayah/kategori + pencarian                                       | ✅ (pencarian ILIKE; pg_trgm menyusul)         |
 | Publik  | Halaman UMKM & produk, pesan via WhatsApp, status buka/tutup                                           | ✅ (OG image khusus menyusul)                  |
 | Dampak  | Pencatatan view & klik WA, halaman statistik                                                           | ✅ pencatatan, ⏳ halaman statistik            |

@@ -18,7 +18,8 @@
     "explore": "Explore products",
     "about_link": "About the programme",
     "credit": "© {year} HIMA Information Systems, SATU University",
-    "tagline": "Village specialities"
+    "tagline": "Village specialities",
+    "credits": "Photo credits"
   },
   "status": {
     "open": "Open",
@@ -137,7 +138,11 @@
     "visitShop": "View shop",
     "free": "Free",
     "off": "-{pct}%",
-    "normalPrice": "Normal price"
+    "normalPrice": "Normal price",
+    "gallery": "Product photos",
+    "photoOf": "Photo {n} of {total}",
+    "prevPhoto": "Previous photo",
+    "nextPhoto": "Next photo"
   },
   "order": {
     "quantity": "Quantity",
@@ -165,5 +170,13 @@
   },
   "badge": {
     "verified": "Village verified"
+  },
+  "credits": {
+    "title": "Photo credits",
+    "lead": "Some sample product photos on Desanara come from Wikimedia Commons and are used until businesses upload their own. Thanks to these photographers.",
+    "by": "by {author}",
+    "unknownAuthor": "Author not stated",
+    "source": "Source",
+    "changes": "All photos were resized and recompressed to WebP. The Desa Baros logo and photo belong to the Desa Baros village government (partner village)."
   }
 }

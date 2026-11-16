@@ -3,6 +3,7 @@ import type { Database } from '@repo/db'
 import {
   COMPARE_AT_PRICE_MESSAGE,
   type ProductCreateInput,
+  type ProductImageOrderInput,
   type ProductUpdateInput,
   slugWithSuffix,
   toSlug,
@@ -324,4 +325,29 @@ export async function remove(ctx: Ctx, id: string) {
       requestId: ctx.requestId,
     })
   })
+}
+
+/** Photo order for the slider; the first photo is the cover. `order` must list every photo once. */
+export async function reorderImages(ctx: Ctx, id: string, input: ProductImageOrderInput) {
+  const { actor, row } = await loadAuthorized(ctx, id, 'product.update')
+  const images = await repo.imagesFor(ctx.db, [id])
+  const current = images.map((i) => i.id)
+  const sameSet =
+    input.order.length === current.length && input.order.every((i) => current.includes(i))
+  if (!sameSet) throw AppError.invalid('order', 'Urutan harus berisi semua foto produk ini')
+  if (input.order.every((imageId, i) => current[i] === imageId)) return reload(ctx, actor, id)
+
+  await ctx.db.transaction(async (tx) => {
+    await repo.setImageOrder(tx, id, input.order)
+    await writeAudit(tx, {
+      actorId: actor.userId,
+      villageId: row.villageId,
+      action: 'product.reorder_images',
+      entityType: 'product',
+      entityId: id,
+      changes: { order: { from: current, to: input.order } },
+      requestId: ctx.requestId,
+    })
+  })
+  return reload(ctx, actor, id)
 }

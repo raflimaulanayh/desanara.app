@@ -1,6 +1,7 @@
 import type { Actor } from '@repo/auth/permissions'
 import type { Auth } from '@repo/auth/server'
 import type { Database } from '@repo/db'
+import type { Storage } from './storage'
 
 export interface SessionUser {
   id: string
@@ -14,6 +15,8 @@ export interface AppEnv {
     requestId: string
     db: Database
     auth: Auth
+    /** Null when R2 is not configured (uploads answer 503). */
+    storage: Storage | null
     user: SessionUser | null
     actor: Actor | null
   }

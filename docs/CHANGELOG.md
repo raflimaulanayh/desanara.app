@@ -15,6 +15,25 @@ Format:
 
 ---
 
+## 2026-11-16 — Halaman kredit foto contoh
+
+- **Area**: apps/web
+- **Jenis**: Added | Fixed
+- Halaman baru `/tentang/kredit-foto` (tautan di footer) mencantumkan judul, pembuat, lisensi, dan sumber setiap foto contoh dari Wikimedia Commons, sesuai kewajiban atribusi CC BY/BY-SA. Datanya dibaca dari file `*.webp.json` saat build, jadi halaman sepenuhnya statis.
+- Perbaikan: foto lampu (CC BY-SA 4.0) tidak punya nama pembuat; diisi `Valenzuela400` sesuai halaman Commons-nya. Test baru memastikan setiap foto berlisensi punya pembuat, sumber, dan lisensi yang dikenali.
+
+## 2026-11-16 — Upload foto ke R2 dan slider foto produk
+
+- **Area**: apps/api, apps/web, apps/dashboard, packages/validators, docs, .env.example
+- **Jenis**: Added | Security
+- Endpoint baru `/v1/manage/media` untuk semua jenis gambar: foto produk (maks. 10), logo UMKM, logo dan banner desa. Alurnya: minta URL upload (berlaku 5 menit, tipe dan ukuran file ikut ditandatangani sehingga R2 sendiri menolak file yang lebih besar), browser mengunggah langsung ke R2, lalu API mengecek file di R2 sebelum menyimpannya. File yang tidak lolos langsung dihapus. Urutan foto (sampul = foto pertama) lewat `PATCH /v1/manage/products/{id}/images`. Produk yang sedang tayang tidak bisa kehilangan foto terakhirnya.
+- Dashboard: helper `uploadImage()` selalu meng-encode ulang foto (WebP/JPEG, maks. 1600 px) sehingga data EXIF termasuk **lokasi GPS** dari HP ikut terbuang (UU PDP).
+- Web publik: halaman produk memakai slider foto (geser di HP, panah dan thumbnail di desktop, penanda "2/5"), tanpa library tambahan. `next/image` kini mengizinkan domain `NEXT_PUBLIC_MEDIA_URL`.
+- API memakai `aws4fetch` karena di Vercel API berjalan di runtime Node.js (`Bun.S3Client` tidak tersedia). Env API: `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`; tanpa itu endpoint upload menjawab 503.
+- Script baru: `media:upload-seed` (32 foto demo sudah disalin ke R2) dan `media:clean-orphans` (menghapus file yang terunggah tapi tidak pernah disimpan, lebih dari 24 jam; default dry run).
+- Setelah merge: isi `NEXT_PUBLIC_MEDIA_URL` (= URL `r2.dev`) di Vercel web **dan** dashboard, lalu redeploy.
+- Terkait: docs/architecture/storage.md
+
 ## 2026-11-16 — API kelola produk, produk gratis, dan harga coret
 
 - **Area**: apps/api, apps/web, packages/db, packages/validators, docs

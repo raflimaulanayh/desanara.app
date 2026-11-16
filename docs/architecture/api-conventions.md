@@ -34,7 +34,8 @@
   answered with `Cache-Control: no-store`. Example: `/v1/manage/businesses` (list, create),
   `/v1/manage/businesses/{id}` (get, `PATCH`, `DELETE`), `/{id}/verify|publish|unpublish|takedown|restore`;
   `/v1/manage/businesses/{id}/products` (list, create), `/v1/manage/products/{id}` (get, `PATCH`, `DELETE`),
-  `/v1/manage/products/{id}/publish|unpublish`.
+  `/v1/manage/products/{id}/publish|unpublish`, `PATCH /v1/manage/products/{id}/images` (photo order);
+  `/v1/manage/media/presign`, `POST|DELETE /v1/manage/media` (uploads for every image target, storage.md).
 - `PATCH` is partial: a missing field is unchanged, `null` or `""` clears it. Never give update schemas
   defaults (a default silently overwrites stored data on every edit).
 - Private responses include `permissions` (booleans from `can()`) so the dashboard can show the right

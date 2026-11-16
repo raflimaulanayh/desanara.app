@@ -30,6 +30,20 @@ const envSchema = z.object({
     .optional()
     .transform((v) => v || undefined)
     .pipe(z.string().min(12).optional()),
+  /** Cloudflare R2 (docs/architecture/storage.md). Without all four, upload endpoints answer 503. */
+  R2_ACCOUNT_ID: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined),
+  R2_ACCESS_KEY_ID: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined),
+  R2_SECRET_ACCESS_KEY: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined),
+  R2_BUCKET: z.string().default('desanara-media'),
   COOKIE_DOMAIN: z
     .string()
     .optional()

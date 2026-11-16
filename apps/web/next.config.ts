@@ -22,7 +22,14 @@ const legacyRedirects = () => {
   return rules
 }
 
+/** Lets next/image load photos from the R2 public URL (r2.dev now, cdn.<domain> later). */
+const mediaBase = process.env.NEXT_PUBLIC_MEDIA_URL?.replace(/\/$/, '')
+const images: NextConfig['images'] = mediaBase
+  ? { remotePatterns: [new URL(`${mediaBase}/**`)] }
+  : undefined
+
 const nextConfig: NextConfig = {
+  images,
   transpilePackages: ['@repo/ui', '@repo/i18n', '@repo/api-client', '@repo/validators'],
   typedRoutes: false,
   redirects: async () => legacyRedirects(),
