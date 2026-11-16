@@ -22,7 +22,9 @@ mengirim pesan ke orang asing. **Isi dengan nomor tim HIMA sebelum seminar.** Ji
 
 ## Akun demo
 
-Kata sandi semua akun: `demo12345`
+Kata sandi semua akun di database **lokal**: `demo12345`. Database lain (Supabase/production) wajib memakai
+`SEED_DEMO_PASSWORD` dari `.env`; seed menolak berjalan tanpa itu, supaya tidak ada yang bisa masuk sebagai super admin
+dengan kata sandi yang tertulis di repo. Kata sandi production dipegang pengurus tim.
 
 | Email                                       | Peran                                     |
 | ------------------------------------------- | ----------------------------------------- |

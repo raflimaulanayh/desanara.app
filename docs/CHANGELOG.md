@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-16 — README dan dokumentasi untuk dibagikan ke tim
+
+- **Area**: README.md, AGENTS.md, docs
+- **Jenis**: Added | Changed
+- README ditulis ulang sebagai pintu masuk untuk tiga pembaca (tim non-teknis HIMA, developer baru, dosen/penguji): masalah, peran, cara kerja, status fitur, arsitektur, keamanan, setup, alur kerja tim, peta dokumentasi. `docs/README.md` kini dikelompokkan menurut pembaca.
+- Dokumen baru: `docs/product/user-flows.md` (alur per peran, status UMKM/produk, data pribadi), `docs/guides/dashboard-user-guide.md` (panduan admin desa dan pendamping), `docs/architecture/security-privacy.md` (threat model, UU PDP, upload, audit, celah yang masih direncanakan).
+- Fakta basi diperbaiki: API berjalan di Vercel (bukan VPS) di AGENTS.md dan diagram arsitektur, ADR 0009 berstatus Accepted, alur upload yang sebenarnya, rute dashboard, status fitur MVP dan progres roadmap, rencana undangan + pendaftaran mandiri di auth-rbac, kata sandi akun contoh di production, variabel R2 di setup lokal, istilah baru di glosarium.
+
 ## 2026-11-16 — Halaman UMKM di dashboard
 
 - **Area**: apps/dashboard, docs
