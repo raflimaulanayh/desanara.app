@@ -48,6 +48,7 @@ without a real database (`apps/api/src/app.test.ts`).
 ```text
 Server Component (web)  → api.v1.villages.$get() → GET /v1/villages → service → repository → Postgres
 Client Component (dash) → useQuery(['me'])       → GET /v1/me (cookie) → session middleware → actor
+                                                    (+ memberships: village/business names for the shell)
 Photo upload (planned)  → POST /v1/uploads (presign, assertCan) → browser PUT to R2 → save storageKey
 ```
 

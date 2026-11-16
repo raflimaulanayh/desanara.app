@@ -5,7 +5,9 @@
     "roles": "Peran kamu",
     "noRoles": "Akun ini belum punya peran. Minta admin desa mengundangmu.",
     "logout": "Keluar",
-    "loadingSession": "Memeriksa sesi…"
+    "loadingSession": "Memeriksa sesi…",
+    "noRoleShort": "Belum ada peran",
+    "account": "Akun"
   },
   "login": {
     "title": "Masuk ke Dashboard",
@@ -21,5 +23,47 @@
     "village_assistant": "Pendamping desa",
     "owner": "Pemilik UMKM",
     "assistant": "Pendamping UMKM"
+  },
+  "common": {
+    "retry": "Coba lagi"
+  },
+  "nav": {
+    "label": "Menu utama",
+    "home": "Beranda",
+    "businesses": "UMKM",
+    "verifications": "Verifikasi",
+    "villageSettings": "Pengaturan desa"
+  },
+  "home": {
+    "villages": "Desa",
+    "businesses": "UMKM kamu",
+    "allVillages": "Semua desa",
+    "businessCount": "UMKM",
+    "pendingCount": "Menunggu verifikasi",
+    "noRolesTitle": "Belum ada akses"
+  },
+  "errors": {
+    "generic": "Terjadi kesalahan. Coba lagi sebentar lagi.",
+    "network": "Tidak bisa terhubung. Periksa sinyal internet lalu coba lagi.",
+    "sessionExpired": "Sesi kamu berakhir. Silakan masuk lagi.",
+    "forbidden": "Kamu tidak punya akses untuk melakukan ini.",
+    "notFound": "Data tidak ditemukan. Mungkin sudah dihapus.",
+    "invalid": "Ada isian yang perlu diperbaiki.",
+    "conflict": "Tindakan ini belum bisa dilakukan.",
+    "unavailable": "Layanan sedang tidak tersedia. Coba lagi nanti.",
+    "reason": {
+      "NOT_VERIFIED": "UMKM ini belum diverifikasi admin desa.",
+      "NO_CONSENT": "Pemilik belum memberi persetujuan data (formulir UU PDP).",
+      "NO_WHATSAPP": "Isi nomor WhatsApp dulu agar pembeli bisa memesan.",
+      "TAKEN_DOWN": "UMKM ini sedang diturunkan oleh admin desa.",
+      "NOT_PENDING": "UMKM ini tidak sedang menunggu verifikasi.",
+      "ALREADY_TAKEN_DOWN": "UMKM ini sudah diturunkan.",
+      "NOT_TAKEN_DOWN": "UMKM ini tidak sedang diturunkan.",
+      "SLUG_TAKEN": "Alamat link itu sudah dipakai UMKM lain.",
+      "NO_PHOTO": "Tambahkan minimal 1 foto sebelum menayangkan produk.",
+      "NO_CATEGORY": "Pilih kategori produk dulu.",
+      "TOO_MANY_FILES": "Jumlah foto sudah maksimal.",
+      "LAST_PHOTO": "Produk yang tayang harus punya minimal 1 foto. Tambah foto lain atau sembunyikan produk dulu."
+    }
   }
 }

@@ -2,13 +2,17 @@
 
 import { Button, Card, Input, Label, TextField } from '@heroui/react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
+import { safeNext } from '@/lib/nav'
 
 export function LoginForm() {
   const t = useTranslations('login')
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const next = safeNext(useSearchParams().get('next'))
   const [error, setError] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
 
@@ -23,7 +27,9 @@ export function LoginForm() {
     })
     setPending(false)
     if (error) return setError(t('failed'))
-    router.replace('/')
+    // Drop the cached "not logged in" answer so the shell reads the new session.
+    queryClient.removeQueries({ queryKey: ['me'] })
+    router.replace(next)
   }
 
   return (

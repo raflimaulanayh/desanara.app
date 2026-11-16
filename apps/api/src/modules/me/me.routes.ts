@@ -1,6 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { createRouter, errorResponses } from '../../lib/router'
 import { requireUser } from '../../middleware/session'
+import { membershipsOf } from './me.repository'
 
 const meSchema = z
   .object({
@@ -10,6 +11,26 @@ const meSchema = z
       globalRole: z.enum(['super_admin']).nullable(),
       villageRoles: z.record(z.string(), z.enum(['village_admin', 'village_assistant'])),
       businessRoles: z.record(z.string(), z.enum(['owner', 'assistant'])),
+    }),
+    /** Where the user has a role, with names, for the dashboard header and home. */
+    memberships: z.object({
+      villages: z.array(
+        z.object({
+          id: z.uuid(),
+          slug: z.string(),
+          name: z.string(),
+          role: z.enum(['village_admin', 'village_assistant']),
+        }),
+      ),
+      businesses: z.array(
+        z.object({
+          id: z.uuid(),
+          slug: z.string(),
+          name: z.string(),
+          villageId: z.uuid(),
+          role: z.enum(['owner', 'assistant']),
+        }),
+      ),
     }),
   })
   .openapi('Me')
@@ -29,8 +50,10 @@ const meRoute = createRoute({
   },
 })
 
-export const meRoutes = createRouter().openapi(meRoute, (c) => {
+export const meRoutes = createRouter().openapi(meRoute, async (c) => {
   const user = c.get('user')!
   const actor = c.get('actor')!
-  return c.json({ data: { user, actor } }, 200)
+  c.header('Cache-Control', 'no-store')
+  const memberships = await membershipsOf(c.get('db'), actor)
+  return c.json({ data: { user, actor, memberships } }, 200)
 })
