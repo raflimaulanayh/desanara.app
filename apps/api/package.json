@@ -13,7 +13,9 @@
     "lint": "eslint .",
     "check-types": "tsc --noEmit",
     "test": "bun test",
-    "build:vercel": "bun scripts/build-vercel.ts"
+    "build:vercel": "bun scripts/build-vercel.ts",
+    "media:upload-seed": "bun --env-file=../../.env scripts/upload-seed-media.ts",
+    "media:clean-orphans": "bun --env-file=../../.env scripts/clean-orphan-media.ts"
   },
   "dependencies": {
     "@hono/node-server": "2.1.8",
@@ -22,6 +24,7 @@
     "@repo/db": "workspace:*",
     "@repo/validators": "workspace:*",
     "@scalar/hono-api-reference": "0.12.17",
+    "aws4fetch": "1.0.20",
     "drizzle-orm": "0.45.4",
     "hono": "4.13.14",
     "zod": "4.6.7"

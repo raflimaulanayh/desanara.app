@@ -2,6 +2,7 @@ import { createAuth } from '@repo/auth/server'
 import { createDb } from '@repo/db'
 import { createApp, type DocsAccess } from './app'
 import { type Env, loadEnv } from './env'
+import { createR2Storage } from './lib/storage'
 
 /**
  * Wires env → database → auth → app. Shared by the local Bun server (src/index.ts) and the
@@ -22,6 +23,15 @@ export function bootstrap(env: Env = loadEnv()) {
     : env.NODE_ENV === 'production'
       ? { mode: 'off' }
       : { mode: 'open' }
-  const app = createApp({ db, auth, trustedOrigins: env.TRUSTED_ORIGINS, docs })
+  const storage =
+    env.R2_ACCOUNT_ID && env.R2_ACCESS_KEY_ID && env.R2_SECRET_ACCESS_KEY
+      ? createR2Storage({
+          accountId: env.R2_ACCOUNT_ID,
+          bucket: env.R2_BUCKET,
+          accessKeyId: env.R2_ACCESS_KEY_ID,
+          secretAccessKey: env.R2_SECRET_ACCESS_KEY,
+        })
+      : null
+  const app = createApp({ db, auth, storage, trustedOrigins: env.TRUSTED_ORIGINS, docs })
   return { env, app }
 }

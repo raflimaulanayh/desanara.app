@@ -177,3 +177,13 @@ export async function deleteEnglish(db: DbOrTx, productId: string) {
     .delete(productTranslations)
     .where(and(eq(productTranslations.productId, productId), eq(productTranslations.locale, 'en')))
 }
+
+/** Rewrites the display order (0 = cover). */
+export async function setImageOrder(db: DbOrTx, productId: string, order: string[]) {
+  for (const [i, id] of order.entries()) {
+    await db
+      .update(productImages)
+      .set({ sortOrder: i })
+      .where(and(eq(productImages.id, id), eq(productImages.productId, productId)))
+  }
+}

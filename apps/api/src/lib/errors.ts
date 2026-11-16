@@ -15,6 +15,7 @@ export type ErrorCode =
   | 'FORBIDDEN'
   | 'NOT_FOUND'
   | 'CONFLICT'
+  | 'SERVICE_UNAVAILABLE'
   | 'INTERNAL'
 
 export class AppError extends Error {

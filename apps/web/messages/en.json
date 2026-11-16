@@ -137,7 +137,11 @@
     "visitShop": "View shop",
     "free": "Free",
     "off": "-{pct}%",
-    "normalPrice": "Normal price"
+    "normalPrice": "Normal price",
+    "gallery": "Product photos",
+    "photoOf": "Photo {n} of {total}",
+    "prevPhoto": "Previous photo",
+    "nextPhoto": "Next photo"
   },
   "order": {
     "quantity": "Quantity",

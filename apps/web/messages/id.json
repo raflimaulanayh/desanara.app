@@ -137,7 +137,11 @@
     "visitShop": "Lihat toko",
     "free": "Gratis",
     "off": "-{pct}%",
-    "normalPrice": "Harga normal"
+    "normalPrice": "Harga normal",
+    "gallery": "Foto produk",
+    "photoOf": "Foto {n} dari {total}",
+    "prevPhoto": "Foto sebelumnya",
+    "nextPhoto": "Foto berikutnya"
   },
   "order": {
     "quantity": "Jumlah",

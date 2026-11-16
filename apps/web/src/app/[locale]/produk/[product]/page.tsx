@@ -5,8 +5,8 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
+import { ProductGallery } from '@/components/product-gallery'
 import { Price } from '@/components/price'
-import { ProductPhoto } from '@/components/product-photo'
 import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageLogo } from '@/components/village-logo'
@@ -80,20 +80,10 @@ export default async function ProductPage({ params }: { params: Params }) {
         </nav>
 
         <div className="mt-4 grid gap-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
-          <div className="flex flex-col gap-2">
-            {photos.map((img, i) => (
-              <div key={img?.key ?? 'none'} className={i > 0 ? 'hidden sm:block' : undefined}>
-                <ProductPhoto
-                  src={mediaUrl(img?.key)}
-                  alt={img?.alt ?? name}
-                  category={product.category?.slug}
-                  priority={i === 0}
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                  className="aspect-[4/3] rounded-(--radius) sm:aspect-square"
-                />
-              </div>
-            ))}
-          </div>
+          <ProductGallery
+            photos={photos.map((img) => ({ src: mediaUrl(img?.key), alt: img?.alt ?? name }))}
+            category={product.category?.slug}
+          />
 
           <div className="flex flex-col gap-5">
             <div>
@@ -109,7 +99,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   showBadge
                 />
                 {product.unit ? (
-                  <span className="text-muted ml-2 text-base font-normal">
+                  <span className="text-muted ml-2 text-base font-normal whitespace-nowrap">
                     {t('per', { unit: product.unit })}
                   </span>
                 ) : null}

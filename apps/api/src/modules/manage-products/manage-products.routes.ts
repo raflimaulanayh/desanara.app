@@ -1,6 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
   productCreateSchema,
+  productImageOrderSchema,
   productManageListQuerySchema,
   productUpdateSchema,
 } from '@repo/validators'
@@ -111,6 +112,16 @@ const deleteRoute = createRoute({
   responses: { 204: { description: 'Deleted' }, ...authErrors, 404: errorResponses[404] },
 })
 
+const reorderImagesRoute = createRoute({
+  method: 'patch',
+  path: '/products/{id}/images',
+  tags,
+  summary:
+    'Set the photo order (every image id once, cover first); upload/remove via /v1/manage/media',
+  request: { params: idParam, body: { content: json(productImageOrderSchema), required: true } },
+  responses: { 200: one, ...authErrors, 404: errorResponses[404], 422: errorResponses[422] },
+})
+
 export const manageProductRoutes = createRouter()
   .openapi(listRoute, async (c) =>
     c.json(await service.list(ctx(c), c.req.valid('param').businessId, c.req.valid('query')), 200),
@@ -127,6 +138,9 @@ export const manageProductRoutes = createRouter()
   )
   .openapi(unpublishRoute, async (c) =>
     c.json(await service.unpublish(ctx(c), c.req.valid('param').id), 200),
+  )
+  .openapi(reorderImagesRoute, async (c) =>
+    c.json(await service.reorderImages(ctx(c), c.req.valid('param').id, c.req.valid('json')), 200),
   )
   .openapi(deleteRoute, async (c) => {
     await service.remove(ctx(c), c.req.valid('param').id)
