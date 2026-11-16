@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-16 — Halaman kredit foto contoh
+
+- **Area**: apps/web
+- **Jenis**: Added | Fixed
+- Halaman baru `/tentang/kredit-foto` (tautan di footer) mencantumkan judul, pembuat, lisensi, dan sumber setiap foto contoh dari Wikimedia Commons, sesuai kewajiban atribusi CC BY/BY-SA. Datanya dibaca dari file `*.webp.json` saat build, jadi halaman sepenuhnya statis.
+- Perbaikan: foto lampu (CC BY-SA 4.0) tidak punya nama pembuat; diisi `Valenzuela400` sesuai halaman Commons-nya. Test baru memastikan setiap foto berlisensi punya pembuat, sumber, dan lisensi yang dikenali.
+
 ## 2026-11-16 — Upload foto ke R2 dan slider foto produk
 
 - **Area**: apps/api, apps/web, apps/dashboard, packages/validators, docs, .env.example
