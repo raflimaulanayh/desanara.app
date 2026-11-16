@@ -47,6 +47,12 @@ erDiagram
 The seed includes Jawa Barat and its 27 regencies/cities. District and village levels must be imported from the
 official dataset (never invented); villages can reference any level until then.
 
+## Personal data on public pages
+
+`businesses.address` (and the RT/RW and map pin planned next) is often the owner's home. Public API responses and
+pages never include it: a business's public location stops at its village and the village's region, the way
+marketplaces show only the seller's city. These fields exist for the village team in the dashboard.
+
 ## Planned (not in the schema yet)
 
 - Search: `pg_trgm` + `unaccent` indexes on product/business names (migration with the search feature).
