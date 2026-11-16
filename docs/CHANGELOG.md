@@ -15,6 +15,16 @@ Format:
 
 ---
 
+## 2026-11-16 — Kerangka dashboard: menu sesuai peran, beranda, dan sesi
+
+- **Area**: apps/dashboard, apps/api, docs
+- **Jenis**: Added
+- Dashboard kini punya kerangka untuk semua halaman berikutnya: sidebar di desktop, bar atas dan tab bawah di HP, menu yang tampil sesuai peran (lewat `can()`), serta menu akun untuk keluar. Membuka dashboard tanpa sesi diarahkan ke `/login?next=…`, dan setelah masuk kembali ke halaman semula (hanya alamat dalam situs yang diterima).
+- Beranda menyesuaikan peran: kartu desa dengan jumlah UMKM dan yang menunggu verifikasi (admin desa), "Semua desa" untuk super admin, dan daftar UMKM yang didampingi atau dimiliki.
+- Fondasi untuk form: pesan error API dalam bahasa Indonesia sederhana (alasan 409 seperti `NO_PHOTO`, error per kolom dari 422, sesi habis, sinyal putus) dan draft form yang tersimpan otomatis di HP. Draft disimpan per pengguna dan dihapus saat keluar, karena HP di desa sering dipakai bergantian.
+- `GET /v1/me` kini menyertakan `memberships` (nama desa dan UMKM tempat pengguna punya peran) dan `Cache-Control: no-store`.
+- `apps/dashboard` kini punya `bun test`.
+
 ## 2026-11-16 — Halaman kredit foto contoh
 
 - **Area**: apps/web
