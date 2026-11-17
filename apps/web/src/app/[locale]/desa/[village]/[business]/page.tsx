@@ -13,15 +13,20 @@ import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { Link } from '@/i18n/navigation'
 import { getBusiness, searchProducts } from '@/lib/data'
 import { initialStatus } from '@/lib/status'
+import { pageAlternates } from '@/lib/site-url'
 
 export const revalidate = 300
 
 type Params = Promise<{ locale: string; village: string; business: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { business: slug } = await params
+  const { locale, village, business: slug } = await params
   const b = await getBusiness(slug)
-  return { title: `${b.name} · ${b.village.name}`, description: b.description ?? undefined }
+  return {
+    title: `${b.name} · ${b.village.name}`,
+    description: b.description ?? undefined,
+    alternates: pageAlternates(`/desa/${village}/${slug}`, locale),
+  }
 }
 
 export default async function BusinessPage({ params }: { params: Params }) {

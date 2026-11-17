@@ -15,6 +15,32 @@ Format:
 
 ---
 
+## 2026-11-17 — sitemap.xml dan robots.txt untuk situs publik
+
+- **Area**: apps/web, apps/api, apps/dashboard, packages/config, docs
+- **Jenis**: Added, Security
+- `desanara.app/sitemap.xml` berisi semua halaman publik (beranda, jelajah, tentang, desa, UMKM, produk) dengan alternatif
+  bahasa `id`/`en` dan tanggal perubahan terakhir, dari endpoint baru `GET /v1/sitemap` (satu query per jenis halaman,
+  aturan tampil sama dengan endpoint publik, cache CDN 1 jam). Sebelumnya `robots.txt` dan `sitemap.xml` 404.
+- Perbaikan hreflang: sebelumnya semua halaman menunjuk beranda sebagai versi bahasa lainnya. Sekarang tiap halaman punya
+  canonical sendiri dan alternatif `id`, `en`, `x-default` untuk halaman yang sama.
+- `robots.txt` mengizinkan mesin pencari hanya di situs production (Vercel production, atau `NEXT_PUBLIC_WEB_URL`
+  bukan localhost di luar Vercel); preview Vercel dan dashboard menolak semua crawler.
+- Next.js 16.4.3 ke 16.4.5 (juga `eslint-config-next`) untuk advisory GHSA-mfr8-8qww-v76h (tingkat moderate). Kode kita
+  tidak memakai `use cache`/`unstable_cache`, tetapi build Next menolak versi yang terdampak.
+
+## 2026-11-17 — Pindah ke domain desanara.app
+
+- **Area**: docs, .env.example, komentar di apps/web, apps/dashboard, packages/auth, docker
+- **Jenis**: Changed
+- Production sekarang di `desanara.app` (web), `dashboard.desanara.app`, `api.desanara.app`, dan foto di
+  `cdn.desanara.app` (custom domain R2; URL `r2.dev` dimatikan). Alamat lama `*.vercel.app` dialihkan 308 ke alamat
+  baru. DNS di Cloudflare akun HIMASIF; domain `desanara.app` terverifikasi di Resend untuk email.
+- Env Vercel diperbarui: `API_URL`, `AUTH_BASE_URL`, `TRUSTED_ORIGINS`, `API_PROXY_TARGET`, `R2_PUBLIC_URL`, dan semua
+  `NEXT_PUBLIC_*` URL. Env baru `RESEND_API_KEY` (API, _Sending access_ saja) untuk modul email berikutnya. CORS bucket
+  media hanya `https://dashboard.desanara.app` dan `http://localhost:3001`. Semua pengguna perlu login ulang sekali.
+- Repositori GitHub berganti nama menjadi `desanara.app`; README dan dokumen di `docs/` memakai alamat baru.
+
 ## 2026-11-16 — Lokasi UMKM di peta dan menu Pengaturan desa
 
 - **Area**: apps/dashboard, apps/api, packages/db, packages/validators, packages/auth, docs, .env.example

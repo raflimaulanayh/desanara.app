@@ -2,14 +2,14 @@
 
 Decision and reasons: [ADR 0009](../adr/0009-api-on-vercel.md). Step-by-step setup: [docs/guides/deploy.md](../guides/deploy.md).
 
-| Component        | Where                                                      | How                                                                         |
-| ---------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `apps/web`       | Vercel project `desanara-web` → `<domain>`                 | Git integration, root `apps/web`, Next.js preset, region `sin1`             |
-| `apps/dashboard` | Vercel project `desanara-dashboard` → `dashboard.<domain>` | same; proxies `/api/auth/*` and `/v1/*` to the API (`API_PROXY_TARGET`)     |
-| `apps/api`       | Vercel project `desanara-api` → `api.<domain>`             | root `apps/api`, `bun run build:vercel` → Build Output API, Node 22, `sin1` |
-| Postgres         | Supabase (plain Postgres, ADR 0003), `ap-southeast-1`      | Drizzle migrations from a laptop or CI through the session pooler           |
-| Files            | Cloudflare R2                                              | presigned uploads                                                           |
-| Fallback API     | VPS with Docker + Caddy (`docker/`)                        | same code, `bun src/index.ts`                                               |
+| Component        | Where                                                          | How                                                                         |
+| ---------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `apps/web`       | Vercel project `desanara-web` → `desanara.app`                 | Git integration, root `apps/web`, Next.js preset, region `sin1`             |
+| `apps/dashboard` | Vercel project `desanara-dashboard` → `dashboard.desanara.app` | same; proxies `/api/auth/*` and `/v1/*` to the API (`API_PROXY_TARGET`)     |
+| `apps/api`       | Vercel project `desanara-api` → `api.desanara.app`             | root `apps/api`, `bun run build:vercel` → Build Output API, Node 22, `sin1` |
+| Postgres         | Supabase (plain Postgres, ADR 0003), `ap-southeast-1`          | Drizzle migrations from a laptop or CI through the session pooler           |
+| Files            | Cloudflare R2                                                  | presigned uploads                                                           |
+| Fallback API     | VPS with Docker + Caddy (`docker/`)                            | same code, `bun src/index.ts`                                               |
 
 ## API on Vercel
 
@@ -46,29 +46,34 @@ the API itself is still protected per endpoint by sessions and `can()`.
 
 ## Domains
 
-Decision (2026-11-15): no custom domain during development. The apps run on free hosts and the domain is
-bought later; nothing in the code depends on it.
+Domain: `desanara.app` (bought 2026-11-16 through the GitHub Student Developer Pack offer at Name.com; renewal is
+paid yearly, so someone at HIMASIF must own it). The registrar stays Name.com for now; DNS is served by Cloudflare in
+the HIMASIF account. Moving the registration itself to Cloudflare is possible 60 days after registration.
 
-| Today                           | Later                |
-| ------------------------------- | -------------------- |
-| `desanara-web.vercel.app`       | `<domain>`           |
-| `desanara-dashboard.vercel.app` | `dashboard.<domain>` |
-| `desanara-api.vercel.app`       | `api.<domain>`       |
-| `<id>.r2.dev` (`R2_PUBLIC_URL`) | `cdn.<domain>`       |
+| Host                                           | Serves                                          | DNS (Cloudflare, all "DNS only") |
+| ---------------------------------------------- | ----------------------------------------------- | -------------------------------- |
+| `desanara.app`                                 | Vercel project `desanara-web`                   | CNAME to Vercel (flattened)      |
+| `www.desanara.app`                             | 308 redirect to `desanara.app`                  | CNAME to Vercel                  |
+| `dashboard.desanara.app`                       | `desanara-dashboard`                            | CNAME to Vercel                  |
+| `api.desanara.app`                             | `desanara-api`                                  | CNAME to Vercel                  |
+| `cdn.desanara.app`                             | R2 bucket `desanara-media`                      | managed by R2 (custom domain)    |
+| `send`, `rsend`, `resend._domainkey`, `_dmarc` | email sending through Resend (SPF, DKIM, DMARC) | Resend records; DMARC `p=none`   |
 
-Switching checklist: add the domains in Vercel and keep the `*.vercel.app` hosts redirecting to them (shared links keep
-working); update `TRUSTED_ORIGINS`, `AUTH_BASE_URL`, `API_PROXY_TARGET`, `NEXT_PUBLIC_*` URLs; connect `cdn.<domain>`
-to `desanara-media` and set `R2_PUBLIC_URL` + `NEXT_PUBLIC_MEDIA_URL`; add the dashboard origin to the bucket CORS
-(`docs/architecture/storage.md`). Buy it before anything is printed for the seminar (QR codes, flyers), so printed
-links use the final address.
+The old `*.vercel.app` production hosts redirect (308) to the matching custom host, so links shared earlier keep
+working. The `r2.dev` URL of the media bucket is switched off; media is only served from `cdn.desanara.app`.
+Vercel records must stay "DNS only": proxying them through Cloudflare breaks Vercel's certificates.
+
+Changing hosts again: update `TRUSTED_ORIGINS`, `AUTH_BASE_URL`, `API_URL`, `API_PROXY_TARGET`, `R2_PUBLIC_URL` and
+the `NEXT_PUBLIC_*` URLs in the three Vercel projects, the bucket CORS (`docs/architecture/storage.md`), then redeploy.
+Changing the dashboard host signs everyone out once (the session cookie belongs to that host).
 
 ## Login across hosts
 
-Without a shared domain the apps live on separate `*.vercel.app` hosts, where a cookie set by the API host would be a
-third-party cookie for the dashboard (blocked by Safari). The dashboard therefore rewrites `/api/auth/*` and `/v1/*` to
-the API, and the browser only ever talks to the dashboard origin. API env: `AUTH_BASE_URL` = dashboard origin,
-`TRUSTED_ORIGINS` = web + dashboard origins. Dashboard env: `NEXT_PUBLIC_API_URL` = its own origin,
-`API_PROXY_TARGET` = API origin. With a custom domain later, `COOKIE_DOMAIN=<domain>` also works.
+The dashboard rewrites `/api/auth/*` and `/v1/*` to the API, so the browser only ever talks to the dashboard origin and
+the session cookie is first-party on `dashboard.desanara.app` (no cross-site cookie, works in Safari). API env:
+`AUTH_BASE_URL` = dashboard origin, `TRUSTED_ORIGINS` = web + dashboard origins. Dashboard env: `NEXT_PUBLIC_API_URL`
+= its own origin, `API_PROXY_TARGET` = API origin. `COOKIE_DOMAIN` stays empty: nothing outside the dashboard needs
+the session today. Set `COOKIE_DOMAIN=desanara.app` only when another subdomain must read the session.
 
 ## Environments
 

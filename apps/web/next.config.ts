@@ -22,7 +22,7 @@ const legacyRedirects = () => {
   return rules
 }
 
-/** Lets next/image load photos from the R2 public URL (r2.dev now, cdn.<domain> later). */
+/** Lets next/image load photos from the R2 public URL (https://cdn.desanara.app). */
 const mediaBase = process.env.NEXT_PUBLIC_MEDIA_URL?.replace(/\/$/, '')
 const images: NextConfig['images'] = mediaBase
   ? { remotePatterns: [new URL(`${mediaBase}/**`)] }

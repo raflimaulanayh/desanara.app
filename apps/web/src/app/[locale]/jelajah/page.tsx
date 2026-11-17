@@ -8,6 +8,7 @@ import { Link } from '@/i18n/navigation'
 import { getCategories, getRegencies, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
 import { localePath } from '@/lib/paths'
+import { pageAlternates } from '@/lib/site-url'
 
 type Params = Promise<{ locale: string }>
 type Search = Promise<Record<string, string | string[] | undefined>>
@@ -18,7 +19,7 @@ const SORTS = ['newest', 'price_asc', 'price_desc'] as const
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'explore' })
-  return { title: t('title') }
+  return { title: t('title'), alternates: pageAlternates('/jelajah', locale) }
 }
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)?.trim() || undefined

@@ -35,7 +35,7 @@ Unlike Shopee/Tokopedia, every product is shown as part of a village and its sto
 - Bilingual public site (Indonesian at `/`, English at `/en`); Indonesian URL segments (`/desa/baros`, `/produk/...`, `/jelajah`, `/tentang`) and content slugs; user content written in Indonesian with optional English.
 - Per-village branding: accent colour (contrast-checked), logo, banner, corner style, curated fonts, template choice — no custom CSS/HTML. Applies to village, business and product pages; national pages and the dashboard keep the platform brand. Businesses follow their village's theme.
 - Stack: Next.js 16 + HeroUI v3 + Tailwind CSS v4 (web, dashboard), Hono API, PostgreSQL. See `AGENTS.md`.
-- Brand name: **Desanara** — tagline _"Ragam Karya, Cerita Nusantara."_ (chosen 2026-11-15, replaces Sudut Desa; planned domain `desanara.id`). Constant `BRAND_NAME` in `@repo/i18n`. Brand guide: `docs/brand/README.md`.
+- Brand name: **Desanara** — tagline _"Ragam Karya, Cerita Nusantara."_ (chosen 2026-11-15, replaces Sudut Desa; domain `desanara.app`). Constant `BRAND_NAME` in `@repo/i18n`. Brand guide: `docs/brand/README.md`.
 
 ## Brand Commitments
 

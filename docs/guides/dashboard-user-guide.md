@@ -8,7 +8,7 @@ Gambaran alur dan status: [alur pengguna](../product/user-flows.md).
 
 ## Masuk
 
-1. Buka **https://desanara-dashboard.vercel.app** di HP atau laptop. Simpan ke layar utama HP agar mudah dibuka lagi.
+1. Buka **https://dashboard.desanara.app** di HP atau laptop. Simpan ke layar utama HP agar mudah dibuka lagi.
 2. Isi **Email** dan **Kata sandi**, tekan **Masuk**.
 3. Lupa kata sandi atau belum punya akun: hubungi pengurus HIMA. Pendaftaran mandiri dan undangan lewat WhatsApp (belum tersedia).
 

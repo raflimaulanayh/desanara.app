@@ -26,10 +26,23 @@ Detail teknis: `docs/architecture/deployment.md`. Keputusan: ADR 0009 (semua di 
 Pengaturan build sudah ada di `apps/*/vercel.json` (region Singapura `sin1`; API memakai `bun run build:vercel`).
 Saat import di Vercel, biarkan "Include files outside the root directory" menyala (monorepo).
 
-### 3. Domain (setelah dibeli)
+### 3. Domain
 
-Tambahkan `desanara.id` ke web, `dashboard.desanara.id` ke dashboard, `api.desanara.id` ke API. Lalu ganti semua URL
-di env di atas dan isi `COOKIE_DOMAIN=desanara.id` di API.
+Sudah dikerjakan 2026-11-17. Domain `desanara.app`, DNS di Cloudflare akun HIMASIF.
+
+1. Vercel: `desanara.app` dan `www.desanara.app` (dialihkan ke `desanara.app`) di web, `dashboard.desanara.app` di
+   dashboard, `api.desanara.app` di API. Record DNS-nya CNAME ke Vercel dengan status **DNS only**.
+2. R2: bucket `desanara-media` memakai custom domain `cdn.desanara.app`, URL `r2.dev` dimatikan, CORS mengizinkan
+   `https://dashboard.desanara.app` dan `http://localhost:3001`.
+3. Env: semua URL di tabel atas memakai alamat baru. `R2_PUBLIC_URL` dan `NEXT_PUBLIC_MEDIA_URL` = `https://cdn.desanara.app`.
+   `COOKIE_DOMAIN` dibiarkan kosong (sesi cukup di host dashboard).
+4. Alamat lama `*.vercel.app` dialihkan (308) ke alamat baru, jadi link lama tetap jalan.
+
+### 4. Email (Resend)
+
+Domain `desanara.app` terverifikasi di Resend (region Tokyo); record SPF, DKIM dan DMARC ada di Cloudflare. Project API
+memakai `RESEND_API_KEY` (izin _Sending access_ saja, tersimpan sebagai env _sensitive_). Laptop memakai key terpisah
+di `.env`, jadi key lokal bisa dicabut tanpa mengganggu production.
 
 ## Setiap rilis
 

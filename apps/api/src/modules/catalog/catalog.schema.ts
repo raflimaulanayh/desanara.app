@@ -73,3 +73,13 @@ export const productListResponseSchema = z.object({
   data: z.array(productSummarySchema),
   meta: z.object({ page: z.number().int(), pageSize: z.number().int(), total: z.number().int() }),
 })
+
+const sitemapEntrySchema = z.object({ slug: z.string(), updatedAt: z.string() })
+
+export const sitemapSchema = z
+  .object({
+    villages: z.array(sitemapEntrySchema),
+    businesses: z.array(sitemapEntrySchema.extend({ villageSlug: z.string() })),
+    products: z.array(sitemapEntrySchema),
+  })
+  .openapi('Sitemap')

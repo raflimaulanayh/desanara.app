@@ -12,17 +12,19 @@ import { Link } from '@/i18n/navigation'
 import { getVillage, getVillageBusinesses, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
 import { initialStatus } from '@/lib/status'
+import { pageAlternates } from '@/lib/site-url'
 
 export const revalidate = 300
 
 type Params = Promise<{ locale: string; village: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
-  const { village: slug } = await params
+  const { locale, village: slug } = await params
   const village = await getVillage(slug)
   const banner = mediaUrl(village.bannerKey)
   return {
     title: village.name,
+    alternates: pageAlternates(`/desa/${slug}`, locale),
     description: village.description ?? undefined,
     openGraph: banner ? { images: [banner] } : undefined,
   }

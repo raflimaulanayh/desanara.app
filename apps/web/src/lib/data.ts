@@ -92,3 +92,6 @@ export const getRegencies = () =>
   safe(async () => (await unwrap(await api.v1.regions.regencies.$get())).data, [])
 
 export type ProductSummary = Awaited<ReturnType<typeof searchProducts>>['data'][number]
+
+/** Slugs of every public page for sitemap.xml. Throws when the API fails: an empty sitemap would drop every page. */
+export const getSitemapEntries = async () => (await unwrap(await api.v1.sitemap.$get())).data

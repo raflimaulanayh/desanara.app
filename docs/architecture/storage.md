@@ -9,11 +9,10 @@ Account: Cloudflare **HIMASIF** (owned by the student association, not a person)
 
 - Public access applies to a **whole bucket**, so backups must never live in the media bucket (not even
   under a prefix).
-- `R2_PUBLIC_URL` is the `r2.dev` URL for now. Cloudflare rate-limits it and calls it development-only;
-  it is acceptable for the pilot and demo. Move to a custom domain (`https://cdn.<domain>`) after the
-  domain is bought — keys are stored, not URLs, so no data migration is needed.
+- `R2_PUBLIC_URL` is the custom domain `https://cdn.desanara.app` (since 2026-11-17). The bucket's `r2.dev` URL is
+  switched off. Keys are stored, not URLs, so changing the host needs no data migration.
 - CORS on `desanara-media`: `PUT`, `GET`, `HEAD` from the dashboard origins
-  (`https://desanara-dashboard.vercel.app`, `http://localhost:3001`), headers `content-type`,
+  (`https://dashboard.desanara.app`, `http://localhost:3001`), headers `content-type`,
   `content-length`, exposes `ETag`. Add the new origin when the dashboard moves to its own domain:
   `wrangler r2 bucket cors set desanara-media --file cors.json`.
 - S3 credentials (`R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY`) come from an R2 API token with
