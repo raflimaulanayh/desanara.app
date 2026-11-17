@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { mediaUrl } from '@/lib/media'
 import { readPhotoCredits } from '@/lib/photo-credits'
+import { pageAlternates } from '@/lib/site-url'
 
 /** Built once at deploy: the credits come from files in /public, which functions cannot read. */
 export const dynamic = 'force-static'
@@ -16,7 +17,11 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'credits' })
-  return { title: t('title'), robots: { index: false } }
+  return {
+    title: t('title'),
+    robots: { index: false },
+    alternates: pageAlternates('/tentang/kredit-foto', locale),
+  }
 }
 
 export default async function PhotoCreditsPage({

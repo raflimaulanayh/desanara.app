@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { BadgeCheck, GraduationCap, HandCoins } from 'lucide-react'
 import { BrandMark } from '@/components/brand-mark'
+import { pageAlternates } from '@/lib/site-url'
 
 export async function generateMetadata({
   params,
@@ -11,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const t = await getTranslations({ locale, namespace: 'about' })
-  return { title: t('title') }
+  return { title: t('title'), alternates: pageAlternates('/tentang', locale) }
 }
 
 const TRUST = [

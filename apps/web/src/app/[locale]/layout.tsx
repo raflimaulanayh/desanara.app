@@ -8,6 +8,7 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { routing } from '@/i18n/routing'
 import { fontVariables } from '@/lib/fonts'
+import { pageAlternates, siteUrl } from '@/lib/site-url'
 import '../globals.css'
 
 export function generateStaticParams() {
@@ -26,8 +27,9 @@ export async function generateMetadata({
   return {
     title: { default: t('title'), template: `%s · ${BRAND_NAME}` },
     description: t('description'),
-    metadataBase: new URL(process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000'),
-    alternates: { languages: { id: '/', en: '/en' } },
+    metadataBase: new URL(siteUrl()),
+    // Pages override this with their own path; the home page keeps it.
+    alternates: pageAlternates('/', locale),
     openGraph: {
       siteName: BRAND_NAME,
       locale: locale === 'en' ? 'en_US' : 'id_ID',

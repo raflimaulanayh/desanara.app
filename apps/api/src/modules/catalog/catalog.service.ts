@@ -68,3 +68,19 @@ export async function getProduct(db: Database, slug: string) {
 export async function listCategories(db: Database) {
   return { data: await repo.listCategories(db) }
 }
+
+export async function getSitemap(db: Database) {
+  const { villageRows, businessRows, productRows } = await repo.sitemapEntries(db)
+  const at = (d: Date) => d.toISOString()
+  return {
+    data: {
+      villages: villageRows.map((v) => ({ slug: v.slug, updatedAt: at(v.updatedAt) })),
+      businesses: businessRows.map((b) => ({
+        slug: b.slug,
+        villageSlug: b.villageSlug,
+        updatedAt: at(b.updatedAt),
+      })),
+      products: productRows.map((p) => ({ slug: p.slug, updatedAt: at(p.updatedAt) })),
+    },
+  }
+}

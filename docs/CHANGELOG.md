@@ -15,6 +15,20 @@ Format:
 
 ---
 
+## 2026-11-17 — sitemap.xml dan robots.txt untuk situs publik
+
+- **Area**: apps/web, apps/api, apps/dashboard, packages/config, docs
+- **Jenis**: Added, Security
+- `desanara.app/sitemap.xml` berisi semua halaman publik (beranda, jelajah, tentang, desa, UMKM, produk) dengan alternatif
+  bahasa `id`/`en` dan tanggal perubahan terakhir, dari endpoint baru `GET /v1/sitemap` (satu query per jenis halaman,
+  aturan tampil sama dengan endpoint publik, cache CDN 1 jam). Sebelumnya `robots.txt` dan `sitemap.xml` 404.
+- Perbaikan hreflang: sebelumnya semua halaman menunjuk beranda sebagai versi bahasa lainnya. Sekarang tiap halaman punya
+  canonical sendiri dan alternatif `id`, `en`, `x-default` untuk halaman yang sama.
+- `robots.txt` mengizinkan mesin pencari hanya di situs production (Vercel production, atau `NEXT_PUBLIC_WEB_URL`
+  bukan localhost di luar Vercel); preview Vercel dan dashboard menolak semua crawler.
+- Next.js 16.4.3 ke 16.4.5 (juga `eslint-config-next`) untuk advisory GHSA-mfr8-8qww-v76h (tingkat moderate). Kode kita
+  tidak memakai `use cache`/`unstable_cache`, tetapi build Next menolak versi yang terdampak.
+
 ## 2026-11-17 — Pindah ke domain desanara.app
 
 - **Area**: docs, .env.example, komentar di apps/web, apps/dashboard, packages/auth, docker

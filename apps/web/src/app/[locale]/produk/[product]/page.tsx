@@ -17,6 +17,7 @@ import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
 import { initialStatus } from '@/lib/status'
+import { pageAlternates, siteUrl } from '@/lib/site-url'
 
 export const revalidate = 300
 
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const price = p.price === 0 ? t('free') : formatRupiah(p.price, asLocale(locale))
   return {
     title: `${name} · ${p.business.name}`,
+    alternates: pageAlternates(`/produk/${slug}`, locale),
     description:
       `${price} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
     openGraph: image ? { images: [image] } : undefined,
@@ -51,7 +53,7 @@ export default async function ProductPage({ params }: { params: Params }) {
   const loc = asLocale(locale)
   const name = pick(locale, product.name, product.nameEn)
   const description = pick(locale, product.description ?? '', product.descriptionEn)
-  const webUrl = process.env.NEXT_PUBLIC_WEB_URL ?? 'http://localhost:3000'
+  const webUrl = siteUrl()
   const village = business.village
   const photos = product.images.length > 0 ? product.images : [null]
 

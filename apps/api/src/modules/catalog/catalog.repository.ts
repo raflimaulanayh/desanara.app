@@ -186,3 +186,38 @@ export async function productIdsExist(db: Database, ids: string[]) {
   if (ids.length === 0) return []
   return db.select({ id: products.id }).from(products).where(inArray(products.id, ids))
 }
+
+/** Search engines accept at most 50,000 URLs per sitemap file. */
+export const SITEMAP_LIMIT = 50_000
+
+/** Every public page that has its own URL, with its last change (one query per kind, slugs only). */
+export async function sitemapEntries(db: Database) {
+  const [villageRows, businessRows, productRows] = await Promise.all([
+    db
+      .select({ slug: villages.slug, updatedAt: villages.updatedAt })
+      .from(villages)
+      .where(publicVillage)
+      .orderBy(asc(villages.slug))
+      .limit(SITEMAP_LIMIT),
+    db
+      .select({
+        slug: businesses.slug,
+        villageSlug: villages.slug,
+        updatedAt: businesses.updatedAt,
+      })
+      .from(businesses)
+      .innerJoin(villages, eq(villages.id, businesses.villageId))
+      .where(and(publicBusiness, publicVillage))
+      .orderBy(asc(businesses.slug))
+      .limit(SITEMAP_LIMIT),
+    db
+      .select({ slug: products.slug, updatedAt: products.updatedAt })
+      .from(products)
+      .innerJoin(businesses, eq(businesses.id, products.businessId))
+      .innerJoin(villages, eq(villages.id, products.villageId))
+      .where(and(publicProduct, publicBusiness, publicVillage))
+      .orderBy(asc(products.slug))
+      .limit(SITEMAP_LIMIT),
+  ])
+  return { villageRows, businessRows, productRows }
+}
