@@ -15,6 +15,17 @@ Format:
 
 ---
 
+## 2026-11-20 — Slide interaktif rapat persiapan seminar
+
+- **Area**: docs
+- **Jenis**: Added
+- `docs/presentations/rapat-persiapan-seminar.html`: 25 slide HTML untuk rapat internal HIMASIF sebelum seminar di Desa
+  Baros (Sabtu, 5 Desember 2026). Isinya masalah UMKM, hasil survei Desa Baros, Desanara (fitur, peran, teknis singkat),
+  rencana seminar (tujuan, materi, rundown final, demo, praktik), hasil open recruitment, struktur panitia, timeline,
+  anggaran, risiko, dan keputusan rapat. Interaktif: navigasi keyboard/klik/geser, daftar slide, mode presenter dengan
+  catatan dan timer, diagram yang bisa diklik, serta QR ke desanara.app. Memakai warna dan logo Desanara; orang hanya
+  disebut perannya karena repo publik. Panduan pakai di `docs/presentations/README.md`.
+
 ## 2026-11-20 — Akun lewat undangan, verifikasi email dengan kode, dan lupa kata sandi
 
 - **Area**: apps/api, apps/dashboard, packages/auth, packages/db, packages/email, packages/validators, docs

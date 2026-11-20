@@ -61,6 +61,10 @@ Indonesian URLs, village theming, and the API on Vercel.
 
 [Panduan brand Desanara](brand/README.md): logo, warna, tipografi, aturan pakai, aset.
 
+## Presentasi
+
+[Presentasi](presentations/README.md): slide HTML interaktif, termasuk [rapat persiapan seminar Desa Baros](presentations/rapat-persiapan-seminar.html).
+
 ## Rencana & riwayat
 
 - [Plan](plan/README.md): aturan dan [template](plan/TEMPLATE.md) rencana implementasi. Rencana utama: [PLAN-mvp-seminar](plan/PLAN-mvp-seminar.md).
