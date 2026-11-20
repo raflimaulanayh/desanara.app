@@ -6,7 +6,7 @@ import type { EmailMessage } from './mailer'
  */
 
 const BRAND = 'Desanara'
-const ACCENT = '#1f6f5c'
+const ACCENT = '#387b4c'
 
 export function escapeHtml(value: string): string {
   return value

@@ -14,7 +14,7 @@ import { type LatLng, roundPoint, tileConfig } from '@/lib/map'
 /** SVG pin in the brand colour: no image files for the bundler to lose. */
 const pinIcon = L.divIcon({
   className: '',
-  html: `<svg width="34" height="44" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.7 1 28.5 17 43 17 43s16-14.5 16-26.3C33 8 25.8 1 17 1z" fill="var(--accent, #1f6f5c)" stroke="#fff" stroke-width="2"/><circle cx="17" cy="16.5" r="6" fill="#fff"/></svg>`,
+  html: `<svg width="34" height="44" viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.7 1 28.5 17 43 17 43s16-14.5 16-26.3C33 8 25.8 1 17 1z" fill="var(--accent, #387b4c)" stroke="#fff" stroke-width="2"/><circle cx="17" cy="16.5" r="6" fill="#fff"/></svg>`,
   iconSize: [34, 44],
   iconAnchor: [17, 43],
 })
