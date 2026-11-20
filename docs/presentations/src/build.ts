@@ -35,28 +35,27 @@ function square(px: number, q: number) {
   ]
 }
 
-const logo = (file: string, fill: string, width: number) =>
-  readFileSync(file, 'utf8')
+// Colour logos keep their ids (gradients and clip paths point at them); one-colour logos drop them so a logo
+// used twice in the deck does not repeat ids.
+const logo = (file: string, width: number, keepIds = false) => {
+  let svg = readFileSync(file, 'utf8')
     .replace(/<\?xml[^>]*>/, '')
     .replace(/<title>[\s\S]*?<\/title>/, '')
-    .replace(/<style>[\s\S]*?<\/style>/, '')
-    .replace(/ id="[^"]*"/g, '')
-    .replace(/class="(ink|sun)"/g, `fill="${fill}"`)
+  if (!keepIds) svg = svg.replace(/ id="[^"]*"/g, '')
+  return svg
+    .replace(/ role="img"| aria-label="[^"]*"/g, '')
     .replace(
       '<svg ',
       `<svg class="logo" style="width:${width}px" role="img" aria-label="Desanara" `,
     )
     .replace(/\n\s*/g, ' ')
     .trim()
+}
 
 const tmp = mkdtempSync(join(tmpdir(), 'deck-'))
 let html = readFileSync(`${here}/rapat-persiapan-seminar.template.html`, 'utf8')
-html = html
-  .split('{{LOGO_GREEN}}')
-  .join(logo('docs/brand/desanara/logo-horizontal-green.svg', '#0F5A37', 260))
-html = html
-  .split('{{LOGO_WHITE}}')
-  .join(logo('docs/brand/desanara/logo-horizontal-white.svg', '#FFFFFF', 260))
+html = html.split('{{LOGO_GREEN}}').join(logo('docs/brand/desanara/logo-horizontal.svg', 250, true))
+html = html.split('{{LOGO_WHITE}}').join(logo('docs/brand/desanara/logo-horizontal-white.svg', 250))
 html = html.replace(
   '{{QR}}',
   readFileSync(`${here}/qr-desanara-app.svg`, 'utf8').replace(

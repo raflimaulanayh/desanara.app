@@ -36,7 +36,8 @@ Format:
   kredit tercantum) di sampul, slide desa, dan penutup, menggantikan foto Desa Baros yang buram; label kecil di atas judul dan kartu berbingkai diganti garis tipis dan ruang kosong; status
   memakai titik dan kata sesuai `DESIGN.md`; teks badan 21 px untuk proyektor; footer berjalan berisi bagian dan nomor
   slide. Animasi dikurangi menjadi transisi slide dan animasi data. Sumber deck dan `build.ts` kini ada di
-  `docs/presentations/src/`, sehingga deck bisa di-build ulang setelah logo atau foto berganti.
+  `docs/presentations/src/`, sehingga deck bisa di-build ulang setelah logo atau foto berganti. Deck sudah memakai logo daun baru dan hijau
+  utama `#387b4c`; teks sekunder di latar hijau dinaikkan ke hampir putih supaya tetap terbaca.
 
 ## 2026-11-20 — Slide interaktif rapat persiapan seminar
 
