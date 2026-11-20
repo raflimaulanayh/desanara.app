@@ -15,24 +15,21 @@ const images: Record<string, [string, string[]]> = {
   // rural photos are pre-cropped in src/img (credits in src/img/CREDITS.md)
   sawah: [`${here}/img/sawah-kampung-naga.webp`, []],
   'jalan-desa': [`${here}/img/jalan-desa-malasari.webp`, []],
+  'brand-guidelines': ['docs/brand/desanara/brand-guidelines.webp', []],
   crest: [`${media}/villages/baros/logo.webp`, ['-resize', '240x', '-quality', '85']],
-  'ubi-roasted': [`${media}/products/ubi-roasted.webp`, square(640, 68)],
-  'coffee-beans': [`${media}/products/coffee-beans.webp`, square(640, 68)],
-  batik: [`${media}/products/batik.webp`, square(480, 62)],
-  besek: [`${media}/products/besek.webp`, square(640, 68)],
-  dodol: [`${media}/products/dodol.webp`, square(640, 68)],
+  'ubi-roasted': [`${media}/products/ubi-roasted.webp`, fit(640, 72)],
+  'ubi-chips': [`${media}/products/ubi-chips.webp`, fit(640, 72)],
+  'coffee-beans': [`${media}/products/coffee-beans.webp`, fit(640, 72)],
+  batik: [`${media}/products/batik.webp`, fit(640, 68)],
+  'batik-green': [`${media}/products/batik-green.webp`, fit(640, 72)],
+  besek: [`${media}/products/besek.webp`, fit(640, 72)],
+  dodol: [`${media}/products/dodol.webp`, fit(640, 72)],
+  spoons: [`${media}/products/spoons.webp`, fit(640, 72)],
+  bandrek: [`${media}/products/bandrek.webp`, fit(640, 72)],
+  lamp: [`${media}/products/lamp.webp`, fit(640, 72)],
 }
-function square(px: number, q: number) {
-  return [
-    '-resize',
-    `${px}x${px}^`,
-    '-gravity',
-    'center',
-    '-extent',
-    `${px}x${px}`,
-    '-quality',
-    String(q),
-  ]
+function fit(px: number, q: number) {
+  return ['-resize', `${px}x${px}>`, '-quality', String(q)]
 }
 
 // Colour logos keep their ids (gradients and clip paths point at them); one-colour logos drop them so a logo

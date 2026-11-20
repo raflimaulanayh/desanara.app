@@ -2,7 +2,7 @@
 <html lang="id">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Rapat Persiapan Seminar Desanara</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -77,9 +77,17 @@
         color: var(--ink);
       }
       :focus-visible {
-        outline: 2px solid var(--sun);
-        outline-offset: 3px;
-        border-radius: 4px;
+        outline: 2px solid rgba(56, 123, 76, 0.48);
+        outline-offset: 2px;
+        border-radius: 6px;
+      }
+      .dark :focus-visible,
+      #hud :focus-visible,
+      #overview :focus-visible {
+        outline-color: rgba(255, 255, 255, 0.55);
+      }
+      body:not(.kb-nav) :focus-visible {
+        outline: none;
       }
 
       #viewport {
@@ -223,6 +231,9 @@
       .mt7 {
         margin-top: var(--s7);
       }
+      .mt8 {
+        margin-top: var(--s8);
+      }
       .mtauto {
         margin-top: auto;
       }
@@ -351,6 +362,18 @@
         overflow: hidden;
         background: var(--wash-strong);
       }
+      .photo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(14, 22, 18, 0.72) 0%,
+          rgba(14, 22, 18, 0.24) 22%,
+          rgba(14, 22, 18, 0) 42%
+        );
+        pointer-events: none;
+      }
       .photo img {
         width: 100%;
         height: 100%;
@@ -361,7 +384,9 @@
         position: absolute;
         left: 24px;
         bottom: 22px;
-        background: var(--ink);
+        z-index: 1;
+        background: rgba(20, 22, 20, 0.84);
+        backdrop-filter: blur(6px);
         color: #fff;
         font: var(--t-meta);
         padding: 7px 12px;
@@ -371,9 +396,10 @@
         position: absolute;
         right: 16px;
         bottom: 14px;
-        font: 400 11px/1.3 var(--font);
-        color: rgba(255, 255, 255, 0.85);
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+        z-index: 1;
+        font: 500 11px/1.3 var(--font);
+        color: rgba(255, 255, 255, 0.92);
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
       }
       .slide.active .photo img {
         animation: settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -442,13 +468,24 @@
       }
       .tabs.h {
         flex-direction: row;
+        align-items: stretch;
+        gap: 12px;
         border-bottom: 1px solid var(--line);
       }
       .tabs.h .pick {
         flex: 1;
+        min-inline-size: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
         border: 0;
-        padding: 0 0 16px;
-        font-size: 19px;
+        padding: 0 0 14px;
+        font-size: 17px;
+        line-height: 1.25;
+      }
+      .tabs.h .pick.warn small {
+        color: var(--clay);
+        font-weight: 700;
       }
       .tabs.h .pick::before {
         top: auto;
@@ -639,17 +676,17 @@
       /* rundown strip */
       .strip {
         display: flex;
-        height: 76px;
-        gap: 3px;
+        height: 92px;
+        gap: 4px;
       }
       .strip button {
-        padding: 10px 10px 8px;
-        font: 600 14px/1.25 var(--font);
+        padding: 10px 10px 9px;
+        font: 600 13px/1.25 var(--font);
         overflow: hidden;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        border-radius: 4px;
+        border-radius: 8px;
         transition:
           transform 0.2s,
           box-shadow 0.2s;
@@ -667,11 +704,21 @@
         color: #7a3a10;
       }
       .strip button.on {
-        box-shadow: inset 0 0 0 2px var(--ink);
+        transform: translateY(-2px);
+        box-shadow:
+          inset 0 0 0 2px var(--green-ink),
+          0 6px 14px rgba(28, 25, 23, 0.12);
       }
       .strip .tm {
-        font: 500 12px/1 var(--font);
-        opacity: 0.75;
+        font: 600 11.5px/1 var(--font);
+        opacity: 0.78;
+        white-space: nowrap;
+      }
+      .rundown-card {
+        background: var(--wash);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 24px 28px;
       }
       .axis {
         display: flex;
@@ -785,11 +832,11 @@
         grid-template-columns: 28px 1fr;
         gap: var(--s4);
         align-items: start;
-        padding: 14px 0;
+        padding: 11px 0;
         border-top: 1px solid var(--line);
         cursor: pointer;
         font: var(--t-small);
-        font-size: 19px;
+        font-size: 18px;
         color: var(--ink);
       }
       .check label:last-child {
@@ -800,7 +847,7 @@
         width: 22px;
         height: 22px;
         margin: 1px 0 0;
-        border: 1.5px solid var(--line-strong);
+        border: 2px solid #8a837b;
         border-radius: 6px;
         background: #fff;
         display: grid;
@@ -809,6 +856,747 @@
         transition:
           background 0.15s,
           border-color 0.15s;
+      }
+      .check-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        font: 600 15px/1 var(--font);
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+      .check-pill b {
+        color: var(--green);
+      }
+
+      /* editorial visual helpers */
+      .collage-3 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: 1.35fr 1fr;
+        gap: 10px;
+        flex: 1;
+        min-block-size: 0;
+      }
+      .collage-3 figure {
+        position: relative;
+        margin: 0;
+        border-radius: 12px;
+        overflow: clip;
+        background: var(--wash-strong);
+      }
+      .collage-3 figure:first-child {
+        grid-column: 1 / -1;
+      }
+      .collage-3 img {
+        inline-size: 100%;
+        block-size: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .collage-3 figure::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(16, 26, 20, 0.72) 0%, rgba(16, 26, 20, 0) 52%);
+        pointer-events: none;
+      }
+      .collage-3 figcaption {
+        position: absolute;
+        inset-inline: 12px;
+        inset-block-end: 10px;
+        z-index: 1;
+        font: 600 13px/1.25 var(--font);
+        color: #fff;
+      }
+      .answer-bar {
+        padding: 14px 18px;
+        background: var(--green-soft);
+        border: 1px solid #c5decb;
+        border-radius: 12px;
+        font: 600 19px/1.4 var(--font);
+        color: var(--green-ink);
+      }
+      .step-list {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .step-item {
+        display: grid;
+        grid-template-columns: 38px 1fr;
+        gap: 14px;
+        align-items: start;
+        padding-top: 12px;
+        border-top: 1px solid var(--line);
+      }
+      .step-item:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .step-num {
+        font: 700 20px/1.2 var(--font);
+        color: var(--green);
+        font-variant-numeric: tabular-nums;
+      }
+      .step-item.wa .step-num,
+      .step-item.wa h3 {
+        color: var(--wa);
+      }
+      .mock-card {
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        border-radius: 16px;
+        overflow: clip;
+        box-shadow: 0 12px 28px rgba(28, 25, 23, 0.08);
+      }
+      .mock-card .mock-img {
+        inline-size: 100%;
+        block-size: 168px;
+        object-fit: cover;
+        display: block;
+      }
+      .mock-card .mock-body {
+        padding: 14px 16px 16px;
+      }
+      .mock-card .mock-tag {
+        font: 600 11px/1 var(--font);
+        color: var(--green);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+      .mock-card .mock-title {
+        font: 700 18px/1.25 var(--font);
+        margin-top: 4px;
+      }
+      .mock-card .mock-price {
+        font: 700 16px/1.2 var(--font);
+        color: var(--green-ink);
+        margin-top: 4px;
+        font-variant-numeric: tabular-nums;
+      }
+      .mock-card .mock-wa-btn {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: var(--wa);
+        color: #fff;
+        font: 700 13px/1 var(--font);
+      }
+      .wa-bubble {
+        margin-top: 12px;
+        background: #e7f6ec;
+        border: 1px solid #bde2c9;
+        border-radius: 14px 14px 4px 14px;
+        padding: 12px 14px;
+        font: 500 13px/1.45 var(--font);
+        color: #163b24;
+      }
+      .wa-bubble b {
+        color: var(--wa);
+      }
+      .status-cols {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+        align-items: stretch;
+      }
+      .status-col {
+        padding: 18px 20px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .status-col ul.list.sm li {
+        padding: 7px 0;
+        font-size: 16.5px;
+      }
+      .status-col.focus {
+        background: var(--wash);
+        border: 1.5px solid #d9b677;
+      }
+      .status-col .col-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .status-col .cnt {
+        font: 700 13px/1 var(--font);
+        color: var(--muted);
+        background: rgba(28, 25, 23, 0.06);
+        padding: 5px 9px;
+        border-radius: 999px;
+        font-variant-numeric: tabular-nums;
+      }
+      .photo-cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .photo-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: clip;
+        display: flex;
+        flex-direction: column;
+      }
+      .photo-card .pc-media {
+        position: relative;
+        block-size: 148px;
+        overflow: clip;
+      }
+      .photo-card img {
+        inline-size: 100%;
+        block-size: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .photo-card .pc-num {
+        position: absolute;
+        inset-inline-start: 12px;
+        inset-block-start: 12px;
+        background: rgba(20, 26, 22, 0.82);
+        color: #fff;
+        font: 700 13px/1 var(--font);
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-variant-numeric: tabular-nums;
+      }
+      .photo-card .pc-body {
+        padding: 16px 18px 18px;
+      }
+      .photo-card h3 {
+        margin-bottom: 6px;
+      }
+      .surface-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px 24px;
+      }
+      .surface-card.wash {
+        background: var(--wash);
+      }
+      .goal-item {
+        display: grid;
+        grid-template-columns: 36px 1fr;
+        gap: 14px;
+        align-items: start;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .goal-item.hi {
+        background: var(--green-soft);
+        border-color: #b7d7bf;
+      }
+      .goal-item .g-num {
+        font: 700 16px/1.3 var(--font);
+        color: var(--green);
+        font-variant-numeric: tabular-nums;
+      }
+      .tl-wrap {
+        position: relative;
+      }
+      .tl-harih {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 0;
+        border-left: 1.5px dashed rgba(56, 123, 76, 0.45);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .tl-panel-card {
+        background: var(--wash);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px 20px;
+      }
+      .budget-hero {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 20px 22px;
+      }
+      .budget-hero .big {
+        font: 800 40px/1.05 var(--font);
+        color: var(--green);
+        letter-spacing: -0.03em;
+        font-variant-numeric: tabular-nums;
+      }
+      .budget-warn {
+        background: #fdf6f2;
+        border: 1px solid #e6c6b5;
+        border-radius: 14px;
+        padding: 18px 20px;
+      }
+      .qr-card {
+        background: var(--wash);
+        border: 1px solid var(--line-strong);
+        border-radius: 22px;
+        padding: 24px 24px 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        flex: none;
+      }
+      .qr-card .qr {
+        width: 276px;
+        height: 276px;
+        background: #fff;
+        padding: 14px;
+        border-radius: 14px;
+      }
+      .qr-card .qr-url {
+        font: 700 15px/1 var(--font);
+        color: var(--green-ink);
+        letter-spacing: -0.01em;
+      }
+      .close-mosaic {
+        position: absolute;
+        inset-block: 44px 58px;
+        inset-inline-start: 52%;
+        inset-inline-end: 56px;
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 12px;
+      }
+      .close-mosaic figure {
+        position: relative;
+        margin: 0;
+        border-radius: 14px;
+        overflow: clip;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .close-mosaic figure:first-child {
+        grid-row: 1 / -1;
+      }
+      .close-mosaic img {
+        inline-size: 100%;
+        block-size: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .close-mosaic figure::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(16, 26, 20, 0.72) 0%, rgba(16, 26, 20, 0) 45%);
+        pointer-events: none;
+      }
+      .close-mosaic figcaption {
+        position: absolute;
+        inset-inline: 14px;
+        inset-block-end: 12px;
+        z-index: 1;
+        font: 600 13px/1.25 var(--font);
+        color: #fff;
+      }
+      .stack-rows {
+        display: flex;
+        flex-direction: column;
+      }
+      .stack-row {
+        display: grid;
+        grid-template-columns: 152px 404px minmax(0, 1fr);
+        gap: 24px;
+        align-items: center;
+        padding: 15px 0;
+        border-top: 1px solid var(--line);
+      }
+      .stack-row:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .stack-row .k {
+        font: var(--t-run);
+      }
+      .stack-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      .tech-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 10px;
+        background: #fff;
+        border: 1px solid var(--line-strong);
+        font: 600 14.5px/1 var(--font);
+        color: var(--ink);
+        white-space: nowrap;
+        box-shadow: 0 1px 2px rgba(28, 25, 23, 0.04);
+      }
+      .tech-chip svg {
+        inline-size: 16px;
+        block-size: 16px;
+        flex-shrink: 0;
+        display: block;
+      }
+      .stack-desc {
+        font: 400 18px/1.45 var(--font);
+        color: var(--muted);
+      }
+      .stack-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 12px 18px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid var(--line);
+      }
+      .stack-foot .gh {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font: 600 16px/1.3 var(--font);
+        color: var(--ink);
+      }
+      .stack-foot .gh svg {
+        inline-size: 18px;
+        block-size: 18px;
+        flex-shrink: 0;
+        display: block;
+      }
+
+      /* style guide slide */
+      .sg-swatches {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .sg-sw {
+        display: grid;
+        grid-template-columns: 44px minmax(0, 1fr);
+        gap: 12px;
+        align-items: center;
+        padding: 9px 11px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid var(--line);
+      }
+      .sg-chip {
+        inline-size: 44px;
+        block-size: 44px;
+        border-radius: 9px;
+      }
+      .sg-sw b {
+        display: block;
+        font: 700 14px/1.2 var(--font);
+        color: var(--ink);
+      }
+      .sg-sw span {
+        display: block;
+        font: 500 12px/1.3 var(--font);
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .sg-wa {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        background: #e7f6ec;
+        border: 1px solid #bde2c9;
+        margin-top: 10px;
+      }
+      .sg-wa-dot {
+        inline-size: 28px;
+        block-size: 28px;
+        border-radius: 8px;
+        background: var(--wa);
+        flex: none;
+      }
+      .sg-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      .sg-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 18px;
+        border-radius: 999px;
+        font: 700 14px/1 var(--font);
+        white-space: nowrap;
+      }
+      .sg-btn.pri {
+        background: var(--green);
+        color: #fff;
+      }
+      .sg-btn.sec {
+        background: #fff;
+        color: var(--green-ink);
+        border: 1.5px solid var(--green);
+      }
+      .sg-btn.wa {
+        background: var(--wa);
+        color: #fff;
+      }
+      .sg-status-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+      .sg-dot {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font: 600 13.5px/1 var(--font);
+        color: var(--ink);
+      }
+      .sg-dot::before {
+        content: '';
+        inline-size: 9px;
+        block-size: 9px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .sg-verified {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: var(--green-soft);
+        color: var(--green-ink);
+        font: 700 12.5px/1 var(--font);
+      }
+
+      /* org & committee slide */
+      .div-tabs {
+        display: flex;
+        flex-direction: column;
+      }
+      .div-tabs .pick {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font: 500 18px/1.3 var(--font);
+        color: var(--muted);
+        padding: 13px 4px 13px 22px;
+        border-top: 1px solid var(--line);
+        position: relative;
+        transition: color 0.15s;
+      }
+      .div-tabs .pick:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .div-tabs .pick::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-top: -4px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        transition:
+          background 0.15s,
+          transform 0.15s;
+      }
+      .div-tabs .pick:hover {
+        color: var(--ink);
+      }
+      .div-tabs .pick.on {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .div-tabs .pick.on::before {
+        background: var(--green);
+        transform: scale(1.3);
+      }
+      .div-tabs .pick.warn.on::before {
+        background: var(--clay);
+      }
+      .div-tabs .pick .cnt {
+        font: 600 14px/1 var(--font);
+        font-variant-numeric: tabular-nums;
+        color: var(--faint);
+        white-space: nowrap;
+      }
+      .div-tabs .pick.on .cnt {
+        color: var(--ink);
+      }
+      .div-tabs .pick.warn .cnt {
+        color: var(--clay);
+      }
+      .div-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 26px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .div-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--line);
+      }
+      .div-head h3 {
+        font: 700 24px/1.2 var(--font);
+        letter-spacing: -0.02em;
+      }
+      .div-badge {
+        padding: 6px 12px;
+        border-radius: 999px;
+        font: 700 13px/1 var(--font);
+        background: var(--green-soft);
+        color: var(--green-ink);
+        white-space: nowrap;
+      }
+      .div-badge.warn {
+        background: #fbeae2;
+        color: var(--clay);
+      }
+      .div-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .div-box {
+        padding-right: 24px;
+      }
+      .div-box + .div-box {
+        padding-right: 0;
+        padding-left: 24px;
+        border-left: 1px solid var(--line);
+      }
+      .div-box .k {
+        font: 700 12.5px/1 var(--font);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--green-ink);
+        margin-bottom: 8px;
+      }
+      .div-box p {
+        font: 400 18px/1.5 var(--font);
+        color: var(--muted);
+      }
+      .div-note {
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+      .div-note b {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font: 700 14px/1.2 var(--font);
+        color: var(--green-ink);
+        margin-bottom: 6px;
+      }
+      .div-note b::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .div-note.warn b {
+        color: var(--clay);
+      }
+      .div-note p {
+        font: 400 17px/1.45 var(--font);
+        color: var(--ink);
+      }
+      .funnel-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .funnel-box {
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: var(--wash);
+        border: 1px solid var(--line);
+      }
+      .funnel-box.hi {
+        background: var(--green);
+        border-color: var(--green);
+        color: #fff;
+      }
+      .funnel-box .num {
+        display: block;
+        font: 800 32px/1 var(--font);
+        letter-spacing: -0.03em;
+        color: var(--ink);
+      }
+      .funnel-box.hi .num {
+        color: #fff;
+      }
+      .funnel-box span:last-child {
+        display: block;
+        margin-top: 6px;
+        font: 600 13px/1.25 var(--font);
+        color: var(--muted);
+      }
+      .funnel-box.hi span:last-child {
+        color: rgba(255, 255, 255, 0.88);
+      }
+      .phase-row {
+        padding: 14px 0;
+        border-top: 1px solid var(--line);
+      }
+      .phase-row:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .phase-row:last-child {
+        padding-bottom: 0;
+      }
+      .phase-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 5px;
+      }
+      .phase-head b {
+        font: 700 17px/1.25 var(--font);
+        color: var(--ink);
+      }
+      .phase-pill {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--wash);
+        color: var(--muted);
+        font: 700 12px/1 var(--font);
+        white-space: nowrap;
+      }
+      .phase-pill.hi {
+        background: var(--green-soft);
+        color: var(--green-ink);
       }
       .check input:checked {
         background: var(--green);
@@ -857,26 +1645,93 @@
         display: block;
       }
 
-      /* product tiles on the Desanara slide */
+      /* product masonry on the Desanara slide */
       .tiles {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(12, minmax(0, 1fr));
+        grid-template-areas:
+          'fashion craft'
+          'fashion craft'
+          'fashion craft'
+          'fashion craft'
+          'ubi     craft'
+          'ubi     food'
+          'ubi     food'
+          'coffee  food'
+          'coffee  food'
+          'coffee  more'
+          'coffee  more'
+          'coffee  more';
+        gap: 12px;
+        flex: 1;
+        min-block-size: 0;
       }
       .tiles figure {
+        position: relative;
         margin: 0;
+        border-radius: 12px;
+        overflow: clip;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+      }
+      .tiles figure.t-fashion {
+        grid-area: fashion;
+      }
+      .tiles figure.t-craft {
+        grid-area: craft;
+      }
+      .tiles figure.t-ubi {
+        grid-area: ubi;
+      }
+      .tiles figure.t-food {
+        grid-area: food;
+      }
+      .tiles figure.t-coffee {
+        grid-area: coffee;
+      }
+      .tiles figure.t-more {
+        grid-area: more;
+        display: grid;
+        place-items: center;
+        padding: 16px;
+        background: rgba(255, 255, 255, 0.06);
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
       }
       .tiles img {
-        width: 100%;
-        aspect-ratio: 1;
+        inline-size: 100%;
+        block-size: 100%;
         object-fit: cover;
         display: block;
-        border-radius: 10px;
+      }
+      .tiles figure:not(.t-more)::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to top,
+          rgba(16, 26, 20, 0.78) 0%,
+          rgba(16, 26, 20, 0.24) 40%,
+          rgba(16, 26, 20, 0) 70%
+        );
+        pointer-events: none;
       }
       .tiles figcaption {
-        font: 500 13px/1.3 var(--font);
+        position: absolute;
+        inset-inline: 12px;
+        inset-block-end: 10px;
+        z-index: 1;
+        font: 600 14px/1.25 var(--font);
+        color: #fff;
+        letter-spacing: -0.01em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+      }
+      .tiles figure.t-more figcaption {
+        position: static;
+        text-align: center;
+        font: 500 15px/1.35 var(--font);
         color: #f3f8f4;
-        margin-top: 6px;
+        text-shadow: none;
       }
 
       /* motion */
@@ -933,33 +1788,58 @@
       }
 
       /* chrome */
+      :root {
+        --hud-target: 34px;
+      }
+      @media (pointer: coarse) {
+        :root {
+          --hud-target: 44px;
+        }
+      }
       #progress {
         position: fixed;
-        left: 0;
-        top: 0;
-        height: 3px;
-        width: 100%;
+        inset-inline: 0;
+        inset-block-start: 0;
+        block-size: 3px;
         background: var(--sun);
         transform: scaleX(0);
         transform-origin: left center;
         transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         z-index: 5;
       }
-      #hud {
+      #hud-wrap {
         position: fixed;
-        right: 14px;
-        bottom: 12px;
+        inset-inline: 0;
+        inset-block-end: 0;
+        padding-inline: max(14px, env(safe-area-inset-left, 0px))
+          max(14px, env(safe-area-inset-right, 0px));
+        padding-block-end: max(12px, env(safe-area-inset-bottom, 0px));
+        display: flex;
+        justify-content: flex-end;
+        pointer-events: none;
+        z-index: 5;
+        transition: opacity 0.3s;
+        container: hud / inline-size;
+      }
+      #hud {
+        pointer-events: auto;
         display: flex;
         gap: 4px;
         align-items: center;
-        z-index: 5;
-        transition: opacity 0.3s;
-        background: rgba(28, 25, 23, 0.86);
+        max-inline-size: 100%;
+        background: rgba(28, 25, 23, 0.88);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.28),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.12);
         border-radius: 999px;
         padding: 4px;
       }
-      body.idle #hud {
+      body.idle #hud-wrap {
         opacity: 0;
+      }
+      body.idle #hud {
         pointer-events: none;
       }
       body.idle {
@@ -969,15 +1849,74 @@
       #hud .count {
         color: #fff;
         font: 600 13px/1 var(--font);
-        padding: 8px 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      #hud button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        min-block-size: var(--hud-target);
+        min-inline-size: var(--hud-target);
+        padding-inline: 12px;
         border-radius: 999px;
+        transition: background 0.15s;
+      }
+      #hud button svg {
+        display: block;
+        flex-shrink: 0;
+      }
+      #hud button[hidden] {
+        display: none;
       }
       #hud button:hover {
         background: rgba(255, 255, 255, 0.14);
       }
+      #hud button:active {
+        background: rgba(255, 255, 255, 0.22);
+      }
       #hud .count {
         font-variant-numeric: tabular-nums;
-        color: #cfc8bf;
+        color: #d6d0c7;
+        padding-inline: 8px;
+        text-align: center;
+      }
+      #hud .sep {
+        inline-size: 1px;
+        block-size: 18px;
+        background: rgba(255, 255, 255, 0.18);
+        margin-inline: 2px;
+        flex-shrink: 0;
+      }
+      @container hud (inline-size <= 760px) {
+        #hud {
+          margin-inline: auto;
+        }
+        #hud #b-prev .lbl,
+        #hud #b-next .lbl {
+          display: none;
+        }
+        #hud #b-prev,
+        #hud #b-next {
+          padding-inline: 0;
+        }
+      }
+      @container hud (inline-size <= 540px) {
+        #hud {
+          gap: 2px;
+          padding: 3px;
+        }
+        #hud button {
+          padding-inline: 0;
+        }
+        #hud button .lbl {
+          display: none;
+        }
+        #hud .count {
+          padding-inline: 6px;
+          font-size: 12px;
+        }
       }
       #overview {
         position: fixed;
@@ -986,49 +1925,75 @@
         z-index: 10;
         display: none;
         overflow: auto;
-        padding: 48px;
+        padding-block: max(clamp(20px, 4vw, 48px), env(safe-area-inset-top, 0px))
+          max(clamp(24px, 4vw, 48px), env(safe-area-inset-bottom, 0px));
+        padding-inline: max(clamp(16px, 4vw, 48px), env(safe-area-inset-left, 0px))
+          max(clamp(16px, 4vw, 48px), env(safe-area-inset-right, 0px));
       }
       #overview.open {
         display: block;
       }
+      #overview .ov-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-block-end: 20px;
+      }
       #overview h2 {
         color: #fff;
-        font-size: 28px;
-        margin-bottom: 24px;
+        font-size: clamp(22px, 3vw, 28px);
+        margin: 0;
+      }
+      #overview .ov-close {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-block-size: var(--hud-target);
+        min-inline-size: var(--hud-target);
+        padding-inline: 16px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font: 600 14px/1 var(--font);
+        white-space: nowrap;
+      }
+      #overview .ov-close:hover {
+        background: rgba(255, 255, 255, 0.2);
       }
       #overview .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
         gap: 1px;
         background: rgba(255, 255, 255, 0.12);
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
-      #overview button {
+      #overview .grid button {
         background: #16201b;
         color: #fff;
         padding: 16px 18px;
-        min-height: 84px;
+        min-block-size: 76px;
         display: flex;
         flex-direction: column;
         gap: 6px;
       }
-      #overview button:hover {
+      #overview .grid button:hover {
         background: #1f2d25;
       }
-      #overview button.cur {
+      #overview .grid button.cur {
         background: var(--green);
       }
-      #overview button b {
+      #overview .grid button b {
         font: 500 13px/1 var(--font);
         color: #a9cbb6;
       }
-      #overview button span {
+      #overview .grid button span {
         font: 600 16px/1.3 var(--font);
       }
       #overview .keys {
         color: #a9cbb6;
         font: var(--t-small);
-        margin-top: 24px;
+        margin-block-start: 24px;
         line-height: 2;
       }
       kbd {
@@ -1046,7 +2011,7 @@
         color: #fff;
       }
       body.presenter #viewport,
-      body.presenter #hud,
+      body.presenter #hud-wrap,
       body.presenter #progress {
         display: none;
       }
@@ -1058,13 +2023,20 @@
         grid-template-columns: 1.5fr 1fr;
         grid-template-rows: auto 1fr;
         gap: 20px;
-        padding: 24px;
-        min-height: 100vh;
+        padding: max(20px, env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px))
+          max(20px, env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+        min-block-size: 100dvh;
+      }
+      @media (max-width: 840px) {
+        body.presenter #pv {
+          grid-template-columns: minmax(0, 1fr);
+        }
       }
       #pv .bar-top {
         grid-column: 1 / -1;
         display: flex;
-        gap: 12px;
+        flex-wrap: wrap;
+        gap: 10px 12px;
         align-items: center;
         font: 600 15px var(--font);
       }
@@ -1072,14 +2044,19 @@
         font: 700 34px/1 var(--font);
         font-variant-numeric: tabular-nums;
         color: var(--sun);
-        margin-right: 8px;
+        margin-inline-end: 8px;
       }
       #pv .bar-top button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-block-size: var(--hud-target);
         background: rgba(255, 255, 255, 0.1);
         color: #fff;
         border-radius: 999px;
         padding: 9px 16px;
         font-weight: 600;
+        white-space: nowrap;
       }
       #pv .frame {
         background: #000;
@@ -1145,7 +2122,7 @@
         <section class="slide photo-slide" data-title="Pembuka" data-section="Pembuka">
           <div style="width: 48%; display: flex; flex-direction: column; height: 100%">
             {{LOGO_GREEN}}
-            <h1 style="margin-top: auto; font-size: 58px">
+            <h1 style="margin-top: auto; font-size: 54px">
               Persiapan Seminar &amp; Showcase Desanara
             </h1>
             <p class="sub">
@@ -1191,16 +2168,16 @@
               >
             </div>
             <div>
-              <button data-goto="13" class="k" style="text-align: left">Seminar 5 Desember</button
+              <button data-goto="15" class="k" style="text-align: left">Seminar 5 Desember</button
               ><span class="muted" style="display: flex; justify-content: space-between"
-                >Tujuan, materi, rundown, demo, praktik<span class="num">13</span></span
+                >Tujuan, materi, rundown, demo, praktik<span class="num">15</span></span
               >
             </div>
             <div>
-              <button data-goto="18" class="k" style="text-align: left">
+              <button data-goto="20" class="k" style="text-align: left">
                 Panitia dan keputusan</button
               ><span class="muted" style="display: flex; justify-content: space-between"
-                >Rekrutmen, divisi, timeline, anggaran, risiko<span class="num">18</span></span
+                >Rekrutmen, divisi, timeline, anggaran, risiko<span class="num">20</span></span
               >
             </div>
           </div>
@@ -1216,27 +2193,68 @@
 
         <!-- 3 problem -->
         <section class="slide wash" data-title="Masalah UMKM desa" data-section="Desa Baros">
-          <h2>Produk desa ada, tapi sulit ditemukan</h2>
-          <div class="cols mt7">
-            <div>
-              <h3>Pelaku UMKM</h3>
-              <p class="body muted">Pemasaran masih dari mulut ke mulut dan lingkungan sekitar.</p>
-            </div>
-            <div>
-              <h3>Pembeli</h3>
-              <p class="body muted">
-                Wisatawan, pencari oleh-oleh, dan reseller tidak tahu harus mencari ke mana.
+          <div
+            style="
+              display: grid;
+              grid-template-columns: minmax(0, 1fr) 368px;
+              gap: 48px;
+              flex: 1;
+              min-block-size: 0;
+            "
+          >
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <h2>Produk desa ada, tapi sulit ditemukan</h2>
+              <div class="step-list mt6">
+                <div class="step-item">
+                  <span class="step-num">01</span>
+                  <div>
+                    <h3>Pelaku UMKM</h3>
+                    <p class="small">Pemasaran masih dari mulut ke mulut dan lingkungan sekitar.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">02</span>
+                  <div>
+                    <h3>Pembeli</h3>
+                    <p class="small">
+                      Wisatawan, pencari oleh-oleh, dan reseller tidak tahu harus mencari ke mana.
+                    </p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">03</span>
+                  <div>
+                    <h3>Kesiapan digital</h3>
+                    <p class="small">Foto, deskripsi, dan harga belum siap tampil secara online.</p>
+                  </div>
+                </div>
+              </div>
+              <p class="answer-bar mtauto">
+                Jawaban kita: katalog Desanara, dipasangkan dengan seminar dan pendampingan langsung
+                di desa.
               </p>
             </div>
-            <div>
-              <h3>Kesiapan digital</h3>
-              <p class="body muted">Foto, deskripsi, dan harga belum siap tampil secara online.</p>
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <div class="collage-3">
+                <figure>
+                  <img data-img="batik-green" alt="Kain batik motif daun" />
+                  <figcaption>Karya fashion &amp; wastra desa</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="ubi-chips" alt="Keripik ubi" />
+                  <figcaption>Olahan pangan</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="spoons" alt="Sendok kayu kerajinan" />
+                  <figcaption>Kerajinan kayu</figcaption>
+                </figure>
+              </div>
+              <p class="credit" style="margin-top: 8px">
+                Ilustrasi Wikimedia Commons: Fpangestuphotographer (CC BY-SA 4.0), Fumikas Sagisavas
+                (CC0), Gabriela sellart (CC BY-SA 4.0).
+              </p>
             </div>
           </div>
-          <p class="statement mtauto">
-            Jawaban kita: katalog Desanara, dipasangkan dengan seminar dan pendampingan langsung di
-            desa.
-          </p>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1275,10 +2293,10 @@
                 style="width: 52px; height: auto"
               /><span class="small" style="color: var(--ink)">Kec. Arjasari, Kab. Bandung</span>
             </div>
-            <h2 class="mt6">
+            <h2 class="mt5">
               <span class="em num" data-count="78">78</span> UMKM aktif, naik dari sekitar 30 usaha
             </h2>
-            <div class="rows tight narrow mt6">
+            <div class="rows tight narrow mt5">
               <div>
                 <span class="k">Sektor</span
                 ><span>Kerajinan tangan, fashion, kuliner dan olahan pangan</span>
@@ -1334,7 +2352,7 @@
                 <div
                   style="
                     display: grid;
-                    grid-template-columns: 1fr 220px;
+                    grid-template-columns: 1fr 272px;
                     gap: 32px;
                     align-items: start;
                   "
@@ -1346,30 +2364,74 @@
                       dasar. Cocok jadi kategori unggulan di halaman Desa Baros.
                     </p>
                   </div>
-                  <figure style="margin: 0">
-                    <img
-                      data-img="ubi-roasted"
-                      alt="Ubi panggang potong dadu"
-                      style="
-                        width: 220px;
-                        height: 220px;
-                        object-fit: cover;
-                        border-radius: 10px;
-                        display: block;
-                      "
-                    />
-                    <figcaption class="credit" style="margin-top: 6px">Foto ilustrasi</figcaption>
-                  </figure>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px">
+                    <figure style="margin: 0">
+                      <img
+                        data-img="ubi-roasted"
+                        alt="Ubi panggang potong dadu"
+                        style="
+                          inline-size: 100%;
+                          aspect-ratio: 4 / 5;
+                          object-fit: cover;
+                          border-radius: 10px;
+                          display: block;
+                        "
+                      />
+                      <figcaption class="credit" style="margin-top: 6px">Ubi panggang</figcaption>
+                    </figure>
+                    <figure style="margin: 0">
+                      <img
+                        data-img="ubi-chips"
+                        alt="Keripik ubi"
+                        style="
+                          inline-size: 100%;
+                          aspect-ratio: 4 / 5;
+                          object-fit: cover;
+                          border-radius: 10px;
+                          display: block;
+                        "
+                      />
+                      <figcaption class="credit" style="margin-top: 6px">Keripik ubi</figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
               <div data-key="hanjeli">
-                <h3 style="font-size: 28px">Mirip jagung, kaya gizi</h3>
-                <ul class="list sm mt5">
-                  <li>Musiman, bahan mentah sekitar <b class="num">Rp50.000</b>/kg.</li>
-                  <li>Rendah gula, kaya karbohidrat, tinggi protein.</li>
-                  <li>Sudah diolah menjadi rengginang dan tape.</li>
-                  <li>Tepungnya pernah dikembangkan menjadi bubur bayi bersama kampus lain.</li>
-                </ul>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 230px;
+                    gap: 32px;
+                    align-items: start;
+                  "
+                >
+                  <div>
+                    <h3 style="font-size: 28px">Mirip jagung, kaya gizi</h3>
+                    <ul class="list sm mt5">
+                      <li>Rendah gula, kaya karbohidrat, tinggi protein.</li>
+                      <li>Sudah diolah menjadi rengginang dan tape.</li>
+                      <li>Tepungnya pernah dikembangkan menjadi bubur bayi bersama kampus lain.</li>
+                    </ul>
+                  </div>
+                  <div class="surface-card wash">
+                    <p class="hint">Harga bahan mentah</p>
+                    <p
+                      class="num"
+                      style="
+                        font: 800 32px/1.1 var(--font);
+                        color: var(--green);
+                        margin-top: 8px;
+                        letter-spacing: -0.02em;
+                      "
+                    >
+                      Rp50.000
+                    </p>
+                    <p class="small" style="margin-top: 4px">per kg · panen musiman</p>
+                    <p class="small" style="margin-top: 14px; color: var(--ink)">
+                      Potensi cerita produk unggulan di Desanara.
+                    </p>
+                  </div>
+                </div>
               </div>
               <div data-key="lain">
                 <div
@@ -1527,7 +2589,14 @@
 
         <!-- 8 Desanara -->
         <section class="slide dark" data-title="Apa itu Desanara" data-section="Desanara">
-          <div style="display: grid; grid-template-columns: 1fr 420px; gap: 64px; height: 100%">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: minmax(0, 1fr) 456px;
+              gap: 56px;
+              height: 100%;
+            "
+          >
             <div style="display: flex; flex-direction: column">
               {{LOGO_WHITE}}
               <p class="statement mt5">Ragam Karya, Cerita Nusantara.</p>
@@ -1550,43 +2619,33 @@
                 </div>
               </div>
             </div>
-            <div style="display: flex; flex-direction: column; justify-content: center">
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
               <div class="tiles">
-                <figure>
+                <figure class="t-fashion">
                   <img data-img="batik" alt="Kain batik" />
                   <figcaption>Fashion</figcaption>
                 </figure>
-                <figure>
-                  <img data-img="dodol" alt="Dodol dalam kemasan" />
-                  <figcaption>Olahan pangan</figcaption>
-                </figure>
-                <figure>
+                <figure class="t-craft">
                   <img data-img="besek" alt="Besek anyaman bambu" />
                   <figcaption>Kerajinan</figcaption>
                 </figure>
-                <figure>
-                  <img data-img="coffee-beans" alt="Biji kopi" />
-                  <figcaption>Kopi</figcaption>
-                </figure>
-                <figure>
+                <figure class="t-ubi">
                   <img data-img="ubi-roasted" alt="Ubi panggang" />
                   <figcaption>Olahan ubi</figcaption>
                 </figure>
-                <figure
-                  style="
-                    display: grid;
-                    place-items: center;
-                    aspect-ratio: 1;
-                    border-radius: 10px;
-                    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
-                  "
-                >
-                  <figcaption style="margin: 0; text-align: center; font-size: 14px">
-                    dan produk<br />desa lainnya
-                  </figcaption>
+                <figure class="t-food">
+                  <img data-img="dodol" alt="Dodol dalam kemasan" />
+                  <figcaption>Olahan pangan</figcaption>
+                </figure>
+                <figure class="t-coffee">
+                  <img data-img="coffee-beans" alt="Biji kopi" />
+                  <figcaption>Kopi</figcaption>
+                </figure>
+                <figure class="t-more">
+                  <figcaption>dan produk<br />desa lainnya</figcaption>
                 </figure>
               </div>
-              <p class="credit mt5">
+              <p class="credit" style="margin-block-start: 14px">
                 Foto ilustrasi dari Wikimedia Commons: Fpangestuphotographer (CC BY-SA 4.0),
                 Clarasaragih (CC BY-SA 4.0), Muh Zaelani (CC BY-SA 3.0), ZELSC (CC0), USDA (domain
                 publik).
@@ -1601,7 +2660,291 @@
           </aside>
         </section>
 
-        <!-- 9 roles -->
+        <!-- 9 brand guidelines -->
+        <section
+          class="slide wash"
+          data-title="Identitas merek dan pratinjau"
+          data-section="Desanara"
+          style="padding-top: 44px; padding-bottom: 80px"
+        >
+          <div
+            style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px"
+          >
+            <h2 style="font-size: 32px; max-width: none">
+              Identitas merek terbaru dan pratinjau tampilan
+            </h2>
+            <span class="hint">docs/brand/desanara/brand-guidelines.png</span>
+          </div>
+          <figure
+            style="
+              margin: 16px 0 0;
+              flex: 1;
+              min-block-size: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <img
+              data-img="brand-guidelines"
+              alt="Panduan identitas merek Desanara: logo daun terbaru, palet warna resmi, pratinjau aplikasi mobile dan web, serta kemasan"
+              style="
+                max-inline-size: 100%;
+                max-block-size: 100%;
+                width: auto;
+                height: auto;
+                border-radius: 14px;
+                border: 1px solid var(--line-strong);
+                box-shadow: 0 12px 30px rgba(24, 34, 26, 0.1);
+                display: block;
+              "
+            />
+          </figure>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Menampilkan logo daun terbaru rancangan tim HIMASIF, palet warna resmi (#387B4C),
+                dan gambaran antarmuka aplikasi publik Desanara untuk peserta dan panitia.
+              </li>
+              <li>
+                File resolusi tinggi (PNG) tersedia di repo di docs/brand/desanara/ untuk kebutuhan
+                poster, banner, dan media sosial PDD.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 10 style guide -->
+        <section class="slide" data-title="Style guide UI" data-section="Desanara">
+          <div
+            style="display: flex; align-items: baseline; justify-content: space-between; gap: 24px"
+          >
+            <h2>Style guide: “pasar desa yang rapi”</h2>
+            <span class="hint">DESIGN.md · token warna, huruf, dan komponen</span>
+          </div>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 0.96fr 1.04fr;
+              gap: 32px;
+              flex: 1;
+              min-block-size: 0;
+            "
+            class="mt5"
+          >
+            <!-- Left: Palette & Village theming rule -->
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <p class="hint" style="margin-bottom: 10px; font-weight: 700; color: var(--ink)">
+                Palet warna &amp; kontras
+              </p>
+              <div class="sg-swatches">
+                <div class="sg-sw">
+                  <div class="sg-chip" style="background: #387b4c"></div>
+                  <div><b>Hijau Desanara</b><span>#387B4C · primer (5,1:1)</span></div>
+                </div>
+                <div class="sg-sw">
+                  <div class="sg-chip" style="background: #6cac4e"></div>
+                  <div><b>Daun</b><span>#6CAC4E · wordmark</span></div>
+                </div>
+                <div class="sg-sw">
+                  <div class="sg-chip" style="background: #9dd853"></div>
+                  <div><b>Tunas</b><span>#9DD853 · sorotan (10,3:1)</span></div>
+                </div>
+                <div class="sg-sw">
+                  <div class="sg-chip" style="background: #e3a84f"></div>
+                  <div><b>Mentari</b><span>#E3A84F · badge promo</span></div>
+                </div>
+                <div class="sg-sw">
+                  <div class="sg-chip" style="background: #c2612c"></div>
+                  <div><b>Bata</b><span>#C2612C · penekanan</span></div>
+                </div>
+                <div class="sg-sw">
+                  <div
+                    class="sg-chip"
+                    style="background: #f9f4e7; border: 1px solid var(--line-strong)"
+                  ></div>
+                  <div><b>Krem</b><span>#F9F4E7 · latar hangat</span></div>
+                </div>
+              </div>
+              <div class="sg-wa">
+                <div style="display: flex; align-items: center; gap: 12px">
+                  <span class="sg-wa-dot"></span>
+                  <div>
+                    <b style="display: block; font: 700 14px/1.2 var(--font); color: #163b24"
+                      >Hijau WhatsApp · #0F7A3F</b
+                    >
+                    <span style="font: 400 12.5px/1.3 var(--font); color: #245737"
+                      >Dipakai seragam di semua desa khusus tombol pesan.</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="surface-card wash mtauto" style="padding: 14px 16px">
+                <p style="font: 700 13.5px/1.2 var(--font); color: var(--green-ink)">
+                  Tema tiap desa (ADR 0007)
+                </p>
+                <p class="small" style="margin-top: 4px; font-size: 14.5px">
+                  Desa boleh mengganti warna aksen dan font judul dari pilihan baku (kontras minimal
+                  3:1), tanpa CSS bebas.
+                </p>
+              </div>
+            </div>
+
+            <!-- Right: Typography & UI Components -->
+            <div style="display: flex; flex-direction: column; gap: 14px; min-block-size: 0">
+              <div class="surface-card wash" style="padding: 16px 20px">
+                <div style="display: flex; align-items: baseline; justify-content: space-between">
+                  <span class="hint" style="font-weight: 700; color: var(--ink)">Tipografi</span>
+                  <span class="hint">Plus Jakarta Sans · 400–800</span>
+                </div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: auto 1fr;
+                    gap: 18px;
+                    align-items: center;
+                    margin-top: 10px;
+                  "
+                >
+                  <span
+                    style="
+                      font: 800 52px/0.95 var(--font);
+                      color: var(--green);
+                      letter-spacing: -0.03em;
+                    "
+                    >Aa</span
+                  >
+                  <div style="display: flex; flex-direction: column; gap: 4px">
+                    <span style="font: 800 20px/1.2 var(--font); letter-spacing: -0.02em"
+                      >Keripik Ubi Desa Baros</span
+                    >
+                    <span class="small" style="font-size: 14.5px"
+                      >Teks badan ≥ 16 px · harga pakai angka tabular:
+                      <b class="num" style="color: var(--green-ink)">Rp18.000</b></span
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="surface-card"
+                style="
+                  padding: 18px 20px;
+                  flex: 1;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 14px;
+                "
+              >
+                <div style="display: flex; align-items: baseline; justify-content: space-between">
+                  <span class="hint" style="font-weight: 700; color: var(--ink)"
+                    >Komponen inti</span
+                  >
+                  <span class="hint">Pill buttons · radius 12 px · tap ≥ 44 px</span>
+                </div>
+                <div class="sg-pill-row">
+                  <span class="sg-btn pri">Jelajahi Desa</span>
+                  <span class="sg-btn sec">Lihat Profil</span>
+                  <span class="sg-btn wa">Pesan via WhatsApp →</span>
+                </div>
+                <div
+                  style="
+                    padding-top: 12px;
+                    border-top: 1px solid var(--line);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                  "
+                >
+                  <span class="hint" style="font-weight: 600">Status usaha &amp; verifikasi</span>
+                  <div class="sg-status-row">
+                    <span class="sg-dot" style="color: #15803d">Buka</span>
+                    <span class="sg-dot" style="color: #b45309">Tutup sementara</span>
+                    <span class="sg-dot" style="color: #78716c">Tutup</span>
+                    <span class="sg-verified">✓ Diverifikasi desa</span>
+                  </div>
+                </div>
+                <div
+                  style="
+                    padding-top: 12px;
+                    border-top: 1px solid var(--line);
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    flex-wrap: wrap;
+                  "
+                >
+                  <span
+                    style="
+                      flex: 1;
+                      min-inline-size: 180px;
+                      padding: 8px 14px;
+                      border-radius: 999px;
+                      background: var(--wash);
+                      border: 1px solid var(--line-strong);
+                      font: 500 13px/1 var(--font);
+                      color: var(--faint);
+                    "
+                    >Cari produk, desa, atau UMKM…</span
+                  >
+                  <span
+                    class="pill-mini"
+                    style="
+                      padding: 7px 12px;
+                      border-radius: 999px;
+                      background: var(--wash);
+                      border: 1px solid var(--line);
+                      font: 600 12.5px/1 var(--font);
+                      color: var(--ink);
+                    "
+                    >Kerajinan</span
+                  >
+                  <span
+                    class="pill-mini"
+                    style="
+                      padding: 7px 12px;
+                      border-radius: 999px;
+                      background: var(--wash);
+                      border: 1px solid var(--line);
+                      font: 600 12.5px/1 var(--font);
+                      color: var(--ink);
+                    "
+                    >Olahan Ubi</span
+                  >
+                  <span
+                    class="pill-mini"
+                    style="
+                      padding: 7px 12px;
+                      border-radius: 999px;
+                      background: var(--wash);
+                      border: 1px solid var(--line);
+                      font: 600 12.5px/1 var(--font);
+                      color: var(--ink);
+                    "
+                    >Fashion</span
+                  >
+                </div>
+                <p class="small mtauto" style="font-size: 14px; color: var(--muted)">
+                  Prinsip tampilan: terang, ringan di HP Android murah, selalu mencantumkan nama
+                  desa di tiap kartu produk, tanpa keranjang belanja.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Style guide ini menjadi acuan bersama Tim Dev dan PDD agar tampilan situs, poster,
+                banner, dan media sosial konsisten.
+              </li>
+              <li>Sumber: DESIGN.md dan docs/brand/README.md.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 11 roles -->
         <section class="slide" data-title="Peran pengguna" data-section="Desanara">
           <h2>Lima peran memakai satu platform</h2>
           <div
@@ -1678,32 +3021,73 @@
 
         <!-- 10 WhatsApp flow -->
         <section class="slide wash" data-title="Alur pesan WhatsApp" data-section="Desanara">
-          <h2>Dari mencari produk sampai chat penjual</h2>
-          <div class="seq mt8">
-            <div>
-              <span class="n">1</span>
-              <h3>Temukan</h3>
-              <p class="small">Cari di Jelajah atau buka link desa yang dibagikan.</p>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: minmax(0, 1fr) 348px;
+              gap: 52px;
+              flex: 1;
+              min-block-size: 0;
+            "
+          >
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <h2>Dari mencari produk sampai chat penjual</h2>
+              <div class="step-list mt6">
+                <div class="step-item">
+                  <span class="step-num">01</span>
+                  <div>
+                    <h3>Temukan</h3>
+                    <p class="small">Cari di Jelajah atau buka link desa yang dibagikan.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">02</span>
+                  <div>
+                    <h3>Lihat detail</h3>
+                    <p class="small">Foto, harga, cerita usaha, status buka, dan asal desanya.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">03</span>
+                  <div>
+                    <h3>Isi pesanan</h3>
+                    <p class="small">Pilih jumlah dan tulis catatan di halaman produk.</p>
+                  </div>
+                </div>
+                <div class="step-item wa">
+                  <span class="step-num">04</span>
+                  <div>
+                    <h3>Pesan via WhatsApp</h3>
+                    <p class="small">
+                      Pesan otomatis terkirim ke penjual, transaksi lanjut di chat.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <p class="answer-bar mtauto" style="font-size: 18px">
+                Setiap kunjungan halaman dan klik WhatsApp dicatat sebagai bukti dampak untuk desa.
+              </p>
             </div>
-            <div>
-              <span class="n">2</span>
-              <h3>Lihat detail</h3>
-              <p class="small">Foto, harga, cerita usaha, status buka, dan asal desanya.</p>
-            </div>
-            <div>
-              <span class="n">3</span>
-              <h3>Isi pesanan</h3>
-              <p class="small">Pilih jumlah dan tulis catatan di halaman produk.</p>
-            </div>
-            <div class="wa">
-              <span class="n">4</span>
-              <h3>Pesan via WhatsApp</h3>
-              <p class="small">Pesan otomatis terkirim ke penjual, transaksi lanjut di chat.</p>
+            <div style="display: flex; flex-direction: column; justify-content: center">
+              <div class="mock-card">
+                <img class="mock-img" data-img="ubi-chips" alt="Contoh produk keripik ubi" />
+                <div class="mock-body">
+                  <p class="mock-tag">Desa Baros · Olahan Pangan</p>
+                  <p class="mock-title">Keripik Ubi Baros (200 g)</p>
+                  <p class="mock-price">Rp18.000</p>
+                  <div class="mock-wa-btn">Pesan via WhatsApp →</div>
+                </div>
+              </div>
+              <div class="wa-bubble">
+                <b>Pesan otomatis di chat:</b><br />
+                “Halo, saya mau pesan <b>2× Keripik Ubi Baros</b> (Rp36.000) yang saya lihat di
+                Desanara.”
+              </div>
+              <p class="credit" style="margin-top: 8px">
+                Ilustrasi tampilan produk. Foto: Fumikas Sagisavas (CC0).
+              </p>
             </div>
           </div>
-          <p class="statement mtauto">
-            Setiap kunjungan halaman dan klik WhatsApp dicatat sebagai bukti dampak untuk desa.
-          </p>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1715,9 +3099,12 @@
         <!-- 11 feature status -->
         <section class="slide" data-title="Status fitur" data-section="Desanara">
           <h2>Sebagian besar sudah live, empat fitur dikejar sebelum 28 November</h2>
-          <div class="cols mt7">
-            <div>
-              <p class="st done">Sudah live</p>
+          <div class="status-cols mt6">
+            <div class="status-col">
+              <div class="col-head">
+                <p class="st done">Sudah live</p>
+                <span class="cnt">6</span>
+              </div>
               <ul class="list sm mt5">
                 <li>Situs publik ID/EN: Jelajah, desa, UMKM, produk</li>
                 <li>Halaman desa dengan warna dan lambangnya</li>
@@ -1727,8 +3114,11 @@
                 <li>Akun lewat undangan dan kode email</li>
               </ul>
             </div>
-            <div>
-              <p class="st plan">Sebelum 28 November</p>
+            <div class="status-col focus">
+              <div class="col-head">
+                <p class="st plan">Sebelum 28 November</p>
+                <span class="cnt">4</span>
+              </div>
               <ul class="list sm mt5">
                 <li>Pendaftaran UMKM lewat link atau QR desa</li>
                 <li>Antrean verifikasi untuk admin desa</li>
@@ -1736,8 +3126,11 @@
                 <li>Kebijakan privasi dan syarat ketentuan</li>
               </ul>
             </div>
-            <div>
-              <p class="st later">Setelah seminar</p>
+            <div class="status-col">
+              <div class="col-head">
+                <p class="st later">Setelah seminar</p>
+                <span class="cnt">5</span>
+              </div>
               <ul class="list sm mt5">
                 <li>Editor tema desa</li>
                 <li>Pre-order</li>
@@ -1761,33 +3154,125 @@
         <!-- 12 tech -->
         <section class="slide wash" data-title="Teknis singkat" data-section="Desanara">
           <h2>Teknologinya, cukup sampai sini</h2>
-          <div class="rows mt7">
-            <div>
-              <span class="k">Tampilan</span
-              ><span>Next.js dan HeroUI, untuk situs publik dan dashboard</span>
+          <div class="stack-rows mt6">
+            <div class="stack-row">
+              <span class="k">Tampilan</span>
+              <div class="stack-chips">
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#111111">
+                    <path
+                      d="M18.665 21.978C16.758 23.255 14.465 24 12 24 5.377 24 0 18.623 0 12S5.377 0 12 0s12 5.377 12 12c0 3.583-1.574 6.801-4.067 9.001L9.219 7.2H7.2v9.596h1.615V9.251l9.85 12.727Zm-3.332-8.533 1.6 2.061V7.2h-1.6v6.245Z"
+                    /></svg
+                  >Next.js</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#18181B">
+                    <path
+                      d="M6.353 0h11.294A6.353 6.353 0 0 1 24 6.353v11.294A6.353 6.353 0 0 1 17.647 24H6.353A6.353 6.353 0 0 1 0 17.647V6.353A6.353 6.353 0 0 1 6.353 0Zm7.755 6.913h-.933v6.702a2.88 2.88 0 0 1-.362 1.45c-.24.424-.596.77-1.025 1-.443.244-.96.365-1.553.365-.592 0-1.108-.121-1.55-.364a2.603 2.603 0 0 1-1.024-1 2.865 2.865 0 0 1-.365-1.45V6.912h-.933v6.767a3.558 3.558 0 0 0 .489 1.862c.327.547.798.994 1.362 1.292.582.316 1.256.474 2.021.474.769 0 1.444-.157 2.024-.471a3.473 3.473 0 0 0 1.36-1.293c.33-.565.5-1.21.49-1.864V6.913Zm3.648 10.22V6.914h-.933v10.22h.933Z"
+                    /></svg
+                  >HeroUI</span
+                >
+              </div>
+              <span class="stack-desc">Situs publik bilingual dan dashboard tiap peran</span>
             </div>
-            <div>
-              <span class="k">Server</span><span>Hono, satu API untuk semua data dan login</span>
+            <div class="stack-row">
+              <span class="k">Server</span>
+              <div class="stack-chips">
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#E36002">
+                    <path
+                      d="M12.445.002a45.529 45.529 0 0 0-5.252 8.146 8.595 8.595 0 0 1-.555-.53 27.796 27.796 0 0 0-1.205-1.542 8.762 8.762 0 0 0-1.251 2.12 20.743 20.743 0 0 0-1.448 5.88 8.867 8.867 0 0 0 .338 3.468c1.312 3.48 3.794 5.593 7.445 6.337 3.055.438 5.755-.333 8.097-2.312 2.677-2.59 3.359-5.634 2.047-9.132a33.287 33.287 0 0 0-2.988-5.59A91.34 91.34 0 0 0 12.615.053a.216.216 0 0 0-.17-.051Zm-.336 3.906a50.93 50.93 0 0 1 4.794 6.552c.448.767.817 1.57 1.108 2.41.606 2.386-.044 4.354-1.951 5.904-1.845 1.298-3.87 1.683-6.072 1.156-2.376-.737-3.75-2.335-4.121-4.794a5.107 5.107 0 0 1 .242-2.266c.358-.908.79-1.774 1.3-2.601l1.446-2.121a397.33 397.33 0 0 0 3.254-4.24Z"
+                    /></svg
+                  >Hono</span
+                >
+              </div>
+              <span class="stack-desc">Satu API ringan untuk semua data, izin, dan login</span>
             </div>
-            <div>
-              <span class="k">Database</span
-              ><span>PostgreSQL di Supabase dengan Drizzle; bisa pindah ke server kampus</span>
+            <div class="stack-row">
+              <span class="k">Database</span>
+              <div class="stack-chips">
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#336791">
+                    <path
+                      d="M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0595-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"
+                    /></svg
+                  >PostgreSQL</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#249361">
+                    <path
+                      d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"
+                    /></svg
+                  >Supabase</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#6D8E14">
+                    <path
+                      d="M5.353 11.823a1.036 1.036 0 0 0-.395-1.422 1.063 1.063 0 0 0-1.437.399L.138 16.702a1.035 1.035 0 0 0 .395 1.422 1.063 1.063 0 0 0 1.437-.398l3.383-5.903Zm11.216 0a1.036 1.036 0 0 0-.394-1.422 1.064 1.064 0 0 0-1.438.399l-3.382 5.902a1.036 1.036 0 0 0 .394 1.422c.506.283 1.15.104 1.438-.398l3.382-5.903Zm7.293-4.525a1.036 1.036 0 0 0-.395-1.422 1.062 1.062 0 0 0-1.437.399l-3.383 5.902a1.036 1.036 0 0 0 .395 1.422 1.063 1.063 0 0 0 1.437-.399l3.383-5.902Zm-11.219 0a1.035 1.035 0 0 0-.394-1.422 1.064 1.064 0 0 0-1.438.398l-3.382 5.903a1.036 1.036 0 0 0 .394 1.422c.506.282 1.15.104 1.438-.399l3.382-5.902Z"
+                    /></svg
+                  >Drizzle</span
+                >
+              </div>
+              <span class="stack-desc">Postgres standar; bisa pindah ke server kampus</span>
             </div>
-            <div>
-              <span class="k">Hosting</span
-              ><span
-                >Vercel (Singapura) dengan domain desanara.app; foto di Cloudflare R2, email lewat
-                Resend</span
-              >
+            <div class="stack-row">
+              <span class="k">Hosting</span>
+              <div class="stack-chips">
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#111111">
+                    <path d="m12 1.608 12 20.784H0Z" /></svg
+                  >Vercel</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#F38020">
+                    <path
+                      d="M16.5088 16.8447c.1475-.5068.0908-.9707-.1553-1.3154-.2246-.3164-.6045-.499-1.0615-.5205l-8.6592-.1123a.1559.1559 0 0 1-.1333-.0713c-.0283-.042-.0351-.0986-.021-.1553.0278-.084.1123-.1484.2036-.1562l8.7359-.1123c1.0351-.0489 2.1601-.8868 2.5537-1.9136l.499-1.3013c.0215-.0561.0293-.1128.0147-.168-.5625-2.5463-2.835-4.4453-5.5499-4.4453-2.5039 0-4.6284 1.6177-5.3876 3.8614-.4927-.3658-1.1187-.5625-1.794-.499-1.2026.119-2.1665 1.083-2.2861 2.2856-.0283.31-.0069.6128.0635.894C1.5683 13.171 0 14.7754 0 16.752c0 .1748.0142.3515.0352.5273.0141.083.0844.1475.1689.1475h15.9814c.0909 0 .1758-.0645.2032-.1553l.12-.4268zm2.7568-5.5634c-.0771 0-.1611 0-.2383.0112-.0566 0-.1054.0415-.127.0976l-.3378 1.1744c-.1475.5068-.0918.9707.1543 1.3164.2256.3164.6055.498 1.0625.5195l1.8437.1133c.0557 0 .1055.0263.1329.0703.0283.043.0351.1074.0214.1562-.0283.084-.1132.1485-.204.1553l-1.921.1123c-1.041.0488-2.1582.8867-2.5527 1.914l-.1406.3585c-.0283.0713.0215.1416.0986.1416h6.5977c.0771 0 .1474-.0489.169-.126.1122-.4082.1757-.837.1757-1.2803 0-2.6025-2.125-4.727-4.7344-4.727"
+                    /></svg
+                  >Cloudflare R2</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#111111">
+                    <path
+                      d="M14.679 0c4.648 0 7.413 2.765 7.413 6.434s-2.765 6.434-7.413 6.434H12.33L24 24h-8.245l-8.88-8.44c-.636-.588-.93-1.273-.93-1.86 0-.831.587-1.565 1.713-1.883l4.574-1.224c1.737-.465 2.936-1.81 2.936-3.572 0-2.153-1.761-3.4-3.939-3.4H0V0z"
+                    /></svg
+                  >Resend</span
+                >
+              </div>
+              <span class="stack-desc">Server Singapura (desanara.app), foto, dan email</span>
             </div>
-            <div>
-              <span class="k em">Cara kerja tim</span
-              ><span>Dikembangkan dengan bantuan Claude Code, dokumentasinya lengkap di repo</span>
+            <div class="stack-row">
+              <span class="k em">Cara kerja tim</span>
+              <div class="stack-chips">
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#D97757">
+                    <path
+                      d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"
+                    /></svg
+                  >Claude Code</span
+                >
+                <span class="tech-chip"
+                  ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#181717">
+                    <path
+                      d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                    /></svg
+                  >GitHub</span
+                >
+              </div>
+              <span class="stack-desc">Dikembangkan bareng AI, dokumentasi lengkap di repo</span>
             </div>
           </div>
-          <p class="small mtauto">
-            Kode terbuka di GitHub (MIT). Biaya platform saat ini Rp0 kecuali domain.
-          </p>
+          <div class="stack-foot mtauto">
+            <span class="gh"
+              ><svg aria-hidden="true" viewBox="0 0 24 24" fill="#181717">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                /></svg
+              >Kode terbuka di GitHub (lisensi MIT)</span
+            >
+            <span class="small" style="color: var(--green-ink); font-weight: 600"
+              >Biaya platform saat ini Rp0 kecuali domain</span
+            >
+          </div>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1825,44 +3310,98 @@
         <!-- 14 goals -->
         <section class="slide" data-title="Tujuan kegiatan" data-section="Seminar">
           <h2>Yang dibawa pulang peserta</h2>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px" class="mt7">
-            <div class="rows">
-              <div style="grid-template-columns: 1fr">
-                <span
-                  ><b>Mengenali peluang usaha</b><br /><span class="muted"
-                    >dari masalah sehari-hari dan kebutuhan pelanggan yang belum terpenuhi</span
-                  ></span
-                >
+          <div
+            style="
+              display: grid;
+              grid-template-columns: minmax(0, 1fr) 336px;
+              gap: 44px;
+              flex: 1;
+              min-block-size: 0;
+            "
+            class="mt6"
+          >
+            <div style="display: flex; flex-direction: column; gap: 12px">
+              <div class="goal-item">
+                <span class="g-num">01</span>
+                <div>
+                  <p class="body"><b>Mengenali peluang usaha</b></p>
+                  <p class="small">
+                    Dari masalah sehari-hari dan kebutuhan pelanggan yang belum terpenuhi.
+                  </p>
+                </div>
               </div>
-              <div style="grid-template-columns: 1fr">
-                <span
-                  ><b>Mengenali hambatan pertumbuhan</b><br /><span class="muted"
-                    >lalu menentukan langkah perbaikan untuk usahanya</span
-                  ></span
-                >
+              <div class="goal-item">
+                <span class="g-num">02</span>
+                <div>
+                  <p class="body"><b>Mempertahankan pelanggan</b></p>
+                  <p class="small">
+                    Belajar dari bisnis besar, disesuaikan dengan skala usaha desa.
+                  </p>
+                </div>
+              </div>
+              <div class="goal-item">
+                <span class="g-num">03</span>
+                <div>
+                  <p class="body"><b>Mengenali hambatan pertumbuhan</b></p>
+                  <p class="small">Lalu menentukan langkah perbaikan untuk usahanya sendiri.</p>
+                </div>
+              </div>
+              <div class="goal-item hi">
+                <span class="g-num">04</span>
+                <div>
+                  <p class="body"><b class="em">Punya halaman usaha di Desanara</b></p>
+                  <p class="small" style="color: var(--green-ink)">
+                    Dibuat bersama panitia saat praktik, langsung bisa dibagikan ke pembeli.
+                  </p>
+                </div>
               </div>
             </div>
-            <div class="rows">
-              <div style="grid-template-columns: 1fr">
-                <span
-                  ><b>Mempertahankan pelanggan</b><br /><span class="muted"
-                    >belajar dari bisnis besar, disesuaikan dengan skala usaha</span
-                  ></span
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <figure
+                style="
+                  position: relative;
+                  margin: 0;
+                  border-radius: 14px;
+                  overflow: clip;
+                  flex: 1;
+                  min-block-size: 0;
+                "
+              >
+                <img
+                  data-img="lamp"
+                  alt="Kerajinan lampu anyaman"
+                  style="inline-size: 100%; block-size: 100%; object-fit: cover; display: block"
+                />
+                <figcaption
+                  style="
+                    position: absolute;
+                    inset-inline: 0;
+                    inset-block-end: 0;
+                    padding: 28px 16px 14px;
+                    background: linear-gradient(
+                      to top,
+                      rgba(16, 26, 20, 0.84) 0%,
+                      rgba(16, 26, 20, 0) 100%
+                    );
+                    color: #fff;
+                    font: 600 14px/1.35 var(--font);
+                  "
                 >
+                  Dari meja pelatihan langsung tampil di etalase digital.
+                </figcaption>
+              </figure>
+              <div class="surface-card wash" style="margin-top: 12px; padding: 14px 16px">
+                <p class="hint">Cara mengukur dampak</p>
+                <p class="small" style="margin-top: 6px; color: var(--ink)">
+                  <b>01–03</b> diukur lewat pre-test &amp; post-test; <b>04</b> diukur dari jumlah
+                  UMKM yang tayang.
+                </p>
               </div>
-              <div style="grid-template-columns: 1fr">
-                <span
-                  ><b class="em">Punya halaman usaha di Desanara</b><br /><span class="muted"
-                    >dibuat bersama panitia, langsung bisa dibagikan</span
-                  ></span
-                >
-              </div>
+              <p class="credit" style="margin-top: 8px">
+                Ilustrasi kerajinan: Valenzuela400 (CC BY-SA 4.0).
+              </p>
             </div>
           </div>
-          <p class="small mtauto">
-            Tiga tujuan pertama diukur dengan pre-test dan post-test; yang keempat dengan jumlah
-            UMKM yang tayang.
-          </p>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1874,25 +3413,58 @@
         <!-- 15 Materi 1 -->
         <section class="slide wash" data-title="Materi 1" data-section="Seminar">
           <h2>Materi 1: peluang bisnis di era digital</h2>
-          <p class="sub">45 menit, dibawakan pemateri dari Tim Materi.</p>
-          <div class="seq mt8">
-            <div>
-              <span class="n">1</span>
-              <h3>Membaca peluang</h3>
-              <p class="small">Dari masalah sehari-hari dan kebutuhan pelanggan.</p>
-            </div>
-            <div>
-              <span class="n">2</span>
-              <h3>Pembelian ulang</h3>
-              <p class="small">Strategi mempertahankan pelanggan, contoh dari bisnis besar.</p>
-            </div>
-            <div>
-              <span class="n">3</span>
-              <h3>Hambatan pertumbuhan</h3>
-              <p class="small">Mengenali hambatan usaha lokal dan langkah perbaikannya.</p>
-            </div>
+          <p class="sub" style="margin-top: 8px">45 menit, dibawakan pemateri dari Tim Materi.</p>
+          <div class="photo-cards mt6">
+            <article class="photo-card">
+              <div class="pc-media">
+                <img data-img="ubi-chips" alt="Olahan keripik ubi" />
+                <span class="pc-num">01</span>
+              </div>
+              <div class="pc-body">
+                <h3>Membaca peluang</h3>
+                <p class="small">
+                  Dari masalah sehari-hari, bahan lokal, dan kebutuhan pelanggan yang belum
+                  terpenuhi.
+                </p>
+              </div>
+            </article>
+            <article class="photo-card">
+              <div class="pc-media">
+                <img data-img="bandrek" alt="Minuman tradisional bandrek" />
+                <span class="pc-num">02</span>
+              </div>
+              <div class="pc-body">
+                <h3>Pembelian ulang</h3>
+                <p class="small">
+                  Strategi menjaga kualitas dan mempertahankan pelanggan, belajar dari bisnis besar.
+                </p>
+              </div>
+            </article>
+            <article class="photo-card">
+              <div class="pc-media">
+                <img data-img="spoons" alt="Kerajinan kayu tradisional" />
+                <span class="pc-num">03</span>
+              </div>
+              <div class="pc-body">
+                <h3>Hambatan pertumbuhan</h3>
+                <p class="small">
+                  Mengenali kendala usaha lokal dan menentukan langkah perbaikan yang realistis.
+                </p>
+              </div>
+            </article>
           </div>
-          <p class="statement mtauto">Soal pre-test dan post-test diambil dari tiga pokok ini.</p>
+          <div
+            style="display: flex; align-items: center; justify-content: space-between; gap: 24px"
+            class="mtauto"
+          >
+            <p class="answer-bar" style="font-size: 18px; flex: 1">
+              Soal pre-test dan post-test diambil langsung dari tiga pokok bahasan ini.
+            </p>
+            <p class="credit" style="max-width: 260px; text-align: right">
+              Ilustrasi: Fumikas Sagisavas (CC0), Midori (CC BY 3.0), Gabriela sellart (CC BY-SA
+              4.0).
+            </p>
+          </div>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1919,8 +3491,9 @@
               <span>07.30</span><span>08.30</span><span>09.30</span><span>10.30</span
               ><span>11.30</span><span>12.10</span>
             </div>
-            <div class="panel mt6" id="rundown-panel"></div>
+            <div class="panel rundown-card mt6" id="rundown-panel"></div>
           </div>
+          <p class="hint mtauto">Klik blok waktu di atas atau tekan panah untuk menelusuri sesi.</p>
           <div class="foot"></div>
           <aside class="notes">
             <ul>
@@ -1936,7 +3509,7 @@
         <!-- 17 demo + practice -->
         <section class="slide wash" data-title="Demo dan praktik" data-section="Seminar">
           <h2>Demo dari tiga peran, lalu langsung praktik</h2>
-          <div class="seq mt8">
+          <div class="seq mt7">
             <div>
               <span class="n">1</span>
               <h3>Pembeli</h3>
@@ -1958,16 +3531,16 @@
               <p class="small">Peserta dibagi ke pendamping dan membuat halaman usaha.</p>
             </div>
           </div>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px" class="mtauto">
-            <div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px" class="mtauto">
+            <div class="surface-card">
               <h3>Supaya praktik cukup 45 menit</h3>
               <ul class="list sm mt5">
                 <li>Humas mendata nama usaha dan nomor WhatsApp sebelum hari H.</li>
                 <li>Saat praktik tinggal melengkapi foto dan produk.</li>
               </ul>
             </div>
-            <div>
-              <h3>Kalau ada masalah</h3>
+            <div class="surface-card">
+              <h3>Kalau ada masalah di lokasi</h3>
               <ul class="list sm mt5">
                 <li>Video demo offline di 2 laptop dan 2 hotspot beda operator.</li>
                 <li>Tidak ada deploy mulai 3 Desember.</li>
@@ -2099,132 +3672,199 @@
           </aside>
         </section>
 
-        <!-- 19 committee -->
+        <!-- 21 committee -->
         <section class="slide wash" data-title="Struktur panitia" data-section="Panitia">
           <h2>Ketua, sekretaris, bendahara, dan enam divisi</h2>
-          <div class="picker mt7 grow" style="display: flex; flex-direction: column">
-            <div class="tabs h">
-              <button class="pick on" data-key="acara">Acara<small>3 pendaftar</small></button>
-              <button class="pick" data-key="dev">Tim Dev<small>4 pendaftar</small></button>
-              <button class="pick" data-key="materi">Materi<small>6 pendaftar</small></button>
-              <button class="pick" data-key="humas">
-                Humas &amp; Pendamping<small>12 pendaftar</small>
+          <p class="small" style="margin-top: 10px; font-size: 17px">
+            Pengurus inti: <b style="color: var(--ink)">Ketua Pelaksana · Sekretaris · Bendahara</b>
+            <span class="muted"> — total 37 pendaftar di 6 divisi.</span>
+          </p>
+          <div
+            class="picker mt6"
+            style="
+              display: grid;
+              grid-template-columns: 310px minmax(0, 1fr);
+              gap: 44px;
+              align-items: start;
+            "
+          >
+            <div class="div-tabs">
+              <button class="pick on warn" data-key="acara">
+                <span>Acara</span><span class="cnt">3 · kurang</span>
               </button>
-              <button class="pick" data-key="pdd">PDD<small>5 pendaftar</small></button>
+              <button class="pick" data-key="dev">
+                <span>Tim Dev</span><span class="cnt">4 orang</span>
+              </button>
+              <button class="pick" data-key="materi">
+                <span>Materi &amp; Edukasi</span><span class="cnt">6 orang</span>
+              </button>
+              <button class="pick" data-key="humas">
+                <span>Humas &amp; Pendamping</span><span class="cnt">12 orang</span>
+              </button>
+              <button class="pick" data-key="pdd">
+                <span>PDD</span><span class="cnt">5 orang</span>
+              </button>
               <button class="pick" data-key="logistik">
-                Logistik &amp; Konsumsi<small>7 pendaftar</small>
+                <span>Logistik &amp; Konsumsi</span><span class="cnt">7 orang</span>
               </button>
             </div>
-            <div class="panel mt6">
+            <div class="panel">
               <div data-key="acara" class="on">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">
-                      Rundown, MC, cetak lembar persetujuan data dan tes, memimpin gladi.
-                    </p>
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>Divisi Acara</h3>
+                    <span class="div-badge warn">3 pendaftar · perlu tambahan</span>
                   </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">MC, registrasi, pre-test, post-test, penutupan.</p>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>Rundown, MC, cetak lembar persetujuan data dan tes, memimpin gladi.</p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>MC, registrasi, pre-test, post-test, penutupan.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 style="color: var(--clay)">Perlu tambahan orang</h3>
-                    <p class="body muted">
-                      Ambil dari pendaftar dengan keahlian public speaking dan administrasi.
+                  <div class="div-note warn">
+                    <b>Perlu tambahan orang</b>
+                    <p>
+                      Ambil dari pendaftar dengan keahlian public speaking (12 orang) dan
+                      administrasi (13 orang).
                     </p>
                   </div>
                 </div>
               </div>
               <div data-key="dev">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">Fitur prioritas, UAT, akun demo, video demo cadangan.</p>
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>Tim Dev</h3>
+                    <span class="div-badge">4 pendaftar</span>
                   </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">Demo Desanara, operator laptop, mendampingi praktik.</p>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>Fitur prioritas, UAT, akun demo, dan video demo cadangan offline.</p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>Demo Desanara, operator laptop, dan mendampingi praktik peserta.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3>Catatan</h3>
-                    <p class="body muted">
-                      8 pendaftar punya keahlian IT; bisa jadi pendamping teknis.
+                  <div class="div-note">
+                    <b>Catatan pembagian</b>
+                    <p>
+                      8 pendaftar punya keahlian IT/web; bisa dilibatkan sebagai pendamping teknis
+                      saat praktik.
                     </p>
                   </div>
                 </div>
               </div>
               <div data-key="materi">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">
-                      Slide Materi 1, soal pre-test dan post-test, panduan singkat.
-                    </p>
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>Materi &amp; Edukasi</h3>
+                    <span class="div-badge">6 pendaftar</span>
                   </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">Materi 1, tanya jawab, rekap nilai tes.</p>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>
+                        Slide Materi 1, soal pre-test dan post-test, serta panduan singkat 1 lembar.
+                      </p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>Membawakan Materi 1, memandu tanya jawab, dan merekap nilai tes.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3>Catatan</h3>
-                    <p class="body muted">
-                      Jangan mengulang pelatihan yang sudah pernah diterima UMKM.
+                  <div class="div-note">
+                    <b>Catatan materi</b>
+                    <p>
+                      Jangan mengulang pelatihan yang sudah pernah diterima UMKM (foto produk, label
+                      kemasan, public speaking).
                     </p>
                   </div>
                 </div>
               </div>
               <div data-key="humas">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">
-                      Undangan lewat perangkat desa, mendatangi dan mendata UMKM.
-                    </p>
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>Humas &amp; Pendamping</h3>
+                    <span class="div-badge">12 pendaftar · terbanyak</span>
                   </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">Registrasi dan mendampingi praktik halaman usaha.</p>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>
+                        Undangan lewat perangkat desa, mendatangi dan mendata UMKM sebelum acara.
+                      </p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>Registrasi peserta dan mendampingi praktik pembuatan halaman usaha.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3>Catatan</h3>
-                    <p class="body muted">
-                      Beban terberat. Dekati pengrajin fashion secara personal.
+                  <div class="div-note">
+                    <b>Catatan lapangan</b>
+                    <p>
+                      Beban lapangan terberat. Dekati pengrajin fashion khas Sunda secara personal
+                      sebelum hari H.
                     </p>
                   </div>
                 </div>
               </div>
               <div data-key="pdd">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">Poster dan publikasi di Instagram HIMASIF, banner.</p>
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>PDD (Publikasi &amp; Dokumentasi)</h3>
+                    <span class="div-badge">5 pendaftar</span>
                   </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">Foto dan video, live story, bahan recap.</p>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>
+                        Poster, banner 3 × 1 m, dan publikasi di Instagram HIMASIF sesuai panduan
+                        brand.
+                      </p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>Foto dan video kegiatan, live story, serta bahan konten recap.</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3>Catatan</h3>
-                    <p class="body muted">Bisa membantu memotret produk peserta saat praktik.</p>
+                  <div class="div-note">
+                    <b>Catatan tambahan</b>
+                    <p>Bisa ikut membantu memotret produk peserta yang rapi saat sesi praktik.</p>
                   </div>
                 </div>
               </div>
               <div data-key="logistik">
-                <div class="cols">
-                  <div>
-                    <h3>Sebelum hari H</h3>
-                    <p class="body muted">
-                      Survei Kantor Desa, banner 3 x 1 m, lunchbox, doorprize.
+                <div class="div-card">
+                  <div class="div-head">
+                    <h3>Logistik &amp; Konsumsi</h3>
+                    <span class="div-badge">7 pendaftar</span>
+                  </div>
+                  <div class="div-grid">
+                    <div class="div-box">
+                      <p class="k">Sebelum hari H</p>
+                      <p>
+                        Survei Kantor Desa, cetak banner 3 × 1 m, pesan lunchbox, dan doorprize.
+                      </p>
+                    </div>
+                    <div class="div-box">
+                      <p class="k">Saat hari H</p>
+                      <p>
+                        Siapkan proyektor dan sound pukul 07.30, istirahat, serta distribusi
+                        konsumsi.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="div-note">
+                    <b>Catatan teknis lokasi</b>
+                    <p>
+                      Siapkan 2 hotspot beda operator dan terminal listrik cadangan di ruang
+                      praktik.
                     </p>
-                  </div>
-                  <div>
-                    <h3>Hari H</h3>
-                    <p class="body muted">Siapkan alat pukul 07.30, istirahat, konsumsi.</p>
-                  </div>
-                  <div>
-                    <h3>Catatan</h3>
-                    <p class="body muted">2 hotspot beda operator dan terminal listrik.</p>
                   </div>
                 </div>
               </div>
@@ -2241,16 +3881,132 @@
           </aside>
         </section>
 
-        <!-- 20 timeline -->
+        <!-- 22 field quota -->
+        <section class="slide" data-title="Kuota tim hari H" data-section="Panitia">
+          <h2>Tim lapangan hari H dikurasi maksimal 20 orang</h2>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 0.94fr 1.06fr;
+              gap: 44px;
+              flex: 1;
+              min-block-size: 0;
+            "
+            class="mt5"
+          >
+            <div style="display: flex; flex-direction: column; min-block-size: 0">
+              <div class="funnel-strip">
+                <div class="funnel-box">
+                  <span class="num">37</span>
+                  <span>Total pendaftar</span>
+                </div>
+                <div class="funnel-box">
+                  <span class="num">28</span>
+                  <span>Siap hadir hari H</span>
+                </div>
+                <div class="funnel-box hi">
+                  <span class="num">≤ 20</span>
+                  <span>Turun ke desa</span>
+                </div>
+              </div>
+              <div class="step-list mt5">
+                <div class="step-item">
+                  <span class="step-num">01</span>
+                  <div>
+                    <h3>Kapasitas tempat</h3>
+                    <p class="small">
+                      Ruang di Kantor Desa Baros diprioritaskan untuk 30–60 peserta UMKM agar sesi
+                      praktik tetap lega.
+                    </p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">02</span>
+                  <div>
+                    <h3>Keterbatasan anggaran</h3>
+                    <p class="small">
+                      Konsumsi dan logistik panitia di luar anggaran proposal Rp910.000, jadi jumlah
+                      tim lapangan perlu dijaga.
+                    </p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-num">03</span>
+                  <div>
+                    <h3>Efektivitas di lokasi</h3>
+                    <p class="small">
+                      Menghindari panitia berlebih dan tumpang tindih tugas; semua yang hadir punya
+                      peran konkret.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 14px; min-block-size: 0">
+              <div class="surface-card" style="padding: 22px 26px">
+                <div class="phase-row">
+                  <div class="phase-head">
+                    <b>Pra-acara (persiapan)</b>
+                    <span class="phase-pill">20 Nov – 4 Des</span>
+                  </div>
+                  <p class="small">
+                    Seluruh panitia tetap berkontribusi di pendataan UMKM, penyusunan materi &amp;
+                    tes, dev fitur, publikasi, dan logistik.
+                  </p>
+                </div>
+                <div class="phase-row">
+                  <div class="phase-head">
+                    <b>Hari H di Desa Baros</b>
+                    <span class="phase-pill hi">Kurasi maks. 20 orang</span>
+                  </div>
+                  <p class="small">
+                    Dipilih per divisi sesuai kebutuhan peran inti (Acara, operator demo, pendamping
+                    utama, dokumentasi, logistik) serta keaktifan saat persiapan &amp; gladi bersih.
+                  </p>
+                </div>
+                <div class="phase-row">
+                  <div class="phase-head">
+                    <b>Pasca-acara (evaluasi &amp; LPJ)</b>
+                    <span class="phase-pill">6 – 12 Des</span>
+                  </div>
+                  <p class="small">
+                    Rekap nilai pre/post-test, laporan dampak Desanara, konten recap, dan LPJ —
+                    butuh dukungan anggota di luar tim lapangan.
+                  </p>
+                </div>
+              </div>
+              <p class="answer-bar mtauto" style="font-size: 16.5px">
+                Semua pendaftar tetap bagian dari kepanitiaan; daftar final tim lapangan ditetapkan
+                koordinator divisi menjelang gladi bersih.
+              </p>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Sampaikan sejak awal di rapat agar semua pendaftar tahu aturan mainnya dan tidak ada
+                salah paham saat penetapan tim lapangan.
+              </li>
+              <li>
+                Tekankan bahwa pra-acara dan pasca-acara sama pentingnya dengan hari H; justru
+                pasca-acara baru terisi 13 orang.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 23 timeline -->
         <section class="slide" data-title="Timeline" data-section="Panitia">
           <h2>Tiga minggu sampai hari H</h2>
-          <div class="picker mt6">
+          <div class="picker mt5">
             <div class="tl-axis">
               <span></span>
               <div class="ticks" id="tl-ticks"></div>
             </div>
-            <div id="timeline"></div>
-            <div class="panel mt5" id="timeline-panel"></div>
+            <div class="tl-wrap" id="timeline"></div>
+            <div class="panel tl-panel-card mt5" id="timeline-panel"></div>
           </div>
           <div class="foot"></div>
           <aside class="notes">
@@ -2263,50 +4019,64 @@
         <!-- 21 budget -->
         <section class="slide wash" data-title="Anggaran" data-section="Panitia">
           <h2>Anggaran proposal Rp910.000, belum termasuk panitia</h2>
-          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 64px" class="mt7">
-            <table>
-              <thead>
-                <tr>
-                  <th>Pos</th>
-                  <th class="r">Jumlah</th>
-                  <th class="r">Harga satuan</th>
-                  <th class="r">Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Banner 3 x 1 m</td>
-                  <td class="r">1</td>
-                  <td class="r">Rp60.000</td>
-                  <td class="r">Rp60.000</td>
-                </tr>
-                <tr>
-                  <td>Lunchbox peserta</td>
-                  <td class="r">60</td>
-                  <td class="r">Rp12.500</td>
-                  <td class="r">Rp750.000</td>
-                </tr>
-                <tr>
-                  <td>Doorprize peserta aktif</td>
-                  <td class="r">5</td>
-                  <td class="r">Rp20.000</td>
-                  <td class="r">Rp100.000</td>
-                </tr>
-                <tr class="total">
-                  <td>Total</td>
-                  <td></td>
-                  <td></td>
-                  <td class="r">Rp910.000</td>
-                </tr>
-              </tbody>
-            </table>
-            <div>
-              <h3 style="color: var(--clay)">Belum dianggarkan</h3>
-              <ul class="list sm mt5">
-                <li>Konsumsi panitia (28 siap hadir di hari H)</li>
-                <li>Cetak lembar tes dan persetujuan data</li>
-                <li>Kuota atau hotspot cadangan</li>
-              </ul>
+          <div
+            style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 44px; align-items: start"
+            class="mt6"
+          >
+            <div class="surface-card" style="padding: 22px 26px">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Pos</th>
+                    <th class="r">Jumlah</th>
+                    <th class="r">Harga satuan</th>
+                    <th class="r">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Banner 3 × 1 m</td>
+                    <td class="r">1</td>
+                    <td class="r">Rp60.000</td>
+                    <td class="r">Rp60.000</td>
+                  </tr>
+                  <tr>
+                    <td>Lunchbox peserta</td>
+                    <td class="r">60</td>
+                    <td class="r">Rp12.500</td>
+                    <td class="r">Rp750.000</td>
+                  </tr>
+                  <tr>
+                    <td>Doorprize peserta aktif</td>
+                    <td class="r">5</td>
+                    <td class="r">Rp20.000</td>
+                    <td class="r">Rp100.000</td>
+                  </tr>
+                  <tr class="total">
+                    <td>Total proposal</td>
+                    <td></td>
+                    <td></td>
+                    <td class="r">Rp910.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 16px">
+              <div class="budget-hero">
+                <p class="hint">Biaya langsung per peserta (target 60 UMKM)</p>
+                <p class="big" style="margin-top: 6px">Rp15.167</p>
+                <p class="small" style="margin-top: 6px">
+                  82% anggaran proposal dipakai untuk konsumsi peserta.
+                </p>
+              </div>
+              <div class="budget-warn">
+                <h3 style="color: var(--clay)">Belum dianggarkan</h3>
+                <ul class="list sm mt5">
+                  <li>Konsumsi panitia (tim lapangan maks. 20 orang)</li>
+                  <li>Cetak lembar tes dan persetujuan data</li>
+                  <li>Kuota atau hotspot cadangan</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="foot"></div>
@@ -2373,12 +4143,17 @@
 
         <!-- 23 decisions -->
         <section class="slide wash" data-title="Keputusan rapat" data-section="Panitia">
-          <h2>Yang perlu diputuskan sebelum rapat selesai</h2>
-          <div class="check mt6" id="decisions">
+          <div
+            style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px"
+          >
+            <h2>Yang perlu diputuskan sebelum rapat selesai</h2>
+            <span class="check-pill" id="dec-count"><b>0</b> / 7 diputuskan</span>
+          </div>
+          <div class="check mt5" id="decisions">
             <label
               ><input type="checkbox" data-id="d1" /><span
-                ><b>Koordinator dan anggota tiap divisi</b>, termasuk tambahan orang untuk
-                Acara</span
+                ><b>Koordinator, anggota tiap divisi, dan kurasi tim hari H</b> (maks. 20 orang,
+                termasuk tambahan untuk Acara)</span
               ></label
             >
             <label
@@ -2416,6 +4191,7 @@
             >
           </div>
           <p class="hint mt5">Centang tersimpan di browser ini saja.</p>
+          <div class="foot"></div>
           <aside class="notes">
             <ul>
               <li>Tutup rapat dengan menyebut siapa yang memegang setiap keputusan.</li>
@@ -2425,8 +4201,11 @@
 
         <!-- 24 demo -->
         <section class="slide" data-title="Demo langsung" data-section="Penutup">
-          <div style="display: flex; align-items: center; gap: 72px; height: 100%">
-            <div class="qr">{{QR}}</div>
+          <div style="display: flex; align-items: center; gap: 64px; height: 100%">
+            <div class="qr-card">
+              <div class="qr">{{QR}}</div>
+              <span class="qr-url">desanara.app</span>
+            </div>
             <div>
               <h2>Buka desanara.app di HP kalian sekarang</h2>
               <p class="sub">
@@ -2457,19 +4236,48 @@
         </section>
 
         <!-- 25 close -->
-        <section class="slide dark photo-slide" data-title="Penutup" data-section="Penutup">
-          <div style="width: 46%; display: flex; flex-direction: column; height: 100%">
+        <section class="slide dark" data-title="Penutup" data-section="Penutup">
+          <div style="width: 44%; display: flex; flex-direction: column; height: 100%">
             {{LOGO_WHITE}}
             <h1 style="margin-top: auto">Sampai jumpa di Desa Baros.</h1>
             <p class="sub">
               Tenggat terdekat: proposal dan izin desa 23 November, feature freeze 28 November.
             </p>
+            <p class="body mt6" style="color: #fff; font-weight: 600">
+              Sabtu, 5 Desember 2026<span
+                style="color: rgba(255, 255, 255, 0.78); font-weight: 400"
+              >
+                · Kantor Desa Baros</span
+              >
+            </p>
           </div>
-          <figure class="photo" style="left: 54%; right: 0; margin: 0">
-            <img data-img="sawah" alt="Sawah terasering di pedesaan Jawa Barat" />
-            <figcaption>Sabtu, 5 Desember 2026 · Desa Baros</figcaption>
-            <small class="photo-credit">Foto: Daniel Julie, CC BY 2.0</small>
-          </figure>
+          <div class="close-mosaic">
+            <figure>
+              <img data-img="lamp" alt="Kerajinan lampu anyaman" />
+              <figcaption>Kerajinan desa</figcaption>
+            </figure>
+            <figure>
+              <img data-img="batik-green" alt="Kain batik hijau" />
+              <figcaption>Wastra &amp; fashion</figcaption>
+            </figure>
+            <figure>
+              <img data-img="bandrek" alt="Minuman tradisional" />
+              <figcaption>Kuliner lokal</figcaption>
+            </figure>
+          </div>
+          <p
+            class="credit"
+            style="
+              position: absolute;
+              inset-inline-start: 52%;
+              inset-inline-end: 56px;
+              inset-block-end: 16px;
+              text-align: right;
+            "
+          >
+            Ilustrasi Wikimedia Commons: Valenzuela400 (CC BY-SA 4.0), Fpangestuphotographer (CC
+            BY-SA 4.0), Midori (CC BY 3.0).
+          </p>
           <aside class="notes">
             <ul>
               <li>Ulangi siapa memegang keputusan apa.</li>
@@ -2479,16 +4287,84 @@
       </div>
     </div>
 
-    <div id="hud">
-      <button id="b-prev" aria-label="Sebelumnya">Sebelumnya</button
-      ><span class="count" id="count">1 / 25</span
-      ><button id="b-next" aria-label="Berikutnya">Berikutnya</button
-      ><button id="b-over">Daftar</button><button id="b-pres">Presenter</button
-      ><button id="b-full">Layar penuh</button>
-    </div>
+    <nav id="hud-wrap" aria-label="Navigasi slide">
+      <div id="hud">
+        <button id="b-prev" type="button" aria-label="Slide sebelumnya" title="Sebelumnya (←)">
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path
+              d="M12.5 4.5 7 10l5.5 5.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="lbl">Sebelumnya</span>
+        </button>
+        <span class="count" id="count" aria-live="polite">1 / 28</span>
+        <button id="b-next" type="button" aria-label="Slide berikutnya" title="Berikutnya (→)">
+          <span class="lbl">Berikutnya</span>
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path
+              d="M7.5 4.5 13 10l-5.5 5.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <span class="sep" aria-hidden="true"></span>
+        <button id="b-over" type="button" aria-label="Daftar slide" title="Daftar slide (O)">
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path
+              d="M3.5 4.5h5v4.5h-5zm8 0h5v4.5h-5zm-8 7h5V16h-5zm8 0h5V16h-5z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="lbl">Daftar</span>
+        </button>
+        <button id="b-pres" type="button" aria-label="Mode presenter" title="Mode presenter (P)">
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path
+              d="M3 4.5h14v9H3zm7 9v3m-3.5 0h7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="lbl">Presenter</span>
+        </button>
+        <button id="b-full" type="button" aria-label="Layar penuh" title="Layar penuh (F)">
+          <svg aria-hidden="true" viewBox="0 0 20 20" width="16" height="16">
+            <path
+              d="M3.5 7.5v-4h4m9 4v-4h-4m-9 9v4h4m9-4v4h-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          <span class="lbl">Layar penuh</span>
+        </button>
+      </div>
+    </nav>
 
     <div id="overview" role="dialog" aria-label="Daftar slide">
-      <h2>Daftar slide</h2>
+      <div class="ov-head">
+        <h2>Daftar slide</h2>
+        <button class="ov-close" id="ov-close" type="button" aria-label="Tutup daftar slide">
+          Tutup
+        </button>
+      </div>
       <div class="grid" id="ov-grid"></div>
       <p class="keys">
         <kbd>←</kbd> <kbd>→</kbd> atau <kbd>Spasi</kbd> pindah item dan slide · <kbd>Home</kbd>
@@ -2532,15 +4408,15 @@
 
         /* ---------- data-driven diagrams ---------- */
         var rundown = [
-          { t: '07.30–08.15', m: 45, k: 'ops', a: 'Persiapan peralatan dan akun demo', p: 'Logistik/Acara & Dev', d: 'Tes proyektor, sound, hotspot, dan login akun demo di laptop utama dan cadangan.' },
-          { t: '08.15–09.00', m: 45, k: 'ops', a: 'Registrasi, persetujuan data, pre-test', p: 'Acara & Humas', d: 'Daftar hadir, lembar persetujuan penggunaan data, lalu pre-test.' },
-          { t: '09.00–09.15', m: 15, k: 'ops', a: 'Pembukaan dan sambutan', p: 'MC/Acara', d: 'Sambutan pihak desa dan HIMASIF.' },
-          { t: '09.15–10.00', m: 45, k: 'edu', a: 'Materi 1', p: 'Pemateri, Tim Materi', d: 'Peluang usaha, pembelian ulang, hambatan pertumbuhan usaha.' },
-          { t: '10.00–10.15', m: 15, k: 'ops', a: 'Istirahat', p: 'Logistik & Acara', d: 'Siapkan meja praktik dan bagi peserta ke pendamping.' },
-          { t: '10.15–11.00', m: 45, k: 'demo', a: 'Materi 2 (Demo Desanara)', p: 'Tim Dev', d: 'Demo dari sisi pembeli, pemilik UMKM, dan admin desa.' },
-          { t: '11.00–11.45', m: 45, k: 'demo', a: 'Praktik halaman usaha dan unggah produk', p: 'Humas & Dev', d: 'Peserta didampingi membuat halaman usaha dan mengunggah produk.' },
-          { t: '11.45–12.00', m: 15, k: 'edu', a: 'Post-test dan tanya jawab', p: 'Seksi Acara dan Tim Materi', d: 'Soal sama dengan pre-test. Doorprize untuk 5 peserta paling aktif.' },
-          { t: '12.00–12.10', m: 10, k: 'ops', a: 'Penutupan dan foto bersama', p: 'Seksi Acara dan Dokumentasi', d: 'Foto bersama, lalu makan siang.' }
+          { t: '07.30–08.15', m: 45, k: 'ops', s: 'Persiapan & akun demo', a: 'Persiapan peralatan dan akun demo', p: 'Logistik/Acara & Dev', d: 'Tes proyektor, sound, hotspot, dan login akun demo di laptop utama dan cadangan.' },
+          { t: '08.15–09.00', m: 45, k: 'ops', s: 'Registrasi & pre-test', a: 'Registrasi, persetujuan data, pre-test', p: 'Acara & Humas', d: 'Daftar hadir, lembar persetujuan penggunaan data, lalu pre-test.' },
+          { t: '09.00–09.15', m: 15, k: 'ops', s: 'Sambutan', a: 'Pembukaan dan sambutan', p: 'MC/Acara', d: 'Sambutan pihak desa dan HIMASIF.' },
+          { t: '09.15–10.00', m: 45, k: 'edu', s: 'Materi 1', a: 'Materi 1', p: 'Pemateri, Tim Materi', d: 'Peluang usaha, pembelian ulang, hambatan pertumbuhan usaha.' },
+          { t: '10.00–10.15', m: 15, k: 'ops', s: 'Istirahat', a: 'Istirahat', p: 'Logistik & Acara', d: 'Siapkan meja praktik dan bagi peserta ke pendamping.' },
+          { t: '10.15–11.00', m: 45, k: 'demo', s: 'Materi 2 (Demo)', a: 'Materi 2 (Demo Desanara)', p: 'Tim Dev', d: 'Demo dari sisi pembeli, pemilik UMKM, dan admin desa.' },
+          { t: '11.00–11.45', m: 45, k: 'demo', s: 'Praktik unggah', a: 'Praktik halaman usaha dan unggah produk', p: 'Humas & Dev', d: 'Peserta didampingi membuat halaman usaha dan mengunggah produk.' },
+          { t: '11.45–12.00', m: 15, k: 'edu', s: 'Post-test', a: 'Post-test dan tanya jawab', p: 'Seksi Acara dan Tim Materi', d: 'Soal sama dengan pre-test. Doorprize untuk 5 peserta paling aktif.' },
+          { t: '12.00–12.10', m: 10, k: 'ops', s: 'Penutup', a: 'Penutupan dan foto bersama', p: 'Seksi Acara dan Dokumentasi', d: 'Foto bersama, lalu makan siang.' }
         ];
         var strip = document.getElementById('rundown');
         var rpanel = document.getElementById('rundown-panel');
@@ -2550,13 +4426,13 @@
           b.style.setProperty('--i', String(i));
           b.dataset.key = 'r' + i;
           b.style.flex = String(r.m);
-          b.innerHTML = r.m >= 30 ? '<span>' + r.a + '</span><span class="tm">' + r.m + ' mnt</span>' : '<span class="tm">' + r.m + '</span>';
+          b.innerHTML = r.m >= 30 ? '<span>' + r.s + '</span><span class="tm">' + r.m + ' mnt</span>' : '<span class="tm">' + r.m + '</span>';
           b.title = r.t + ' · ' + r.a;
           strip.appendChild(b);
           var d = document.createElement('div');
           d.dataset.key = 'r' + i;
           if (i === 0) d.className = 'on';
-          d.innerHTML = '<div style="display:grid;grid-template-columns:240px 1fr;gap:48px;align-items:start"><div><p class="statement num" style="font-size:30px">' + r.t + '</p><p class="small" style="margin-top:6px">' + r.m + ' menit</p></div><div><h3 style="font-size:26px">' + r.a + '</h3><p class="body muted" style="margin-top:8px">' + r.d + '</p><p class="small" style="margin-top:12px">Pelaksana: <b style="color:var(--ink)">' + r.p + '</b></p></div></div>';
+          d.innerHTML = '<div style="display:grid;grid-template-columns:220px 1fr;gap:40px;align-items:start"><div><p class="statement num" style="font-size:30px">' + r.t + '</p><p class="small" style="margin-top:6px">' + r.m + ' menit</p></div><div><h3 style="font-size:24px">' + r.a + '</h3><p class="body muted" style="margin-top:8px">' + r.d + '</p><p class="small" style="margin-top:12px">Pelaksana: <b style="color:var(--ink)">' + r.p + '</b></p></div></div>';
           rpanel.appendChild(d);
         });
 
@@ -2578,10 +4454,15 @@
         var mon = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
         var fmt = function (s) { return Number(s.slice(8)) + ' ' + mon[Number(s.slice(5, 7)) - 1]; };
         var tlEl = document.getElementById('timeline'), tp = document.getElementById('timeline-panel');
-        ['2026-11-20', '2026-11-27', '2026-12-04', '2026-12-11'].forEach(function (s) {
-          var sp = document.createElement('span'); sp.style.left = pct(s) + '%'; sp.textContent = fmt(s);
+        ['2026-11-20', '2026-11-27', '2026-12-05', '2026-12-11'].forEach(function (s) {
+          var sp = document.createElement('span'); sp.style.left = pct(s) + '%'; sp.textContent = s === '2026-12-05' ? '5 Des · Hari H' : fmt(s);
+          if (s === '2026-12-05') { sp.style.color = 'var(--green)'; sp.style.fontWeight = '700'; }
           document.getElementById('tl-ticks').appendChild(sp);
         });
+        var hline = document.createElement('div');
+        hline.className = 'tl-harih';
+        hline.style.left = 'calc(236px + (100% - 236px) * ' + (pct('2026-12-05') / 100) + ')';
+        tlEl.appendChild(hline);
         tl.forEach(function (r, i) {
           var row = document.createElement('div'); row.className = 'tl-row'; row.style.setProperty('--i', String(i));
           var name = document.createElement('div'); name.className = 'name'; name.textContent = r.n;
@@ -2639,10 +4520,20 @@
             ev.stopPropagation();
           });
         });
-        document.querySelectorAll('#decisions input').forEach(function (cb) {
+        var decBoxes = Array.prototype.slice.call(document.querySelectorAll('#decisions input'));
+        var decCountEl = document.getElementById('dec-count');
+        function updateDecCount() {
+          var done = decBoxes.filter(function (c) { return c.checked; }).length;
+          if (decCountEl) decCountEl.innerHTML = '<b>' + done + '</b> / ' + decBoxes.length + ' diputuskan';
+        }
+        decBoxes.forEach(function (cb) {
           cb.checked = load('desanara-deck-' + cb.dataset.id) === '1';
-          cb.addEventListener('change', function () { store('desanara-deck-' + cb.dataset.id, cb.checked ? '1' : '0'); });
+          cb.addEventListener('change', function () {
+            store('desanara-deck-' + cb.dataset.id, cb.checked ? '1' : '0');
+            updateDecCount();
+          });
         });
+        updateDecCount();
         document.querySelectorAll('[data-goto]').forEach(function (b) {
           b.addEventListener('click', function (ev) { go(Number(b.dataset.goto) - 1, true); ev.stopPropagation(); });
         });
@@ -2705,13 +4596,19 @@
           render();
           if (broadcast !== false) sync();
         }
+        function clearButtonFocus() {
+          var ae = document.activeElement;
+          if (ae && ae.tagName === 'BUTTON' && ae.blur) ae.blur();
+        }
         // Next/previous walk through the items of an interactive slide before changing slide
         function next() {
+          clearButtonFocus();
           var pk = pickerHere();
           if (pk) { var k = stepIndex(pk); if (k < picksOf(pk).length - 1) { setPick(pk, k + 1); sync(); return; } }
           if (cur < total - 1) go(cur + 1, true, 'first');
         }
         function prev() {
+          clearButtonFocus();
           var pk = pickerHere();
           if (pk) { var k = stepIndex(pk); if (k > 0) { setPick(pk, k - 1); sync(); return; } }
           if (cur > 0) go(cur - 1, true, 'last');
@@ -2739,30 +4636,47 @@
           ovg.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('cur', i === cur); });
         }
         function fullscreen() {
-          try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (e) {}
+          try {
+            var el = document.documentElement;
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+              if (el.requestFullscreen) el.requestFullscreen();
+              else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+            } else {
+              if (document.exitFullscreen) document.exitFullscreen();
+              else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            }
+          } catch (e) {}
         }
+        if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled) {
+          document.getElementById('b-full').hidden = true;
+        }
+        document.getElementById('ov-close').onclick = function () { toggleOverview(false); };
         function openPresenter() {
           var url = location.pathname + '?presenter#' + (cur + 1);
           window.open(url, 'desanara-presenter', 'width=1200,height=760');
         }
 
         document.addEventListener('keydown', function (ev) {
+          if (ev.key === 'Tab') { document.body.classList.add('kb-nav'); return; }
           if (ev.target.closest && ev.target.closest('input, textarea')) return;
           var k = ev.key;
           if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter' && !ev.target.closest('button')) { ev.preventDefault(); next(); }
           else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { ev.preventDefault(); prev(); }
-          else if (k === 'Home') go(0);
-          else if (k === 'End') go(total - 1);
+          else if (k === 'Home') { clearButtonFocus(); go(0); }
+          else if (k === 'End') { clearButtonFocus(); go(total - 1); }
           else if (k === 'o' || k === 'O') toggleOverview();
           else if (k === 'Escape') toggleOverview(false);
           else if ((k === 'f' || k === 'F') && !isPresenter) fullscreen();
           else if ((k === 'p' || k === 'P') && !isPresenter) openPresenter();
         });
-        document.getElementById('b-prev').onclick = prev;
-        document.getElementById('b-next').onclick = next;
-        document.getElementById('b-over').onclick = function () { toggleOverview(); };
-        document.getElementById('b-full').onclick = fullscreen;
-        document.getElementById('b-pres').onclick = openPresenter;
+        document.addEventListener('pointerdown', function () {
+          document.body.classList.remove('kb-nav');
+        }, { passive: true });
+        document.getElementById('b-prev').onclick = function () { prev(); clearButtonFocus(); };
+        document.getElementById('b-next').onclick = function () { next(); clearButtonFocus(); };
+        document.getElementById('b-over').onclick = function () { toggleOverview(); clearButtonFocus(); };
+        document.getElementById('b-full').onclick = function () { fullscreen(); clearButtonFocus(); };
+        document.getElementById('b-pres').onclick = function () { openPresenter(); clearButtonFocus(); };
 
         // Click on empty slide area: right half next, left half previous
         document.getElementById('viewport').addEventListener('click', function (ev) {
@@ -2813,9 +4727,10 @@
         }
 
         var idleT = null;
-        function wake() { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(function () { if (!ov.classList.contains('open')) document.body.classList.add('idle'); }, 2500); }
-        if (!isPresenter) { ['mousemove', 'keydown', 'touchstart'].forEach(function (e) { document.addEventListener(e, wake, { passive: true }); }); document.body.classList.add('idle'); }
+        function wake() { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(function () { if (!ov.classList.contains('open')) document.body.classList.add('idle'); }, 3000); }
+        if (!isPresenter) { ['mousemove', 'keydown', 'touchstart', 'click'].forEach(function (e) { document.addEventListener(e, wake, { passive: true }); }); document.body.classList.add('idle'); }
         window.addEventListener('resize', fit);
+        if (window.visualViewport) window.visualViewport.addEventListener('resize', fit);
         window.addEventListener('hashchange', function () { var n = parseInt(location.hash.slice(1), 10); if (n && n - 1 !== cur) go(n - 1); });
         fit();
         var start = parseInt(location.hash.slice(1), 10);

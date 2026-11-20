@@ -37,7 +37,7 @@ Format:
   memakai titik dan kata sesuai `DESIGN.md`; teks badan 21 px untuk proyektor; footer berjalan berisi bagian dan nomor
   slide. Animasi dikurangi menjadi transisi slide dan animasi data. Sumber deck dan `build.ts` kini ada di
   `docs/presentations/src/`, sehingga deck bisa di-build ulang setelah logo atau foto berganti. Deck sudah memakai logo daun baru dan hijau
-  utama `#387b4c`; teks sekunder di latar hijau dinaikkan ke hampir putih supaya tetap terbaca.
+  utama `#387b4c`; teks sekunder di latar hijau dinaikkan ke hampir putih supaya tetap terbaca; kolase contoh produk di slide Desanara ditata ulang jadi grid masonry dua kolom dengan label di dalam foto dan rasio gambar dipertahankan saat build; bilah navigasi, daftar slide, dan mode presenter dibuat responsif untuk ponsel dan iPad (termasuk safe-area dan target sentuh 44 px); seluruh slide dipoles dengan visual produk tambahan (kolase UMKM, simulasi kartu produk dan chat WhatsApp, kartu foto Materi 1, kolase penutup), logo SVG framework/layanan di slide teknis, scrim keterbacaan kredit foto, garis penanda Hari H di timeline, kartu ringkasan anggaran, dan penghitung keputusan rapat; papan panduan identitas merek & pratinjau UI/kemasan versi logo daun terbaru ditambahkan di `docs/brand/desanara/brand-guidelines.{html,png,webp}` (dibangun oleh `docs/brand/build-guidelines.ts`) dan ditampilkan bersama slide Style Guide UI, slide kurasi kuota tim lapangan hari H (maksimal 20 orang), serta penataan ulang slide Struktur Panitia di deck rapat.
 
 ## 2026-11-20 — Slide interaktif rapat persiapan seminar
 

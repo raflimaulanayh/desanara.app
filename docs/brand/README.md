@@ -19,8 +19,10 @@ UMKM desa, melestarikan potensi lokal, dan membawa kekayaan alam serta budaya In
 
 ## Logo
 
-File master (SVG vektor murni, tulisan sudah jadi outline) ada di [`desanara/`](desanara/), pratinjau di
-[`desanara/preview.webp`](desanara/preview.webp).
+File master (SVG vektor murni, tulisan sudah jadi outline) ada di [`desanara/`](desanara/), pratinjau ringkas di
+[`desanara/preview.webp`](desanara/preview.webp), dan papan panduan identitas lengkap (variasi logo, makna, palet warna,
+favicon, pratinjau aplikasi mobile/web, dan kemasan) di [`desanara/brand-guidelines.png`](desanara/brand-guidelines.png)
+(dibangun ulang dari SVG master oleh [`build-guidelines.ts`](build-guidelines.ts)).
 
 | Aset            | File master                  | Pakai untuk                                        |
 | --------------- | ---------------------------- | -------------------------------------------------- |
