@@ -146,7 +146,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <div className="flex min-w-0 flex-col">
           <header className="border-line bg-surface/95 sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b px-4 backdrop-blur-sm lg:hidden">
             <Link href="/" aria-label={t('nav.home')}>
-              <Logo className="h-5" />
+              <Logo className="h-9" />
             </Link>
             {account}
           </header>

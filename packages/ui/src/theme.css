@@ -8,7 +8,7 @@
  */
 @layer theme {
   :root {
-    --accent: #0f5a37;
+    --accent: #387b4c;
     --accent-foreground: #ffffff;
     --success: #15803d;
     --warning: #b45309;
@@ -26,8 +26,10 @@
     --line: #e8dfcb;
     --line-strong: #d2c4a8;
 
-    /* Desanara secondary palette: decoration and highlights, not body text (see DESIGN.md) */
-    --leaf: #5e8f3e;
+    /* Desanara secondary palette: decoration and highlights, not body text (see DESIGN.md).
+       leaf and sprout are the logo's wordmark green and light leaf tip. */
+    --leaf: #6cac4e;
+    --sprout: #9dd853;
     --sun: #e3a84f;
     --clay: #c2612c;
 
@@ -45,6 +47,7 @@
   --color-wa: var(--wa);
   --color-wa-hover: var(--wa-hover);
   --color-leaf: var(--leaf);
+  --color-sprout: var(--sprout);
   --color-sun: var(--sun);
   --color-clay: var(--clay);
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;

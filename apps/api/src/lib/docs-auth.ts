@@ -90,7 +90,7 @@ function loginPage({ username = '', error = false }: { username?: string; error?
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --green: #0f5a37; --green-hover: #0c4a2d; --cream: #f9f4e7; --cream-strong: #f1e8d3;
+    --green: #387b4c; --green-hover: #2e6640; --cream: #f9f4e7; --cream-strong: #f1e8d3;
     --line: #e8dfcb; --line-strong: #d2c4a8; --ink: #1c1917; --muted: #57534e;
     --danger: #b42318; --danger-soft: #fdecea; --sun: #e3a84f;
   }

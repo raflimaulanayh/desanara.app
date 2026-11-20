@@ -15,6 +15,19 @@ Format:
 
 ---
 
+## 2026-11-20 — Logo baru Desanara dan warna utama mengikuti logo
+
+- **Area**: apps/web, apps/dashboard, apps/api, packages/ui, packages/email, docs
+- **Jenis**: Changed
+- Logo diganti ke rancangan baru dari tim HIMASIF: huruf "d" dari dua daun dengan gradasi hijau, wordmark Montserrat.
+  Teks di file desainer diubah jadi outline (posisi sama persis), lapisan ganda dibuang, dan kanvas dipotong. Semua
+  varian (horizontal, dengan tagline, vertikal, tanda daun, putih, hitam, ikon aplikasi) dibuat ulang oleh
+  `docs/brand/build-logo.py`. Favicon, ikon Apple, gambar share, dan tanda di halaman API ikut diganti.
+- Warna utama platform berubah dari `#0f5a37` ke `#387b4c` (ujung gelap gradasi logo; teks putih 5,1:1), token `leaf`
+  menjadi `#6cac4e`, dan token baru `sprout` `#9dd853` untuk sorotan dengan teks gelap. Oranye logo lama dihapus.
+  Warna email dan pin peta ikut disesuaikan.
+- Logo di header situs kini 44 px dan di dashboard 36 sampai 48 px, karena tanda daun lebih tinggi dari logo lama.
+
 ## 2026-11-20 — Tampilan slide rapat dirombak
 
 - **Area**: docs

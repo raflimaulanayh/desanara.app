@@ -7,7 +7,7 @@ export default async function InvitationPage({ params }: { params: Promise<{ tok
   const { token } = await params
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center gap-8 px-4 py-10">
-      <Logo className="h-8" />
+      <Logo className="h-12" />
       {/* useSearchParams (?e=) needs a Suspense boundary. */}
       <Suspense>
         <InvitationAccept token={token} />
