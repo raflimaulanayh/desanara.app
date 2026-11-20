@@ -23,7 +23,8 @@ Format:
   Baros (Sabtu, 5 Desember 2026). Isinya masalah UMKM, hasil survei Desa Baros, Desanara (fitur, peran, teknis singkat),
   rencana seminar (tujuan, materi, rundown final, demo, praktik), hasil open recruitment, struktur panitia, timeline,
   anggaran, risiko, dan keputusan rapat. Interaktif: navigasi keyboard/klik/geser, daftar slide, mode presenter dengan
-  catatan dan timer, diagram yang bisa diklik, serta QR ke desanara.app. Memakai warna dan logo Desanara; orang hanya
+  catatan dan timer, diagram yang bisa diklik (tombol berikutnya membuka item satu per satu sebelum pindah slide), serta
+  QR ke desanara.app. Memakai warna dan logo Desanara; orang hanya
   disebut perannya karena repo publik. Panduan pakai di `docs/presentations/README.md`.
 
 ## 2026-11-20 — Akun lewat undangan, verifikasi email dengan kode, dan lupa kata sandi

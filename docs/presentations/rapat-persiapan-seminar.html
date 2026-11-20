@@ -2922,16 +2922,31 @@
         })
 
         /* ---------- pickers, filters, checklist ---------- */
+        function picksOf(pk) {
+          return Array.prototype.slice.call(pk.querySelectorAll('.pick'))
+        }
+        function stepIndex(pk) {
+          return picksOf(pk).findIndex(function (x) {
+            return x.classList.contains('on')
+          })
+        }
+        function setPick(pk, idx) {
+          var list = picksOf(pk)
+          var b = list[idx]
+          if (!b) return
+          list.forEach(function (x) {
+            x.classList.toggle('on', x === b)
+          })
+          pk.querySelectorAll('.panel > [data-key]').forEach(function (x) {
+            x.classList.toggle('on', x.dataset.key === b.dataset.key)
+          })
+        }
         document.querySelectorAll('.picker').forEach(function (pk) {
           pk.addEventListener('click', function (ev) {
             var b = ev.target.closest('.pick')
             if (!b || !pk.contains(b)) return
-            pk.querySelectorAll('.pick').forEach(function (x) {
-              x.classList.toggle('on', x === b)
-            })
-            pk.querySelectorAll('.panel > [data-key]').forEach(function (x) {
-              x.classList.toggle('on', x.dataset.key === b.dataset.key)
-            })
+            setPick(pk, picksOf(pk).indexOf(b))
+            sync()
             ev.stopPropagation()
           })
         })
@@ -2983,29 +2998,65 @@
             history.replaceState(null, '', '#' + (cur + 1))
           if (isPresenter) renderPresenter()
         }
-        function go(i, broadcast) {
+        function pickerHere() {
+          return slides[cur].querySelector('.picker')
+        }
+        function sync() {
+          var pk = pickerHere()
+          var msg = { slide: cur, step: pk ? stepIndex(pk) : -1 }
+          if (channel) channel.postMessage(msg)
+          store('desanara-deck-state', JSON.stringify(msg))
+          if (isPresenter) renderPresenter()
+        }
+        function go(i, broadcast, entry) {
           cur = Math.max(0, Math.min(total - 1, i))
+          var pk = pickerHere()
+          if (pk && entry === 'first') setPick(pk, 0)
+          if (pk && entry === 'last') setPick(pk, picksOf(pk).length - 1)
           render()
-          if (broadcast !== false) {
-            if (channel) channel.postMessage({ slide: cur })
-            store('desanara-deck-slide', String(cur))
+          if (broadcast !== false) sync()
+        }
+        // Next/previous walk through the items of an interactive slide before changing slide
+        function next() {
+          var pk = pickerHere()
+          if (pk) {
+            var k = stepIndex(pk)
+            if (k < picksOf(pk).length - 1) {
+              setPick(pk, k + 1)
+              sync()
+              return
+            }
           }
+          if (cur < total - 1) go(cur + 1, true, 'first')
+        }
+        function prev() {
+          var pk = pickerHere()
+          if (pk) {
+            var k = stepIndex(pk)
+            if (k > 0) {
+              setPick(pk, k - 1)
+              sync()
+              return
+            }
+          }
+          if (cur > 0) go(cur - 1, true, 'last')
+        }
+        function apply(msg) {
+          if (!msg || typeof msg.slide !== 'number') return
+          cur = msg.slide
+          var pk = pickerHere()
+          if (pk && msg.step >= 0) setPick(pk, msg.step)
+          render()
         }
         if (channel)
           channel.onmessage = function (ev) {
-            if (ev.data && typeof ev.data.slide === 'number' && ev.data.slide !== cur) {
-              cur = ev.data.slide
-              render()
-            }
+            apply(ev.data)
           }
         window.addEventListener('storage', function (ev) {
-          if (
-            ev.key === 'desanara-deck-slide' &&
-            ev.newValue !== null &&
-            Number(ev.newValue) !== cur
-          ) {
-            cur = Number(ev.newValue)
-            render()
+          if (ev.key === 'desanara-deck-state' && ev.newValue) {
+            try {
+              apply(JSON.parse(ev.newValue))
+            } catch (e) {}
           }
         })
 
@@ -3048,10 +3099,10 @@
             (k === 'Enter' && !ev.target.closest('button'))
           ) {
             ev.preventDefault()
-            go(cur + 1)
+            next()
           } else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') {
             ev.preventDefault()
-            go(cur - 1)
+            prev()
           } else if (k === 'Home') go(0)
           else if (k === 'End') go(total - 1)
           else if (k === 'o' || k === 'O') toggleOverview()
@@ -3059,12 +3110,8 @@
           else if ((k === 'f' || k === 'F') && !isPresenter) fullscreen()
           else if ((k === 'p' || k === 'P') && !isPresenter) openPresenter()
         })
-        document.getElementById('b-prev').onclick = function () {
-          go(cur - 1)
-        }
-        document.getElementById('b-next').onclick = function () {
-          go(cur + 1)
-        }
+        document.getElementById('b-prev').onclick = prev
+        document.getElementById('b-next').onclick = next
         document.getElementById('b-over').onclick = function () {
           toggleOverview()
         }
@@ -3074,8 +3121,8 @@
         // Click on empty slide area: right half next, left half previous
         document.getElementById('viewport').addEventListener('click', function (ev) {
           if (ev.target.closest('button, a, input, label, .card, table, .strip, .tl')) return
-          if (ev.clientX > window.innerWidth / 2) go(cur + 1)
-          else go(cur - 1)
+          if (ev.clientX > window.innerWidth / 2) next()
+          else prev()
         })
         var tx = null
         document.addEventListener(
@@ -3089,7 +3136,10 @@
           if (tx === null) return
           var dx = ev.changedTouches[0].clientX - tx
           tx = null
-          if (Math.abs(dx) > 50) go(cur + (dx < 0 ? 1 : -1))
+          if (Math.abs(dx) > 50) {
+            if (dx < 0) next()
+            else prev()
+          }
         })
 
         /* ---------- presenter view ---------- */
@@ -3124,12 +3174,8 @@
         }
         if (isPresenter) {
           document.body.classList.add('presenter')
-          document.getElementById('pv-prev').onclick = function () {
-            go(cur - 1)
-          }
-          document.getElementById('pv-next').onclick = function () {
-            go(cur + 1)
-          }
+          document.getElementById('pv-prev').onclick = prev
+          document.getElementById('pv-next').onclick = next
           document.getElementById('pv-reset').onclick = function () {
             t0 = Date.now()
           }
