@@ -15,6 +15,34 @@ Format:
 
 ---
 
+## 2026-11-20 — Akun lewat undangan, verifikasi email dengan kode, dan lupa kata sandi
+
+- **Area**: apps/api, apps/dashboard, packages/auth, packages/db, packages/email, packages/validators, docs
+- **Jenis**: Added, Security
+- Pendaftaran terbuka Better Auth ditutup. Akun baru hanya dibuat dari **undangan**: tautan sekali pakai, berlaku 7 hari,
+  bisa dibatalkan, dengan peran yang terkunci. Admin desa mengundang pendamping, pemilik dan asisten UMKM; pendamping
+  mengundang pemilik UMKM yang ia daftarkan; pemilik mengundang asistennya. Tidak ada yang bisa memberi peran di atas
+  perannya sendiri, dan satu orang maksimal 30 undangan per hari. Tombol undang ada di halaman UMKM (Akses UMKM) dan
+  Pengaturan desa (Tim desa), dengan kirim lewat WhatsApp atau email.
+- Email wajib terverifikasi sebelum bisa masuk, memakai **kode 6 angka** yang diketik di halaman yang sama (kode ada di
+  judul email). Undangan yang dibuka dari email langsung terverifikasi. **Lupa kata sandi** juga memakai kode, lalu
+  langsung masuk.
+- Paket baru `packages/email` (Resend lewat fetch; tanpa key, email dicetak di terminal). Rate limit login dan kode
+  disimpan di database (tabel baru `rate_limits`) supaya berlaku di semua instance Vercel.
+- Izin baru `village.invite_members` dan `business.invite_members`. `business.invite_owner` untuk asisten UMKM kini
+  hanya berlaku bila ia juga pendamping desa (asisten bantuan pemilik tidak bisa membuat pemilik baru).
+- Email kode dikirim di latar belakang (`waitUntil` Vercel) dan kegagalannya hanya dicatat di log, jadi respons lupa
+  kata sandi sama cepat dan sama isinya untuk email terdaftar maupun tidak. API production menolak start tanpa
+  `RESEND_API_KEY`; preview Vercel boleh tanpa key (email dicetak di log).
+- Undangan untuk orang yang sudah anggota menaikkan perannya; bila perannya sudah sama atau lebih tinggi, undangan
+  ditolak (`ALREADY_MEMBER`) dan tetap bisa dipakai orang lain. Undangan ke UMKM atau desa yang sudah dihapus tidak bisa
+  dipakai. Daftar undangan hanya terlihat oleh yang boleh mengundang.
+- Perbaikan: pengecekan duplikat (`23505`) kini mengenali error yang dibungkus drizzle, sehingga percobaan ulang slug
+  UMKM dan produk saat bentrok benar-benar berjalan.
+- Migrasi `0008_accounts_email` (hanya menambah): tabel `rate_limits`, kolom `invitee_name` dan `invitee_email` di
+  `invitations`. Env baru API: `DASHBOARD_URL`, `EMAIL_FROM`, `EMAIL_REPLY_TO` (opsional), `RESEND_API_KEY` (wajib di
+  production).
+
 ## 2026-11-17 — sitemap.xml dan robots.txt untuk situs publik
 
 - **Area**: apps/web, apps/api, apps/dashboard, packages/config, docs

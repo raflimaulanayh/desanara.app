@@ -12,6 +12,7 @@ import { diffFields, writeAudit } from '../../lib/audit'
 import { AppError } from '../../lib/errors'
 import * as repo from './manage-products.repository'
 import type { ProductManage } from './manage-products.schema'
+import { isUniqueViolation } from '../../lib/db-errors'
 
 /**
  * Dashboard management of products. Authorization: `business.view` / `product.create` on the
@@ -156,9 +157,6 @@ async function pickSlug(ctx: Ctx, name: string, businessName: string) {
   while (taken.has(slugWithSuffix(withBusiness, n))) n++
   return slugWithSuffix(withBusiness, n)
 }
-
-const isUniqueViolation = (e: unknown) =>
-  typeof e === 'object' && e !== null && 'code' in e && (e as { code: string }).code === '23505'
 
 export async function create(ctx: Ctx, businessId: string, input: ProductCreateInput) {
   const { actor, business } = await loadBusiness(ctx, businessId, 'product.create')

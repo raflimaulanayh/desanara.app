@@ -1,4 +1,4 @@
-import { boolean, index, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
+import { bigint, boolean, index, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { globalRole } from './enums'
 
 /**
@@ -81,3 +81,14 @@ export const verifications = pgTable(
   },
   (t) => [index().on(t.identifier)],
 )
+
+/**
+ * Better Auth rate limit counters (`rateLimit.storage: "database"`). Memory storage does not work on
+ * Vercel: every function instance would count on its own.
+ */
+export const rateLimits = pgTable('rate_limits', {
+  id: text().primaryKey(),
+  key: text().notNull().unique(),
+  count: integer().notNull(),
+  lastRequest: bigint({ mode: 'number' }).notNull(),
+})

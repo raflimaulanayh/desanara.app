@@ -39,6 +39,8 @@ export type VillageAction =
   | 'village.view'
   | 'village.update'
   | 'village.manage_members'
+  /** Invite village assistants (pendamping desa). Village admins are invited by the super admin. */
+  | 'village.invite_members'
   | 'village.view_analytics'
   | 'village.customize_theme'
   /** See every business of the village, including drafts of others (dashboard list). */
@@ -56,7 +58,10 @@ export type BusinessAction =
   | 'business.delete'
   | 'business.publish'
   | 'business.manage_members'
+  /** Invite an owner (hand-over). A plain business assistant may not: an owner outranks them. */
   | 'business.invite_owner'
+  /** Invite business assistants (helpers of the owner). */
+  | 'business.invite_members'
   | 'business.view_analytics'
   | 'product.create'
 export type ProductAction = 'product.update' | 'product.publish' | 'product.delete'
@@ -76,6 +81,7 @@ const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
     'village.view',
     'village.update',
     'village.manage_members',
+    'village.invite_members',
     'village.view_analytics',
     'village.customize_theme',
     'business.list',
@@ -93,6 +99,7 @@ const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | Pro
     'business.publish',
     'business.manage_members',
     'business.invite_owner',
+    'business.invite_members',
     'business.view_analytics',
     'product.create',
     'product.update',
@@ -134,7 +141,14 @@ export function can<R extends Resource>(
       // A village admin manages every business and product inside their village.
       if (actor.villageRoles[resource.villageId] === 'village_admin') return true
       const role = actor.businessRoles[resource.businessId]
-      return role ? (BUSINESS_ROLE_ACTIONS[role] as readonly string[]).includes(action) : false
+      if (!role) return false
+      // Hand-over to an owner: only a pendamping (village assistant of this village) who is assigned
+      // to the business. A helper the owner invited is also an `assistant` but must not be able to
+      // create an owner, who outranks them.
+      if (action === 'business.invite_owner' && role === 'assistant') {
+        return actor.villageRoles[resource.villageId] === 'village_assistant'
+      }
+      return (BUSINESS_ROLE_ACTIONS[role] as readonly string[]).includes(action)
     }
   }
 }

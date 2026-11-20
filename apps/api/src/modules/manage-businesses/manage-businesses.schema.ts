@@ -10,6 +10,10 @@ export const businessPermissionsSchema = z
     delete: z.boolean(),
     verify: z.boolean(),
     takedown: z.boolean(),
+    /** Invite an owner (hand-over). */
+    inviteOwner: z.boolean(),
+    /** Invite business assistants (the owner's helpers). */
+    inviteMembers: z.boolean(),
   })
   .openapi('BusinessPermissions')
 

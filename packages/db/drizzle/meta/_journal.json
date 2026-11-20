@@ -57,6 +57,13 @@
       "when": 1794838183955,
       "tag": "0007_business_location",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795143628285,
+      "tag": "0008_accounts_email",
+      "breakpoints": true
     }
   ]
 }

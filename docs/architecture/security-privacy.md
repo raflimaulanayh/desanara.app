@@ -20,8 +20,25 @@ Related: [Auth & RBAC](auth-rbac.md), [Multi-tenancy](multi-tenancy.md), [Storag
 
 ## Authentication
 
-- **Better Auth** (email + password), mounted by the API at `/api/auth/*`. Passwords are hashed by Better Auth;
-  minimum length 8.
+- **Better Auth** (email + password), mounted by the API at `/api/auth/*`. Passwords are hashed by Better Auth
+  (scrypt); minimum length 8, no composition rules.
+- **No public sign-up.** `POST /api/auth/sign-up/email` is disabled. Accounts are created only when an invitation is
+  accepted (`/v1/invitations/{token}/accept`, module `invitations`). Invitation tokens are 32 random bytes, stored as
+  a SHA-256 hash, single use, valid 7 days, revocable, and bound to one role on one village or business.
+- **Email verification is required before a session is created.** The code is 6 digits, valid 10 minutes, 5 tries,
+  stored hashed. An invitation opened from its email carries an HMAC proof (`?e=`, signed with the server secret and
+  bound to the invitation and address), so that account is verified without a code; the WhatsApp copy of the link has
+  no proof and needs the code.
+- **Forgot password** uses the same kind of code. The request answers the same whether or not the email has an
+  account: code emails are sent in the background (`waitUntil` on Vercel) and a failed send is only logged, so
+  neither timing nor errors reveal a registered address. Changing the password signs out every other session.
+- The live API refuses to start without `RESEND_API_KEY`, so codes never end up only in logs (previews may).
+- Accepting an invitation never lowers a role: an existing member is raised to the invited role, or gets
+  `ALREADY_MEMBER` and the link stays usable. Links to a deleted business or village stop working. Pending
+  invitations (invitee names and emails) are visible only to people who may create them.
+- **Rate limits** for sign-in and code endpoints are stored in Postgres (`rate_limits`), so every Vercel instance
+  shares them: 5 sign-ins, 3 code emails and 10 code checks per minute per client. Invitations are capped at 30 per
+  person per 24 hours.
 - Sessions are HttpOnly cookies. Without a shared parent domain the dashboard proxies `/api/auth/*` and `/v1/*` to
   the API, so the cookie is first-party for the browser (no third-party cookie, works in Safari).
   See [Deployment, Login across hosts](deployment.md#login-across-hosts).
@@ -104,9 +121,7 @@ Action names are stable so a future notification service can subscribe to them.
 
 These are scheduled with the modules that need them and tracked in [features-mvp](../product/features-mvp.md):
 
-- Accounts are created only from an approved registration or an invitation (invitations module).
-- Public forms use Turnstile, and login and registration use a persistent rate limit store.
+- Public registration form (self-registration) with Turnstile and a per-address limit.
 - Analytics events are filtered for bots and repeated hits before statistics are used in reports.
 - Scheduled `pg_dump` backups to a private bucket ([deployment](deployment.md#backups)).
 - A separate development database for preview deployments.
-- Media served from a custom domain once the domain is bought.

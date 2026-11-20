@@ -22,6 +22,10 @@ export const invitations = pgTable(
     businessRole: businessRole(),
     /** Optional contact the invite was sent to (phone or email). */
     sentTo: text(),
+    /** Prefills the acceptance form. */
+    inviteeName: text(),
+    /** Lower-cased. When set, the account must use this email. */
+    inviteeEmail: text(),
     status: invitationStatus().notNull().default('pending'),
     expiresAt: timestamp({ withTimezone: true }).notNull(),
     acceptedBy: text().references(() => users.id),
@@ -31,5 +35,5 @@ export const invitations = pgTable(
       .references(() => users.id),
     ...timestamps,
   },
-  (t) => [index().on(t.villageId), index().on(t.businessId)],
+  (t) => [index().on(t.villageId), index().on(t.businessId), index().on(t.createdBy, t.createdAt)],
 )

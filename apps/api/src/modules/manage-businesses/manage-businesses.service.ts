@@ -12,6 +12,7 @@ import { diffFields, writeAudit } from '../../lib/audit'
 import { AppError } from '../../lib/errors'
 import * as repo from './manage-businesses.repository'
 import type { BusinessManage } from './manage-businesses.schema'
+import { isUniqueViolation } from '../../lib/db-errors'
 
 /**
  * Dashboard management of businesses (UMKM). Every function authorizes with `assertCan()` using the
@@ -61,6 +62,8 @@ export function toManageDto(row: repo.ManageBusinessRow, actor: Actor): Business
       delete: can(actor, 'business.delete', business),
       verify: can(actor, 'business.verify', village),
       takedown: can(actor, 'business.takedown', village),
+      inviteOwner: can(actor, 'business.invite_owner', business),
+      inviteMembers: can(actor, 'business.invite_members', business),
     },
   }
 }
@@ -118,9 +121,6 @@ async function nextFreeSlug(ctx: Ctx, base: string) {
   while (taken.has(slugWithSuffix(base, n))) n++
   return slugWithSuffix(base, n)
 }
-
-const isUniqueViolation = (e: unknown) =>
-  typeof e === 'object' && e !== null && 'code' in e && (e as { code: string }).code === '23505'
 
 export async function create(ctx: Ctx, input: BusinessCreateInput) {
   const actor = requireActor(ctx.actor, 'business.create')
