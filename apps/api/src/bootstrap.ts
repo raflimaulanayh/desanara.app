@@ -1,5 +1,7 @@
 import { createAuth } from '@repo/auth/server'
 import { createDb } from '@repo/db'
+import { createMailer } from '@repo/email'
+import { waitUntil } from '@vercel/functions'
 import { createApp, type DocsAccess } from './app'
 import { type Env, loadEnv } from './env'
 import { createR2Storage } from './lib/storage'
@@ -10,6 +12,11 @@ import { createR2Storage } from './lib/storage'
  */
 export function bootstrap(env: Env = loadEnv()) {
   const db = createDb(env.DATABASE_URL, { max: env.DB_POOL_MAX })
+  const mailer = createMailer({
+    apiKey: env.RESEND_API_KEY,
+    from: env.EMAIL_FROM,
+    replyTo: env.EMAIL_REPLY_TO,
+  })
   const auth = createAuth({
     db,
     secret: env.BETTER_AUTH_SECRET,
@@ -17,6 +24,10 @@ export function bootstrap(env: Env = loadEnv()) {
     baseURL: env.AUTH_BASE_URL ?? env.API_URL,
     trustedOrigins: env.TRUSTED_ORIGINS,
     cookieDomain: env.COOKIE_DOMAIN,
+    mailer,
+    rateLimit: env.NODE_ENV === 'production',
+    // On Vercel this keeps the function alive until the email is sent; elsewhere it just runs.
+    backgroundTask: waitUntil,
   })
   const docs: DocsAccess = env.DOCS_PASSWORD
     ? { mode: 'password', username: env.DOCS_USERNAME, password: env.DOCS_PASSWORD }
@@ -32,6 +43,15 @@ export function bootstrap(env: Env = loadEnv()) {
           secretAccessKey: env.R2_SECRET_ACCESS_KEY,
         })
       : null
-  const app = createApp({ db, auth, storage, trustedOrigins: env.TRUSTED_ORIGINS, docs })
+  const app = createApp({
+    db,
+    auth,
+    storage,
+    mailer,
+    secret: env.BETTER_AUTH_SECRET,
+    dashboardUrl: env.DASHBOARD_URL,
+    trustedOrigins: env.TRUSTED_ORIGINS,
+    docs,
+  })
   return { env, app }
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { Button, Card } from '@heroui/react'
+import { can } from '@repo/auth/permissions'
 import { villageSettingsSchema } from '@repo/validators'
 import { Container } from '@repo/ui/components/container'
 import { Check, RotateCcw } from 'lucide-react'
@@ -11,8 +12,10 @@ import { useState } from 'react'
 import { describeApiError } from '@/lib/api-errors'
 import { fieldMessages } from '@/lib/business-form'
 import type { LatLng } from '@/lib/map'
+import { useSession } from '@/lib/session'
 import { type VillageSettings, useUpdateVillageSettings, useVillageSettings } from '@/lib/villages'
 import { Field } from '../field'
+import { InvitePanel } from '../invite/invite-panel'
 import { MapPicker } from '../map/map-picker'
 
 const PROFILE_FIELDS = ['description', 'contactPhone', 'contactEmail', 'address'] as const
@@ -174,6 +177,30 @@ function ProfileCard({ v }: { v: VillageSettings }) {
   )
 }
 
+/** Village staff invitations: village admins invite pendamping; the super admin also invites admins. */
+function TeamCard({ v }: { v: VillageSettings }) {
+  const t = useTranslations()
+  const { actor } = useSession()
+  const village = { type: 'village', villageId: v.id } as const
+  const roles = [
+    ...(can(actor, 'user.manage', { type: 'platform' })
+      ? [{ role: 'village_admin' as const, label: t('roles.village_admin') }]
+      : []),
+    ...(can(actor, 'village.invite_members', village)
+      ? [{ role: 'village_assistant' as const, label: t('roles.village_assistant') }]
+      : []),
+  ]
+  if (roles.length === 0) return null
+  return (
+    <InvitePanel
+      scope={{ villageId: v.id }}
+      title={t('invitePanel.villageTitle')}
+      hint={t('invitePanel.villageHint')}
+      roles={roles}
+    />
+  )
+}
+
 export function VillageSettingsPage({ id }: { id: string }) {
   const t = useTranslations()
   const q = useVillageSettings(id)
@@ -199,6 +226,7 @@ export function VillageSettingsPage({ id }: { id: string }) {
           </header>
           <CenterCard v={q.data} />
           <ProfileCard v={q.data} />
+          <TeamCard v={q.data} />
         </>
       )}
     </Container>

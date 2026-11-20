@@ -10,6 +10,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { api } from '@/lib/api'
 import { useSession } from '@/lib/session'
+import { greetingName } from '@/lib/greeting'
 
 /** Number of businesses matching a filter, from the list's `meta.total` (one row fetched). */
 function useBusinessCount(filter: { villageId?: string; verificationStatus?: 'pending' }) {
@@ -61,7 +62,7 @@ function VillageCard({ id, name, role }: { id?: string; name: string; role: stri
 export function DashboardHome() {
   const t = useTranslations()
   const { user, actor, memberships } = useSession()
-  const firstName = user.name.split(' ')[0] ?? user.name
+  const firstName = greetingName(user.name)
   const noRoles =
     !actor.globalRole && memberships.villages.length === 0 && memberships.businesses.length === 0
 

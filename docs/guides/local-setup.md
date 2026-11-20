@@ -24,6 +24,12 @@ Buka:
 - http://localhost:3001/login — dashboard (akun demo di [seed-data.md](seed-data.md))
 - http://localhost:8787/docs — dokumentasi API
 
+## Email (opsional)
+
+Tanpa `RESEND_API_KEY`, email (kode verifikasi, kode lupa kata sandi, undangan) tidak dikirim, tetapi dicetak di
+terminal API. Salin kode 6 angka atau tautan undangan dari situ. Dengan key, email terkirim sungguhan dari
+`noreply@desanara.app`; pakai key lokal sendiri (bukan key production) dan minta ke pengurus.
+
 ## Upload foto (opsional)
 
 Upload foto butuh Cloudflare R2. Isi `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`,

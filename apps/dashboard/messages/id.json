@@ -15,7 +15,11 @@
     "email": "Email",
     "password": "Kata sandi",
     "submit": "Masuk",
-    "failed": "Email atau kata sandi salah."
+    "failed": "Email atau kata sandi salah.",
+    "forgot": "Lupa kata sandi?",
+    "verifyTitle": "Masukkan kode dari email",
+    "verifyHint": "Email kamu belum diverifikasi. Kami sudah mengirim kode 6 angka ke {email}. Cek kotak masuk atau folder Spam.",
+    "created": "Akun kamu sudah dibuat. Silakan masuk dengan email dan kata sandi tadi."
   },
   "roles": {
     "super_admin": "Super admin",
@@ -65,7 +69,15 @@
       "NO_PHOTO": "Tambahkan minimal 1 foto sebelum menayangkan produk.",
       "NO_CATEGORY": "Pilih kategori produk dulu.",
       "TOO_MANY_FILES": "Jumlah foto sudah maksimal.",
-      "LAST_PHOTO": "Produk yang tayang harus punya minimal 1 foto. Tambah foto lain atau sembunyikan produk dulu."
+      "LAST_PHOTO": "Produk yang tayang harus punya minimal 1 foto. Tambah foto lain atau sembunyikan produk dulu.",
+      "USED": "Undangan ini sudah dipakai.",
+      "REVOKED": "Undangan ini sudah dibatalkan.",
+      "EXPIRED": "Undangan ini sudah kedaluwarsa.",
+      "ACCOUNT_EXISTS": "Email ini sudah punya akun. Masuk dulu, lalu buka lagi undangan ini.",
+      "WRONG_ACCOUNT": "Undangan ini untuk email lain. Keluar dulu, lalu buka lagi undangan ini.",
+      "DAILY_LIMIT": "Batas 30 undangan per hari sudah tercapai. Coba lagi besok.",
+      "INVITATION_NOT_PENDING": "Undangan ini sudah tidak aktif.",
+      "ALREADY_MEMBER": "Kamu sudah punya peran ini (atau yang lebih tinggi) di sini. Undangan tidak dipakai."
     }
   },
   "form": {
@@ -338,5 +350,93 @@
     "profileSaved": "Profil desa tersimpan.",
     "search": "Cari nama desa",
     "noMatch": "Tidak ada desa dengan nama itu."
+  },
+  "auth": {
+    "code": "Kode 6 angka",
+    "codeHint": "Lihat notifikasi Gmail di HP kamu, kodenya ada di judul email.",
+    "verify": "Lanjutkan",
+    "resend": "Kirim ulang kode",
+    "resendIn": "Kirim ulang dalam {seconds} detik",
+    "resent": "Kode baru sudah dikirim.",
+    "showPassword": "Tampilkan kata sandi",
+    "hidePassword": "Sembunyikan kata sandi",
+    "passwordHint": "Minimal 8 karakter. Tidak perlu simbol.",
+    "back": "Kembali",
+    "error": {
+      "INVALID_OTP": "Kodenya salah. Periksa lagi 6 angkanya.",
+      "OTP_EXPIRED": "Kodenya sudah kedaluwarsa. Tekan Kirim ulang kode.",
+      "TOO_MANY_ATTEMPTS": "Terlalu banyak percobaan. Tekan Kirim ulang kode untuk kode baru.",
+      "INVALID_EMAIL_OR_PASSWORD": "Email atau kata sandi salah.",
+      "PASSWORD_TOO_SHORT": "Kata sandi minimal 8 karakter.",
+      "rateLimited": "Terlalu banyak percobaan. Tunggu 1 menit lalu coba lagi.",
+      "generic": "Terjadi kesalahan. Coba lagi sebentar lagi."
+    }
+  },
+  "forgot": {
+    "title": "Lupa kata sandi",
+    "intro": "Masukkan email akun kamu. Kami kirim kode 6 angka untuk membuat kata sandi baru.",
+    "email": "Email",
+    "send": "Kirim kode",
+    "codeTitle": "Buat kata sandi baru",
+    "codeIntro": "Jika {email} terdaftar, kode sudah dikirim ke sana. Masukkan kode dan kata sandi baru.",
+    "newPassword": "Kata sandi baru",
+    "save": "Simpan dan masuk",
+    "backToLogin": "Kembali ke halaman masuk"
+  },
+  "invite": {
+    "loading": "Membuka undangan…",
+    "title": "Undangan dari {inviter}",
+    "intro": "Kamu diundang sebagai {role} untuk {target}.",
+    "village": "Desa {village}",
+    "name": "Nama kamu",
+    "email": "Email",
+    "emailLocked": "Undangan ini untuk email ini.",
+    "emailHint": "Pakai email yang aktif di HP kamu. Kode verifikasi dikirim ke sana.",
+    "password": "Buat kata sandi",
+    "create": "Buat akun",
+    "join": "Gabung sebagai {role}",
+    "loggedInAs": "Kamu sudah masuk sebagai {email}.",
+    "notYou": "Bukan kamu? Keluar dulu",
+    "hasAccount": "Email ini sudah punya akun. Masuk dulu, lalu buka lagi undangan ini.",
+    "signInFirst": "Masuk untuk bergabung",
+    "expiresOn": "Berlaku sampai {date}.",
+    "doneTitle": "Selamat bergabung!",
+    "gone": {
+      "USED": "Undangan ini sudah dipakai. Jika itu kamu, silakan masuk.",
+      "REVOKED": "Undangan ini sudah dibatalkan. Minta undangan baru ke pengirimnya.",
+      "EXPIRED": "Undangan ini sudah kedaluwarsa. Minta undangan baru ke pengirimnya.",
+      "NOT_FOUND": "Undangan tidak ditemukan. Pastikan tautannya lengkap."
+    },
+    "toLogin": "Ke halaman masuk",
+    "codeTitle": "Satu langkah lagi",
+    "codeIntro": "Kami mengirim kode 6 angka ke {email} untuk memastikan email itu milikmu. Cek kotak masuk atau folder Spam."
+  },
+  "invitePanel": {
+    "invite": "Undang anggota",
+    "inviteAs": "Undang {role}",
+    "role": "Peran",
+    "name": "Nama orang yang diundang",
+    "optional": "Boleh dikosongkan. Dipakai untuk menyapa di pesan undangan.",
+    "email": "Email (opsional)",
+    "emailHint": "Jika diisi, undangan juga dikirim ke email ini dan akunnya harus memakai email ini.",
+    "create": "Buat undangan",
+    "created": "Undangan sebagai {role} sudah dibuat.",
+    "emailed": "Undangan sudah dikirim ke email. Kirim juga lewat WhatsApp supaya cepat dibuka.",
+    "shareHint": "Kirim tautannya lewat WhatsApp. Tautan berlaku 7 hari dan hanya bisa dipakai sekali.",
+    "whatsapp": "Kirim lewat WhatsApp",
+    "copy": "Salin tautan",
+    "copied": "Tersalin",
+    "done": "Selesai",
+    "pending": "Menunggu diterima",
+    "pendingLine": "{role} · diundang {inviter} · berlaku sampai {date}",
+    "noName": "Tanpa nama",
+    "revoke": "Batalkan undangan",
+    "businessTitle": "Akses UMKM",
+    "businessHint": "Undang pemilik UMKM agar bisa mengelola sendiri, atau asisten yang membantu.",
+    "villageTitle": "Tim desa",
+    "villageHint": "Undang pendamping desa yang membantu UMKM mendaftar dan mengisi data.",
+    "assistantRole": "Asisten UMKM",
+    "businessHintOwner": "Undang pemilik UMKM agar bisa mengelola tokonya sendiri.",
+    "businessHintHelper": "Undang asisten yang membantu mengelola UMKM ini."
   }
 }

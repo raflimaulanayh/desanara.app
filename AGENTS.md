@@ -22,6 +22,7 @@ MVP deadline: seminar on **2026-12-11** (feature freeze 2026-11-28). Product con
 | `packages/api-client` | Typed Hono RPC client + `unwrap()`                                                 | —       |
 | `packages/ui`         | HeroUI theme tokens + neutral components                                           | —       |
 | `packages/i18n`       | Locales, shared messages, `formatRupiah`, `buildWhatsAppLink`                      | —       |
+| `packages/email`      | `createMailer()` (Resend over fetch, console locally) + email templates (API only) | —       |
 | `packages/config`     | tsconfig + ESLint presets (import boundaries live here)                            | —       |
 
 Architecture: `docs/architecture/overview.md`. Security and personal data: `docs/architecture/security-privacy.md`.

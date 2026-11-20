@@ -22,6 +22,8 @@ const villageAssistant = actor({
   businessRoles: { [B1]: 'assistant' },
 })
 const owner = actor({ businessRoles: { [B1]: 'owner' } })
+/** A helper the owner invited: business assistant without any village role. */
+const helper = actor({ businessRoles: { [B1]: 'assistant' } })
 
 describe('can()', () => {
   test('anonymous can do nothing', () => {
@@ -166,5 +168,40 @@ describe('village settings', () => {
     expect(can(villageAdmin, 'village.view', v2)).toBe(false)
     expect(can(villageAssistant, 'village.view', v2)).toBe(false)
     expect(can(owner, 'village.view', v1)).toBe(false)
+  })
+})
+
+describe('invitations', () => {
+  const village = { type: 'village', villageId: V1 } as const
+  const business = { type: 'business', villageId: V1, businessId: B1 } as const
+
+  test('only village admins invite village assistants; nobody but the super admin invites admins', () => {
+    expect(can(villageAdmin, 'village.invite_members', village)).toBe(true)
+    expect(can(villageAssistant, 'village.invite_members', village)).toBe(false)
+    expect(can(owner, 'village.invite_members', village)).toBe(false)
+    expect(can(villageAdmin, 'user.manage', { type: 'platform' })).toBe(false)
+    expect(can(superAdmin, 'user.manage', { type: 'platform' })).toBe(true)
+  })
+
+  test('a pendamping hands over the businesses assigned to them, a helper cannot', () => {
+    expect(can(villageAssistant, 'business.invite_owner', business)).toBe(true)
+    expect(can(villageAssistant, 'business.invite_owner', { ...business, businessId: B2 })).toBe(
+      false,
+    )
+    expect(can(helper, 'business.invite_owner', business)).toBe(false)
+    expect(can(owner, 'business.invite_owner', business)).toBe(true)
+    expect(can(villageAdmin, 'business.invite_owner', business)).toBe(true)
+  })
+
+  test('the owner (and village admin) invites helpers; helpers and pendamping do not', () => {
+    expect(can(owner, 'business.invite_members', business)).toBe(true)
+    expect(can(villageAdmin, 'business.invite_members', business)).toBe(true)
+    expect(can(helper, 'business.invite_members', business)).toBe(false)
+    expect(can(villageAssistant, 'business.invite_members', business)).toBe(false)
+  })
+
+  test('a helper keeps the day-to-day work', () => {
+    expect(can(helper, 'product.create', business)).toBe(true)
+    expect(can(helper, 'business.update', business)).toBe(true)
   })
 })

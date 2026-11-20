@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const envSchema = z.object({
+const envObject = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   API_PORT: z.coerce.number().int().default(8787),
   API_URL: z.url().default('http://localhost:8787'),
@@ -48,7 +48,35 @@ const envSchema = z.object({
     .string()
     .optional()
     .transform((v) => v || undefined),
+  /** Set by Vercel: "production", "preview" or "development". */
+  VERCEL_ENV: z.enum(['production', 'preview', 'development']).optional(),
+  /** Dashboard origin, for links in emails and invitations. */
+  DASHBOARD_URL: z.url().default('http://localhost:3001'),
+  /** Resend key ("Sending access"). Empty = emails are printed to the console. */
+  RESEND_API_KEY: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined),
+  EMAIL_FROM: z.string().min(3).default('Desanara <noreply@desanara.app>'),
+  EMAIL_REPLY_TO: z
+    .string()
+    .optional()
+    .transform((v) => v || undefined)
+    .pipe(z.email().optional()),
 })
+
+/**
+ * The live site must send real email: without a key, codes and invitation links would only be
+ * printed into the function logs and nobody could verify an account. Vercel previews (VERCEL_ENV
+ * "preview") may print them; a server outside Vercel (campus VPS) counts as live.
+ */
+const envSchema = envObject.refine(
+  (e) => {
+    const live = e.VERCEL_ENV ? e.VERCEL_ENV === 'production' : e.NODE_ENV === 'production'
+    return !live || Boolean(e.RESEND_API_KEY)
+  },
+  { message: 'RESEND_API_KEY is required in production', path: ['RESEND_API_KEY'] },
+)
 
 export type Env = z.infer<typeof envSchema>
 

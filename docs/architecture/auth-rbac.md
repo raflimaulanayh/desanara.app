@@ -3,12 +3,18 @@
 ## Authentication — Better Auth
 
 - Mounted by the API at `/api/auth/*` (`packages/auth/src/server.ts`, created in `apps/api/src/index.ts`).
-- Email + password for the MVP. Tables: `users`, `sessions`, `accounts`, `verifications` (Drizzle, plural).
+- Email + password for the MVP. Tables: `users`, `sessions`, `accounts`, `verifications`, `rate_limits`
+  (Drizzle, plural).
+- Public sign-up is off. Accounts come from invitations (`apps/api/src/modules/invitations`), created with
+  `createCredentialUser()` in the same transaction as the membership. Email verification is required, with a 6-digit
+  code (Better Auth `emailOTP` plugin, `overrideDefaultEmailVerification`); a correct code signs the person in.
+  Forgot password uses a code too. Details and limits: [security-privacy](security-privacy.md#authentication).
 - Extra user fields: `phone`, `globalRole` (server-set only), `isSeed`.
 - Dashboard: HTTP-only session cookie, first-party on `dashboard.desanara.app` because the dashboard proxies the API.
   `COOKIE_DOMAIN=desanara.app` (`crossSubDomainCookies`) is available if another subdomain must read the session;
   it is empty today. `TRUSTED_ORIGINS` lists the apps.
-- Dashboard client: `createUmkmAuthClient()` from `@repo/auth/client` (`signIn.email`, `signOut`).
+- Dashboard client: `createUmkmAuthClient()` from `@repo/auth/client` (`signIn.email`, `signOut`,
+  `emailOtp.verifyEmail`, `emailOtp.requestPasswordReset`, `emailOtp.resetPassword`).
 - Mobile (later): Better Auth Expo/bearer plugin.
 
 ## Authorization — `can()`
@@ -32,17 +38,21 @@ The API session middleware builds an `Actor` (`apps/api/src/lib/actor.ts`) from 
 | `business.list_all` (dashboard list across villages)                                            | Yes         | No                          | No                | No          | No                   |
 | `village.view` (village settings, map centre)                                                   | Yes         | Yes                         | Yes               | No          | No                   |
 | `village.update`, `village.manage_members`, `village.view_analytics`, `village.customize_theme` | Yes         | Yes                         | No                | No          | No                   |
+| `village.invite_members` (invite pendamping desa)                                               | Yes         | Yes                         | No                | No          | No                   |
 | `business.list` (every business of the village, incl. drafts)                                   | Yes         | Yes                         | No                | No          | No                   |
 | `business.create`                                                                               | Yes         | Yes                         | Yes               | No          | No                   |
 | `business.verify`, `business.takedown`                                                          | Yes         | Yes                         | No                | No          | No                   |
 | `business.view`, `business.update`, `business.publish`, `business.view_analytics`               | Yes         | Yes                         | via assignment    | Yes         | Yes                  |
 | `business.change_slug`, `business.delete` (soft)                                                | Yes         | Yes                         | No                | No          | No                   |
 | `business.manage_members`                                                                       | Yes         | Yes                         | No                | Yes         | No                   |
-| `business.invite_owner` (hand-over)                                                             | Yes         | Yes                         | via assignment    | Yes         | Yes                  |
+| `business.invite_owner` (hand-over)                                                             | Yes         | Yes                         | via assignment    | Yes         | No (see below)       |
+| `business.invite_members` (invite the owner's helpers)                                          | Yes         | Yes                         | No                | Yes         | No                   |
 | `product.create/update/publish/delete`                                                          | Yes         | Yes                         | via assignment    | Yes         | Yes                  |
 
 A village assistant who creates a business becomes its `assistant` (business membership) in the same
-transaction. Business rules that are not "who" questions live in services, not in `can()`:
+transaction. `business.invite_owner` for a business `assistant` is granted only when that person is also a
+`village_assistant` of the village (a pendamping): a helper the owner invited must not be able to create an owner,
+who outranks them. Village admins are invited by the super admin only (`user.manage`). Business rules that are not "who" questions live in services, not in `can()`:
 
 - Publish needs `verificationStatus = verified`, consent (`consentAt`), a WhatsApp number, and no takedown.
   The API answers 409 `CONFLICT` with `details.reason` = `NOT_VERIFIED` | `NO_CONSENT` | `NO_WHATSAPP` |

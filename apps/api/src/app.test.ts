@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import { createAuth } from '@repo/auth/server'
 import { createDb } from '@repo/db'
 import { createApp } from './app'
+import { createTestMailer } from './test/mailer'
 
 // No database needed: these routes never query it. postgres.js connects lazily.
 const db = createDb('postgres://postgres:postgres@localhost:5999/never_used', { max: 1 })
@@ -10,8 +11,18 @@ const auth = createAuth({
   secret: 'test-secret-test-secret',
   baseURL: 'http://localhost:8787',
   trustedOrigins: [],
+  mailer: createTestMailer(),
 })
-const app = createApp({ db, auth, trustedOrigins: [], logRequests: false })
+const base = {
+  db,
+  auth,
+  mailer: createTestMailer(),
+  secret: 'test-secret-test-secret',
+  dashboardUrl: 'http://localhost:3001',
+  trustedOrigins: [],
+  logRequests: false,
+}
+const app = createApp(base)
 
 describe('api', () => {
   test('GET /health', async () => {
@@ -55,14 +66,8 @@ describe('api', () => {
 
 describe('API reference access', () => {
   const creds = { username: 'desanara', password: 'correct-horse-battery' }
-  const locked = createApp({
-    db,
-    auth,
-    trustedOrigins: [],
-    logRequests: false,
-    docs: { mode: 'password', ...creds },
-  })
-  const off = createApp({ db, auth, trustedOrigins: [], logRequests: false, docs: { mode: 'off' } })
+  const locked = createApp({ ...base, docs: { mode: 'password', ...creds } })
+  const off = createApp({ ...base, docs: { mode: 'off' } })
   const form = (username: string, password: string) =>
     new URLSearchParams({ username, password }).toString()
   const login = (username: string, password: string) =>

@@ -10,7 +10,34 @@ Gambaran alur dan status: [alur pengguna](../product/user-flows.md).
 
 1. Buka **https://dashboard.desanara.app** di HP atau laptop. Simpan ke layar utama HP agar mudah dibuka lagi.
 2. Isi **Email** dan **Kata sandi**, tekan **Masuk**.
-3. Lupa kata sandi atau belum punya akun: hubungi pengurus HIMA. Pendaftaran mandiri dan undangan lewat WhatsApp (belum tersedia).
+3. Jika muncul **Masukkan kode dari email**, buka Gmail di HP. Kode 6 angka ada di judul email dari Desanara. Ketik
+   kodenya, lalu kamu langsung masuk. Ini hanya terjadi sekali, untuk memastikan email itu milikmu.
+4. **Lupa kata sandi?** Tekan tautan di bawah tombol Masuk, isi email, lalu masukkan kode dari email bersama kata
+   sandi baru. Setelah disimpan kamu langsung masuk.
+
+Belum punya akun? Akun hanya dibuat lewat **undangan** (lihat bagian berikut). Minta undangan ke admin desa atau
+pendamping.
+
+## Undangan akun
+
+Akun baru selalu dibuat dari tautan undangan. Siapa boleh mengundang siapa:
+
+| Pengundang   | Boleh mengundang                                           |
+| ------------ | ---------------------------------------------------------- |
+| Admin desa   | Pendamping desa, pemilik dan asisten UMKM di desanya       |
+| Pendamping   | Pemilik UMKM yang ia daftarkan                             |
+| Pemilik UMKM | Asisten UMKM-nya (misalnya anggota keluarga yang membantu) |
+
+Cara mengundang:
+
+1. Pemilik UMKM: buka UMKM-nya, bagian **Akses UMKM**. Pendamping desa: buka **Pengaturan desa**, bagian **Tim desa**.
+2. Tekan **Undang**, isi nama (boleh dikosongkan) dan email (opsional), lalu **Buat undangan**.
+3. Tekan **Kirim lewat WhatsApp** dan pilih kontaknya. Jika email diisi, undangan juga dikirim ke email itu.
+4. Tautan berlaku 7 hari dan hanya bisa dipakai sekali. Undangan yang belum diterima tampil di **Menunggu diterima** dan
+   bisa dibatalkan dengan tombol silang.
+
+Yang diundang cukup membuka tautan, mengisi nama, email dan kata sandi. Jika tautan dibuka dari WhatsApp, ia diminta
+memasukkan kode 6 angka dari email; jika dibuka dari email, langsung masuk.
 
 Untuk latihan, minta **akun latihan** ke pengurus HIMA. Akun latihan terhubung ke data contoh, jadi jangan memasukkan
 data UMKM asli memakai akun latihan.
@@ -114,7 +141,9 @@ Menu **Pengaturan desa** hanya tampil untuk admin desa.
 - **Profil desa**: cerita singkat desa, telepon, email, dan alamat kantor desa. Bagian ini tampil di halaman desa, jadi
   isi dengan kontak kantor, bukan nomor pribadi. Tekan **Simpan profil**.
 
-Logo, banner, warna tampilan, dan anggota tim desa akan menyusul di menu yang sama.
+- **Tim desa**: undang pendamping desa (lihat [Undangan akun](#undangan-akun)).
+
+Logo, banner, dan warna tampilan akan menyusul di menu yang sama.
 
 ## Admin desa: menurunkan dan memulihkan UMKM
 

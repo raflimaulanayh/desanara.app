@@ -18,6 +18,7 @@ import {
 } from '@/lib/businesses'
 import { googleMapsUrl } from '@/lib/map'
 import { ConfirmPanel } from '../confirm-panel'
+import { type InviteRoleOption, InvitePanel } from '../invite/invite-panel'
 import { ProductSection } from '../product/product-section'
 import { LogoCard } from './logo-card'
 import { StatusChips } from './status-chips'
@@ -307,6 +308,28 @@ export function BusinessDetail({ id }: { id: string }) {
       <ProductSection business={b} />
 
       <LogoCard business={b} />
+
+      {p.inviteOwner || p.inviteMembers ? (
+        <InvitePanel
+          scope={{ businessId: b.id }}
+          title={t('invitePanel.businessTitle')}
+          hint={
+            p.inviteOwner && p.inviteMembers
+              ? t('invitePanel.businessHint')
+              : p.inviteOwner
+                ? t('invitePanel.businessHintOwner')
+                : t('invitePanel.businessHintHelper')
+          }
+          roles={
+            [
+              ...(p.inviteOwner ? [{ role: 'owner' as const, label: t('roles.owner') }] : []),
+              ...(p.inviteMembers
+                ? [{ role: 'assistant' as const, label: t('invitePanel.assistantRole') }]
+                : []),
+            ] satisfies InviteRoleOption[]
+          }
+        />
+      ) : null}
 
       {p.takedown || p.delete ? (
         <Card className="border-danger/30 border">

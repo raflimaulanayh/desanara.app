@@ -1,5 +1,6 @@
 import type { Auth } from '@repo/auth/server'
 import type { Database } from '@repo/db'
+import type { Mailer } from '@repo/email'
 import { Scalar } from '@scalar/hono-api-reference'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
@@ -11,6 +12,7 @@ import type { Storage } from './lib/storage'
 import { createRouter } from './lib/router'
 import { requireUser, sessionMiddleware } from './middleware/session'
 import { healthRoutes } from './modules/health/health.routes'
+import { invitationRoutes, manageInvitationRoutes } from './modules/invitations/invitations.routes'
 import { meRoutes } from './modules/me/me.routes'
 import { businessRoutes } from './modules/businesses/businesses.routes'
 import { catalogRoutes } from './modules/catalog/catalog.routes'
@@ -34,6 +36,9 @@ export interface AppDeps {
   db: Database
   auth: Auth
   storage?: Storage | null
+  mailer: Mailer
+  secret: string
+  dashboardUrl: string
   trustedOrigins: string[]
   logRequests?: boolean
   docs?: DocsAccess
@@ -48,6 +53,9 @@ export function createApp({
   db,
   auth,
   storage = null,
+  mailer,
+  secret,
+  dashboardUrl,
   trustedOrigins,
   logRequests = true,
   docs = { mode: 'open' },
@@ -62,10 +70,13 @@ export function createApp({
     c.set('db', db)
     c.set('auth', auth)
     c.set('storage', storage)
+    c.set('mailer', mailer)
+    c.set('secret', secret)
+    c.set('dashboardUrl', dashboardUrl.replace(/\/$/, ''))
     await next()
   })
 
-  // Better Auth owns /api/auth/* (sign-in, sign-up, sessions).
+  // Better Auth owns /api/auth/* (sign-in, codes, sessions). Public sign-up is off: see invitations.
   app.on(['GET', 'POST'], '/api/auth/*', (c) => auth.handler(c.req.raw))
 
   app.use('/v1/*', sessionMiddleware)
@@ -79,9 +90,11 @@ export function createApp({
     .route('/v1/businesses', businessRoutes)
     .route('/v1/regions', regionRoutes)
     .route('/v1/events', eventRoutes)
+    .route('/v1/invitations', invitationRoutes)
     .route('/v1/manage/businesses', manageBusinessRoutes)
     .route('/v1/manage/media', mediaRoutes)
     .route('/v1/manage/villages', manageVillageRoutes)
+    .route('/v1/manage/invitations', manageInvitationRoutes)
     .route('/v1/manage', manageProductRoutes)
     .route('/v1', catalogRoutes)
 

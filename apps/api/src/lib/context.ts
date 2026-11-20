@@ -1,6 +1,7 @@
 import type { Actor } from '@repo/auth/permissions'
 import type { Auth } from '@repo/auth/server'
 import type { Database } from '@repo/db'
+import type { Mailer } from '@repo/email'
 import type { Storage } from './storage'
 
 export interface SessionUser {
@@ -17,6 +18,11 @@ export interface AppEnv {
     auth: Auth
     /** Null when R2 is not configured (uploads answer 503). */
     storage: Storage | null
+    mailer: Mailer
+    /** Server secret, for signing links (invitation email proof). */
+    secret: string
+    /** Dashboard origin, for links sent to people. */
+    dashboardUrl: string
     user: SessionUser | null
     actor: Actor | null
   }
