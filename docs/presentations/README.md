@@ -47,4 +47,5 @@ Build ulang juga setiap kali logo atau foto sumbernya berganti.
 - Repo ini publik: orang disebut dengan perannya (Ketua Pelaksana, Pemateri, Sekretaris Desa), bukan namanya.
 - Tidak ada kata sandi, data pribadi UMKM, atau ID infrastruktur.
 - Ikuti warna dan logo di [`DESIGN.md`](../../DESIGN.md); logo diambil dari `docs/brand/desanara/`, tidak diketik ulang.
-- Foto produk adalah foto ilustrasi Wikimedia Commons; kreditnya wajib tetap tampil di slide yang memakainya.
+- Semua foto adalah foto ilustrasi Wikimedia Commons; kreditnya wajib tetap tampil di slide yang memakainya. Daftar
+  sumber foto pedesaan ada di `src/img/CREDITS.md`.

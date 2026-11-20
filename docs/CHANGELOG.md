@@ -19,8 +19,8 @@ Format:
 
 - **Area**: docs
 - **Jenis**: Changed
-- Slide rapat persiapan seminar ditata ulang supaya tidak terlihat seperti template: foto asli Desa Baros di sampul,
-  slide desa, dan penutup; label kecil di atas judul dan kartu berbingkai diganti garis tipis dan ruang kosong; status
+- Slide rapat persiapan seminar ditata ulang supaya tidak terlihat seperti template: foto suasana pedesaan Jawa Barat (Wikimedia Commons,
+  kredit tercantum) di sampul, slide desa, dan penutup, menggantikan foto Desa Baros yang buram; label kecil di atas judul dan kartu berbingkai diganti garis tipis dan ruang kosong; status
   memakai titik dan kata sesuai `DESIGN.md`; teks badan 21 px untuk proyektor; footer berjalan berisi bagian dan nomor
   slide. Animasi dikurangi menjadi transisi slide dan animasi data. Sumber deck dan `build.ts` kini ada di
   `docs/presentations/src/`, sehingga deck bisa di-build ulang setelah logo atau foto berganti.

@@ -1,6 +1,6 @@
 // Builds docs/presentations/rapat-persiapan-seminar.html from the template in this folder.
 // Run from the repo root: bun docs/presentations/src/build.ts   (needs ImageMagick `magick` on PATH)
-// Logos come from docs/brand/desanara/ and photos from apps/web/public/media/, so rebuild after either changes.
+// Logos come from docs/brand/desanara/, photos from src/img/ and apps/web/public/media/; rebuild after either changes.
 import { spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -12,7 +12,9 @@ const media = 'apps/web/public/media/seed'
 
 // name -> [source, ImageMagick resize arguments]
 const images: Record<string, [string, string[]]> = {
-  banner: [`${media}/villages/baros/banner.webp`, ['-resize', '1280x', '-quality', '58']],
+  // rural photos are pre-cropped in src/img (credits in src/img/CREDITS.md)
+  sawah: [`${here}/img/sawah-kampung-naga.webp`, []],
+  'jalan-desa': [`${here}/img/jalan-desa-malasari.webp`, []],
   crest: [`${media}/villages/baros/logo.webp`, ['-resize', '240x', '-quality', '85']],
   'ubi-roasted': [`${media}/products/ubi-roasted.webp`, square(640, 68)],
   'coffee-beans': [`${media}/products/coffee-beans.webp`, square(640, 68)],
