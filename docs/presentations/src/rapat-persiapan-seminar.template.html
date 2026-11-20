@@ -1,0 +1,2808 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rapat Persiapan Seminar Desanara</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --green: #0f5a37;
+        --green-ink: #0b4429;
+        --green-soft: #e6f0e9;
+        --leaf: #5e8f3e;
+        --sun: #e3a84f;
+        --clay: #c2612c;
+        --wa: #0f7a3f;
+        --ink: #1c1917;
+        --muted: #57534e;
+        --faint: #8a837b;
+        --wash: #f9f4e7;
+        --wash-strong: #f1e8d3;
+        --line: #e8dfcb;
+        --line-strong: #d2c4a8;
+        --amber: #b45309;
+        --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        /* type roles, sized for a projected 1280x720 canvas */
+        --t-display: 700 66px/1.03 var(--font);
+        --t-head: 700 44px/1.1 var(--font);
+        --t-sub: 400 23px/1.45 var(--font);
+        --t-body: 400 21px/1.5 var(--font);
+        --t-run: 600 21px/1.4 var(--font);
+        --t-small: 400 16px/1.5 var(--font);
+        --t-meta: 500 14px/1.4 var(--font);
+        /* spacing scale (4-based) */
+        --s1: 4px;
+        --s2: 8px;
+        --s3: 12px;
+        --s4: 16px;
+        --s5: 24px;
+        --s6: 32px;
+        --s7: 48px;
+        --s8: 64px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #16201b;
+        color: var(--ink);
+        font-family: var(--font);
+      }
+      body {
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        font-feature-settings: 'ss01';
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+      }
+      ::selection {
+        background: var(--sun);
+        color: var(--ink);
+      }
+      :focus-visible {
+        outline: 2px solid var(--sun);
+        outline-offset: 3px;
+        border-radius: 4px;
+      }
+
+      #viewport {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+      }
+      #stage {
+        width: 1280px;
+        height: 720px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform-origin: center center;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        background: #fff;
+        color: var(--ink);
+        padding: 72px 88px 96px;
+        display: none;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .slide.active {
+        display: flex;
+      }
+      .slide.wash {
+        background: var(--wash);
+      }
+      .slide.dark {
+        background: var(--green);
+        color: #fff;
+      }
+      .notes {
+        display: none;
+      }
+
+      /* running footer, filled by script from data-section */
+      .foot {
+        position: absolute;
+        left: 88px;
+        right: 88px;
+        bottom: 34px;
+        display: flex;
+        justify-content: space-between;
+        font: var(--t-meta);
+        color: var(--faint);
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+      .dark .foot {
+        color: #a9cbb6;
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+      .photo-slide .foot {
+        left: auto;
+        width: calc(54% - 176px);
+        right: 88px;
+      }
+
+      /* type */
+      h1 {
+        font: var(--t-display);
+        letter-spacing: -0.03em;
+        margin: 0;
+        text-wrap: balance;
+      }
+      h2 {
+        font: var(--t-head);
+        letter-spacing: -0.025em;
+        margin: 0;
+        text-wrap: balance;
+        max-width: 28ch;
+      }
+      h3 {
+        font: var(--t-run);
+        margin: 0;
+      }
+      p {
+        margin: 0;
+      }
+      .sub {
+        font: var(--t-sub);
+        color: var(--muted);
+        max-width: 52ch;
+        margin-top: var(--s4);
+        text-wrap: pretty;
+      }
+      .dark .sub {
+        color: #d5e8dc;
+      }
+      .body {
+        font: var(--t-body);
+        text-wrap: pretty;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .small {
+        font: var(--t-small);
+        color: var(--muted);
+      }
+      .dark .small {
+        color: #bcd8c7;
+      }
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+      .em {
+        color: var(--green);
+      }
+      .dark .em {
+        color: var(--sun);
+      }
+      .statement {
+        font: 600 26px/1.35 var(--font);
+        letter-spacing: -0.01em;
+        color: var(--green);
+        max-width: 40ch;
+        text-wrap: balance;
+      }
+      .dark .statement {
+        color: #fff;
+      }
+      .grow {
+        flex: 1;
+        min-height: 0;
+      }
+      .mt5 {
+        margin-top: var(--s5);
+      }
+      .mt6 {
+        margin-top: var(--s6);
+      }
+      .mt7 {
+        margin-top: var(--s7);
+      }
+      .mtauto {
+        margin-top: auto;
+      }
+
+      /* columns separated by hairlines instead of boxes */
+      .cols {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+      }
+      .cols > * {
+        padding: 0 var(--s6);
+        border-left: 1px solid var(--line);
+      }
+      .cols > *:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+      .cols > *:last-child {
+        padding-right: 0;
+      }
+      .dark .cols > * {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .cols h3 {
+        margin-bottom: var(--s2);
+      }
+
+      /* definition rows */
+      .rows {
+        display: flex;
+        flex-direction: column;
+      }
+      .rows > div {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: var(--s5);
+        padding: var(--s4) 0;
+        border-top: 1px solid var(--line);
+        font: var(--t-body);
+      }
+      .rows > div:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .rows dt,
+      .rows .k {
+        font: var(--t-run);
+      }
+      .dark .rows > div {
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+      .rows.tight > div {
+        padding: var(--s3) 0;
+        font: var(--t-small);
+        font-size: 18px;
+        color: var(--ink);
+      }
+      .rows.tight .k {
+        font: 600 18px/1.4 var(--font);
+      }
+      .rows.narrow > div {
+        grid-template-columns: 120px 1fr;
+        gap: var(--s4);
+      }
+      .cols ul.list.sm li,
+      #timeline-panel ul.list.sm li {
+        padding: 7px 0;
+        font-size: 17px;
+      }
+
+      /* lists */
+      ul.list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      ul.list li {
+        font: var(--t-body);
+        padding: var(--s3) 0;
+        border-top: 1px solid var(--line);
+      }
+      ul.list li:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+      ul.list.sm li {
+        font: var(--t-small);
+        font-size: 18px;
+        color: var(--ink);
+        padding: 10px 0;
+      }
+
+      /* status: dot + word (DESIGN.md) */
+      .st {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font: 600 16px/1 var(--font);
+        white-space: nowrap;
+      }
+      .st::before {
+        content: '';
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+      .st.done {
+        color: var(--green);
+      }
+      .st.plan {
+        color: var(--amber);
+      }
+      .st.team {
+        color: var(--muted);
+      }
+      .st.later {
+        color: var(--faint);
+      }
+
+      /* photo */
+      .photo {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+        background: var(--wash-strong);
+      }
+      .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .photo figcaption {
+        position: absolute;
+        left: 24px;
+        bottom: 22px;
+        background: var(--ink);
+        color: #fff;
+        font: var(--t-meta);
+        padding: 7px 12px;
+        border-radius: 6px;
+      }
+      .slide.active .photo img {
+        animation: settle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .credit {
+        font: 400 12px/1.4 var(--font);
+        color: var(--faint);
+      }
+      .dark .credit {
+        color: #a9cbb6;
+      }
+
+      /* logo */
+      svg.logo {
+        display: block;
+        height: auto;
+      }
+
+      /* tab list used by every picker: text items, the current one marked by weight, ink and a dot */
+      .tabs {
+        display: flex;
+        flex-direction: column;
+      }
+      .tabs .pick {
+        font: var(--t-body);
+        color: var(--muted);
+        padding: 14px 0 14px 22px;
+        border-top: 1px solid var(--line);
+        position: relative;
+        transition: color 0.2s;
+      }
+      .tabs .pick:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .tabs .pick::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 8px;
+        height: 8px;
+        margin-top: -4px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        transition:
+          background 0.2s,
+          transform 0.2s;
+      }
+      .tabs .pick:hover {
+        color: var(--ink);
+      }
+      .tabs .pick.on {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .tabs .pick.on::before {
+        background: var(--green);
+        transform: scale(1.3);
+      }
+      .tabs .pick small {
+        display: block;
+        font: var(--t-meta);
+        color: var(--faint);
+        font-weight: 500;
+        margin-top: 2px;
+      }
+      .tabs.h {
+        flex-direction: row;
+        border-bottom: 1px solid var(--line);
+      }
+      .tabs.h .pick {
+        flex: 1;
+        border: 0;
+        padding: 0 0 16px;
+        font-size: 19px;
+      }
+      .tabs.h .pick::before {
+        top: auto;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        width: auto;
+        height: 3px;
+        margin: 0;
+        border-radius: 0;
+        background: transparent;
+        transform: none;
+      }
+      .tabs.h .pick.on::before {
+        background: var(--green);
+        transform: none;
+      }
+      .panel > [data-key] {
+        display: none;
+      }
+      .panel > [data-key].on {
+        display: block;
+        animation: swap 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      .hint {
+        font: var(--t-meta);
+        color: var(--faint);
+      }
+
+      /* sequence: big numerals joined by one rule */
+      .seq {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
+        gap: var(--s6);
+        position: relative;
+      }
+      .seq > div {
+        position: relative;
+        padding-top: 60px;
+      }
+      .seq > div::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: calc(var(--s6) * -1);
+        top: 22px;
+        border-top: 1px solid var(--line-strong);
+      }
+      .seq > div:last-child::before {
+        right: 0;
+      }
+      .seq .n {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font: 700 40px/1 var(--font);
+        color: var(--green);
+        background: inherit;
+        padding-right: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+      .wash .seq .n {
+        background: var(--wash);
+      }
+      .slide:not(.wash):not(.dark) .seq .n {
+        background: #fff;
+      }
+      .seq h3 {
+        margin-bottom: var(--s2);
+      }
+      .seq .wa h3,
+      .seq .wa .n {
+        color: var(--wa);
+      }
+
+      /* tables */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th {
+        text-align: left;
+        font: var(--t-meta);
+        color: var(--faint);
+        padding: 0 var(--s4) var(--s3) 0;
+        border-bottom: 1px solid var(--line-strong);
+      }
+      td {
+        font: var(--t-small);
+        font-size: 17px;
+        color: var(--ink);
+        padding: 10px var(--s4) 10px 0;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        line-height: 1.4;
+      }
+      td.r,
+      th.r {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        padding-right: 0;
+      }
+      tr.total td {
+        font-weight: 700;
+        border-bottom: 0;
+        border-top: 1.5px solid var(--ink);
+      }
+      tr.hide {
+        display: none;
+      }
+
+      /* segmented filter */
+      .seg-ctl {
+        display: inline-flex;
+        gap: var(--s5);
+        border-bottom: 1px solid var(--line);
+      }
+      .seg-ctl button {
+        font: 600 16px/1 var(--font);
+        color: var(--faint);
+        padding: 0 0 12px;
+        position: relative;
+      }
+      .seg-ctl button.on {
+        color: var(--ink);
+      }
+      .seg-ctl button.on::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -1px;
+        height: 3px;
+        background: var(--green);
+      }
+
+      /* recruitment bars */
+      .bars {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .bar {
+        display: grid;
+        grid-template-columns: 200px 1fr 92px;
+        align-items: center;
+        gap: var(--s4);
+        font: 400 16px/1.2 var(--font);
+      }
+      .bar .track {
+        height: 8px;
+        background: var(--line);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .bar .fill {
+        height: 100%;
+        background: var(--green);
+        border-radius: 4px;
+      }
+      .bar.warn .fill {
+        background: var(--clay);
+      }
+      .bar.warn > span:first-child {
+        color: var(--clay);
+        font-weight: 600;
+      }
+      .bar .v {
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+      }
+      .bar .v span {
+        font-weight: 400;
+        color: var(--faint);
+        font-size: 13px;
+        margin-left: 6px;
+      }
+      .bar .fill {
+        transform-origin: left center;
+      }
+      .slide.active .bar .fill {
+        animation: growX 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: calc(var(--i, 0) * 60ms + 200ms);
+      }
+
+      /* rundown strip */
+      .strip {
+        display: flex;
+        height: 76px;
+        gap: 3px;
+      }
+      .strip button {
+        padding: 10px 10px 8px;
+        font: 600 14px/1.25 var(--font);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 4px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+      .strip .ops {
+        background: var(--wash-strong);
+        color: var(--muted);
+      }
+      .strip .edu {
+        background: #cfe2d6;
+        color: var(--green-ink);
+      }
+      .strip .demo {
+        background: #f4d9bd;
+        color: #7a3a10;
+      }
+      .strip button.on {
+        box-shadow: inset 0 0 0 2px var(--ink);
+      }
+      .strip .tm {
+        font: 500 12px/1 var(--font);
+        opacity: 0.75;
+      }
+      .axis {
+        display: flex;
+        justify-content: space-between;
+        font: var(--t-meta);
+        color: var(--faint);
+        margin-top: 10px;
+        font-variant-numeric: tabular-nums;
+      }
+      .legend {
+        display: flex;
+        gap: var(--s5);
+        font: var(--t-meta);
+        color: var(--muted);
+      }
+      .legend i {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        margin-right: 8px;
+        vertical-align: -2px;
+      }
+      .slide.active .strip button {
+        animation: growY 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: calc(var(--i, 0) * 50ms + 150ms);
+        transform-origin: bottom;
+      }
+
+      /* timeline */
+      .tl-row {
+        display: grid;
+        grid-template-columns: 236px 1fr;
+        align-items: center;
+        height: 28px;
+      }
+      .tl-row .name {
+        font: 500 16px/1 var(--font);
+        color: var(--muted);
+      }
+      .tl-row .lane {
+        position: relative;
+        height: 100%;
+      }
+      .tl-row .seg {
+        position: absolute;
+        top: 10px;
+        height: 9px;
+        border-radius: 5px;
+        background: var(--line-strong);
+        padding: 0;
+      }
+      .tl-row .seg:hover {
+        background: var(--muted);
+      }
+      .tl-row .seg.ms {
+        width: 13px !important;
+        height: 13px;
+        top: 8px;
+        border-radius: 2px;
+        transform: translateX(-6px) rotate(45deg);
+        background: var(--muted);
+      }
+      .tl-row .seg.key {
+        background: var(--green);
+      }
+      .tl-row .seg.on {
+        background: var(--green);
+        box-shadow: 0 0 0 4px rgba(15, 90, 55, 0.18);
+      }
+      .tl-row .seg.on + .when {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .tl-row:has(.seg.on) .name {
+        color: var(--ink);
+        font-weight: 700;
+      }
+      .tl-row .when {
+        position: absolute;
+        top: 7px;
+        font: var(--t-meta);
+        color: var(--faint);
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+      }
+      .tl-axis {
+        display: grid;
+        grid-template-columns: 236px 1fr;
+        font: var(--t-meta);
+        color: var(--faint);
+        height: 24px;
+      }
+      .tl-axis .ticks {
+        position: relative;
+        border-bottom: 1px solid var(--line-strong);
+      }
+      .tl-axis .ticks span {
+        position: absolute;
+        transform: translateX(-50%);
+      }
+      .slide.active .tl-row .seg:not(.ms) {
+        transform-origin: left center;
+        animation: growX 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-delay: calc(var(--i, 0) * 50ms + 200ms);
+      }
+
+      /* checklist */
+      .check label {
+        display: grid;
+        grid-template-columns: 28px 1fr;
+        gap: var(--s4);
+        align-items: start;
+        padding: 14px 0;
+        border-top: 1px solid var(--line);
+        cursor: pointer;
+        font: var(--t-small);
+        font-size: 19px;
+        color: var(--ink);
+      }
+      .check label:last-child {
+        border-bottom: 1px solid var(--line);
+      }
+      .check input {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        margin: 1px 0 0;
+        border: 1.5px solid var(--line-strong);
+        border-radius: 6px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .check input:checked {
+        background: var(--green);
+        border-color: var(--green);
+      }
+      .check input:checked::after {
+        content: '';
+        width: 10px;
+        height: 6px;
+        border: 2px solid #fff;
+        border-top: 0;
+        border-right: 0;
+        transform: rotate(-45deg) translate(1px, -1px);
+      }
+      .check label:has(input:checked) span {
+        color: var(--faint);
+      }
+
+      /* buttons, QR */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 14px 26px;
+        border-radius: 999px;
+        background: var(--green);
+        color: #fff;
+        font: 700 17px/1 var(--font);
+        text-decoration: none;
+      }
+      .btn.ghost {
+        background: transparent;
+        color: var(--green);
+        box-shadow: inset 0 0 0 1.5px var(--green);
+      }
+      .btn:hover {
+        filter: brightness(1.08);
+      }
+      .qr {
+        width: 300px;
+        height: 300px;
+        flex: none;
+      }
+      .qr svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* product tiles on the Desanara slide */
+      .tiles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .tiles figure {
+        margin: 0;
+      }
+      .tiles img {
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        display: block;
+        border-radius: 10px;
+      }
+      .tiles figcaption {
+        font: 500 13px/1.3 var(--font);
+        color: #d5e8dc;
+        margin-top: 6px;
+      }
+
+      /* motion */
+      @keyframes enter {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes settle {
+        from {
+          transform: scale(1.06);
+          filter: saturate(0.7);
+        }
+        to {
+          transform: none;
+          filter: none;
+        }
+      }
+      @keyframes swap {
+        from {
+          opacity: 0;
+          transform: translateX(8px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes growX {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @keyframes growY {
+        from {
+          transform: scaleY(0.2);
+          opacity: 0;
+        }
+        to {
+          transform: none;
+          opacity: 1;
+        }
+      }
+      .slide.active {
+        animation: enter 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+
+      /* chrome */
+      #progress {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 3px;
+        width: 100%;
+        background: var(--sun);
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 5;
+      }
+      #hud {
+        position: fixed;
+        right: 14px;
+        bottom: 12px;
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        z-index: 5;
+        transition: opacity 0.3s;
+        background: rgba(28, 25, 23, 0.86);
+        border-radius: 999px;
+        padding: 4px;
+      }
+      body.idle #hud {
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.idle {
+        cursor: none;
+      }
+      #hud button,
+      #hud .count {
+        color: #fff;
+        font: 600 13px/1 var(--font);
+        padding: 8px 12px;
+        border-radius: 999px;
+      }
+      #hud button:hover {
+        background: rgba(255, 255, 255, 0.14);
+      }
+      #hud .count {
+        font-variant-numeric: tabular-nums;
+        color: #cfc8bf;
+      }
+      #overview {
+        position: fixed;
+        inset: 0;
+        background: rgba(16, 24, 20, 0.96);
+        z-index: 10;
+        display: none;
+        overflow: auto;
+        padding: 48px;
+      }
+      #overview.open {
+        display: block;
+      }
+      #overview h2 {
+        color: #fff;
+        font-size: 28px;
+        margin-bottom: 24px;
+      }
+      #overview .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      #overview button {
+        background: #16201b;
+        color: #fff;
+        padding: 16px 18px;
+        min-height: 84px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      #overview button:hover {
+        background: #1f2d25;
+      }
+      #overview button.cur {
+        background: var(--green);
+      }
+      #overview button b {
+        font: 500 13px/1 var(--font);
+        color: #a9cbb6;
+      }
+      #overview button span {
+        font: 600 16px/1.3 var(--font);
+      }
+      #overview .keys {
+        color: #a9cbb6;
+        font: var(--t-small);
+        margin-top: 24px;
+        line-height: 2;
+      }
+      kbd {
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-radius: 5px;
+        padding: 2px 8px;
+        font: 600 13px var(--font);
+      }
+
+      /* presenter */
+      body.presenter {
+        overflow: auto;
+        background: #101814;
+        color: #fff;
+      }
+      body.presenter #viewport,
+      body.presenter #hud,
+      body.presenter #progress {
+        display: none;
+      }
+      #pv {
+        display: none;
+      }
+      body.presenter #pv {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 20px;
+        padding: 24px;
+        min-height: 100vh;
+      }
+      #pv .bar-top {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font: 600 15px var(--font);
+      }
+      #pv .timer {
+        font: 700 34px/1 var(--font);
+        font-variant-numeric: tabular-nums;
+        color: var(--sun);
+        margin-right: 8px;
+      }
+      #pv .bar-top button {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-radius: 999px;
+        padding: 9px 16px;
+        font-weight: 600;
+      }
+      #pv .frame {
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+      }
+      #pv > .col {
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      #pv .frame .inner {
+        width: 1280px;
+        height: 720px;
+        transform-origin: top left;
+        position: relative;
+        color: var(--ink);
+      }
+      #pv .frame .inner .slide {
+        display: flex;
+      }
+      #pv .label {
+        font: 600 12px var(--font);
+        color: #a9cbb6;
+        margin: 0 0 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      #pv .notes-box {
+        background: #1a2620;
+        border-radius: 8px;
+        padding: 20px 22px;
+        font: 400 19px/1.6 var(--font);
+        overflow: auto;
+      }
+      #pv .notes-box ul {
+        padding-left: 20px;
+        margin: 0;
+      }
+      #pv .notes-box li {
+        margin-bottom: 10px;
+      }
+      #pv * {
+        animation: none !important;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="progress"></div>
+    <div id="viewport">
+      <div id="stage">
+        <!-- 1 cover -->
+        <section class="slide photo-slide" data-title="Pembuka" data-section="Pembuka">
+          <div style="width: 48%; display: flex; flex-direction: column; height: 100%">
+            {{LOGO_GREEN}}
+            <h1 style="margin-top: auto; font-size: 58px">
+              Persiapan Seminar &amp; Showcase Desanara
+            </h1>
+            <p class="sub">
+              Rapat internal HIMASIF untuk menyamakan pemahaman sebelum kita turun ke Desa Baros.
+            </p>
+            <p class="body mt6" style="font-weight: 600">
+              Sabtu, 5 Desember 2026<span class="muted" style="font-weight: 400">
+                · Kantor Desa Baros</span
+              >
+            </p>
+          </div>
+          <figure class="photo" style="left: 54%; right: 0; margin: 0">
+            <img
+              data-img="banner"
+              alt="Taman wisata di Desa Baros dengan pagar bambu dan payung warna-warni"
+            />
+            <figcaption>Desa Baros, Kec. Arjasari</figcaption>
+          </figure>
+          <aside class="notes">
+            <ul>
+              <li>
+                Tujuan rapat: semua panitia punya gambaran yang sama soal desa, aplikasi, dan
+                rencana hari H.
+              </li>
+              <li>Rapat diakhiri dengan keputusan di slide "Keputusan rapat".</li>
+              <li>Tekan O untuk daftar slide, P untuk mode presenter.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 2 agenda -->
+        <section class="slide" data-title="Agenda" data-section="Pembuka">
+          <h2>Hari ini kita bahas empat hal</h2>
+          <div class="rows mt7 agenda">
+            <div>
+              <button data-goto="3" class="k" style="text-align: left">Desa Baros</button
+              ><span class="muted" style="display: flex; justify-content: space-between"
+                >Masalah UMKM dan hasil survei 24 Oktober<span class="num">3</span></span
+              >
+            </div>
+            <div>
+              <button data-goto="8" class="k" style="text-align: left">Desanara</button
+              ><span class="muted" style="display: flex; justify-content: space-between"
+                >Yang sudah jadi, penggunanya, teknologinya<span class="num">8</span></span
+              >
+            </div>
+            <div>
+              <button data-goto="13" class="k" style="text-align: left">Seminar 5 Desember</button
+              ><span class="muted" style="display: flex; justify-content: space-between"
+                >Tujuan, materi, rundown, demo, praktik<span class="num">13</span></span
+              >
+            </div>
+            <div>
+              <button data-goto="18" class="k" style="text-align: left">
+                Panitia dan keputusan</button
+              ><span class="muted" style="display: flex; justify-content: space-between"
+                >Rekrutmen, divisi, timeline, anggaran, risiko<span class="num">18</span></span
+              >
+            </div>
+          </div>
+          <p class="hint mt5">Klik nama bagian untuk lompat ke slidenya.</p>
+          <aside class="notes">
+            <ul>
+              <li>
+                Dua bagian pertama untuk menyamakan pemahaman, dua terakhir untuk pembagian kerja.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 3 problem -->
+        <section class="slide wash" data-title="Masalah UMKM desa" data-section="Desa Baros">
+          <h2>Produk desa ada, tapi sulit ditemukan</h2>
+          <div class="cols mt7">
+            <div>
+              <h3>Pelaku UMKM</h3>
+              <p class="body muted">Pemasaran masih dari mulut ke mulut dan lingkungan sekitar.</p>
+            </div>
+            <div>
+              <h3>Pembeli</h3>
+              <p class="body muted">
+                Wisatawan, pencari oleh-oleh, dan reseller tidak tahu harus mencari ke mana.
+              </p>
+            </div>
+            <div>
+              <h3>Kesiapan digital</h3>
+              <p class="body muted">Foto, deskripsi, dan harga belum siap tampil secara online.</p>
+            </div>
+          </div>
+          <p class="statement mtauto">
+            Jawaban kita: katalog Desanara, dipasangkan dengan seminar dan pendampingan langsung di
+            desa.
+          </p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Desanara bukan sekadar website: dipasangkan dengan edukasi dan pendampingan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 4 Desa Baros -->
+        <section
+          class="slide photo-slide"
+          data-title="Desa Baros sekilas"
+          data-section="Desa Baros"
+        >
+          <figure class="photo" style="left: 0; width: 46%; margin: 0">
+            <img data-img="banner" alt="Pemandangan wisata Desa Baros" />
+          </figure>
+          <div
+            style="
+              margin-left: 46%;
+              padding-left: 64px;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+            "
+          >
+            <div style="display: flex; align-items: center; gap: 16px">
+              <img
+                data-img="crest"
+                alt="Lambang Pemerintah Desa Baros"
+                style="width: 52px; height: auto"
+              /><span class="small" style="color: var(--ink)">Kec. Arjasari, Kab. Bandung</span>
+            </div>
+            <h2 class="mt6">
+              <span class="em num" data-count="78">78</span> UMKM aktif, naik dari sekitar 30 usaha
+            </h2>
+            <div class="rows tight narrow mt6">
+              <div>
+                <span class="k">Sektor</span
+                ><span>Kerajinan tangan, fashion, kuliner dan olahan pangan</span>
+              </div>
+              <div>
+                <span class="k">Digital</span
+                ><span>Mayoritas sudah pakai smartphone, tapi butuh pendampingan anak muda</span>
+              </div>
+              <div>
+                <span class="k">Skala</span
+                ><span>Sebagian punya pegawai, sebagian dikelola sendiri</span>
+              </div>
+              <div>
+                <span class="k">Perhatian</span
+                ><span
+                  >Pengrajin fashion khas Sunda kurang puas dengan fasilitas desa sebelumnya</span
+                >
+              </div>
+            </div>
+            <p class="credit mtauto">
+              Survei dan observasi HIMASIF, 24 Oktober 2026. Narasumber: Sekretaris Desa dan
+              Koordinator UMKM.
+            </p>
+          </div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Target seminar 30–60 UMKM: hampir setengah sampai tiga perempat dari UMKM aktif.
+              </li>
+              <li>Pengrajin fashion perlu didekati secara personal oleh Humas sebelum hari H.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 5 commodities -->
+        <section class="slide" data-title="Komoditi unggulan" data-section="Desa Baros">
+          <h2>Desa ingin UMKM menjual olahan, bukan bahan mentah</h2>
+          <div
+            class="picker mt7 grow"
+            style="display: grid; grid-template-columns: 300px 1fr; gap: 56px"
+          >
+            <div class="tabs">
+              <button class="pick on" data-key="ubi">Ubi<small>Komoditi utama</small></button>
+              <button class="pick" data-key="hanjeli">
+                Hanjeli<small>Unik dan musiman</small>
+              </button>
+              <button class="pick" data-key="lain">
+                Kopi, jagung, jamur tiram<small>Komoditi utama lainnya</small>
+              </button>
+            </div>
+            <div class="panel">
+              <div data-key="ubi" class="on">
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 220px;
+                    gap: 32px;
+                    align-items: start;
+                  "
+                >
+                  <div>
+                    <h3 style="font-size: 28px">Satu bahan, banyak produk</h3>
+                    <p class="body muted mt5">
+                      Potensi besar dikembangkan menjadi berbagai olahan makanan dari satu bahan
+                      dasar. Cocok jadi kategori unggulan di halaman Desa Baros.
+                    </p>
+                  </div>
+                  <figure style="margin: 0">
+                    <img
+                      data-img="ubi-roasted"
+                      alt="Ubi panggang potong dadu"
+                      style="
+                        width: 220px;
+                        height: 220px;
+                        object-fit: cover;
+                        border-radius: 10px;
+                        display: block;
+                      "
+                    />
+                    <figcaption class="credit" style="margin-top: 6px">Foto ilustrasi</figcaption>
+                  </figure>
+                </div>
+              </div>
+              <div data-key="hanjeli">
+                <h3 style="font-size: 28px">Mirip jagung, kaya gizi</h3>
+                <ul class="list sm mt5">
+                  <li>Musiman, bahan mentah sekitar <b class="num">Rp50.000</b>/kg.</li>
+                  <li>Rendah gula, kaya karbohidrat, tinggi protein.</li>
+                  <li>Sudah diolah menjadi rengginang dan tape.</li>
+                  <li>Tepungnya pernah dikembangkan menjadi bubur bayi bersama kampus lain.</li>
+                </ul>
+              </div>
+              <div data-key="lain">
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: 1fr 220px;
+                    gap: 32px;
+                    align-items: start;
+                  "
+                >
+                  <div>
+                    <h3 style="font-size: 28px">Termasuk komoditi utama desa</h3>
+                    <p class="body muted mt5">
+                      Termasuk produksi jamur tiram beserta pengelolaan media tanam fermentasinya.
+                    </p>
+                  </div>
+                  <figure style="margin: 0">
+                    <img
+                      data-img="coffee-beans"
+                      alt="Biji kopi sangrai"
+                      style="
+                        width: 220px;
+                        height: 220px;
+                        object-fit: cover;
+                        border-radius: 10px;
+                        display: block;
+                      "
+                    />
+                    <figcaption class="credit" style="margin-top: 6px">Foto ilustrasi</figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Hanjeli bisa jadi cerita produk yang menarik di Desanara.</li>
+              <li>Pelatihan inovasi resep belum pernah diberikan; bisa jadi program lanjutan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 6 digital -->
+        <section class="slide wash" data-title="Kondisi digital desa" data-section="Desa Baros">
+          <h2>Desa sudah mencoba digital, tapi kekurangan orang</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px" class="mt7">
+            <div>
+              <h3>Yang sudah ada</h3>
+              <ul class="list sm mt5">
+                <li>
+                  Website KIM (Kelompok Informasi Masyarakat), belum optimal karena keterbatasan
+                  SDM.
+                </li>
+                <li>Peta tematik potensi desa dari pihak luar, belum dimanfaatkan.</li>
+                <li>Yayasan mitra desa yang mengelola proyek, penelitian, dan kunjungan kampus.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Pelatihan UMKM sejauh ini</h3>
+              <div class="rows tight narrow mt5">
+                <div>
+                  <span class="st done">Sudah</span
+                  ><span>Public speaking dan storytelling produk</span>
+                </div>
+                <div><span class="st done">Sudah</span><span>Label kemasan</span></div>
+                <div><span class="st done">Sudah</span><span>Teknik foto produk</span></div>
+                <div><span class="st done">Sudah</span><span>Workshop AI</span></div>
+                <div>
+                  <span class="st plan">Belum</span><span>Inovasi dan pengolahan resep</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="statement mtauto">
+            Foto produk tidak perlu diajarkan lagi. Materi kita fokus ke peluang bisnis, lalu
+            praktik di Desanara.
+          </p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Desanara mengisi kekosongan SDM: UMKM dan pendamping mengelola halaman sendiri.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 7 wishes -->
+        <section class="slide" data-title="Harapan desa" data-section="Desa Baros">
+          <h2>Apa yang diminta desa, dan apa yang sudah ada</h2>
+          <div class="mt6">
+            <div class="seg-ctl filters">
+              <button class="on" data-filter="all">Semua</button
+              ><button data-filter="done">Sudah ada</button
+              ><button data-filter="plan">Direncanakan</button
+              ><button data-filter="team">Tugas tim</button>
+            </div>
+            <table class="filterable mt5">
+              <thead>
+                <tr>
+                  <th style="width: 38%">Harapan desa</th>
+                  <th>Jawaban Desanara</th>
+                  <th style="width: 150px">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-status="done">
+                  <td>Website katalog UMKM, dengan akun promosi yang menarik UMKM bergabung</td>
+                  <td>Halaman desa, halaman usaha, dan produk dengan tombol pesan WhatsApp</td>
+                  <td><span class="st done">Sudah ada</span></td>
+                </tr>
+                <tr data-status="done">
+                  <td>Peta digital, pemilik menandai lokasi usahanya sendiri</td>
+                  <td>Titik lokasi dengan GPS; alamat lengkap tidak tampil publik</td>
+                  <td><span class="st done">Sudah ada</span></td>
+                </tr>
+                <tr data-status="plan">
+                  <td>Pre-order, terutama untuk pengrajin fashion</td>
+                  <td>Kandidat fase berikutnya, tidak untuk 5 Desember</td>
+                  <td><span class="st plan">Direncanakan</span></td>
+                </tr>
+                <tr data-status="plan">
+                  <td>Terhubung dengan website desa dan sistem KIM</td>
+                  <td>Bertahap setelah seminar, misalnya tautan dan widget katalog</td>
+                  <td><span class="st plan">Direncanakan</span></td>
+                </tr>
+                <tr data-status="team">
+                  <td>Pembinaan terstruktur dengan MoU</td>
+                  <td>Dibahas pengurus HIMASIF dengan desa</td>
+                  <td><span class="st team">Tugas tim</span></td>
+                </tr>
+                <tr data-status="team">
+                  <td>Bangun antusiasme peserta sebelum acara</td>
+                  <td>Humas mendatangi dan mendata UMKM sebelum hari H</td>
+                  <td><span class="st team">Tugas tim</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Pre-order dan integrasi KIM disampaikan sebagai rencana, jangan dijanjikan untuk
+                hari H.
+              </li>
+              <li>
+                Layanan surat daring, scan dokumen, dan tanda tangan elektronik juga diminta desa,
+                tapi di luar ruang lingkup Desanara.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 8 Desanara -->
+        <section class="slide dark" data-title="Apa itu Desanara" data-section="Desanara">
+          <div style="display: grid; grid-template-columns: 1fr 420px; gap: 64px; height: 100%">
+            <div style="display: flex; flex-direction: column">
+              {{LOGO_WHITE}}
+              <p class="statement mt5" style="color: var(--sun)">Ragam Karya, Cerita Nusantara.</p>
+              <p class="sub">
+                Katalog UMKM multi-desa. Pembeli menemukan produk lewat desanya, lalu memesan
+                langsung ke pembuatnya lewat WhatsApp.
+              </p>
+              <div class="rows tight mtauto" style="color: #fff">
+                <div style="color: #fff">
+                  <span class="k">Desa = tenant</span
+                  ><span>Tiap desa punya halaman, admin, dan warnanya sendiri</span>
+                </div>
+                <div style="color: #fff">
+                  <span class="k">Tanpa perantara</span
+                  ><span>Tidak ada keranjang atau pembayaran; transaksi di chat</span>
+                </div>
+                <div style="color: #fff">
+                  <span class="k">Dua bahasa</span
+                  ><span>Indonesia dan Inggris, live di desanara.app</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center">
+              <div class="tiles">
+                <figure>
+                  <img data-img="batik" alt="Kain batik" />
+                  <figcaption>Fashion</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="dodol" alt="Dodol dalam kemasan" />
+                  <figcaption>Olahan pangan</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="besek" alt="Besek anyaman bambu" />
+                  <figcaption>Kerajinan</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="coffee-beans" alt="Biji kopi" />
+                  <figcaption>Kopi</figcaption>
+                </figure>
+                <figure>
+                  <img data-img="ubi-roasted" alt="Ubi panggang" />
+                  <figcaption>Olahan ubi</figcaption>
+                </figure>
+                <figure
+                  style="
+                    display: grid;
+                    place-items: center;
+                    aspect-ratio: 1;
+                    border-radius: 10px;
+                    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+                  "
+                >
+                  <figcaption style="margin: 0; text-align: center; font-size: 14px">
+                    dan produk<br />desa lainnya
+                  </figcaption>
+                </figure>
+              </div>
+              <p class="credit mt5">
+                Foto ilustrasi dari Wikimedia Commons: Fpangestuphotographer (CC BY-SA 4.0),
+                Clarasaragih (CC BY-SA 4.0), Muh Zaelani (CC BY-SA 3.0), ZELSC (CC0), USDA (domain
+                publik).
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            <ul>
+              <li>Pembayaran online sengaja belum ada karena butuh badan hukum.</li>
+              <li>Foto di kanan hanya ilustrasi, bukan produk Desa Baros.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 9 roles -->
+        <section class="slide" data-title="Peran pengguna" data-section="Desanara">
+          <h2>Lima peran memakai satu platform</h2>
+          <div
+            class="picker mt7 grow"
+            style="display: grid; grid-template-columns: 300px 1fr; gap: 56px"
+          >
+            <div class="tabs">
+              <button class="pick on" data-key="pembeli">Pembeli</button>
+              <button class="pick" data-key="pemilik">Pemilik UMKM</button>
+              <button class="pick" data-key="pendamping">Pendamping (mahasiswa)</button>
+              <button class="pick" data-key="admin">Admin desa</button>
+              <button class="pick" data-key="super">Super admin HIMA</button>
+            </div>
+            <div class="panel">
+              <div data-key="pembeli" class="on">
+                <p class="statement" style="color: var(--ink)">
+                  Menemukan produk dan langsung chat penjual, tanpa akun.
+                </p>
+                <ul class="list sm mt5">
+                  <li>Cari di Jelajah, filter wilayah dan kategori.</li>
+                  <li>Lihat halaman desa, UMKM, dan produk.</li>
+                  <li>Pesan via WhatsApp dengan jumlah dan catatan terisi otomatis.</li>
+                </ul>
+              </div>
+              <div data-key="pemilik">
+                <p class="statement" style="color: var(--ink)">
+                  Mengelola halaman usahanya sendiri dari HP.
+                </p>
+                <ul class="list sm mt5">
+                  <li>Cerita usaha, jam buka, dan lokasi.</li>
+                  <li>Tambah produk dengan foto langsung dari kamera.</li>
+                  <li>Mengundang asisten untuk membantu.</li>
+                  <li>Masuk lewat undangan, verifikasi email dengan kode 6 angka.</li>
+                </ul>
+              </div>
+              <div data-key="pendamping">
+                <p class="statement" style="color: var(--ink)">
+                  Peran yang dipakai panitia saat praktik.
+                </p>
+                <ul class="list sm mt5">
+                  <li>Mendaftarkan dan mengisi data UMKM atas nama pemilik.</li>
+                  <li>Mengundang pemilik agar punya akunnya sendiri.</li>
+                </ul>
+              </div>
+              <div data-key="admin">
+                <p class="statement" style="color: var(--ink)">Menjaga kualitas UMKM di desanya.</p>
+                <ul class="list sm mt5">
+                  <li>Verifikasi UMKM: setujui atau tolak dengan alasan.</li>
+                  <li>Tayangkan atau turunkan UMKM.</li>
+                  <li>Atur profil desa, titik desa di peta, dan tim desa.</li>
+                </ul>
+              </div>
+              <div data-key="super">
+                <p class="statement" style="color: var(--ink)">
+                  Tim HIMA yang menjalankan platform.
+                </p>
+                <ul class="list sm mt5">
+                  <li>Mengelola desa, kategori, dan pengguna.</li>
+                  <li>Memverifikasi desa baru yang ingin bergabung.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Saat praktik, panitia memakai akun pendamping; pemilik diundang agar pulang membawa
+                akunnya sendiri.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 10 WhatsApp flow -->
+        <section class="slide wash" data-title="Alur pesan WhatsApp" data-section="Desanara">
+          <h2>Dari mencari produk sampai chat penjual</h2>
+          <div class="seq mt8">
+            <div>
+              <span class="n">1</span>
+              <h3>Temukan</h3>
+              <p class="small">Cari di Jelajah atau buka link desa yang dibagikan.</p>
+            </div>
+            <div>
+              <span class="n">2</span>
+              <h3>Lihat detail</h3>
+              <p class="small">Foto, harga, cerita usaha, status buka, dan asal desanya.</p>
+            </div>
+            <div>
+              <span class="n">3</span>
+              <h3>Isi pesanan</h3>
+              <p class="small">Pilih jumlah dan tulis catatan di halaman produk.</p>
+            </div>
+            <div class="wa">
+              <span class="n">4</span>
+              <h3>Pesan via WhatsApp</h3>
+              <p class="small">Pesan otomatis terkirim ke penjual, transaksi lanjut di chat.</p>
+            </div>
+          </div>
+          <p class="statement mtauto">
+            Setiap kunjungan halaman dan klik WhatsApp dicatat sebagai bukti dampak untuk desa.
+          </p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Tombol WhatsApp selalu hijau WhatsApp di semua desa supaya langsung dikenali.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 11 feature status -->
+        <section class="slide" data-title="Status fitur" data-section="Desanara">
+          <h2>Sebagian besar sudah live, empat fitur dikejar sebelum 28 November</h2>
+          <div class="cols mt7">
+            <div>
+              <p class="st done">Sudah live</p>
+              <ul class="list sm mt5">
+                <li>Situs publik ID/EN: Jelajah, desa, UMKM, produk</li>
+                <li>Halaman desa dengan warna dan lambangnya</li>
+                <li>Pesan via WhatsApp</li>
+                <li>Dashboard per peran, form UMKM, produk, foto</li>
+                <li>Lokasi di peta dan verifikasi UMKM</li>
+                <li>Akun lewat undangan dan kode email</li>
+              </ul>
+            </div>
+            <div>
+              <p class="st plan">Sebelum 28 November</p>
+              <ul class="list sm mt5">
+                <li>Pendaftaran UMKM lewat link atau QR desa</li>
+                <li>Antrean verifikasi untuk admin desa</li>
+                <li>Statistik kunjungan dan klik WhatsApp</li>
+                <li>Kebijakan privasi dan syarat ketentuan</li>
+              </ul>
+            </div>
+            <div>
+              <p class="st later">Setelah seminar</p>
+              <ul class="list sm mt5">
+                <li>Editor tema desa</li>
+                <li>Pre-order</li>
+                <li>Integrasi website desa dan KIM</li>
+                <li>Bisa dipasang di layar HP</li>
+                <li>Pembayaran online</li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Kolom tengah dibutuhkan untuk hari H, terutama statistik dan pendaftaran lewat QR.
+              </li>
+              <li>Status per 20 November, dari docs/product/features-mvp.md dan CHANGELOG.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 12 tech -->
+        <section class="slide wash" data-title="Teknis singkat" data-section="Desanara">
+          <h2>Teknologinya, cukup sampai sini</h2>
+          <div class="rows mt7">
+            <div>
+              <span class="k">Tampilan</span
+              ><span>Next.js dan HeroUI, untuk situs publik dan dashboard</span>
+            </div>
+            <div>
+              <span class="k">Server</span><span>Hono, satu API untuk semua data dan login</span>
+            </div>
+            <div>
+              <span class="k">Database</span
+              ><span>PostgreSQL di Supabase dengan Drizzle; bisa pindah ke server kampus</span>
+            </div>
+            <div>
+              <span class="k">Hosting</span
+              ><span
+                >Vercel (Singapura) dengan domain desanara.app; foto di Cloudflare R2, email lewat
+                Resend</span
+              >
+            </div>
+            <div>
+              <span class="k em">Cara kerja tim</span
+              ><span>Dikembangkan dengan bantuan Claude Code, dokumentasinya lengkap di repo</span>
+            </div>
+          </div>
+          <p class="small mtauto">
+            Kode terbuka di GitHub (MIT). Biaya platform saat ini Rp0 kecuali domain.
+          </p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Dokumentasi penting karena pengurus HIMA berganti tiap periode.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 13 seminar -->
+        <section class="slide dark" data-title="Seminar 5 Desember" data-section="Seminar">
+          <h1 style="max-width: 16ch">Sabtu, 5 Desember 2026 di Kantor Desa Baros</h1>
+          <p class="sub">
+            Pengembangan UMKM Desa Baros melalui Pemanfaatan Peluang Bisnis di Era Digital.
+          </p>
+          <div class="rows mtauto">
+            <div>
+              <span class="k">Target</span
+              ><span><b>30–60 UMKM</b> Desa Baros tampil di Desanara</span>
+            </div>
+            <div>
+              <span class="k">Waktu</span
+              ><span class="num">07.30–12.10, tiga sesi inti masing-masing 45 menit</span>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Notulensi survei masih menulis 12 Desember. Pastikan desa tahu tanggal terbaru.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 14 goals -->
+        <section class="slide" data-title="Tujuan kegiatan" data-section="Seminar">
+          <h2>Yang dibawa pulang peserta</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 64px" class="mt7">
+            <div class="rows">
+              <div style="grid-template-columns: 1fr">
+                <span
+                  ><b>Mengenali peluang usaha</b><br /><span class="muted"
+                    >dari masalah sehari-hari dan kebutuhan pelanggan yang belum terpenuhi</span
+                  ></span
+                >
+              </div>
+              <div style="grid-template-columns: 1fr">
+                <span
+                  ><b>Mengenali hambatan pertumbuhan</b><br /><span class="muted"
+                    >lalu menentukan langkah perbaikan untuk usahanya</span
+                  ></span
+                >
+              </div>
+            </div>
+            <div class="rows">
+              <div style="grid-template-columns: 1fr">
+                <span
+                  ><b>Mempertahankan pelanggan</b><br /><span class="muted"
+                    >belajar dari bisnis besar, disesuaikan dengan skala usaha</span
+                  ></span
+                >
+              </div>
+              <div style="grid-template-columns: 1fr">
+                <span
+                  ><b class="em">Punya halaman usaha di Desanara</b><br /><span class="muted"
+                    >dibuat bersama panitia, langsung bisa dibagikan</span
+                  ></span
+                >
+              </div>
+            </div>
+          </div>
+          <p class="small mtauto">
+            Tiga tujuan pertama diukur dengan pre-test dan post-test; yang keempat dengan jumlah
+            UMKM yang tayang.
+          </p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Sumber: proposal kegiatan, bagian Tujuan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 15 Materi 1 -->
+        <section class="slide wash" data-title="Materi 1" data-section="Seminar">
+          <h2>Materi 1: peluang bisnis di era digital</h2>
+          <p class="sub">45 menit, dibawakan pemateri dari Tim Materi.</p>
+          <div class="seq mt8">
+            <div>
+              <span class="n">1</span>
+              <h3>Membaca peluang</h3>
+              <p class="small">Dari masalah sehari-hari dan kebutuhan pelanggan.</p>
+            </div>
+            <div>
+              <span class="n">2</span>
+              <h3>Pembelian ulang</h3>
+              <p class="small">Strategi mempertahankan pelanggan, contoh dari bisnis besar.</p>
+            </div>
+            <div>
+              <span class="n">3</span>
+              <h3>Hambatan pertumbuhan</h3>
+              <p class="small">Mengenali hambatan usaha lokal dan langkah perbaikannya.</p>
+            </div>
+          </div>
+          <p class="statement mtauto">Soal pre-test dan post-test diambil dari tiga pokok ini.</p>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Contoh kasus sebaiknya dari produk Desa Baros: ubi, hanjeli, kopi, fashion Sunda.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 16 rundown -->
+        <section class="slide" data-title="Rundown hari H" data-section="Seminar">
+          <h2>Rundown final, 07.30 sampai 12.10</h2>
+          <div class="legend mt5">
+            <span><i style="background: #cfe2d6"></i>Materi dan tes</span
+            ><span><i style="background: #f4d9bd"></i>Demo dan praktik</span
+            ><span
+              ><i style="background: var(--wash-strong)"></i>Persiapan, seremoni, istirahat</span
+            >
+          </div>
+          <div class="picker mt6">
+            <div class="strip" id="rundown"></div>
+            <div class="axis">
+              <span>07.30</span><span>08.30</span><span>09.30</span><span>10.30</span
+              ><span>11.30</span><span>12.10</span>
+            </div>
+            <div class="panel mt6" id="rundown-panel"></div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Rundown di PDF proposal masih versi lama (07.00–13.00, demo 30 menit). Perlu
+                disamakan.
+              </li>
+              <li>Praktik 45 menit adalah bagian paling padat.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 17 demo + practice -->
+        <section class="slide wash" data-title="Demo dan praktik" data-section="Seminar">
+          <h2>Demo dari tiga peran, lalu langsung praktik</h2>
+          <div class="seq mt8">
+            <div>
+              <span class="n">1</span>
+              <h3>Pembeli</h3>
+              <p class="small">Cari produk Baros dan pesan via WhatsApp, dari HP.</p>
+            </div>
+            <div>
+              <span class="n">2</span>
+              <h3 class="em">Pemilik UMKM</h3>
+              <p class="small">Tambah produk dengan foto, lalu tayangkan.</p>
+            </div>
+            <div>
+              <span class="n">3</span>
+              <h3>Admin desa</h3>
+              <p class="small">Verifikasi UMKM baru dan lihat statistiknya.</p>
+            </div>
+            <div>
+              <span class="n">4</span>
+              <h3>Praktik</h3>
+              <p class="small">Peserta dibagi ke pendamping dan membuat halaman usaha.</p>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px" class="mtauto">
+            <div>
+              <h3>Supaya praktik cukup 45 menit</h3>
+              <ul class="list sm mt5">
+                <li>Humas mendata nama usaha dan nomor WhatsApp sebelum hari H.</li>
+                <li>Saat praktik tinggal melengkapi foto dan produk.</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Kalau ada masalah</h3>
+              <ul class="list sm mt5">
+                <li>Video demo offline di 2 laptop dan 2 hotspot beda operator.</li>
+                <li>Tidak ada deploy mulai 3 Desember.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Fokus demo di sisi pemilik UMKM, karena itu yang akan mereka praktikkan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 18 recruitment -->
+        <section class="slide" data-title="Hasil open recruitment" data-section="Panitia">
+          <h2>
+            <span data-count="37" class="num">37</span> orang mendaftar; Acara justru paling sepi
+          </h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px" class="mt6">
+            <div>
+              <h3>Pilihan divisi</h3>
+              <div class="bars mt5" data-total="37">
+                <div class="bar" data-v="12">
+                  <span>Humas &amp; Pendamping</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="7">
+                  <span>Logistik &amp; Konsumsi</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="6">
+                  <span>Materi dan Edukasi</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="5">
+                  <span>PDD</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="4">
+                  <span>Tim Dev</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar warn" data-v="3">
+                  <span>Acara</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+              </div>
+              <h3 class="mt6">Ketersediaan</h3>
+              <div class="bars mt5" data-total="37">
+                <div class="bar" data-v="28">
+                  <span>Hari H</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="20">
+                  <span>Pra acara</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar warn" data-v="13">
+                  <span>Pasca acara</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3>Keahlian (boleh lebih dari satu)</h3>
+              <div class="bars mt5" data-total="37">
+                <div class="bar" data-v="20">
+                  <span>Komunikasi, pendampingan</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="13">
+                  <span>Administrasi, surat</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="12">
+                  <span>Public speaking</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="12">
+                  <span>Perlengkapan, sound</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="9">
+                  <span>Foto, video, editing</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="8">
+                  <span>Teknis IT, web</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+                <div class="bar" data-v="7">
+                  <span>Desain grafis</span>
+                  <div class="track"><div class="fill"></div></div>
+                  <span class="v"></span>
+                </div>
+              </div>
+              <p class="small mt6">
+                Angkatan B30 17 orang, B29 11, B28 8, B27 1. Hampir separuh angkatan baru, jadi
+                briefing seperti ini penting.
+              </p>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Acara hanya dipilih 3 orang, padahal tugasnya MC, registrasi, pre/post-test. Tambah
+                dari 12 orang public speaking dan 13 orang administrasi.
+              </li>
+              <li>Hanya 13 orang bisa pasca acara: bagi LPJ dan laporan dampak dari sekarang.</li>
+              <li>20 orang terbiasa pendampingan: cukup untuk rasio sekitar 1:3 saat praktik.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 19 committee -->
+        <section class="slide wash" data-title="Struktur panitia" data-section="Panitia">
+          <h2>Ketua, sekretaris, bendahara, dan enam divisi</h2>
+          <div class="picker mt7 grow" style="display: flex; flex-direction: column">
+            <div class="tabs h">
+              <button class="pick on" data-key="acara">Acara<small>3 pendaftar</small></button>
+              <button class="pick" data-key="dev">Tim Dev<small>4 pendaftar</small></button>
+              <button class="pick" data-key="materi">Materi<small>6 pendaftar</small></button>
+              <button class="pick" data-key="humas">
+                Humas &amp; Pendamping<small>12 pendaftar</small>
+              </button>
+              <button class="pick" data-key="pdd">PDD<small>5 pendaftar</small></button>
+              <button class="pick" data-key="logistik">
+                Logistik &amp; Konsumsi<small>7 pendaftar</small>
+              </button>
+            </div>
+            <div class="panel mt6">
+              <div data-key="acara" class="on">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">
+                      Rundown, MC, cetak lembar persetujuan data dan tes, memimpin gladi.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">MC, registrasi, pre-test, post-test, penutupan.</p>
+                  </div>
+                  <div>
+                    <h3 style="color: var(--clay)">Perlu tambahan orang</h3>
+                    <p class="body muted">
+                      Ambil dari pendaftar dengan keahlian public speaking dan administrasi.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div data-key="dev">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">Fitur prioritas, UAT, akun demo, video demo cadangan.</p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">Demo Desanara, operator laptop, mendampingi praktik.</p>
+                  </div>
+                  <div>
+                    <h3>Catatan</h3>
+                    <p class="body muted">
+                      8 pendaftar punya keahlian IT; bisa jadi pendamping teknis.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div data-key="materi">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">
+                      Slide Materi 1, soal pre-test dan post-test, panduan singkat.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">Materi 1, tanya jawab, rekap nilai tes.</p>
+                  </div>
+                  <div>
+                    <h3>Catatan</h3>
+                    <p class="body muted">
+                      Jangan mengulang pelatihan yang sudah pernah diterima UMKM.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div data-key="humas">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">
+                      Undangan lewat perangkat desa, mendatangi dan mendata UMKM.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">Registrasi dan mendampingi praktik halaman usaha.</p>
+                  </div>
+                  <div>
+                    <h3>Catatan</h3>
+                    <p class="body muted">
+                      Beban terberat. Dekati pengrajin fashion secara personal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div data-key="pdd">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">Poster dan publikasi di Instagram HIMASIF, banner.</p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">Foto dan video, live story, bahan recap.</p>
+                  </div>
+                  <div>
+                    <h3>Catatan</h3>
+                    <p class="body muted">Bisa membantu memotret produk peserta saat praktik.</p>
+                  </div>
+                </div>
+              </div>
+              <div data-key="logistik">
+                <div class="cols">
+                  <div>
+                    <h3>Sebelum hari H</h3>
+                    <p class="body muted">
+                      Survei Kantor Desa, banner 3 x 1 m, lunchbox, doorprize.
+                    </p>
+                  </div>
+                  <div>
+                    <h3>Hari H</h3>
+                    <p class="body muted">Siapkan alat pukul 07.30, istirahat, konsumsi.</p>
+                  </div>
+                  <div>
+                    <h3>Catatan</h3>
+                    <p class="body muted">2 hotspot beda operator dan terminal listrik.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>
+                Nama koordinator dan anggota ditentukan di rapat ini, tidak ditulis di slide karena
+                file ini publik.
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 20 timeline -->
+        <section class="slide" data-title="Timeline" data-section="Panitia">
+          <h2>Tiga minggu sampai hari H</h2>
+          <div class="picker mt6">
+            <div class="tl-axis">
+              <span></span>
+              <div class="ticks" id="tl-ticks"></div>
+            </div>
+            <div id="timeline"></div>
+            <div class="panel mt5" id="timeline-panel"></div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Feature freeze 28 November, code freeze 3 Desember, gladi 3–4 Desember.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 21 budget -->
+        <section class="slide wash" data-title="Anggaran" data-section="Panitia">
+          <h2>Anggaran proposal Rp910.000, belum termasuk panitia</h2>
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 64px" class="mt7">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pos</th>
+                  <th class="r">Jumlah</th>
+                  <th class="r">Harga satuan</th>
+                  <th class="r">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Banner 3 x 1 m</td>
+                  <td class="r">1</td>
+                  <td class="r">Rp60.000</td>
+                  <td class="r">Rp60.000</td>
+                </tr>
+                <tr>
+                  <td>Lunchbox peserta</td>
+                  <td class="r">60</td>
+                  <td class="r">Rp12.500</td>
+                  <td class="r">Rp750.000</td>
+                </tr>
+                <tr>
+                  <td>Doorprize peserta aktif</td>
+                  <td class="r">5</td>
+                  <td class="r">Rp20.000</td>
+                  <td class="r">Rp100.000</td>
+                </tr>
+                <tr class="total">
+                  <td>Total</td>
+                  <td></td>
+                  <td></td>
+                  <td class="r">Rp910.000</td>
+                </tr>
+              </tbody>
+            </table>
+            <div>
+              <h3 style="color: var(--clay)">Belum dianggarkan</h3>
+              <ul class="list sm mt5">
+                <li>Konsumsi panitia (28 siap hadir di hari H)</li>
+                <li>Cetak lembar tes dan persetujuan data</li>
+                <li>Kuota atau hotspot cadangan</li>
+              </ul>
+            </div>
+          </div>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Kalau tes memakai form online, biaya cetak bisa ditekan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 22 risks -->
+        <section class="slide" data-title="Risiko" data-section="Panitia">
+          <h2>Yang bisa membuat hari H gagal</h2>
+          <table class="mt6">
+            <thead>
+              <tr>
+                <th style="width: 33%">Risiko</th>
+                <th style="width: 27%">Dampak</th>
+                <th>Antisipasi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>Praktik 45 menit tidak cukup untuk 30–60 UMKM</b></td>
+                <td>Peserta pulang tanpa halaman usaha</td>
+                <td>
+                  Pendataan awal oleh Humas, simulasi waktu saat UAT, semua divisi ikut mendampingi
+                </td>
+              </tr>
+              <tr>
+                <td><b>Peserta tidak punya email aktif</b></td>
+                <td>Akun pemilik belum bisa dibuat</td>
+                <td>Pendamping membuat halaman dulu, undangan akun menyusul</td>
+              </tr>
+              <tr>
+                <td><b>Internet di lokasi lemah</b></td>
+                <td>Demo dan praktik terhambat</td>
+                <td>2 hotspot beda operator, video demo offline</td>
+              </tr>
+              <tr>
+                <td><b>Fitur belum selesai sebelum freeze</b></td>
+                <td>Demo tidak lengkap</td>
+                <td>4 fitur prioritas dulu, sisanya disampaikan sebagai rencana</td>
+              </tr>
+              <tr>
+                <td><b>Peserta datang sedikit</b></td>
+                <td>Target UMKM tidak tercapai</td>
+                <td>Undangan lewat desa, kunjungan Humas, pengingat H-1</td>
+              </tr>
+              <tr>
+                <td><b>Bug saat demo langsung</b></td>
+                <td>Kesan buruk di depan desa</td>
+                <td>Code freeze 3 Desember, gladi demo 2 kali, laptop cadangan</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="foot"></div>
+          <aside class="notes">
+            <ul>
+              <li>Risiko email: akun pemilik wajib verifikasi email dengan kode 6 angka.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 23 decisions -->
+        <section class="slide wash" data-title="Keputusan rapat" data-section="Panitia">
+          <h2>Yang perlu diputuskan sebelum rapat selesai</h2>
+          <div class="check mt6" id="decisions">
+            <label
+              ><input type="checkbox" data-id="d1" /><span
+                ><b>Koordinator dan anggota tiap divisi</b>, termasuk tambahan orang untuk
+                Acara</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d2" /><span
+                ><b>Rundown proposal disamakan</b> dengan rundown final, lalu proposal dikirim ke
+                desa</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d3" /><span
+                ><b>Konfirmasi tanggal ke desa:</b> 5 Desember, bukan 12 Desember</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d4" /><span
+                ><b>Pendataan awal UMKM oleh Humas</b> mulai 24 November</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d5" /><span
+                ><b>Peserta tanpa email:</b> pendamping membuat halaman dulu, undangan
+                menyusul?</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d6" /><span
+                ><b>Biaya tambahan</b> untuk konsumsi panitia, cetak, dan kuota, atau tes lewat form
+                online</span
+              ></label
+            >
+            <label
+              ><input type="checkbox" data-id="d7" /><span
+                ><b>Tugas pasca acara</b> (LPJ, laporan dampak) untuk 13 orang yang tersedia</span
+              ></label
+            >
+          </div>
+          <p class="hint mt5">Centang tersimpan di browser ini saja.</p>
+          <aside class="notes">
+            <ul>
+              <li>Tutup rapat dengan menyebut siapa yang memegang setiap keputusan.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 24 demo -->
+        <section class="slide" data-title="Demo langsung" data-section="Penutup">
+          <div style="display: flex; align-items: center; gap: 72px; height: 100%">
+            <div class="qr">{{QR}}</div>
+            <div>
+              <h2>Buka desanara.app di HP kalian sekarang</h2>
+              <p class="sub">
+                Lihat halaman Desa Baros, cari produk, dan coba tombol pesan via WhatsApp.
+              </p>
+              <div style="display: flex; gap: 12px" class="mt6">
+                <a class="btn" href="https://desanara.app" target="_blank" rel="noopener"
+                  >Buka desanara.app</a
+                ><a
+                  class="btn ghost"
+                  href="https://dashboard.desanara.app"
+                  target="_blank"
+                  rel="noopener"
+                  >Buka dashboard</a
+                >
+              </div>
+              <p class="small mt5">
+                Data UMKM yang tampil masih data contoh sampai data asli Desa Baros masuk.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            <ul>
+              <li>Minta semua panitia membuka situsnya selama rapat.</li>
+              <li>Jangan tampilkan kata sandi akun demo di layar.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <!-- 25 close -->
+        <section class="slide dark photo-slide" data-title="Penutup" data-section="Penutup">
+          <div style="width: 46%; display: flex; flex-direction: column; height: 100%">
+            {{LOGO_WHITE}}
+            <h1 style="margin-top: auto">Sampai jumpa di Desa Baros.</h1>
+            <p class="sub">
+              Tenggat terdekat: proposal dan izin desa 23 November, feature freeze 28 November.
+            </p>
+          </div>
+          <figure class="photo" style="left: 54%; right: 0; margin: 0">
+            <img data-img="banner" alt="Desa Baros" />
+          </figure>
+          <aside class="notes">
+            <ul>
+              <li>Ulangi siapa memegang keputusan apa.</li>
+            </ul>
+          </aside>
+        </section>
+      </div>
+    </div>
+
+    <div id="hud">
+      <button id="b-prev" aria-label="Sebelumnya">Sebelumnya</button
+      ><span class="count" id="count">1 / 25</span
+      ><button id="b-next" aria-label="Berikutnya">Berikutnya</button
+      ><button id="b-over">Daftar</button><button id="b-pres">Presenter</button
+      ><button id="b-full">Layar penuh</button>
+    </div>
+
+    <div id="overview" role="dialog" aria-label="Daftar slide">
+      <h2>Daftar slide</h2>
+      <div class="grid" id="ov-grid"></div>
+      <p class="keys">
+        <kbd>←</kbd> <kbd>→</kbd> atau <kbd>Spasi</kbd> pindah item dan slide · <kbd>Home</kbd>
+        <kbd>End</kbd> awal dan akhir · <kbd>O</kbd> daftar slide · <kbd>P</kbd> mode presenter ·
+        <kbd>F</kbd> layar penuh · <kbd>Esc</kbd> tutup
+      </p>
+    </div>
+
+    <div id="pv">
+      <div class="bar-top">
+        <span class="timer" id="pv-timer">00:00</span><button id="pv-reset">Reset timer</button
+        ><button id="pv-prev">Sebelumnya</button><button id="pv-next">Berikutnya</button
+        ><span id="pv-count"></span>
+      </div>
+      <div class="col">
+        <p class="label">Slide sekarang</p>
+        <div class="frame" id="pv-cur"><div class="inner"></div></div>
+        <p class="label" style="margin-top: 14px">Berikutnya</p>
+        <div class="frame" id="pv-nxt" style="width: 55%"><div class="inner"></div></div>
+      </div>
+      <div class="col">
+        <p class="label">Catatan pembicara</p>
+        <div class="notes-box" id="pv-notes"></div>
+      </div>
+    </div>
+
+    <script>
+      var DECK_IMAGES = {{IMAGES}};
+      (function () {
+        'use strict';
+        document.querySelectorAll('img[data-img]').forEach(function (im) { im.src = DECK_IMAGES[im.dataset.img]; });
+        var slides = Array.prototype.slice.call(document.querySelectorAll('#stage > .slide'));
+        var total = slides.length;
+        var cur = 0;
+        var isPresenter = /[?&]presenter\b/.test(location.search);
+        var channel = null;
+        try { channel = new BroadcastChannel('desanara-deck'); } catch (e) { channel = null; }
+
+        function store(key, val) { try { localStorage.setItem(key, val); } catch (e) {} }
+        function load(key) { try { return localStorage.getItem(key); } catch (e) { return null; } }
+
+        /* ---------- data-driven diagrams ---------- */
+        var rundown = [
+          { t: '07.30–08.15', m: 45, k: 'ops', a: 'Persiapan peralatan dan akun demo', p: 'Logistik/Acara & Dev', d: 'Tes proyektor, sound, hotspot, dan login akun demo di laptop utama dan cadangan.' },
+          { t: '08.15–09.00', m: 45, k: 'ops', a: 'Registrasi, persetujuan data, pre-test', p: 'Acara & Humas', d: 'Daftar hadir, lembar persetujuan penggunaan data, lalu pre-test.' },
+          { t: '09.00–09.15', m: 15, k: 'ops', a: 'Pembukaan dan sambutan', p: 'MC/Acara', d: 'Sambutan pihak desa dan HIMASIF.' },
+          { t: '09.15–10.00', m: 45, k: 'edu', a: 'Materi 1', p: 'Pemateri, Tim Materi', d: 'Peluang usaha, pembelian ulang, hambatan pertumbuhan usaha.' },
+          { t: '10.00–10.15', m: 15, k: 'ops', a: 'Istirahat', p: 'Logistik & Acara', d: 'Siapkan meja praktik dan bagi peserta ke pendamping.' },
+          { t: '10.15–11.00', m: 45, k: 'demo', a: 'Materi 2 (Demo Desanara)', p: 'Tim Dev', d: 'Demo dari sisi pembeli, pemilik UMKM, dan admin desa.' },
+          { t: '11.00–11.45', m: 45, k: 'demo', a: 'Praktik halaman usaha dan unggah produk', p: 'Humas & Dev', d: 'Peserta didampingi membuat halaman usaha dan mengunggah produk.' },
+          { t: '11.45–12.00', m: 15, k: 'edu', a: 'Post-test dan tanya jawab', p: 'Seksi Acara dan Tim Materi', d: 'Soal sama dengan pre-test. Doorprize untuk 5 peserta paling aktif.' },
+          { t: '12.00–12.10', m: 10, k: 'ops', a: 'Penutupan dan foto bersama', p: 'Seksi Acara dan Dokumentasi', d: 'Foto bersama, lalu makan siang.' }
+        ];
+        var strip = document.getElementById('rundown');
+        var rpanel = document.getElementById('rundown-panel');
+        rundown.forEach(function (r, i) {
+          var b = document.createElement('button');
+          b.className = 'pick ' + r.k + (i === 0 ? ' on' : '');
+          b.style.setProperty('--i', String(i));
+          b.dataset.key = 'r' + i;
+          b.style.flex = String(r.m);
+          b.innerHTML = r.m >= 30 ? '<span>' + r.a + '</span><span class="tm">' + r.m + ' mnt</span>' : '<span class="tm">' + r.m + '</span>';
+          b.title = r.t + ' · ' + r.a;
+          strip.appendChild(b);
+          var d = document.createElement('div');
+          d.dataset.key = 'r' + i;
+          if (i === 0) d.className = 'on';
+          d.innerHTML = '<div style="display:grid;grid-template-columns:240px 1fr;gap:48px;align-items:start"><div><p class="statement num" style="font-size:30px">' + r.t + '</p><p class="small" style="margin-top:6px">' + r.m + ' menit</p></div><div><h3 style="font-size:26px">' + r.a + '</h3><p class="body muted" style="margin-top:8px">' + r.d + '</p><p class="small" style="margin-top:12px">Pelaksana: <b style="color:var(--ink)">' + r.p + '</b></p></div></div>';
+          rpanel.appendChild(d);
+        });
+
+        var tl = [
+          { k: 'proposal', n: 'Proposal dan izin desa', s: '2026-11-20', e: '2026-11-23', tasks: ['Samakan rundown proposal dengan rundown final, minta pengesahan', 'Kirim proposal dan surat izin, konfirmasi Kantor Desa', 'Isi koordinator dan anggota tiap divisi'] },
+          { k: 'dev', n: 'Dev fitur prioritas', s: '2026-11-20', e: '2026-11-28', tasks: ['Statistik kunjungan dan klik WhatsApp', 'Pendaftaran UMKM lewat QR desa dan antrean verifikasi', 'Kebijakan privasi dan syarat ketentuan'] },
+          { k: 'materi', n: 'Materi 1 dan soal tes', s: '2026-11-20', e: '2026-12-01', tasks: ['Slide Materi 1 dengan contoh produk Desa Baros', 'Soal pre-test dan post-test yang sama', 'Panduan 1 lembar mengisi halaman usaha'] },
+          { k: 'humas', n: 'Undangan dan data UMKM', s: '2026-11-24', e: '2026-12-02', tasks: ['Undangan lewat perangkat desa', 'Mendatangi UMKM, mendata nama usaha dan nomor WhatsApp', 'Pendekatan personal ke pengrajin fashion'] },
+          { k: 'freeze', n: 'Feature freeze', s: '2026-11-28', e: '2026-11-28', ms: true, tasks: ['Setelah tanggal ini hanya perbaikan bug'] },
+          { k: 'uat', n: 'UAT dan simulasi praktik', s: '2026-11-29', e: '2026-12-02', tasks: ['UAT bersama admin desa, uji di HP Android murah', 'Simulasi: tiap pendamping membuat 1 halaman usaha dan catat waktunya', 'Rekam video demo cadangan', 'Pesan banner, lunchbox, doorprize; cetak lembar'] },
+          { k: 'codefreeze', n: 'Code freeze total', s: '2026-12-03', e: '2026-12-03', ms: true, tasks: ['Tidak ada deploy ke production sampai acara selesai'] },
+          { k: 'gladi', n: 'Gladi bersih', s: '2026-12-03', e: '2026-12-04', tasks: ['Gladi seluruh rundown, demo diulang 2 kali', 'Cek akun demo, hotspot, laptop cadangan', 'Pengingat ke peserta H-1'] },
+          { k: 'seminar', n: 'Seminar (hari H)', s: '2026-12-05', e: '2026-12-05', ms: true, key: true, tasks: ['Sabtu, 5 Desember 2026, Kantor Desa Baros, 07.30–12.10'] },
+          { k: 'lpj', n: 'LPJ dan laporan dampak', s: '2026-12-06', e: '2026-12-12', tasks: ['Rekap nilai pre-test dan post-test', 'Laporan dampak: UMKM tayang, kunjungan, klik WhatsApp', 'Pastikan UMKM peserta memegang akunnya sendiri', 'Konten recap, LPJ, dan laporan keuangan'] }
+        ];
+        var day = function (s) { return Date.parse(s) / 864e5; };
+        var lo = day('2026-11-20'), hi = day('2026-12-12');
+        var pct = function (s) { return (day(s) - lo) / (hi - lo) * 86; };
+        var mon = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        var fmt = function (s) { return Number(s.slice(8)) + ' ' + mon[Number(s.slice(5, 7)) - 1]; };
+        var tlEl = document.getElementById('timeline'), tp = document.getElementById('timeline-panel');
+        ['2026-11-20', '2026-11-27', '2026-12-04', '2026-12-11'].forEach(function (s) {
+          var sp = document.createElement('span'); sp.style.left = pct(s) + '%'; sp.textContent = fmt(s);
+          document.getElementById('tl-ticks').appendChild(sp);
+        });
+        tl.forEach(function (r, i) {
+          var row = document.createElement('div'); row.className = 'tl-row'; row.style.setProperty('--i', String(i));
+          var name = document.createElement('div'); name.className = 'name'; name.textContent = r.n;
+          if (r.key) name.style.fontWeight = '800';
+          var lane = document.createElement('div'); lane.className = 'lane';
+          var seg = document.createElement('button');
+          seg.className = 'seg pick' + (r.ms ? ' ms' : '') + (r.key ? ' key' : '') + (i === 0 ? ' on' : '');
+          seg.dataset.key = 't' + i;
+          seg.setAttribute('aria-label', r.n);
+          seg.style.left = pct(r.s) + '%';
+          if (!r.ms) seg.style.width = Math.max(pct(r.e) - pct(r.s), 1.5) + '%';
+          var when = document.createElement('span'); when.className = 'when';
+          when.style.left = 'calc(' + (r.ms ? pct(r.s) : pct(r.e)) + '% + 16px)';
+          when.textContent = r.s === r.e ? fmt(r.s) : fmt(r.s) + ' – ' + fmt(r.e);
+          lane.appendChild(seg); lane.appendChild(when);
+          row.appendChild(name); row.appendChild(lane); tlEl.appendChild(row);
+          var d = document.createElement('div'); d.dataset.key = 't' + i; if (i === 0) d.className = 'on';
+          d.innerHTML = '<div style="display:grid;grid-template-columns:236px 1fr;gap:0"><div><h3>' + r.n + '</h3><p class="small num" style="margin-top:4px">' + when.textContent + '</p></div><ul class="list sm">' + r.tasks.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ul></div>';
+          tp.appendChild(d);
+        });
+
+        document.querySelectorAll('.bars').forEach(function (g) {
+          var tot = Number(g.dataset.total);
+          var max = Math.max.apply(null, Array.prototype.map.call(g.querySelectorAll('.bar'), function (b) { return Number(b.dataset.v); }));
+          g.querySelectorAll('.bar').forEach(function (b, bi) {
+            var v = Number(b.dataset.v);
+            b.style.setProperty('--i', String(bi));
+            b.querySelector('.fill').style.width = (v / max * 100) + '%';
+            b.querySelector('.v').innerHTML = v + ' <span>' + (v / tot * 100).toFixed(1).replace('.', ',') + '%</span>';
+          });
+        });
+
+        /* ---------- pickers, filters, checklist ---------- */
+        function picksOf(pk) { return Array.prototype.slice.call(pk.querySelectorAll('.pick')); }
+        function stepIndex(pk) { return picksOf(pk).findIndex(function (x) { return x.classList.contains('on'); }); }
+        function setPick(pk, idx) {
+          var list = picksOf(pk); var b = list[idx]; if (!b) return;
+          list.forEach(function (x) { x.classList.toggle('on', x === b); });
+          pk.querySelectorAll('.panel > [data-key]').forEach(function (x) { x.classList.toggle('on', x.dataset.key === b.dataset.key); });
+        }
+        document.querySelectorAll('.picker').forEach(function (pk) {
+          pk.addEventListener('click', function (ev) {
+            var b = ev.target.closest('.pick'); if (!b || !pk.contains(b)) return;
+            setPick(pk, picksOf(pk).indexOf(b));
+            sync();
+            ev.stopPropagation();
+          });
+        });
+        document.querySelectorAll('.filters').forEach(function (f) {
+          f.addEventListener('click', function (ev) {
+            var b = ev.target.closest('button'); if (!b) return;
+            f.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+            var tb = f.parentNode.querySelector('table.filterable');
+            tb.querySelectorAll('tbody tr').forEach(function (tr) { tr.classList.toggle('hide', b.dataset.filter !== 'all' && tr.dataset.status !== b.dataset.filter); });
+            ev.stopPropagation();
+          });
+        });
+        document.querySelectorAll('#decisions input').forEach(function (cb) {
+          cb.checked = load('desanara-deck-' + cb.dataset.id) === '1';
+          cb.addEventListener('change', function () { store('desanara-deck-' + cb.dataset.id, cb.checked ? '1' : '0'); });
+        });
+        document.querySelectorAll('[data-goto]').forEach(function (b) {
+          b.addEventListener('click', function (ev) { go(Number(b.dataset.goto) - 1, true); ev.stopPropagation(); });
+        });
+
+        /* ---------- motion ---------- */
+        var reduce = false;
+        try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+        function countUp(sl) {
+          sl.querySelectorAll('[data-count]').forEach(function (el) {
+            var target = Number(el.dataset.count), suffix = el.dataset.suffix || '';
+            if (reduce) { el.textContent = target + suffix; return; }
+            // setTimeout instead of requestAnimationFrame: it still finishes when the tab is in the background
+            var dur = 1000, t0 = Date.now() + 250, run = (el._run = (el._run || 0) + 1);
+            el.textContent = '0' + suffix;
+            (function step() {
+              if (el._run !== run) return;
+              var k = Math.max(0, Math.min(1, (Date.now() - t0) / dur)), e = 1 - Math.pow(1 - k, 3);
+              el.textContent = Math.round(target * e) + suffix;
+              if (k < 1) setTimeout(step, 30);
+            })();
+          });
+        }
+
+        slides.forEach(function (sl, i) {
+          var f = sl.querySelector('.foot');
+          if (f) f.innerHTML = '<span>Rapat persiapan seminar Desanara</span><span class="num">' + (sl.dataset.section || '') + ' · ' + (i + 1) + '</span>';
+        });
+
+        /* ---------- navigation ---------- */
+        var stage = document.getElementById('stage');
+        function fit() {
+          var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+          stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+        }
+        function render() {
+          slides.forEach(function (s, i) { s.classList.toggle('active', i === cur); });
+          if (lastShown !== cur && !isPresenter) { lastShown = cur; countUp(slides[cur]); }
+          document.getElementById('count').textContent = (cur + 1) + ' / ' + total;
+          document.getElementById('progress').style.transform = 'scaleX(' + ((cur + 1) / total) + ')';
+          document.title = (cur + 1) + '. ' + slides[cur].dataset.title + ' · Rapat Persiapan Seminar Desanara';
+          if (location.hash !== '#' + (cur + 1) && !isPresenter) history.replaceState(null, '', '#' + (cur + 1));
+          if (isPresenter) renderPresenter();
+        }
+        function pickerHere() { return slides[cur].querySelector('.picker'); }
+        function sync() {
+          var pk = pickerHere();
+          var msg = { slide: cur, step: pk ? stepIndex(pk) : -1 };
+          if (channel) channel.postMessage(msg);
+          store('desanara-deck-state', JSON.stringify(msg));
+          if (isPresenter) renderPresenter();
+        }
+        var lastShown = -1;
+        function go(i, broadcast, entry) {
+          var nxt = Math.max(0, Math.min(total - 1, i));
+          stage.dataset.dir = nxt >= cur ? 'fwd' : 'back';
+          cur = nxt;
+          var pk = pickerHere();
+          if (pk && entry === 'first') setPick(pk, 0);
+          if (pk && entry === 'last') setPick(pk, picksOf(pk).length - 1);
+          render();
+          if (broadcast !== false) sync();
+        }
+        // Next/previous walk through the items of an interactive slide before changing slide
+        function next() {
+          var pk = pickerHere();
+          if (pk) { var k = stepIndex(pk); if (k < picksOf(pk).length - 1) { setPick(pk, k + 1); sync(); return; } }
+          if (cur < total - 1) go(cur + 1, true, 'first');
+        }
+        function prev() {
+          var pk = pickerHere();
+          if (pk) { var k = stepIndex(pk); if (k > 0) { setPick(pk, k - 1); sync(); return; } }
+          if (cur > 0) go(cur - 1, true, 'last');
+        }
+        function apply(msg) {
+          if (!msg || typeof msg.slide !== 'number') return;
+          cur = msg.slide;
+          var pk = pickerHere();
+          if (pk && msg.step >= 0) setPick(pk, msg.step);
+          render();
+        }
+        if (channel) channel.onmessage = function (ev) { apply(ev.data); };
+        window.addEventListener('storage', function (ev) { if (ev.key === 'desanara-deck-state' && ev.newValue) { try { apply(JSON.parse(ev.newValue)); } catch (e) {} } });
+
+        var ov = document.getElementById('overview'), ovg = document.getElementById('ov-grid');
+        slides.forEach(function (s, i) {
+          var b = document.createElement('button');
+          b.innerHTML = '<b>' + (i + 1) + '</b><span>' + s.dataset.title + '</span>';
+          b.addEventListener('click', function () { toggleOverview(false); go(i); });
+          ovg.appendChild(b);
+        });
+        function toggleOverview(force) {
+          var open = typeof force === 'boolean' ? force : !ov.classList.contains('open');
+          ov.classList.toggle('open', open);
+          ovg.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('cur', i === cur); });
+        }
+        function fullscreen() {
+          try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch (e) {}
+        }
+        function openPresenter() {
+          var url = location.pathname + '?presenter#' + (cur + 1);
+          window.open(url, 'desanara-presenter', 'width=1200,height=760');
+        }
+
+        document.addEventListener('keydown', function (ev) {
+          if (ev.target.closest && ev.target.closest('input, textarea')) return;
+          var k = ev.key;
+          if (k === 'ArrowRight' || k === 'PageDown' || k === ' ' || k === 'Enter' && !ev.target.closest('button')) { ev.preventDefault(); next(); }
+          else if (k === 'ArrowLeft' || k === 'PageUp' || k === 'Backspace') { ev.preventDefault(); prev(); }
+          else if (k === 'Home') go(0);
+          else if (k === 'End') go(total - 1);
+          else if (k === 'o' || k === 'O') toggleOverview();
+          else if (k === 'Escape') toggleOverview(false);
+          else if ((k === 'f' || k === 'F') && !isPresenter) fullscreen();
+          else if ((k === 'p' || k === 'P') && !isPresenter) openPresenter();
+        });
+        document.getElementById('b-prev').onclick = prev;
+        document.getElementById('b-next').onclick = next;
+        document.getElementById('b-over').onclick = function () { toggleOverview(); };
+        document.getElementById('b-full').onclick = fullscreen;
+        document.getElementById('b-pres').onclick = openPresenter;
+
+        // Click on empty slide area: right half next, left half previous
+        document.getElementById('viewport').addEventListener('click', function (ev) {
+          if (ev.target.closest('button, a, input, label, .card, table, .strip, .tl')) return;
+          if (ev.clientX > window.innerWidth / 2) next(); else prev();
+        });
+        var tx = null;
+        document.addEventListener('touchstart', function (ev) { tx = ev.touches[0].clientX; }, { passive: true });
+        document.addEventListener('touchend', function (ev) {
+          if (tx === null) return;
+          var dx = ev.changedTouches[0].clientX - tx; tx = null;
+          if (Math.abs(dx) > 50) { if (dx < 0) next(); else prev(); }
+        });
+
+        /* ---------- presenter view ---------- */
+        var t0 = Date.now();
+        function renderPresenter() {
+          var put = function (id, idx) {
+            var inner = document.querySelector('#' + id + ' .inner');
+            inner.innerHTML = '';
+            if (idx < total) {
+              var c = slides[idx].cloneNode(true);
+              c.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+              inner.appendChild(c);
+            } else {
+              inner.innerHTML = '<div style="color:#fff;padding:40px;font-size:40px">Akhir presentasi</div>';
+            }
+            var fr = document.getElementById(id);
+            var s = fr.clientWidth / 1280;
+            inner.style.transform = 'scale(' + s + ')';
+            fr.style.height = (720 * s) + 'px';
+          };
+          put('pv-cur', cur); put('pv-nxt', cur + 1);
+          var n = slides[cur].querySelector('.notes');
+          document.getElementById('pv-notes').innerHTML = n ? n.innerHTML : '<p>Tidak ada catatan.</p>';
+          document.getElementById('pv-count').textContent = 'Slide ' + (cur + 1) + ' / ' + total + ' · ' + slides[cur].dataset.title;
+        }
+        if (isPresenter) {
+          document.body.classList.add('presenter');
+          document.getElementById('pv-prev').onclick = prev;
+          document.getElementById('pv-next').onclick = next;
+          document.getElementById('pv-reset').onclick = function () { t0 = Date.now(); };
+          setInterval(function () {
+            var s = Math.floor((Date.now() - t0) / 1000);
+            document.getElementById('pv-timer').textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+          }, 500);
+          window.addEventListener('resize', renderPresenter);
+        }
+
+        var idleT = null;
+        function wake() { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(function () { if (!ov.classList.contains('open')) document.body.classList.add('idle'); }, 2500); }
+        if (!isPresenter) { ['mousemove', 'keydown', 'touchstart'].forEach(function (e) { document.addEventListener(e, wake, { passive: true }); }); document.body.classList.add('idle'); }
+        window.addEventListener('resize', fit);
+        window.addEventListener('hashchange', function () { var n = parseInt(location.hash.slice(1), 10); if (n && n - 1 !== cur) go(n - 1); });
+        fit();
+        var start = parseInt(location.hash.slice(1), 10);
+        go(start ? start - 1 : 0, false);
+      })();
+    </script>
+  </body>
+</html>

@@ -26,8 +26,25 @@ instalasi. Huruf Plus Jakarta Sans dimuat dari Google Fonts; tanpa internet, sli
 - Bagian yang bisa diklik: kartu agenda, komoditi, peran pengguna, filter harapan desa, blok rundown, bar timeline,
   divisi panitia, dan checklist keputusan (centang hanya tersimpan di browser yang dipakai).
 
+## Mengubah isi
+
+File HTML di folder ini adalah hasil build. Sumbernya ada di `src/`:
+
+- `src/rapat-persiapan-seminar.template.html`: isi slide, gaya, dan script.
+- `src/build.ts`: menyisipkan logo dari `docs/brand/desanara/`, foto dari `apps/web/public/media/seed/`, dan QR.
+
+Edit template, lalu jalankan dari root repo (butuh ImageMagick):
+
+```bash
+bun docs/presentations/src/build.ts
+bunx prettier --write docs/presentations
+```
+
+Build ulang juga setiap kali logo atau foto sumbernya berganti.
+
 ## Aturan isi
 
 - Repo ini publik: orang disebut dengan perannya (Ketua Pelaksana, Pemateri, Sekretaris Desa), bukan namanya.
 - Tidak ada kata sandi, data pribadi UMKM, atau ID infrastruktur.
 - Ikuti warna dan logo di [`DESIGN.md`](../../DESIGN.md); logo diambil dari `docs/brand/desanara/`, tidak diketik ulang.
+- Foto produk adalah foto ilustrasi Wikimedia Commons; kreditnya wajib tetap tampil di slide yang memakainya.
