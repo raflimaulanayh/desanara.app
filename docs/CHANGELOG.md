@@ -24,7 +24,8 @@ Format:
   rencana seminar (tujuan, materi, rundown final, demo, praktik), hasil open recruitment, struktur panitia, timeline,
   anggaran, risiko, dan keputusan rapat. Interaktif: navigasi keyboard/klik/geser, daftar slide, mode presenter dengan
   catatan dan timer, diagram yang bisa diklik (tombol berikutnya membuka item satu per satu sebelum pindah slide), serta
-  QR ke desanara.app. Memakai warna dan logo Desanara; orang hanya
+  QR ke desanara.app. Animasi masuk slide, isi muncul berurutan, angka menghitung naik, dan grafik memanjang; semua
+  mati otomatis bila perangkat memakai setelan kurangi animasi. Memakai warna dan logo Desanara; orang hanya
   disebut perannya karena repo publik. Panduan pakai di `docs/presentations/README.md`.
 
 ## 2026-11-20 — Akun lewat undangan, verifikasi email dengan kode, dan lupa kata sandi

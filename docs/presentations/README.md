@@ -20,6 +20,7 @@ instalasi. Huruf Plus Jakarta Sans dimuat dari Google Fonts; tanpa internet, sli
 
 - Di slide yang punya pilihan (komoditi, peran, rundown, divisi, timeline), tombol berikutnya membuka item satu per
   satu dulu, baru pindah slide. Tombol sebelumnya juga mundur per item.
+- Animasi otomatis dimatikan bila perangkat memakai setelan kurangi animasi (reduce motion).
 - Alamat `...html#16` langsung membuka slide 16.
 - Mode presenter dan jendela slide saling mengikuti. Taruh jendela slide di proyektor, jendela presenter di laptop.
 - Bagian yang bisa diklik: kartu agenda, komoditi, peran pengguna, filter harapan desa, blok rundown, bar timeline,

@@ -949,6 +949,119 @@
         margin-bottom: 8px;
       }
 
+      /* Motion */
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes inFwd {
+        from {
+          opacity: 0;
+          transform: translateX(36px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes inBack {
+        from {
+          opacity: 0;
+          transform: translateX(-36px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      @keyframes growW {
+        from {
+          width: 0;
+        }
+      }
+      @keyframes growX {
+        from {
+          transform: scaleX(0);
+        }
+        to {
+          transform: scaleX(1);
+        }
+      }
+      @keyframes popMs {
+        from {
+          opacity: 0;
+          transform: translateX(-8px) rotate(45deg) scale(0);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(-8px) rotate(45deg) scale(1);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(15, 90, 55, 0.35);
+        }
+        50% {
+          box-shadow: 0 0 0 10px rgba(15, 90, 55, 0);
+        }
+      }
+      #stage[data-dir='fwd'] .slide.active {
+        animation: inFwd 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      #stage[data-dir='back'] .slide.active {
+        animation: inBack 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      .slide.active .anim {
+        animation: rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+        animation-delay: calc(var(--i, 0) * 55ms + 120ms);
+      }
+      .slide.active .bar .fill {
+        animation: growW 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(var(--i, 0) * 55ms + 380ms);
+      }
+      .slide.active .tl-row .seg:not(.ms) {
+        transform-origin: left center;
+        animation: growX 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+        animation-delay: calc(var(--i, 0) * 55ms + 300ms);
+      }
+      .slide.active .tl-row .seg.ms {
+        animation: popMs 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+        animation-delay: calc(var(--i, 0) * 55ms + 380ms);
+      }
+      .slide.active .tl-row .seg.key {
+        animation:
+          popMs 0.45s cubic-bezier(0.3, 1.4, 0.5, 1) both,
+          pulse 1.8s 1.4s ease-in-out 2;
+      }
+      .card.pick:hover,
+      .org-grid .pick:hover,
+      .agenda button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(28, 25, 23, 0.08);
+      }
+      .pick.on {
+        transform: translateY(-1px);
+      }
+      .strip button {
+        transition: filter 0.15s;
+      }
+      .strip button:hover {
+        filter: brightness(0.96);
+      }
+      .panel > [data-key].on {
+        animation: rise 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      #pv * {
+        animation: none !important;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         * {
           animation: none !important;
@@ -1148,11 +1261,11 @@
           </p>
           <div class="row mt">
             <div class="card" style="flex: 1">
-              <div class="stat">78</div>
+              <div class="stat" data-count="78">78</div>
               <div class="stat-label">UMKM aktif terdata, naik dari sekitar 30 usaha</div>
             </div>
             <div class="card" style="flex: 1">
-              <div class="stat">3</div>
+              <div class="stat" data-count="3">3</div>
               <div class="stat-label">
                 Sektor utama: kerajinan tangan, fashion, kuliner dan olahan pangan
               </div>
@@ -1938,7 +2051,7 @@
         <!-- 18 -->
         <section class="slide" data-title="Hasil open recruitment">
           <p class="kicker">04 · Open recruitment</p>
-          <h2>37 pendaftar panitia</h2>
+          <h2><span data-count="37">37</span> pendaftar panitia</h2>
           <div class="row mt grow" style="gap: 28px">
             <div class="col" style="flex: 1">
               <h3>Pilihan divisi</h3>
@@ -2980,6 +3093,44 @@
           })
         })
 
+        /* ---------- motion ---------- */
+        var reduce = false
+        try {
+          reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        } catch (e) {}
+        var animSel =
+          '.kicker, h1, h2, .lead, .hint, .meta, .legend, .filters, .band > div, .row > *, .flow > *, .agenda > *, .org-top, .org-grid > *, .check > *, .bars > .bar, tbody tr, .strip > *, .tl-row, .qr, .axis, .panel'
+        slides.forEach(function (sl) {
+          var i = 0
+          sl.querySelectorAll(animSel).forEach(function (el) {
+            if (el.closest('.notes')) return
+            el.classList.add('anim')
+            el.style.setProperty('--i', String(Math.min(i++, 16)))
+          })
+        })
+        function countUp(sl) {
+          sl.querySelectorAll('[data-count]').forEach(function (el) {
+            var target = Number(el.dataset.count),
+              suffix = el.dataset.suffix || ''
+            if (reduce) {
+              el.textContent = target + suffix
+              return
+            }
+            // setTimeout instead of requestAnimationFrame: it still finishes when the tab is in the background
+            var dur = 1000,
+              t0 = Date.now() + 250,
+              run = (el._run = (el._run || 0) + 1)
+            el.textContent = '0' + suffix
+            ;(function step() {
+              if (el._run !== run) return
+              var k = Math.max(0, Math.min(1, (Date.now() - t0) / dur)),
+                e = 1 - Math.pow(1 - k, 3)
+              el.textContent = Math.round(target * e) + suffix
+              if (k < 1) setTimeout(step, 30)
+            })()
+          })
+        }
+
         /* ---------- navigation ---------- */
         var stage = document.getElementById('stage')
         function fit() {
@@ -2990,6 +3141,10 @@
           slides.forEach(function (s, i) {
             s.classList.toggle('active', i === cur)
           })
+          if (lastShown !== cur && !isPresenter) {
+            lastShown = cur
+            countUp(slides[cur])
+          }
           document.getElementById('count').textContent = cur + 1 + ' / ' + total
           document.getElementById('progress').style.width = ((cur + 1) / total) * 100 + '%'
           document.title =
@@ -3008,8 +3163,11 @@
           store('desanara-deck-state', JSON.stringify(msg))
           if (isPresenter) renderPresenter()
         }
+        var lastShown = -1
         function go(i, broadcast, entry) {
-          cur = Math.max(0, Math.min(total - 1, i))
+          var nxt = Math.max(0, Math.min(total - 1, i))
+          stage.dataset.dir = nxt >= cur ? 'fwd' : 'back'
+          cur = nxt
           var pk = pickerHere()
           if (pk && entry === 'first') setPick(pk, 0)
           if (pk && entry === 'last') setPick(pk, picksOf(pk).length - 1)
