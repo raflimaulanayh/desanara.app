@@ -17,9 +17,10 @@ Plan adalah dokumen hidup yang disetujui **sebelum** implementasi dan menjadi ba
 
 ## Daftar plan
 
-| Plan                                                     | Status                                                 |
-| -------------------------------------------------------- | ------------------------------------------------------ |
-| [PLAN-mvp-seminar.md](PLAN-mvp-seminar.md)               | Disetujui 2026-11-01 — fondasi selesai, fitur berjalan |
-| [PLAN-village-theming.md](PLAN-village-theming.md)       | Disetujui 2026-11-01 — fondasi selesai, UI menyusul    |
-| [PLAN-public-redesign.md](PLAN-public-redesign.md)       | Disetujui 2026-11-03 — dalam pengerjaan                |
-| [PLAN-registration-email.md](PLAN-registration-email.md) | Disetujui 2026-11-20 — PR 1 selesai, PR 2 berikutnya   |
+| Plan                                                     | Status                                                                                   |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| [PLAN-mvp-seminar.md](PLAN-mvp-seminar.md)               | Disetujui 2026-11-01 — fondasi selesai, fitur berjalan                                   |
+| [PLAN-village-theming.md](PLAN-village-theming.md)       | Disetujui 2026-11-01 — fondasi selesai, UI menyusul                                      |
+| [PLAN-public-redesign.md](PLAN-public-redesign.md)       | Disetujui 2026-11-03 — dalam pengerjaan                                                  |
+| [PLAN-registration-email.md](PLAN-registration-email.md) | Disetujui 2026-11-20 — PR 1 selesai, PR 2 berikutnya                                     |
+| [PLAN-rebranding-v2.md](PLAN-rebranding-v2.md)           | Disetujui 2026-11-21 — panduan brand & UX lintas generasi; font Montserrat sudah dipakai |

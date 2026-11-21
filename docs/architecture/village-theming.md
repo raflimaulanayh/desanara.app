@@ -13,7 +13,7 @@ Decision and reasons: [ADR 0007](../adr/0007-village-theming.md).
 | ------------- | -------------------------------------------------- | ------------------------------------------------ |
 | `template`    | `classic` (more later)                             | React component in `apps/web/src/templates/<id>` |
 | `accent`      | `#RRGGBB`, contrast ≥ 3:1 on white                 | presets in `villageThemePresets`                 |
-| `font`        | `plus-jakarta-sans`, `nunito`, `poppins`, `lora`   | loaded with `next/font` as `--font-<id>`         |
+| `font`        | `barlow-condensed`, `bitter`, `nunito`, `poppins`  | display face only; default is Montserrat         |
 | `radius`      | `sharp` 0.25rem, `rounded` 0.75rem, `pill` 1.25rem | drives HeroUI `--radius`                         |
 | logo / banner | `villages.logoKey`, `villages.bannerKey`           | R2 keys, not in the JSON                         |
 

@@ -87,7 +87,7 @@ function loginPage({ username = '', error = false }: { username?: string; error?
 <title>Sign in · Desanara API Reference</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400..800&display=swap" rel="stylesheet">
 <style>
   :root {
     --green: #387b4c; --green-hover: #2e6640; --cream: #f9f4e7; --cream-strong: #f1e8d3;
@@ -98,7 +98,7 @@ function loginPage({ username = '', error = false }: { username?: string; error?
   html, body { height: 100%; }
   body {
     margin: 0; color: var(--ink); background: var(--cream);
-    font: 400 16px/1.55 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+    font: 400 16px/1.55 'Montserrat', ui-sans-serif, system-ui, sans-serif;
     display: grid; place-items: center; padding: 24px 16px;
     background-image:
       radial-gradient(120% 70% at 50% 120%, rgba(15, 90, 55, 0.10), transparent 60%),

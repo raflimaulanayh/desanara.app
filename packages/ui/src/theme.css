@@ -29,7 +29,7 @@
     /* Desanara secondary palette: decoration and highlights, not body text (see DESIGN.md).
        leaf and sprout are the logo's wordmark green and light leaf tip. */
     --leaf: #6cac4e;
-    --sprout: #9dd853;
+    --sprout: #9dd950;
     --sun: #e3a84f;
     --clay: #c2612c;
 
@@ -50,8 +50,8 @@
   --color-sprout: var(--sprout);
   --color-sun: var(--sun);
   --color-clay: var(--clay);
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-village: var(--village-font, var(--font-jakarta)), ui-sans-serif, sans-serif;
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-village: var(--village-font, var(--font-montserrat)), ui-sans-serif, sans-serif;
 }
 
 /* Browser surfaces carry the world too */

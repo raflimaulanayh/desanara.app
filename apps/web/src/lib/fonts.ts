@@ -1,10 +1,12 @@
-import { Barlow_Condensed, Bitter, Nunito, Plus_Jakarta_Sans, Poppins } from 'next/font/google'
+import { Barlow_Condensed, Bitter, Montserrat, Nunito, Poppins } from 'next/font/google'
 
-/** Platform face: Plus Jakarta Sans — friendly, designed in Indonesia, sturdy on low-end phones. */
-export const jakarta = Plus_Jakarta_Sans({
+/**
+ * Platform face: Montserrat, the same family as the logo wordmark. Variable font, so one file covers every
+ * weight. The dashboard loads it the same way (apps/dashboard/src/lib/fonts.ts).
+ */
+export const montserrat = Montserrat({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-jakarta',
+  variable: '--font-montserrat',
   display: 'swap',
 })
 
@@ -38,6 +40,6 @@ export const poppins = Poppins({
   preload: false,
 })
 
-export const fontVariables = [jakarta, barlowCondensed, bitter, nunito, poppins]
+export const fontVariables = [montserrat, barlowCondensed, bitter, nunito, poppins]
   .map((f) => f.variable)
   .join(' ')

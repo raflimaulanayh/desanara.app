@@ -15,6 +15,22 @@ Format:
 
 ---
 
+## 2026-11-21 — Font Montserrat di semua aplikasi, panduan brand & UX v1.3
+
+- **Area**: apps/web, apps/dashboard, apps/api, packages/ui, docs
+- **Jenis**: Changed
+- Font platform berganti dari Plus Jakarta Sans ke Montserrat, satu keluarga dengan wordmark logo. Dimuat lewat
+  `next/font` sebagai font variabel (satu file untuk semua ketebalan). Dashboard sebelumnya belum memuat font sama sekali
+  dan jatuh ke font sistem; sekarang ikut memuat Montserrat. Halaman login dokumentasi API juga ikut diganti. Font judul
+  pilihan desa (ADR 0007) tetap berlaku di halaman desa.
+- Semua hex brand mengikuti file SVG desainer. Token `sprout` (Tunas) berubah dari `#9dd853` ke `#9dd950`, ujung terang
+  gradasi logo, dengan teks gelap 10,4:1. Label `#109C4F` di brand sheet tidak dipakai karena warna kotaknya dan gradasi
+  logo sama-sama `#387b4c`.
+- Panduan brand dan UX lintas generasi (`docs/plan/PLAN-rebranding-v2.md`, versi 1.3) disesuaikan dengan logo daun,
+  palet dari SVG, dan Montserrat. Dua segmen pengguna (penjual dan pengurus desa, serta pembeli) dan prinsip "familiar
+  dulu" dari versi 1.2 tetap.
+- Terkait: PLAN-rebranding-v2.md
+
 ## 2026-11-20 — Logo baru Desanara dan warna utama mengikuti logo
 
 - **Area**: apps/web, apps/dashboard, apps/api, packages/ui, packages/email, docs

@@ -3,7 +3,7 @@ name: Desanara
 description: Desanara — a friendly village marketplace where every product carries its village's name, colour and story.
 colors:
   brand-green: '#387b4c'
-  sprout: '#9dd853'
+  sprout: '#9dd950'
   leaf: '#6cac4e'
   sun: '#e3a84f'
   clay: '#c2612c'
@@ -18,7 +18,7 @@ colors:
   open-green: '#15803d'
   pause-amber: '#b45309'
 typography:
-  family: 'Plus Jakarta Sans, system-ui, sans-serif'
+  family: 'Montserrat, system-ui, sans-serif'
   display:
     {
       fontSize: 'clamp(2rem, 6.5vw, 3.5rem)',
@@ -46,7 +46,7 @@ Replaces the earlier "Buku Nota & Stempel" concept (rejected 2026-11-03: too met
 - **Desanara green** `#387b4c`: platform accent (primary buttons, links, search submit), the dark end of the logo
   gradient. White on it 5.1:1. Inside a village page the accent becomes that village's own colour (ADR 0007).
 - **Secondary palette** (tokens `sprout`, `leaf`, `sun`, `clay`): decoration, illustration and highlights only.
-  `sprout` `#9dd853` (the logo's light leaf tip) and `sun` `#e3a84f` take dark text (10.3:1 and 8.3:1); `leaf`
+  `sprout` `#9dd950` (the logo's light leaf tip) and `sun` `#e3a84f` take dark text (10.4:1 and 8.3:1); `leaf`
   `#6cac4e` (the wordmark green, 2.8:1) and `clay` `#c2612c` (4.2:1 with white) only for large text (≥ 19 px bold) or
   non-text shapes.
 - **WhatsApp green** `#0f7a3f`: only for ordering/chat actions, in every village, so the action is always recognised.
@@ -64,7 +64,9 @@ tall, so the horizontal logo needs at least 32 px height (header 44 px). Use the
 
 ## Typography
 
-Plus Jakarta Sans for everything on platform pages (400–800). Villages may swap the _display_ face through
+Montserrat for everything on platform pages and the dashboard (variable, 400–800), the same family as the logo
+wordmark. Body text stays 400–500 at ≥ 16 px; headings 700–800. Montserrat is wide, so keep product names to two lines
+with `line-clamp-2` and check 320 px layouts. Villages may swap the _display_ face through
 `font-village` (Barlow Condensed, Bitter, Nunito, Poppins) for their name and section headings only. Prices are bold with
 tabular numerals. Body ≥ 16 px, line length ≤ 68ch.
 
