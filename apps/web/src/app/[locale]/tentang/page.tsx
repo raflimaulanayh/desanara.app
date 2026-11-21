@@ -54,6 +54,23 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
           ))}
         </ul>
       </div>
+
+      {/* Target of the home hero's "Daftarkan UMKM" button until self-registration (/gabung) ships. */}
+      <section id="gabung" className="bg-wash mt-14 scroll-mt-28 rounded-3xl p-6 sm:p-8">
+        <h2 className="text-2xl font-extrabold tracking-tight">{t('joinTitle')}</h2>
+        <p className="text-muted mt-2 max-w-[60ch] text-lg leading-relaxed">
+          {t('joinBody')}{' '}
+          <a
+            href="https://www.instagram.com/himasif.su/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-accent font-bold underline underline-offset-4"
+          >
+            @himasif.su
+          </a>
+          .
+        </p>
+      </section>
     </Container>
   )
 }

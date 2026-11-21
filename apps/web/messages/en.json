@@ -43,8 +43,8 @@
     "searchLabel": "Search products",
     "searchPlaceholder": "Search chips, coffee, crafts…",
     "searchSubmit": "Search",
-    "heroTitle": "Village specialities, straight from the makers.",
-    "heroSubtitle": "Shop cassava chips, coffee, bamboo crafts and farm produce from villages across West Java. Order on WhatsApp, no middleman.",
+    "heroTitle": "Village craft, for all of Indonesia.",
+    "heroSubtitle": "Find standout products, support local businesses, and order straight from the makers.",
     "categoriesTitle": "Shop by category",
     "villagesTitle": "Explore villages",
     "villagesAside": "Every product has an origin and a story",
@@ -80,7 +80,9 @@
       }
     },
     "villagesEmpty": "No villages yet.",
-    "latestEmpty": "No products yet."
+    "latestEmpty": "No products yet.",
+    "heroExplore": "Explore now",
+    "heroJoin": "Register your business"
   },
   "explore": {
     "title": "Explore products",
@@ -160,7 +162,9 @@
     "title": "About Desanara",
     "lead": "Desanara is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
     "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
-    "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency."
+    "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency.",
+    "joinTitle": "Run a business in a partner village? Register it",
+    "joinBody": "Online registration is on its way. For now, contact your village admin or the HIMASIF team on Instagram"
   },
   "notFound": {
     "title": "Page not found",

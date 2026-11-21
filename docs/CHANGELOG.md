@@ -15,6 +15,19 @@ Format:
 
 ---
 
+## 2026-11-21 — Beranda dibuka dengan hero bergaya splash screen
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Bagian atas beranda kini mengikuti layar pembuka di mockup papan brand. Di HP: logo vertikal, ilustrasi desa
+  (matahari, bukit, sawah berundak, rumah, pohon), judul "Karya Desa, untuk Indonesia.", lalu tombol "Jelajahi
+  Sekarang" dan "Daftarkan UMKM". Di layar lebar: teks di kiri, ilustrasi di kanan. Ilustrasinya SVG inline dengan
+  warna brand, tanpa file tambahan, dengan satu animasi naik halus saat dibuka (mati bila pengguna memilih gerak
+  dikurangi). Splash tidak memblokir halaman, jadi link produk dari WhatsApp tetap langsung ke produk.
+- Tombol "Daftarkan UMKM" sementara mengarah ke bagian baru "Punya usaha di desa? Daftarkan UMKM-mu" di halaman Tentang
+  (hubungi admin desa atau HIMASIF lewat Instagram), sampai pendaftaran mandiri `/gabung` selesai.
+- Terkait: PLAN-rebranding-v2.md
+
 ## 2026-11-21 — Font Montserrat di semua aplikasi, panduan brand & UX v1.3
 
 - **Area**: apps/web, apps/dashboard, apps/api, packages/ui, docs

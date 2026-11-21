@@ -2,12 +2,12 @@ import { Container } from '@repo/ui/components/container'
 import { ArrowRight, BadgeCheck, GraduationCap, HandCoins } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { ProductGrid } from '@/components/product-card'
-import { SearchForm } from '@/components/search-form'
+import { LogoVertical } from '@/components/brand/logo'
+import { VillageScene } from '@/components/home/village-scene'
 import { VillageCard } from '@/components/village-card'
 import { Link } from '@/i18n/navigation'
 import { getCategories, getVillages, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
-import { localePath } from '@/lib/paths'
 
 export const revalidate = 300
 
@@ -29,41 +29,57 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <section className="bg-wash">
-        <Container className="py-10 sm:py-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-[clamp(2rem,6.5vw,3.5rem)] leading-[1.08] font-extrabold tracking-tight text-balance">
+      <section className="bg-wash overflow-hidden">
+        <Container className="grid items-center pt-5 pb-2 md:grid-cols-[1.1fr_1fr] md:gap-10 md:py-14 lg:gap-14">
+          <LogoVertical width={150} className="mx-auto md:hidden" />
+          <div className="-mx-4 mt-1 md:col-start-2 md:row-start-1 md:mx-0 md:mt-0 md:[mask-image:linear-gradient(to_right,transparent,#000_14%,#000_86%,transparent)]">
+            <VillageScene className="text-wash" />
+          </div>
+          <div className="mt-2 text-center md:col-start-1 md:row-start-1 md:mt-0 md:text-left">
+            <h1 className="text-accent text-[clamp(1.875rem,7.5vw,2.5rem)] leading-[1.1] font-extrabold tracking-[-0.02em] text-balance lg:text-[3.25rem]">
               {t('heroTitle')}
             </h1>
-            <p className="text-muted mx-auto mt-4 max-w-[56ch] text-base text-pretty sm:text-lg">
+            <p className="text-muted mx-auto mt-3 max-w-[40ch] text-base text-pretty sm:text-lg md:mx-0">
               {t('heroSubtitle')}
             </p>
-            <SearchForm
-              size="lg"
-              className="mx-auto mt-7 max-w-xl max-md:hidden"
-              action={localePath(locale, '/jelajah')}
-              placeholder={t('searchPlaceholder')}
-            />
-          </div>
-          {categories.length > 0 ? (
-            <div className="mx-auto mt-8 max-w-3xl">
-              <h2 className="sr-only">{t('categoriesTitle')}</h2>
-              <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0">
-                {categories.map((c) => (
-                  <li key={c.slug} className="shrink-0">
-                    <Link
-                      href={`/jelajah?category=${c.slug}`}
-                      className="border-line-strong bg-surface hover:border-accent hover:text-accent inline-flex h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors"
-                    >
-                      {pick(locale, c.name, c.nameEn)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+              <Link
+                href="/jelajah"
+                className="bg-accent text-accent-foreground focus-visible:outline-accent inline-flex h-12 items-center justify-center gap-2 rounded-full px-7 font-bold whitespace-nowrap transition-colors hover:bg-[var(--accent-hover)] focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                {t('heroExplore')}
+                <ArrowRight className="size-5" aria-hidden />
+              </Link>
+              <Link
+                href="/tentang#gabung"
+                className="border-line-strong bg-surface hover:border-accent hover:text-accent focus-visible:outline-accent inline-flex h-12 items-center justify-center rounded-full border px-7 font-bold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                {t('heroJoin')}
+              </Link>
             </div>
-          ) : null}
+          </div>
         </Container>
       </section>
+
+      {categories.length > 0 ? (
+        <section className="pt-8">
+          <Container>
+            <h2 className="sr-only">{t('categoriesTitle')}</h2>
+            <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+              {categories.map((c) => (
+                <li key={c.slug} className="shrink-0">
+                  <Link
+                    href={`/jelajah?category=${c.slug}`}
+                    className="border-line-strong bg-surface hover:border-accent hover:text-accent inline-flex h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors"
+                  >
+                    {pick(locale, c.name, c.nameEn)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+      ) : null}
 
       <section className="pt-12">
         <Container>

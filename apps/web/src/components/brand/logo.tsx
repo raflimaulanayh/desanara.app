@@ -9,6 +9,7 @@ import Image from 'next/image'
  */
 const LOGO_RATIO = 406.14 / 134
 const MARK_RATIO = 113.36 / 134
+const VERTICAL_RATIO = 275.43 / 200.13
 
 /** The leaf "d" mark. `size` is its height. */
 export function LogoMark({
@@ -54,6 +55,20 @@ export function Logo({
       height={height}
       alt={BRAND_NAME}
       priority={priority}
+      unoptimized
+      className={cn('shrink-0', className)}
+    />
+  )
+}
+
+/** Vertical logo with tagline (mark above wordmark). `width` in px; for splash-style hero moments. */
+export function LogoVertical({ width = 176, className }: { width?: number; className?: string }) {
+  return (
+    <Image
+      src="/brand/desanara-logo-vertical.svg"
+      width={width}
+      height={Math.round(width / VERTICAL_RATIO)}
+      alt={BRAND_NAME}
       unoptimized
       className={cn('shrink-0', className)}
     />

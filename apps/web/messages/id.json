@@ -43,8 +43,8 @@
     "searchLabel": "Cari produk",
     "searchPlaceholder": "Cari keripik, kopi, anyaman…",
     "searchSubmit": "Cari",
-    "heroTitle": "Oleh-oleh khas desa, langsung dari pembuatnya.",
-    "heroSubtitle": "Belanja keripik, kopi, anyaman, sampai hasil kebun dari desa-desa di Jawa Barat. Pesan lewat WhatsApp, tanpa perantara.",
+    "heroTitle": "Karya Desa, untuk Indonesia.",
+    "heroSubtitle": "Temukan produk unggulan, dukung UMKM lokal, dan pesan langsung ke pembuatnya.",
     "categoriesTitle": "Belanja per kategori",
     "villagesTitle": "Jelajahi desa",
     "villagesAside": "Setiap produk punya asal dan cerita",
@@ -80,7 +80,9 @@
       }
     },
     "villagesEmpty": "Belum ada desa yang tampil.",
-    "latestEmpty": "Belum ada produk yang tampil."
+    "latestEmpty": "Belum ada produk yang tampil.",
+    "heroExplore": "Jelajahi Sekarang",
+    "heroJoin": "Daftarkan UMKM"
   },
   "explore": {
     "title": "Jelajah produk",
@@ -160,7 +162,9 @@
     "title": "Tentang Desanara",
     "lead": "Desanara adalah program HIMA Sistem Informasi, SATU University: katalog produk UMKM dari desa mitra, disertai pendampingan dan edukasi digital untuk pelaku usahanya.",
     "how": "Setiap desa punya halaman sendiri yang dikelola admin desa. UMKM diverifikasi sekali oleh desa, lalu produknya bisa langsung dipesan pembeli lewat WhatsApp — tanpa perantara, tanpa potongan.",
-    "pilot": "Desa pilot: Desa Baros, Kecamatan Arjasari, Kabupaten Bandung."
+    "pilot": "Desa pilot: Desa Baros, Kecamatan Arjasari, Kabupaten Bandung.",
+    "joinTitle": "Punya usaha di desa? Daftarkan UMKM-mu",
+    "joinBody": "Pendaftaran online sedang kami siapkan. Untuk sekarang, hubungi admin desamu atau tim HIMASIF lewat Instagram"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",

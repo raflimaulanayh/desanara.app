@@ -79,6 +79,10 @@ rounded pills. Tap targets ≥ 44 px.
 ## Components
 
 - **Header**: logo, always-visible search pill, Jelajah/Tentang, ID|EN switch. Sticky. Search stays in the header on phones (second row).
+- **Home hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
+  (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
+  "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"
+  (outline). From `md`: text left, landscape right with edges faded into the cream by a mask. Category chips follow.
 - **Search form**: plain GET form, works without JavaScript.
 - **Product card**: square photo (or tinted category tile in the village colour when there is no photo), name (2 lines),
   price, a pin line "Desa · UMKM". Out-of-stock shows a dark pill on the photo.

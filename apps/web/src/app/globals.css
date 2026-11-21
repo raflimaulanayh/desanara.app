@@ -23,3 +23,27 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Home hero landscape (components/home/village-scene.tsx): hills settle into place and the sun rises,
+   once, on load. Starts from a visible state, so nothing waits on the animation. */
+@media (prefers-reduced-motion: no-preference) {
+  .scene-rise,
+  .scene-sun {
+    transform-box: fill-box;
+    animation: scene-rise 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .scene-sun {
+    animation-name: scene-sun;
+    animation-duration: 1.8s;
+  }
+}
+@keyframes scene-rise {
+  from {
+    transform: translateY(10px);
+  }
+}
+@keyframes scene-sun {
+  from {
+    transform: translateY(18px);
+  }
+}
