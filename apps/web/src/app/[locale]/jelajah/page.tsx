@@ -16,7 +16,14 @@ import {
   previewRegency,
   searchPreviewProducts,
 } from '@/lib/catalogue-preview'
-import { getCategories, getRegencies, searchProducts } from '@/lib/data'
+import { groupMapBusinesses } from '@/lib/catalogue-map'
+import {
+  getCategories,
+  getMapProducts,
+  getMapVillagePoints,
+  getRegencies,
+  searchProducts,
+} from '@/lib/data'
 import { pick } from '@/lib/localize'
 import { localePath } from '@/lib/paths'
 import { pageAlternates } from '@/lib/site-url'
@@ -60,9 +67,9 @@ export default async function ExplorePage({
   const page = Math.max(1, Number.parseInt(one(sp.page) ?? '1', 10) || 1)
 
   const preview = isCataloguePreview()
-  const mapView = preview && one(sp.view) === 'map'
+  const mapView = one(sp.view) === 'map'
   const view = mapView ? 'map' : undefined
-  const village = preview ? one(sp.village) : undefined
+  const village = one(sp.village)
   const selectedSlug = mapView ? one(sp.selected) : undefined
   const queryParams = {
     q,
@@ -71,20 +78,31 @@ export default async function ExplorePage({
     village,
     sort,
     page: mapView ? 1 : page,
-    pageSize: mapView ? previewProducts.length : PAGE_SIZE,
+    pageSize: mapView && preview ? previewProducts.length : PAGE_SIZE,
   }
   const [t, results, categories, regencies] = await Promise.all([
     getTranslations('explore'),
-    preview ? searchPreviewProducts(queryParams) : searchProducts(queryParams),
+    preview
+      ? searchPreviewProducts(queryParams)
+      : mapView
+        ? getMapProducts(queryParams)
+        : searchProducts(queryParams),
     preview ? previewCategories : getCategories(),
     preview ? [previewRegency] : getRegencies(),
   ])
+  const mapVillages = mapView
+    ? preview
+      ? groupPreviewMapBusinesses(results.data)
+      : groupMapBusinesses(results.data, await getMapVillagePoints(results.data))
+    : []
   const pages = Math.max(1, Math.ceil(results.meta.total / PAGE_SIZE))
   const hasFilters = Boolean(q || region || category || village || sort !== 'newest')
   const activeFilterCount =
     Number(Boolean(region)) + Number(sort !== 'newest') + Number(Boolean(mapView && category))
   const villageName =
-    village && previewProducts.find((product) => product.village.slug === village)?.village.name
+    village &&
+    (preview ? previewProducts : results.data).find((product) => product.village.slug === village)
+      ?.village.name
   const query = (overrides: Record<string, string | undefined>) => {
     const out = new URLSearchParams()
     for (const [k, v] of Object.entries({
@@ -211,7 +229,7 @@ export default async function ExplorePage({
               },
             ]}
           />
-          {preview && !mapView ? (
+          {!mapView ? (
             <nav
               aria-label={t('map.viewLabel')}
               className="border-line bg-surface flex items-center rounded-full border p-0.5"
@@ -279,7 +297,7 @@ export default async function ExplorePage({
                 hasFilters && 'ml-0 basis-full sm:ml-auto sm:basis-auto',
               )}
             >
-              {t('map.approximate')}
+              {t(preview ? 'map.approximate' : 'map.villageCentres')}
             </p>
           ) : null}
         </div>
@@ -302,14 +320,19 @@ export default async function ExplorePage({
           <>
             {results.data.length === 0 ? (
               <div className="bg-surface px-4 pt-1 pb-3 text-center">{emptyMessage}</div>
+            ) : mapVillages.length === 0 ? (
+              <p className="text-muted bg-surface px-4 pb-3 text-center text-sm">
+                {t('map.noVillagePoints')}
+              </p>
             ) : null}
             <ExploreMap
-              villages={groupPreviewMapBusinesses(results.data).map((point) => ({
+              villages={mapVillages.map((point) => ({
                 ...point,
                 href: query({ selected: point.slug }),
                 listHref: query({ view: undefined, village: point.slug }),
               }))}
               selectedSlug={selectedSlug}
+              preview={preview}
               closeHref={query({})}
               listHref={query({ view: undefined })}
             />

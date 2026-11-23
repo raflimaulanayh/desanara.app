@@ -93,5 +93,35 @@ export const getRegencies = () =>
 
 export type ProductSummary = Awaited<ReturnType<typeof searchProducts>>['data'][number]
 
+export async function getMapProducts(query: ProductQuery) {
+  const pageSize = 50
+  const first = await searchProducts({ ...query, page: 1, pageSize })
+  const data = [...first.data]
+  for (let page = 2; (page - 1) * pageSize < first.meta.total; page++) {
+    const next = await searchProducts({ ...query, page, pageSize })
+    if (next.data.length === 0) break
+    data.push(...next.data)
+  }
+  return { data, meta: first.meta }
+}
+
+export async function getMapVillagePoints(products: ProductSummary[]) {
+  const slugs = new Set(products.map(({ village }) => village.slug))
+  const points = await Promise.all(
+    [...slugs].map((slug) =>
+      safe(async () => {
+        const village = await getVillage(slug)
+        if (!village.regionCode || village.regionCode.split('.').length !== 4) return null
+        const { data } = await unwrap(
+          await api.v1.regions[':code'].$get({ param: { code: village.regionCode } }),
+        )
+        if (data.level !== 'village' || data.lat == null || data.lng == null) return null
+        return { slug, lat: data.lat, lng: data.lng }
+      }, null),
+    ),
+  )
+  return points.filter((point) => point !== null)
+}
+
 /** Slugs of every public page for sitemap.xml. Throws when the API fails: an empty sitemap would drop every page. */
 export const getSitemapEntries = async () => (await unwrap(await api.v1.sitemap.$get())).data

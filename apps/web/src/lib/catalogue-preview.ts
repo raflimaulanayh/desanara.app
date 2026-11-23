@@ -1,4 +1,5 @@
 import type { ProductQuery, ProductSummary } from '@/lib/data'
+import { groupMapBusinesses } from './catalogue-map'
 
 export function isCataloguePreview(env: Record<string, string | undefined> = process.env) {
   if (env.DESANARA_UI_PREVIEW !== '1') return false
@@ -161,15 +162,5 @@ export function searchPreviewProducts({
 }
 
 export function groupPreviewMapBusinesses(products: ProductSummary[]) {
-  return previewMapPoints.flatMap((point) => {
-    const nearby = products.filter(({ village }) => village.slug === point.slug)
-    if (!nearby[0]) return []
-
-    const businesses = new Map<string, ProductSummary>()
-    for (const product of nearby) {
-      if (!businesses.has(product.business.slug)) businesses.set(product.business.slug, product)
-    }
-
-    return [{ ...point, name: nearby[0].village.name, businesses: [...businesses.values()] }]
-  })
+  return groupMapBusinesses(products, previewMapPoints)
 }

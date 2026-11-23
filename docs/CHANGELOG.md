@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-23 — Peta Jelajah untuk katalog publik
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Mode Peta tersedia di produksi. Pin memakai pusat desa dari API wilayah, dan jumlah UMKM mengikuti
+  hasil pencarian. Desa dengan kode kabupaten atau koordinat kosong tetap tersedia di daftar.
+
 ## 2026-11-23 — Pratinjau web katalog di Vercel
 
 - **Area**: apps/web

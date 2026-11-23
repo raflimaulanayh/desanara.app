@@ -2,13 +2,13 @@ import { cn } from '@repo/ui/cn'
 import { ArrowRight, List, X } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
-import type { groupPreviewMapBusinesses } from '@/lib/catalogue-preview'
+import type { groupMapBusinesses } from '@/lib/catalogue-map'
 import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { ExploreMapCanvas } from './explore-map-canvas'
 import { ProductPhoto } from './product-photo'
 
-type Village = ReturnType<typeof groupPreviewMapBusinesses>[number] & {
+type Village = ReturnType<typeof groupMapBusinesses>[number] & {
   href: string
   listHref: string
 }
@@ -16,11 +16,13 @@ type Village = ReturnType<typeof groupPreviewMapBusinesses>[number] & {
 export async function ExploreMap({
   villages,
   selectedSlug,
+  preview,
   closeHref,
   listHref,
 }: {
   villages: Village[]
   selectedSlug?: string
+  preview: boolean
   closeHref: string
   listHref: string
 }) {
@@ -86,7 +88,7 @@ export async function ExploreMap({
                   className="hover:bg-accent/7 flex min-w-0 items-center gap-2.5 rounded-xl p-1 transition-colors"
                 >
                   <ProductPhoto
-                    src={mediaUrl(product.imageKey, true)}
+                    src={mediaUrl(product.imageKey, preview)}
                     alt=""
                     category={product.category?.slug}
                     sizes="(min-width: 640px) 56px, 44px"

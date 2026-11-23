@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test'
+import { groupMapBusinesses } from './catalogue-map'
 import {
   getPreviewProduct,
   groupPreviewMapBusinesses,
@@ -48,4 +49,12 @@ test('map marker counts unique matching businesses and its village results keep 
   ])
   expect(searchPreviewProducts({ village: 'desa-baros', category: 'kerajinan' }).meta.total).toBe(1)
   expect(groupPreviewMapBusinesses(previewProducts)).toHaveLength(3)
+})
+
+test('only villages with known map coordinates receive a marker', () => {
+  const points = [{ slug: 'desa-baros', lat: -7.0658, lng: 107.6302 }]
+  const markers = groupMapBusinesses(previewProducts, points)
+  expect(markers.map(({ slug, businesses }) => [slug, businesses.length])).toEqual([
+    ['desa-baros', 2],
+  ])
 })

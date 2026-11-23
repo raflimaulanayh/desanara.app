@@ -78,6 +78,8 @@ bawah tombol. [Pratinjau Cerita UMKM](PLAN-cerita-umkm.md) tampil tepat di atas 
 
 Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Kembali ke daftar tersedia di bagian
 bawah peta dan membawa pencarian serta filter yang sama. Gesture dua jari di area peta mengubah zoom peta.
+Di produksi, peta memakai hasil katalog dan pusat desa dari API publik. Pin hanya muncul jika desa
+memiliki kode wilayah tingkat desa dan koordinat tersedia.
 
 Halaman publik memakai skala judul dan teks pendukung yang sama, dengan judul lebih besar khusus banner
 dan hero Tentang. Ukuran dan peran teks mengikuti [DESIGN.md](../../DESIGN.md#typography).

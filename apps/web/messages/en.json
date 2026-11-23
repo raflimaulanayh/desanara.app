@@ -132,6 +132,8 @@
       "marker": "{village}, {count, plural, one {# business} other {# businesses}}",
       "count": "{count, plural, one {# business} other {# businesses}}",
       "approximate": "Village pins · Sample data",
+      "villageCentres": "Pins show village centres",
+      "noVillagePoints": "Village locations are unavailable for these results.",
       "loading": "Loading the map…",
       "zoomIn": "Zoom in",
       "zoomOut": "Zoom out",

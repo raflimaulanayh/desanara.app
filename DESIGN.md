@@ -97,7 +97,8 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   HeroUI bottom `Sheet` groups region, sorting, and map categories. The form stays centred at a readable
   width on desktop, and the trigger shows the number of active selections. Phone results use rows with the
   photo beside the title, village, and price. Desktop uses the product grid.
-- **Map preview** shares the catalogue search and filters. Compact circles show matching business counts up to
+- **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
+  Compact circles show matching business counts up to
   `99+` on a pannable Leaflet basemap, with 44 px touch targets. The selected circle fills green. The accessible
   label and the details panel show the full village name and exact count. The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled

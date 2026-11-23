@@ -132,6 +132,8 @@
       "marker": "{village}, {count} UMKM",
       "count": "{count} UMKM",
       "approximate": "Titik desa · Data contoh",
+      "villageCentres": "Pin menunjukkan pusat desa",
+      "noVillagePoints": "Lokasi desa belum tersedia untuk hasil ini.",
       "loading": "Memuat peta…",
       "zoomIn": "Perbesar peta",
       "zoomOut": "Perkecil peta",
