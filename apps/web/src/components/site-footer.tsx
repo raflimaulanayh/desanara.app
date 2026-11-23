@@ -1,6 +1,7 @@
 import { Container } from '@repo/ui/components/container'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
+import { JOIN_HREF } from '@/lib/paths'
 import { BrandMark } from './brand-mark'
 import { Logo } from './brand/logo'
 
@@ -8,17 +9,23 @@ import { Logo } from './brand/logo'
 export async function SiteFooter() {
   const t = await getTranslations('footer')
   return (
-    <footer className="bg-wash border-line mt-16 border-t">
+    <footer className="bg-surface border-line mt-16 border-t">
       <Container className="grid gap-8 py-10 md:grid-cols-[1.4fr_1fr]">
         <div>
           <Logo size="md" />
           <p className="text-muted mt-3 max-w-[52ch] text-sm leading-relaxed">{t('about')}</p>
-          <nav aria-label={t('links')} className="mt-4 flex gap-5 text-sm font-semibold">
+          <nav
+            aria-label={t('links')}
+            className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-sm font-semibold"
+          >
             <Link href="/jelajah" className="hover:text-accent">
               {t('explore')}
             </Link>
             <Link href="/tentang" className="hover:text-accent">
               {t('about_link')}
+            </Link>
+            <Link href={JOIN_HREF} className="hover:text-accent">
+              {t('join')}
             </Link>
             <Link href="/tentang/kredit-foto" className="hover:text-accent">
               {t('credits')}

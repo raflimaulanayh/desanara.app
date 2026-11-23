@@ -6,7 +6,7 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*", "$TURBO_ROOT$/.env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"],
-      "env": ["API_URL", "NEXT_PUBLIC_*", "API_PROXY_TARGET"]
+      "env": ["API_URL", "NEXT_PUBLIC_*", "API_PROXY_TARGET", "DESANARA_UI_PREVIEW", "VERCEL_ENV"]
     },
     "dev": {
       "cache": false,

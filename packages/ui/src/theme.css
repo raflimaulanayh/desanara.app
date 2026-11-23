@@ -64,9 +64,12 @@ html {
   scrollbar-color: var(--line-strong) transparent;
   -webkit-tap-highlight-color: transparent;
 }
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+/* Native controls get a fallback that HeroUI can override with its own focus ring. */
+@layer base {
+  :where(:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 }
 a {
   text-underline-offset: 0.2em;

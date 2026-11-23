@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { ReactNode } from 'react'
+import { MobileNavigation } from '@/components/mobile-navigation'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { routing } from '@/i18n/routing'
@@ -61,12 +62,13 @@ export default async function LocaleLayout({
           {t('skip')}
         </a>
         <NextIntlClientProvider>
-          <div className="flex min-h-dvh flex-col">
+          <div className="site-shell flex min-h-dvh flex-col pb-(--mobile-nav-space) lg:pb-0">
             <SiteHeader />
             <main id="main" className="flex-1">
               {children}
             </main>
             <SiteFooter />
+            <MobileNavigation />
           </div>
         </NextIntlClientProvider>
       </body>

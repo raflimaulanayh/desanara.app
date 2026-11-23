@@ -3,8 +3,8 @@
  * Locally the seed assets are served from apps/web/public/media; in production NEXT_PUBLIC_MEDIA_URL
  * points at the R2 custom domain (https://cdn.desanara.app).
  */
-export function mediaUrl(key: string | null | undefined): string | null {
+export function mediaUrl(key: string | null | undefined, local = false): string | null {
   if (!key) return null
-  const base = process.env.NEXT_PUBLIC_MEDIA_URL || '/media'
+  const base = (local ? undefined : process.env.NEXT_PUBLIC_MEDIA_URL) || '/media'
   return `${base.replace(/\/$/, '')}/${key.replace(/^\//, '')}`
 }

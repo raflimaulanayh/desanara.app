@@ -69,9 +69,7 @@ export default async function VillagePage({ params }: { params: Params }) {
               size={88}
             />
           </div>
-          <h1 className="font-village mt-3 text-[clamp(1.9rem,6vw,3rem)] leading-tight font-extrabold tracking-tight">
-            {village.name}
-          </h1>
+          <h1 className="page-title font-village mt-3">{village.name}</h1>
           <div className="text-muted mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             {village.regionName ? (
               <span className="inline-flex items-center gap-1">
@@ -86,16 +84,14 @@ export default async function VillagePage({ params }: { params: Params }) {
             <span className="text-muted text-sm">{t('verifiedNote')}</span>
           </div>
           {village.description ? (
-            <p className="mt-5 max-w-[68ch] text-base leading-relaxed sm:text-lg">
-              {village.description}
-            </p>
+            <p className="mt-5 max-w-[68ch] text-base leading-relaxed">{village.description}</p>
           ) : null}
         </Container>
       </section>
 
       <section className="pt-12">
         <Container>
-          <h2 className="font-village text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <h2 className="section-title font-village">
             {t('businessesTitle', { village: village.name })}
           </h2>
           {businesses.length === 0 ? <p className="text-muted mt-4">{t('noBusinesses')}</p> : null}
@@ -106,7 +102,7 @@ export default async function VillagePage({ params }: { params: Params }) {
                   href={`/desa/${village.slug}/${b.slug}`}
                   className="border-line bg-surface flex h-full flex-col gap-2 rounded-(--radius) border p-4 transition-shadow hover:shadow-md"
                 >
-                  <p className="text-lg leading-tight font-extrabold">{b.name}</p>
+                  <p className="text-base leading-snug font-bold wrap-anywhere">{b.name}</p>
                   <p className="text-muted text-sm">
                     {[b.ownerName, t('productCount', { count: b.productCount })]
                       .filter(Boolean)
@@ -130,9 +126,7 @@ export default async function VillagePage({ params }: { params: Params }) {
 
       <section className="pt-12">
         <Container>
-          <h2 className="font-village text-2xl font-extrabold tracking-tight sm:text-3xl">
-            {t('products', { village: village.name })}
-          </h2>
+          <h2 className="section-title font-village">{t('products', { village: village.name })}</h2>
           <div className="mt-5">
             {products.data.length === 0 ? (
               <p className="text-muted">{t('productsEmpty')}</p>

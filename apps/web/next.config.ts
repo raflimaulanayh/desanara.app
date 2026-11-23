@@ -24,11 +24,13 @@ const legacyRedirects = () => {
 
 /** Lets next/image load photos from the R2 public URL (https://cdn.desanara.app). */
 const mediaBase = process.env.NEXT_PUBLIC_MEDIA_URL?.replace(/\/$/, '')
-const images: NextConfig['images'] = mediaBase
-  ? { remotePatterns: [new URL(`${mediaBase}/**`)] }
-  : undefined
+const images: NextConfig['images'] = {
+  qualities: [60, 75],
+  remotePatterns: mediaBase ? [new URL(`${mediaBase}/**`)] : [],
+}
 
 const nextConfig: NextConfig = {
+  devIndicators: process.env.DESANARA_UI_PREVIEW === '1' ? false : undefined,
   images,
   transpilePackages: ['@repo/ui', '@repo/i18n', '@repo/api-client', '@repo/validators'],
   typedRoutes: false,

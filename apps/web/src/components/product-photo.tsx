@@ -1,15 +1,6 @@
 import { cn } from '@repo/ui/cn'
-import { Coffee, Cookie, Fish, Package, Shapes, Shirt, Sprout, type LucideIcon } from 'lucide-react'
 import Image from 'next/image'
-
-const ICONS: Record<string, LucideIcon> = {
-  'makanan-camilan': Cookie,
-  minuman: Coffee,
-  kerajinan: Shapes,
-  fesyen: Shirt,
-  'hasil-tani': Sprout,
-  'peternakan-perikanan': Fish,
-}
+import { CategoryIcon } from '@/lib/category-icons'
 
 /**
  * Product picture. Many products have no photo yet, so the fallback is a tinted tile in the
@@ -44,17 +35,16 @@ export function ProductPhoto({
       </div>
     )
   }
-  const Icon = (category && ICONS[category]) || Package
   return (
     <div
-      role="img"
-      aria-label={alt}
+      role={alt ? 'img' : undefined}
+      aria-label={alt || undefined}
       className={cn(
         'bg-accent-soft text-accent-soft-foreground relative grid aspect-square place-items-center overflow-hidden',
         className,
       )}
     >
-      <Icon className="size-1/3 opacity-60" strokeWidth={1.5} aria-hidden />
+      <CategoryIcon slug={category} className="size-1/3 opacity-60" strokeWidth={1.5} aria-hidden />
     </div>
   )
 }

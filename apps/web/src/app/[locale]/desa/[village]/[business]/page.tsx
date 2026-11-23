@@ -73,10 +73,8 @@ export default async function BusinessPage({ params }: { params: Params }) {
       </nav>
 
       <header className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <h1 className="font-village text-[clamp(1.8rem,5.5vw,2.75rem)] leading-tight font-extrabold tracking-tight">
-            {business.name}
-          </h1>
+        <div className="min-w-0">
+          <h1 className="page-title font-village">{business.name}</h1>
           <div className="text-muted mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             {business.ownerName ? (
               <span className="inline-flex items-center gap-1">
@@ -123,13 +121,9 @@ export default async function BusinessPage({ params }: { params: Params }) {
       <div className="mt-8 grid gap-10 lg:grid-cols-[1fr_20rem]">
         <div>
           {business.description ? (
-            <p className="mb-8 max-w-[68ch] text-base leading-relaxed sm:text-lg">
-              {business.description}
-            </p>
+            <p className="mb-8 max-w-[68ch] text-base leading-relaxed">{business.description}</p>
           ) : null}
-          <h2 className="text-xl font-extrabold">
-            {t('productsTitle', { business: business.name })}
-          </h2>
+          <h2 className="section-title">{t('productsTitle', { business: business.name })}</h2>
           <div className="mt-4">
             <ProductGrid products={products.data} showVillage={false} />
           </div>
@@ -137,7 +131,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
 
         <aside className="flex flex-col gap-6 self-start">
           <section className="border-line rounded-(--radius) border p-4">
-            <h2 className="font-extrabold">{t('hoursTitle')}</h2>
+            <h2 className="font-bold">{t('hoursTitle')}</h2>
             {hasHours ? (
               <table className="mt-2 w-full text-sm">
                 <tbody className="divide-line divide-y">
@@ -164,7 +158,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
 
           {marketplaces.length > 0 ? (
             <section className="border-line rounded-(--radius) border p-4">
-              <h2 className="font-extrabold">{t('marketplaces')}</h2>
+              <h2 className="font-bold">{t('marketplaces')}</h2>
               <ul className="mt-2 flex flex-col">
                 {marketplaces.map(([label, url]) => (
                   <li key={label}>

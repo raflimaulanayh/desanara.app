@@ -5,11 +5,26 @@
   },
   "nav": {
     "primary": "Main navigation",
-    "explore": "Explore",
+    "products": "Products",
     "about": "About",
-    "switchLanguage": "Choose language",
+    "settings": "Settings",
     "skip": "Skip to content",
-    "home": "Desanara home"
+    "home": "Desanara home",
+    "menu": "Menu",
+    "homeLink": "Home",
+    "villages": "Villages",
+    "join": "Register your business",
+    "menuClose": "Close menu"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Change the display language for Desanara.",
+    "language": "Display language",
+    "selected": "Active",
+    "languages": {
+      "id": "Bahasa Indonesia",
+      "en": "English"
+    }
   },
   "footer": {
     "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
@@ -19,7 +34,8 @@
     "about_link": "About the programme",
     "credit": "© {year} HIMA Information Systems, SATU University",
     "tagline": "Village specialities",
-    "credits": "Photo credits"
+    "credits": "Photo credits",
+    "join": "Register your business"
   },
   "status": {
     "open": "Open",
@@ -41,52 +57,50 @@
   },
   "home": {
     "searchLabel": "Search products",
-    "searchPlaceholder": "Search chips, coffee, crafts…",
+    "searchPlaceholder": "Search products",
     "searchSubmit": "Search",
-    "heroTitle": "Village craft, for all of Indonesia.",
-    "heroSubtitle": "Find standout products, support local businesses, and order straight from the makers.",
     "categoriesTitle": "Shop by category",
-    "villagesTitle": "Explore villages",
-    "villagesAside": "Every product has an origin and a story",
+    "villagesTitle": "Partner villages",
     "latestTitle": "Latest products",
     "seeAll": "See all",
-    "howTitle": "How to order",
-    "how": {
-      "1": {
-        "title": "Pick a product",
-        "body": "Browse by village or search by name."
-      },
-      "2": {
-        "title": "Chat the seller",
-        "body": "Choose a quantity, then open WhatsApp with your order already written."
-      },
-      "3": {
-        "title": "Agree directly",
-        "body": "Payment and delivery are arranged directly with the maker."
-      }
-    },
-    "trust": {
-      "verified": {
-        "title": "Village verified",
-        "body": "Every business is checked and approved by its village admin before it appears."
-      },
-      "direct": {
-        "title": "Straight to the maker",
-        "body": "No middleman and no commission — your money reaches the maker."
-      },
-      "mentored": {
-        "title": "Mentored by HIMA SI",
-        "body": "SATU University students help each business prepare its products."
-      }
-    },
     "villagesEmpty": "No villages yet.",
     "latestEmpty": "No products yet.",
-    "heroExplore": "Explore now",
-    "heroJoin": "Register your business"
+    "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
+    "bannerMobileTitle": "Explore Indonesia’s Villages",
+    "bannerDescription": "Discover products from villages across Indonesia.",
+    "bannerCta": "Explore products",
+    "bannerVillageCta": "See village",
+    "categoryShort": {
+      "makanan-camilan": "Food",
+      "minuman": "Drinks",
+      "kerajinan": "Crafts",
+      "fesyen": "Fashion",
+      "hasil-tani": "Farm produce",
+      "peternakan-perikanan": "Livestock & fish"
+    },
+    "sellerTitle": "Run a business in a village?",
+    "sellerBody": "Register it on Desanara. Orders go straight to your WhatsApp, with no commission.",
+    "sellerCta": "Register your business"
+  },
+  "stories": {
+    "title": "Stories from local makers",
+    "open": "Open the story from {business}",
+    "reopen": "View the story from {business} again",
+    "close": "Close story",
+    "previous": "Previous story",
+    "next": "Next story",
+    "position": "Story {current} of {total}",
+    "viewProduct": "View product",
+    "preview": "Preview",
+    "captions": {
+      "bamboo": "These bamboo boxes are freshly woven.",
+      "chips": "The cassava chips are ready to pack.",
+      "coffee": "Coffee from Baros, ready to brew."
+    }
   },
   "explore": {
     "title": "Explore products",
-    "searchPlaceholder": "Product or business name",
+    "searchPlaceholder": "Product or business",
     "region": "Regency/city",
     "category": "Category",
     "sort": "Sort by",
@@ -103,7 +117,31 @@
     "next": "Next",
     "page": "Page {page} of {pages}",
     "filters": "Filters",
-    "allCategories": "All"
+    "filtersActive": "Filters, {count} active",
+    "filtersClose": "Close filters",
+    "allRegions": "All regions",
+    "allCategories": "All",
+    "map": {
+      "viewLabel": "Results display",
+      "listMode": "List",
+      "backToList": "Back to list",
+      "mapMode": "Map",
+      "title": "Village map",
+      "searchPlaceholder": "Search map",
+      "allCategories": "All categories",
+      "marker": "{village}, {count, plural, one {# business} other {# businesses}}",
+      "count": "{count, plural, one {# business} other {# businesses}}",
+      "approximate": "Village pins · Sample data",
+      "loading": "Loading the map…",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "tilesUnavailable": "The basemap could not load.",
+      "retry": "Try again",
+      "selected": "Businesses in {village}",
+      "close": "Close village results",
+      "listVillage": "See results in the list",
+      "removeVillage": "Remove the {village} filter"
+    }
   },
   "village": {
     "products": "Products from {village}",
@@ -130,6 +168,11 @@
     "aboutTitle": "About the business"
   },
   "product": {
+    "detailTitle": "Product details",
+    "backToProducts": "Back to the product catalogue",
+    "backToHome": "Back to home",
+    "breadcrumb": "Breadcrumb",
+    "origin": "Product origin and seller",
     "by": "Sold by",
     "fromVillage": "From the village",
     "description": "Description",
@@ -146,6 +189,8 @@
     "nextPhoto": "Next photo"
   },
   "order": {
+    "options": "Quantity and order note",
+    "previewTitle": "WhatsApp message preview",
     "quantity": "Quantity",
     "decrease": "Decrease",
     "increase": "Increase",
@@ -164,7 +209,42 @@
     "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
     "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency.",
     "joinTitle": "Run a business in a partner village? Register it",
-    "joinBody": "Online registration is on its way. For now, contact your village admin or the HIMASIF team on Instagram"
+    "joinBody": "Online registration is on its way. For now, contact your village admin or the HIMASIF team on Instagram",
+    "hero": {
+      "title": "Village craft, for all of Indonesia.",
+      "subtitle": "Find standout products, support local businesses, and order straight from the makers.",
+      "explore": "Explore now",
+      "join": "Register your business"
+    },
+    "orderTitle": "How to order",
+    "order": {
+      "1": {
+        "title": "Pick a product",
+        "body": "Browse by village or search by name."
+      },
+      "2": {
+        "title": "Chat the seller",
+        "body": "Choose a quantity, then open WhatsApp with your order already written."
+      },
+      "3": {
+        "title": "Agree directly",
+        "body": "Payment and delivery are arranged directly with the maker."
+      }
+    },
+    "trust": {
+      "verified": {
+        "title": "Village verified",
+        "body": "Every business is checked and approved by its village admin before it appears."
+      },
+      "direct": {
+        "title": "Straight to the maker",
+        "body": "No middleman and no commission — your money reaches the maker."
+      },
+      "mentored": {
+        "title": "Mentored by HIMA SI",
+        "body": "SATU University students help each business prepare its products."
+      }
+    }
   },
   "notFound": {
     "title": "Page not found",

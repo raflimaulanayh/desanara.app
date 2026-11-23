@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@heroui/react'
 import { cn } from '@repo/ui/cn'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -52,7 +53,7 @@ export function ProductGallery({
             if (e.key === 'ArrowRight') go(active + 1)
             if (e.key === 'ArrowLeft') go(active - 1)
           }}
-          className="no-scrollbar focus-visible:outline-accent flex snap-x snap-mandatory overflow-x-auto rounded-(--radius) focus-visible:outline-2"
+          className="no-scrollbar focus-visible:outline-accent flex snap-x snap-mandatory overflow-x-auto rounded-2xl focus-visible:outline-2 lg:rounded-(--radius)"
         >
           {photos.map((p, i) => (
             <div
@@ -68,7 +69,7 @@ export function ProductGallery({
                 category={category}
                 priority={i === 0}
                 sizes="(min-width: 1024px) 50vw, 100vw"
-                className="aspect-[4/3] sm:aspect-square"
+                className="aspect-[5/4] sm:aspect-[4/3] lg:aspect-square"
               />
             </div>
           ))}
@@ -88,19 +89,21 @@ export function ProductGallery({
                 ['next', active + 1, ChevronRight, 'right-3'],
               ] as const
             ).map(([dir, to, Icon, side]) => (
-              <button
+              <Button
                 key={dir}
                 type="button"
-                onClick={() => go(to)}
-                disabled={to < 0 || to >= photos.length}
+                variant="ghost"
+                size="sm"
+                onPress={() => go(to)}
+                isDisabled={to < 0 || to >= photos.length}
                 aria-label={t(dir === 'prev' ? 'prevPhoto' : 'nextPhoto')}
                 className={cn(
-                  'bg-surface/90 absolute top-1/2 hidden size-11 -translate-y-1/2 place-items-center rounded-full shadow-md transition-opacity group-hover:opacity-100 disabled:hidden sm:grid sm:opacity-0 sm:focus-visible:opacity-100',
+                  'bg-surface/90 absolute top-1/2 hidden size-9 min-w-0 -translate-y-1/2 rounded-full shadow-md transition-opacity group-hover:opacity-100 disabled:hidden sm:flex sm:opacity-0 sm:data-[focus-visible=true]:opacity-100',
                   side,
                 )}
               >
                 <Icon className="size-5" aria-hidden />
-              </button>
+              </Button>
             ))}
           </>
         ) : null}
@@ -110,18 +113,20 @@ export function ProductGallery({
         <ul className="no-scrollbar hidden gap-2 overflow-x-auto sm:flex">
           {photos.map((p, i) => (
             <li key={`${p.src ?? 'none'}-thumb-${i}`} className="shrink-0">
-              <button
+              <Button
                 type="button"
-                onClick={() => go(i)}
+                variant="ghost"
+                size="sm"
+                onPress={() => go(i)}
                 aria-label={t('photoOf', { n: i + 1, total: photos.length })}
                 aria-current={i === active ? 'true' : undefined}
                 className={cn(
-                  'block size-16 overflow-hidden rounded-lg border-2 transition-colors',
+                  'block size-12 min-w-0 overflow-hidden rounded-lg border-2 p-0',
                   i === active ? 'border-accent' : 'hover:border-line-strong border-transparent',
                 )}
               >
-                <ProductPhoto src={p.src} alt="" category={category} sizes="64px" />
-              </button>
+                <ProductPhoto src={p.src} alt="" category={category} sizes="48px" />
+              </Button>
             </li>
           ))}
         </ul>

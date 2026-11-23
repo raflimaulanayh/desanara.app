@@ -331,11 +331,13 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
 
         <Card>
           <Card.Content className="flex flex-col gap-4">
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               aria-expanded={showEn}
-              onClick={() => setShowEn((s) => !s)}
-              className="flex items-center justify-between gap-3 text-left"
+              onPress={() => setShowEn((s) => !s)}
+              className="h-auto w-full justify-between gap-3 rounded-lg px-2 py-1.5 text-left whitespace-normal"
             >
               <span>
                 <span className="block font-bold">{t('productForm.english')}</span>
@@ -345,7 +347,7 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
                 className={`size-5 shrink-0 transition-transform ${showEn ? 'rotate-180' : ''}`}
                 aria-hidden
               />
-            </button>
+            </Button>
             {showEn ? (
               <>
                 <Field

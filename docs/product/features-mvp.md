@@ -24,6 +24,7 @@ Cara setiap peran memakai fitur ini: [alur pengguna](user-flows.md).
 | Halaman UMKM: cerita, status buka/tutup otomatis, toko online, produk; alamat tidak tampil                             | Selesai                                     |
 | Halaman produk: slider foto, harga / Gratis / harga coret + badge diskon, panel pesan (jumlah dan catatan) ke WhatsApp | Selesai                                     |
 | Halaman Tentang dan Kredit foto                                                                                        | Selesai                                     |
+| Navigasi bawah di HP dan pengaturan bahasa Indonesia/Inggris pada situs publik                                         | Selesai                                     |
 | Gambar pratinjau link (OG image) khusus per halaman                                                                    | Direncanakan                                |
 
 ## Dashboard
