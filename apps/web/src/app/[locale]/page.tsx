@@ -40,7 +40,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
     : [...villages].sort((a, b) => b.businessCount - a.businessCount)[0]
   const stories = previewStories.map(({ product, image, caption }) => ({
     id: product.id,
-    isSeed: product.isSeed,
     business: product.business.name,
     village: product.village.name,
     image,

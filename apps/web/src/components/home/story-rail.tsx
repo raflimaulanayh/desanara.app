@@ -11,7 +11,6 @@ import { Link } from '@/i18n/navigation'
 
 export interface CatalogueStory {
   id: string
-  isSeed: boolean
   business: string
   village: string
   image: string
@@ -46,16 +45,9 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
   return (
     <section aria-labelledby={titleId} className="border-line/70 bg-surface border-b">
       <Container className="pt-2 pb-2 sm:pt-4 sm:pb-3">
-        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
-          <h2 id={titleId} className="section-title">
-            {t('title')}
-          </h2>
-          {stories.every((item) => item.isSeed) ? (
-            <span className="bg-accent-soft text-accent-soft-foreground shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold">
-              {t('sample')}
-            </span>
-          ) : null}
-        </div>
+        <h2 id={titleId} className="section-title">
+          {t('title')}
+        </h2>
         <ul className="-mx-4 mt-1.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pt-1.5 pb-2 sm:-mx-6 sm:scroll-px-6 sm:px-6">
           {stories.map((item, i) => {
             const hasViewed = viewed.has(item.id)
@@ -142,10 +134,7 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                     >
                       {story.business}
                     </h3>
-                    <p className="text-xs leading-snug font-semibold">
-                      {story.village}
-                      {story.isSeed ? ` · ${t('sample')}` : null}
-                    </p>
+                    <p className="text-xs leading-snug font-semibold">{story.village}</p>
                   </div>
                   <Button
                     type="button"

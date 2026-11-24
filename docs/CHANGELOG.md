@@ -15,6 +15,12 @@ Format:
 
 ---
 
+## 2026-11-24 — Label contoh di Cerita UMKM disederhanakan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Deret dan penampil Cerita UMKM menampilkan foto, nama UMKM, desa, dan keterangan tanpa label contoh.
+
 ## 2026-11-24 — Cerita UMKM contoh tampil di Beranda publik
 
 - **Area**: apps/web
