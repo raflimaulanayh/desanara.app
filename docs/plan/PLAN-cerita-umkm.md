@@ -18,6 +18,8 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
 - Tahap UI memakai data mock untuk Beranda, Jelajah, Cerita UMKM, dan Detail Produk agar bisa ditinjau sebelum
   integrasi API. Jalankan `DESANARA_UI_PREVIEW=1 bun run --cwd apps/web dev` dan buka `/` atau `/en`.
   Data katalog contoh ada di `apps/web/src/lib/catalogue-preview.ts`. Tombol WhatsApp menampilkan contoh pesan.
+- Beranda produksi menampilkan deret cerita berlabel **Contoh** selama alur penerbitan disiapkan.
+  Penampil memuat foto dan keterangan. Harga dan tautan produk contoh tersedia di pratinjau katalog.
 - Versi awal mencakup satu foto, keterangan singkat, dan pilihan menautkan satu produk dari UMKM yang sama.
 - Pembeli membuka cerita dari beranda dan profil UMKM. Pemilik dan pendamping mengunggah serta menarik cerita
   dari dashboard.

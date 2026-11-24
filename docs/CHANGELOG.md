@@ -15,6 +15,14 @@ Format:
 
 ---
 
+## 2026-11-24 — Cerita UMKM contoh tampil di Beranda publik
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Sebelas cerita contoh bisa dibuka di Beranda produksi dalam bahasa Indonesia dan Inggris. Deret
+  dan penampil cerita menandai kontennya sebagai contoh. Harga dan tautan produk contoh tampil di
+  mode pratinjau katalog.
+
 ## 2026-11-24 — Desanara bisa dipasang dari layar utama
 
 - **Area**: apps/web, packages/validators

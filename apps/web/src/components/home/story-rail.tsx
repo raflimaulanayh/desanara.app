@@ -11,11 +11,12 @@ import { Link } from '@/i18n/navigation'
 
 export interface CatalogueStory {
   id: string
+  isSeed: boolean
   business: string
   village: string
   image: string
   caption: string
-  product: {
+  product?: {
     slug: string
     name: string
     price: number
@@ -33,6 +34,7 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
   const [viewed, setViewed] = useState<ReadonlySet<string>>(() => new Set())
   const story = stories[index] ?? stories[0]
   if (!story) return null
+  const product = story.product
 
   function viewStory(nextIndex: number) {
     const next = stories[nextIndex]
@@ -44,9 +46,16 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
   return (
     <section aria-labelledby={titleId} className="border-line/70 bg-surface border-b">
       <Container className="pt-2 pb-2 sm:pt-4 sm:pb-3">
-        <h2 id={titleId} className="section-title">
-          {t('title')}
-        </h2>
+        <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-0.5">
+          <h2 id={titleId} className="section-title">
+            {t('title')}
+          </h2>
+          {stories.every((item) => item.isSeed) ? (
+            <span className="bg-accent-soft text-accent-soft-foreground shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold">
+              {t('sample')}
+            </span>
+          ) : null}
+        </div>
         <ul className="-mx-4 mt-1.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pt-1.5 pb-2 sm:-mx-6 sm:scroll-px-6 sm:px-6">
           {stories.map((item, i) => {
             const hasViewed = viewed.has(item.id)
@@ -134,7 +143,8 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                       {story.business}
                     </h3>
                     <p className="text-xs leading-snug font-semibold">
-                      {story.village} · {t('preview')}
+                      {story.village}
+                      {story.isSeed ? ` · ${t('sample')}` : null}
                     </p>
                   </div>
                   <Button
@@ -183,37 +193,39 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                   {t('position', { current: index + 1, total: stories.length })} · {story.business}
                 </p>
                 <p className="section-title mb-3 text-pretty">{story.caption}</p>
-                <div className="bg-surface text-foreground flex items-stretch gap-3 rounded-(--radius) p-2.5">
-                  {story.product.image ? (
-                    <div className="bg-wash relative w-[31%] shrink-0 overflow-hidden rounded-(--radius-compact)">
-                      <Image
-                        src={story.product.image}
-                        alt=""
-                        fill
-                        sizes="128px"
-                        className="object-cover"
+                {product ? (
+                  <div className="bg-surface text-foreground flex items-stretch gap-3 rounded-(--radius) p-2.5">
+                    {product.image ? (
+                      <div className="bg-wash relative w-[31%] shrink-0 overflow-hidden rounded-(--radius-compact)">
+                        <Image
+                          src={product.image}
+                          alt=""
+                          fill
+                          sizes="128px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : null}
+                    <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
+                      <p className="line-clamp-2 text-base leading-snug font-bold">
+                        {product.name}
+                      </p>
+                      <Price
+                        price={product.price}
+                        compareAtPrice={product.compareAtPrice}
+                        className="text-accent text-base font-bold"
                       />
+                      <Link
+                        href={`/produk/${product.slug}`}
+                        onClick={() => setOpen(false)}
+                        className="bg-accent text-accent-foreground mt-1 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-2 text-center text-sm font-bold hover:bg-[var(--accent-hover)]"
+                      >
+                        {t('viewProduct')}
+                        <ArrowRight className="size-4 shrink-0" aria-hidden />
+                      </Link>
                     </div>
-                  ) : null}
-                  <div className="flex min-w-0 flex-1 flex-col items-start gap-1">
-                    <p className="line-clamp-2 text-base leading-snug font-bold">
-                      {story.product.name}
-                    </p>
-                    <Price
-                      price={story.product.price}
-                      compareAtPrice={story.product.compareAtPrice}
-                      className="text-accent text-base font-bold"
-                    />
-                    <Link
-                      href={`/produk/${story.product.slug}`}
-                      onClick={() => setOpen(false)}
-                      className="bg-accent text-accent-foreground mt-1 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-2 text-center text-sm font-bold hover:bg-[var(--accent-hover)]"
-                    >
-                      {t('viewProduct')}
-                      <ArrowRight className="size-4 shrink-0" aria-hidden />
-                    </Link>
                   </div>
-                </div>
+                ) : null}
               </div>
             </div>
           </Modal.Dialog>

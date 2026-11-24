@@ -33,27 +33,28 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       ? previewProducts.slice(0, 4)
       : searchProducts({ sort: 'newest', pageSize: 4 }).then((page) => page.data),
     preview ? previewCategories : getCategories(),
-    preview ? getTranslations('stories.captions') : null,
+    getTranslations('stories.captions'),
   ])
   const featured = preview
     ? villages[0]
     : [...villages].sort((a, b) => b.businessCount - a.businessCount)[0]
-  const stories = storyText
-    ? previewStories.map(({ product, image, caption }) => ({
-        id: product.id,
-        business: product.business.name,
-        village: product.village.name,
-        image,
-        caption: storyText(caption),
-        product: {
+  const stories = previewStories.map(({ product, image, caption }) => ({
+    id: product.id,
+    isSeed: product.isSeed,
+    business: product.business.name,
+    village: product.village.name,
+    image,
+    caption: storyText(caption),
+    product: preview
+      ? {
           slug: product.slug,
           name: pick(locale, product.name, product.nameEn),
           price: product.price,
           compareAtPrice: product.compareAtPrice,
           image: mediaUrl(product.imageKey, true),
-        },
-      }))
-    : []
+        }
+      : undefined,
+  }))
 
   return (
     <div className="catalogue-home pb-10 sm:pb-14">
