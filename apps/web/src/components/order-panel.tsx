@@ -72,7 +72,7 @@ export function OrderPanel({
   })
 
   const actionClass =
-    'bg-wa hover:bg-wa-hover inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-3 text-center text-sm font-bold text-white no-underline'
+    'bg-wa hover:bg-wa-hover inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-3 text-center text-sm font-bold text-white no-underline'
   const actionLabel = (
     <>
       <WhatsAppIcon className="size-5 shrink-0" />
@@ -116,7 +116,7 @@ export function OrderPanel({
           </Disclosure.Trigger>
         </Disclosure.Heading>
         <Disclosure.Content>
-          <div className="border-line flex flex-col gap-3 rounded-xl border p-3">
+          <div className="border-line flex flex-col gap-3 rounded-(--radius) border p-3">
             <NumberField
               minValue={1}
               maxValue={999}
@@ -128,7 +128,7 @@ export function OrderPanel({
               className="flex-row items-center justify-between gap-3"
             >
               <Label>{t('quantity')}</Label>
-              <NumberField.Group className="w-28 rounded-lg">
+              <NumberField.Group className="w-28 rounded-(--radius-compact)">
                 <NumberField.DecrementButton aria-label={t('decrease')} />
                 <NumberField.Input className="min-w-0 px-0 text-center text-base tabular-nums" />
                 <NumberField.IncrementButton aria-label={t('increase')} />
@@ -140,7 +140,7 @@ export function OrderPanel({
                 placeholder={t('noteHint')}
                 rows={2}
                 maxLength={300}
-                className="min-h-0 rounded-lg py-1.5 text-base"
+                className="min-h-0 rounded-(--radius-compact) py-1.5 text-base"
               />
             </TextField>
             {preview ? null : <p className="text-muted text-xs">{t('sendHint')}</p>}
@@ -154,7 +154,7 @@ export function OrderPanel({
         <section
           id={messageId}
           hidden={!showPreview}
-          className="bg-wash mt-2 rounded-xl p-4 text-sm"
+          className="bg-wash mt-2 rounded-(--radius) p-4 text-sm"
         >
           <h2 className="font-bold">{t('previewTitle')}</h2>
           <p className="mt-2 wrap-break-word whitespace-pre-wrap">{message}</p>

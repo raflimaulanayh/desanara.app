@@ -46,10 +46,11 @@ export async function ExploreMap({
         />
         <Link
           href={listHref}
-          className="explore-list-link bg-accent text-accent-foreground absolute bottom-[calc(1.75rem+env(safe-area-inset-bottom))] left-1/2 z-10 flex min-h-11 -translate-x-1/2 items-center justify-center gap-2 rounded-full px-5 text-sm font-bold shadow-sm transition-colors hover:bg-[var(--accent-hover)]"
+          aria-label={t('backToList')}
+          className="explore-list-link bg-accent text-accent-foreground absolute bottom-[calc(1.75rem+env(safe-area-inset-bottom))] left-1/2 z-10 flex min-h-11 w-max -translate-x-1/2 items-center justify-center gap-2 rounded-full px-4 text-sm font-bold whitespace-nowrap shadow-sm transition-colors hover:bg-[var(--accent-hover)]"
         >
           <List className="size-4 shrink-0" aria-hidden />
-          {t('backToList')}
+          {t('listMode')}
         </Link>
       </div>
 
@@ -85,14 +86,14 @@ export async function ExploreMap({
               <li key={product.business.slug} className="min-w-0">
                 <Link
                   href={`/produk/${product.slug}`}
-                  className="hover:bg-accent/7 flex min-w-0 items-center gap-2.5 rounded-xl p-1 transition-colors"
+                  className="hover:bg-accent/7 flex min-w-0 items-center gap-2.5 rounded-(--radius-compact) p-1 transition-colors"
                 >
                   <ProductPhoto
                     src={mediaUrl(product.imageKey, preview)}
                     alt=""
                     category={product.category?.slug}
                     sizes="(min-width: 640px) 56px, 44px"
-                    className="size-11 shrink-0 rounded-lg sm:size-14"
+                    className="size-11 shrink-0 rounded-(--radius-compact) sm:size-14"
                   />
                   <span className="min-w-0 flex-1 text-sm leading-tight">
                     <span className="block font-bold wrap-break-word">{product.business.name}</span>
@@ -108,7 +109,7 @@ export async function ExploreMap({
           <Link
             href={selected.listHref}
             scroll={false}
-            className="bg-accent text-accent-foreground mt-3 flex min-h-11 items-center justify-center gap-2 rounded-xl px-3 py-2 text-center text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
+            className="bg-accent text-accent-foreground mt-3 flex min-h-11 items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-bold whitespace-nowrap transition-colors hover:bg-[var(--accent-hover)]"
           >
             {t('listVillage')}
             <ArrowRight className="size-4 shrink-0" aria-hidden />

@@ -27,9 +27,10 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
 
 ### Pengalaman pembeli dan penjual
 
-- Beranda menampilkan satu deret **Cerita UMKM** di bawah pencarian, sebelum produk terbaru. Foto bulat dapat
-  digeser mendatar. Cincin hijau menandai cerita baru, dan cincin netral putus-putus menandai cerita yang dibuka
-  selama halaman aktif. Tiap UMKM tampil satu kali dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
+- Beranda menampilkan satu deret **Cerita UMKM** di bawah pencarian, sebelum produk terbaru. Kartu foto portrait
+  dapat digeser mendatar. Nama UMKM tampil di atas gradasi gelap di bagian bawah foto. Titik hijau menandai
+  cerita baru dan tanda centang menandai cerita yang dibuka selama halaman aktif. Tiap UMKM tampil satu kali
+  dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
   menampilkan cerita aktif dari usaha tersebut.
 - Penampil foto menampilkan nama UMKM, desa, waktu unggah, dan keterangan. Tombol Sebelumnya, Berikutnya, dan
   Tutup bisa diakses dengan sentuhan serta keyboard. Pembeli berpindah foto secara manual. Tautan **Lihat produk**

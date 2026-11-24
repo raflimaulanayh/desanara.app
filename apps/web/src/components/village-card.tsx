@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import type { getVillages } from '@/lib/data'
+import { isCataloguePreview } from '@/lib/catalogue-preview'
 import { mediaUrl } from '@/lib/media'
 import { VillageLogo } from './village-logo'
 
@@ -15,7 +16,12 @@ export async function VillageCard({ village: v }: { village: Village }) {
       href={`/desa/${v.slug}`}
       className="border-line bg-surface hover:border-accent hover:bg-wash/65 flex h-full items-center gap-3 rounded-(--radius) border p-3 transition-colors sm:gap-4 sm:p-4"
     >
-      <VillageLogo name={v.name} logoUrl={mediaUrl(v.logoKey)} accent={v.accent} size={48} />
+      <VillageLogo
+        name={v.name}
+        logoUrl={mediaUrl(v.logoKey, isCataloguePreview())}
+        accent={v.accent}
+        size={48}
+      />
       <div className="min-w-0 flex-1">
         <h3 className="text-base leading-tight font-bold wrap-break-word">{v.name}</h3>
         {v.regionName ? (

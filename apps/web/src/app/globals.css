@@ -6,6 +6,7 @@
 @source '../../../../packages/ui/src';
 
 :root {
+  --radius-compact: 0.5rem;
   --mobile-nav-space: calc(4rem + env(safe-area-inset-bottom, 0px));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
@@ -148,7 +149,7 @@ main:has(.catalogue-home) + footer {
   .story-viewer {
     width: min(28rem, 50dvh);
     height: min(54rem, calc(100dvh - 2rem));
-    border-radius: 1.25rem;
+    border-radius: var(--radius);
   }
 }
 
@@ -197,11 +198,11 @@ main:has(.catalogue-home) + footer {
   }
 }
 
-/* Horizontal chip/scroll rows: no visible scrollbar, still swipeable */
-.no-scrollbar {
+/* Keep native scrolling on public pages and hide only the scrollbar chrome. */
+* {
   scrollbar-width: none;
 }
-.no-scrollbar::-webkit-scrollbar {
+*::-webkit-scrollbar {
   display: none;
 }
 

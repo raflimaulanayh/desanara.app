@@ -56,9 +56,12 @@
     "sun": "Sunday"
   },
   "home": {
-    "searchLabel": "Search products",
     "searchPlaceholder": "Search products",
     "searchSubmit": "Search",
+    "searchSuggestions": "Search suggestions",
+    "searchSuggestionsLoading": "Searching…",
+    "searchSuggestionsEmpty": "No matches yet.",
+    "searchSuggestionBusiness": "Business · {village}",
     "categoriesTitle": "Shop by category",
     "villagesTitle": "Partner villages",
     "latestTitle": "Latest products",
@@ -95,12 +98,20 @@
     "captions": {
       "bamboo": "These bamboo boxes are freshly woven.",
       "chips": "The cassava chips are ready to pack.",
-      "coffee": "Coffee from Baros, ready to brew."
+      "coffee": "Coffee from Baros, ready to brew.",
+      "dodol": "The glutinous rice dodol is ready to slice.",
+      "sale-pisang": "The dried bananas are ready to pack.",
+      "bandrek-jahe": "Our spiced ginger drink is ready to brew.",
+      "keripik-ubi": "Fresh sweet potato chips are ready.",
+      "telur-asin": "The salted eggs are ready to pack.",
+      "madu-kebun": "Our garden honey is ready to bottle.",
+      "sendok-kayu": "The wooden spoons have just been sanded.",
+      "dompet-kulit": "The last stitches on our leather wallets."
     }
   },
   "explore": {
     "title": "Explore products",
-    "searchPlaceholder": "Product or business",
+    "searchPlaceholder": "Search products or makers",
     "region": "Regency/city",
     "category": "Category",
     "sort": "Sort by",
@@ -112,7 +123,7 @@
     "reset": "Clear filters",
     "results": "{count, plural, =0 {No products} one {# product} other {# products}}",
     "emptyTitle": "No matching products",
-    "emptyBody": "Try another word, or clear the regency and category filters.",
+    "emptyBody": "Try another keyword or clear your filters.",
     "prev": "Previous",
     "next": "Next",
     "page": "Page {page} of {pages}",
@@ -141,7 +152,7 @@
       "retry": "Try again",
       "selected": "Businesses in {village}",
       "close": "Close village results",
-      "listVillage": "See results in the list",
+      "listVillage": "See village products",
       "removeVillage": "Remove the {village} filter"
     }
   },
@@ -153,6 +164,7 @@
     "stats": "{businesses} businesses · {products} products",
     "seeAll": "All products",
     "verifiedNote": "Every business here has been verified by the village admin.",
+    "previewNote": "Preview · Sample businesses and products",
     "businessCount": "{count, plural, =0 {No businesses yet} other {# businesses}}",
     "productCount": "{count, plural, =0 {no products yet} other {# products}}",
     "noBusinesses": "No verified businesses in this village yet."

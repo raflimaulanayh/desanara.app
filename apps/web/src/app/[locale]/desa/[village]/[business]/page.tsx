@@ -11,6 +11,7 @@ import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { Link } from '@/i18n/navigation'
+import { isCataloguePreview } from '@/lib/catalogue-preview'
 import { getBusiness, searchProducts } from '@/lib/data'
 import { initialStatus } from '@/lib/status'
 import { pageAlternates } from '@/lib/site-url'
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function BusinessPage({ params }: { params: Params }) {
   const { locale, village: villageSlug, business: slug } = await params
   setRequestLocale(locale)
+  const preview = isCataloguePreview()
   const [t, tDays, business, products, activeLocale] = await Promise.all([
     getTranslations('business'),
     getTranslations('days'),
@@ -59,7 +61,9 @@ export default async function BusinessPage({ params }: { params: Params }) {
 
   return (
     <Container className="pt-5 pb-8">
-      <TrackView event={{ type: 'business_view', businessSlug: business.slug }} />
+      {preview ? null : (
+        <TrackView event={{ type: 'business_view', businessSlug: business.slug }} />
+      )}
       <nav aria-label="Breadcrumb" className="text-muted text-sm">
         <ol className="flex flex-wrap items-center gap-x-1.5">
           <li>
@@ -125,7 +129,7 @@ export default async function BusinessPage({ params }: { params: Params }) {
           ) : null}
           <h2 className="section-title">{t('productsTitle', { business: business.name })}</h2>
           <div className="mt-4">
-            <ProductGrid products={products.data} showVillage={false} />
+            <ProductGrid products={products.data} showVillage={false} preview={preview} />
           </div>
         </div>
 

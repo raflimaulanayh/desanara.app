@@ -56,19 +56,12 @@ async function loadProduct(slug: string, preview: boolean) {
   return { product, business: await getBusiness(product.business.slug) }
 }
 
-function OriginRow({
-  href,
-  preview,
-  children,
-}: {
-  href: string
-  preview: boolean
-  children: ReactNode
-}) {
-  const className = 'flex min-h-12 items-center gap-3 py-2'
-  if (preview) return <div className={className}>{children}</div>
+function OriginRow({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className={`hover:bg-wash transition-colors ${className}`}>
+    <Link
+      href={href}
+      className="hover:bg-wash flex min-h-12 items-center gap-3 py-2 transition-colors"
+    >
       {children}
       <ChevronRight className="text-muted size-4 shrink-0" aria-hidden />
     </Link>
@@ -157,7 +150,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             </div>
 
             <section aria-label={t('origin')} className="divide-line divide-y">
-              <OriginRow href={`/desa/${village.slug}`} preview={preview}>
+              <OriginRow href={`/desa/${village.slug}`}>
                 <MapPin
                   className="lg:text-accent size-5 shrink-0 text-(--catalogue-accent)"
                   aria-hidden
@@ -174,7 +167,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   ) : null}
                 </div>
               </OriginRow>
-              <OriginRow href={`/desa/${village.slug}/${business.slug}`} preview={preview}>
+              <OriginRow href={`/desa/${village.slug}/${business.slug}`}>
                 <Store className="text-muted size-5 shrink-0" aria-hidden />
                 <div className="min-w-0 flex-1">
                   <p className="text-muted sr-only text-xs font-semibold lg:not-sr-only">

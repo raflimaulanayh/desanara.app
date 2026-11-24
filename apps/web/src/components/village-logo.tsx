@@ -23,7 +23,7 @@ export function VillageLogo({
       {logoUrl ? (
         <Image
           src={logoUrl}
-          alt={name}
+          alt=""
           width={size}
           height={size}
           className="size-full object-contain p-1"

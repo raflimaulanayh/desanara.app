@@ -53,7 +53,7 @@ export function MobileNavigation() {
                 : ('location' as const)
               : undefined,
             className: cn(
-              'group flex h-full min-h-11 flex-col items-center justify-center gap-0.5 rounded-lg px-0.5 py-1 text-center text-xs font-semibold transition-colors focus-visible:outline-offset-[-3px]',
+              'group flex h-full min-h-11 flex-col items-center justify-center gap-0.5 rounded-(--radius-compact) px-0.5 py-1 text-center text-xs font-semibold transition-colors focus-visible:outline-offset-[-3px]',
               active ? 'text-accent' : 'text-muted hover:text-accent',
             ),
           }

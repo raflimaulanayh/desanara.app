@@ -37,7 +37,7 @@ export async function ProductCard({
       <div
         className={cn(
           'relative overflow-hidden',
-          mobileList && 'max-sm:w-[36%] max-sm:shrink-0 max-sm:rounded-lg',
+          mobileList && 'max-sm:w-[36%] max-sm:shrink-0 max-sm:rounded-(--radius-compact)',
         )}
       >
         <ProductPhoto

@@ -32,7 +32,7 @@ export async function CategoryGrid({ categories }: { categories: Category[] }) {
         <h2 id="category-title" className="section-title">
           {t('categoriesTitle')}
         </h2>
-        <ul className="no-scrollbar -mx-4 mt-3.5 flex snap-x gap-1 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-6 sm:gap-3 sm:px-0">
+        <ul className="-mx-4 mt-3.5 flex snap-x gap-1 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-6 sm:gap-3 sm:px-0">
           {categories.map((category) => {
             const Icon = categoryIcon(category.slug, category.icon)
             const short = `categoryShort.${category.slug}`
@@ -40,11 +40,11 @@ export async function CategoryGrid({ categories }: { categories: Category[] }) {
               <li key={category.slug} className="w-[4.6rem] shrink-0 snap-center sm:w-auto">
                 <Link
                   href={{ pathname: '/jelajah', query: { category: category.slug } }}
-                  className="hover:bg-accent/6 hover:text-accent flex h-full flex-col items-center gap-2 rounded-xl px-1 py-1 text-center text-xs leading-tight font-semibold focus-visible:outline-offset-[-2px] sm:px-2 sm:py-2 sm:text-sm"
+                  className="hover:bg-accent/6 hover:text-accent flex h-full flex-col items-center gap-2 rounded-(--radius) px-1 py-1 text-center text-xs leading-tight font-semibold focus-visible:outline-offset-[-2px] sm:px-2 sm:py-2 sm:text-sm"
                 >
                   <span
                     className={cn(
-                      'grid size-11 shrink-0 place-items-center rounded-2xl sm:size-13',
+                      'grid size-11 shrink-0 place-items-center rounded-(--radius) sm:size-13',
                       iconTones.get(category.icon ?? '') ?? 'bg-accent/12 text-accent',
                     )}
                   >

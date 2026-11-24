@@ -41,7 +41,7 @@ export default async function PhotoCreditsPage({
           const src = mediaUrl(c.key)
           return (
             <li key={c.key} className="border-line flex gap-3 rounded-(--radius) border p-3">
-              <div className="bg-wash relative size-16 shrink-0 overflow-hidden rounded-lg">
+              <div className="bg-wash relative size-16 shrink-0 overflow-hidden rounded-(--radius-compact)">
                 {src ? <Image src={src} alt="" fill sizes="64px" className="object-cover" /> : null}
               </div>
               <div className="min-w-0 text-sm">

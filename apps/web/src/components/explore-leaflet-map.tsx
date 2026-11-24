@@ -166,7 +166,7 @@ export default function ExploreLeafletMap({
         aria-label={t('title')}
         className="explore-leaflet relative z-0 size-full"
       />
-      <div className="bg-surface absolute top-2 right-2 z-10 flex flex-col rounded-xl p-0.5 shadow-sm">
+      <div className="bg-surface absolute top-2 right-2 z-10 flex flex-col rounded-(--radius) p-0.5 shadow-sm">
         <Button
           variant="ghost"
           size="sm"
@@ -174,7 +174,7 @@ export default function ExploreLeafletMap({
           isDisabled={zoom === null || zoom >= 19}
           aria-label={t('zoomIn')}
           onPress={() => map.current?.zoomIn()}
-          className="size-11 rounded-lg"
+          className="size-11 rounded-(--radius-compact)"
         >
           <Plus className="size-4" aria-hidden />
         </Button>
@@ -185,7 +185,7 @@ export default function ExploreLeafletMap({
           isDisabled={zoom === null || zoom <= 0}
           aria-label={t('zoomOut')}
           onPress={() => map.current?.zoomOut()}
-          className="size-11 rounded-lg"
+          className="size-11 rounded-(--radius-compact)"
         >
           <Minus className="size-4" aria-hidden />
         </Button>
@@ -223,7 +223,7 @@ export default function ExploreLeafletMap({
       {tilesFailed ? (
         <div
           role="status"
-          className="bg-surface border-line absolute top-2 right-16 left-2 z-10 mr-auto flex max-w-sm flex-wrap items-center justify-between gap-x-2 rounded-xl border px-3 text-xs font-medium shadow-sm"
+          className="bg-surface border-line absolute top-2 right-16 left-2 z-10 mr-auto flex max-w-sm flex-wrap items-center justify-between gap-x-2 rounded-(--radius) border px-3 text-xs font-medium shadow-sm"
         >
           <p className="py-2">{t('tilesUnavailable')}</p>
           <Button

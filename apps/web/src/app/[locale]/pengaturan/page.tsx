@@ -30,7 +30,7 @@ export default async function SettingsPage({ params }: Props) {
       <h1 className="page-title">{t('title')}</h1>
       <section
         aria-labelledby="display-language"
-        className="border-line bg-surface mt-5 max-w-xl overflow-hidden rounded-2xl border"
+        className="border-line bg-surface mt-5 max-w-xl overflow-hidden rounded-(--radius) border"
       >
         <div className="bg-wash/55 flex items-center gap-3 px-4 py-3.5 sm:px-5">
           <Languages className="text-accent size-5 shrink-0" aria-hidden />
@@ -41,11 +41,9 @@ export default async function SettingsPage({ params }: Props) {
         <ul className="divide-line divide-y">
           {locales.map((language) => {
             const active = language === locale
-            // A full request lets next-intl save the locale and redirect to its canonical URL.
             const href = getPathname({
               href: SETTINGS_PATH,
               locale: language,
-              forcePrefix: !active,
             })
             return (
               <li key={language}>

@@ -14,7 +14,7 @@ export async function HomeBanner({ villageSlug }: { villageSlug?: string }) {
   return (
     <section aria-labelledby="catalogue-title" className="pt-7 md:pt-9">
       <Container>
-        <div className="catalogue-hero relative isolate flex min-h-45 items-center overflow-hidden rounded-xl md:min-h-88 md:rounded-2xl">
+        <div className="catalogue-hero relative isolate flex min-h-45 items-center overflow-hidden rounded-(--radius) md:min-h-88">
           <div className="catalogue-hero-art absolute inset-0 -z-20">
             <Image
               src={landscape}

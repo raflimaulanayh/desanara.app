@@ -71,12 +71,18 @@ Hero splash, panduan pemesanan, dan informasi verifikasi tersedia di `/tentang`.
 Desktop menampilkan empat produk terbaru sebelum kategori dan banner. Di banner, tagline "Ragam Karya, Cerita
 Nusantara." dan tombol "Jelajahi produk" tampil dengan ilustrasi dari kanan.
 
-Jelajah memakai kartu hasil berjajar foto dan informasi di HP. Pencarian mempertahankan filter aktif, dan
-pilihan wilayah serta urutan bisa dibuka dari tombol Filter. Detail produk di HP memakai judul ringkas di atas
-foto, diikuti harga, asal desa, penjual, dan tombol WhatsApp. Pengaturan jumlah dan catatan bisa dibuka di
+Jelajah memakai kartu hasil berjajar foto dan informasi di HP. Pencarian Beranda dan Jelajah menampilkan saran
+produk serta UMKM setelah pengguna mengetik dua karakter. Saran membuka halaman produk atau UMKM.
+Pencarian teks bebas tetap membawa filter aktif. Pilihan wilayah serta urutan bisa dibuka dari tombol
+Filter. Detail produk di HP memakai judul ringkas di atas foto, diikuti harga, asal desa, penjual,
+dan tombol WhatsApp. Pengaturan jumlah dan catatan bisa dibuka di
 bawah tombol. [Pratinjau Cerita UMKM](PLAN-cerita-umkm.md) tampil tepat di atas kartu produk Beranda.
 
-Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Kembali ke daftar tersedia di bagian
+Pratinjau menampilkan Baros, Bojongsoang, dan Mekarwangi (Ibun) dengan UMKM dan produk contoh. Baros membuka
+banner Beranda dan memakai aset desa yang sudah tersedia. Bojongsoang dan Mekarwangi memakai lambang
+Kabupaten Bandung sebagai identitas wilayah. Aset bersumber dari [portal Desa Mekarwangi](https://www.mekarwangi-ibun.desa.id/index.php/).
+
+Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Daftar tersedia di bagian
 bawah peta dan membawa pencarian serta filter yang sama. Gesture dua jari di area peta mengubah zoom peta.
 Di produksi, peta memakai hasil katalog dan pusat desa dari API publik. Pin hanya muncul jika desa
 memiliki kode wilayah tingkat desa dan koordinat tersedia.
@@ -88,7 +94,7 @@ dan hero Tentang. Ukuran dan peran teks mengikuti [DESIGN.md](../../DESIGN.md#ty
 
 Pengenalan Desanara untuk publik, mitra, dan pengunjung yang penasaran:
 
-1. Hero splash: logo vertikal, ilustrasi desa, "Karya Desa, untuk Indonesia.", tombol "Jelajahi Sekarang" dan
+1. Hero splash: logo vertikal, ilustrasi desa, "Karya Desa, untuk Indonesia.", tombol "Jelajahi produk" dan
    "Daftarkan UMKM" (komponen yang sudah dibuat, dipindah dari beranda).
 2. Apa itu Desanara: teks yang sudah ada (`lead`, `how`, `pilot`).
 3. Cara pesan (3 langkah, dipindah dari beranda).

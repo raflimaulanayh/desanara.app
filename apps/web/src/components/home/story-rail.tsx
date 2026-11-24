@@ -1,9 +1,8 @@
 'use client'
 
 import { Button, Modal } from '@heroui/react'
-import { cn } from '@repo/ui/cn'
 import { Container } from '@repo/ui/components/container'
-import { ArrowRight, ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ArrowRight, Check, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useId, useState } from 'react'
@@ -48,11 +47,11 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
         <h2 id={titleId} className="section-title">
           {t('title')}
         </h2>
-        <ul className="no-scrollbar -mx-4 mt-1.5 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 py-1.5 sm:-mx-6 sm:scroll-px-6 sm:px-6">
+        <ul className="-mx-4 mt-1.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pt-1.5 pb-2 sm:-mx-6 sm:scroll-px-6 sm:px-6">
           {stories.map((item, i) => {
             const hasViewed = viewed.has(item.id)
             return (
-              <li key={item.id} className="w-21 shrink-0 snap-start sm:w-24">
+              <li key={item.id} className="w-22 shrink-0 snap-start sm:w-26">
                 <Button
                   type="button"
                   size="sm"
@@ -64,25 +63,28 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                     viewStory(i)
                     setOpen(true)
                   }}
-                  className="hover:text-accent hover:bg-accent/5 h-auto w-full min-w-0 flex-col gap-1.5 rounded-xl px-1 py-1 text-center text-xs leading-4 font-semibold whitespace-normal"
+                  className="group bg-foreground relative isolate block aspect-[3/5] h-auto w-full overflow-hidden rounded-(--radius) p-0 text-left text-xs leading-4 font-semibold whitespace-normal text-white shadow-sm"
                 >
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    sizes="(min-width: 640px) 232px, 196px"
+                    className="object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-105"
+                  />
                   <span
-                    className={cn(
-                      'bg-surface block size-16 shrink-0 rounded-full border-2 p-0.5 sm:size-18',
-                      hasViewed ? 'border-muted/65 border-dashed' : 'border-accent',
-                    )}
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/95 via-black/65 via-[3rem] to-transparent to-[5.75rem]"
+                  />
+                  <span
+                    aria-hidden
+                    className="bg-foreground/85 absolute top-2 right-2 grid size-5 place-items-center rounded-full text-white"
                   >
-                    <span className="bg-wash relative block size-full overflow-hidden rounded-full">
-                      <Image
-                        src={item.image}
-                        alt=""
-                        fill
-                        sizes="(min-width: 640px) 64px, 56px"
-                        className="object-cover"
-                      />
-                    </span>
+                    {hasViewed ? <Check /> : <span className="bg-sprout size-2 rounded-full" />}
                   </span>
-                  <span className="line-clamp-2 min-h-[2lh] wrap-break-word">{item.business}</span>
+                  <span className="absolute inset-x-2 bottom-2 line-clamp-2 wrap-anywhere">
+                    {item.business}
+                  </span>
                 </Button>
               </li>
             )
@@ -181,9 +183,9 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                   {t('position', { current: index + 1, total: stories.length })} · {story.business}
                 </p>
                 <p className="section-title mb-3 text-pretty">{story.caption}</p>
-                <div className="bg-surface text-foreground flex items-stretch gap-3 rounded-2xl p-2.5">
+                <div className="bg-surface text-foreground flex items-stretch gap-3 rounded-(--radius) p-2.5">
                   {story.product.image ? (
-                    <div className="bg-wash relative w-[31%] shrink-0 overflow-hidden rounded-xl">
+                    <div className="bg-wash relative w-[31%] shrink-0 overflow-hidden rounded-(--radius-compact)">
                       <Image
                         src={story.product.image}
                         alt=""
@@ -205,7 +207,7 @@ export function StoryRail({ stories }: { stories: CatalogueStory[] }) {
                     <Link
                       href={`/produk/${story.product.slug}`}
                       onClick={() => setOpen(false)}
-                      className="bg-accent text-accent-foreground mt-1 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-2 text-center text-sm font-bold hover:bg-[var(--accent-hover)]"
+                      className="bg-accent text-accent-foreground mt-1 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-2 text-center text-sm font-bold hover:bg-[var(--accent-hover)]"
                     >
                       {t('viewProduct')}
                       <ArrowRight className="size-4 shrink-0" aria-hidden />

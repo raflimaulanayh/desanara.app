@@ -27,14 +27,14 @@ export async function SiteHeader() {
           <nav aria-label={t('menu')}>
             <Link
               href="/tentang"
-              className="hover:bg-wash flex h-10 items-center gap-2 rounded-lg px-3 text-sm font-semibold"
+              className="hover:bg-wash flex h-10 items-center gap-2 rounded-(--radius-compact) px-3 text-sm font-semibold"
             >
               <Info className="text-accent size-5 shrink-0" aria-hidden />
               {t('about')}
             </Link>
             <Link
               href={JOIN_HREF}
-              className="bg-accent text-accent-foreground mt-3 flex h-10 items-center justify-center gap-2 rounded-xl text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
+              className="bg-accent text-accent-foreground mt-3 flex h-10 items-center justify-center gap-2 rounded-full text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
             >
               <Store className="size-5" aria-hidden />
               {t('join')}

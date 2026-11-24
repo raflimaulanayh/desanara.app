@@ -1,11 +1,14 @@
 import { expect, test } from 'bun:test'
 import { groupMapBusinesses } from './catalogue-map'
 import {
+  getPreviewBusiness,
   getPreviewProduct,
+  getPreviewVillageBusinesses,
   groupPreviewMapBusinesses,
   isCataloguePreview,
   previewProducts,
   previewStories,
+  previewVillages,
   searchPreviewProducts,
 } from './catalogue-preview'
 
@@ -19,14 +22,47 @@ test('mock catalogue requires opt-in and runs only in development or Vercel Prev
 })
 
 test('each mock story opens its matching detail and uses locally available demo media', async () => {
+  expect(previewStories).toHaveLength(11)
+  expect(new Set(previewStories.map(({ product }) => product.business.slug)).size).toBe(
+    previewStories.length,
+  )
   for (const story of previewStories) {
     const entry = getPreviewProduct(story.product.slug)
     expect(entry?.product.isSeed).toBe(true)
     expect(entry?.product.price).toBe(story.product.price)
     expect(entry?.product.images[0]?.key).toBe(story.product.imageKey ?? undefined)
+    for (const { key } of entry?.product.images ?? []) {
+      expect(await Bun.file(new URL(`../../public/media/${key}`, import.meta.url)).exists()).toBe(
+        true,
+      )
+    }
     expect(await Bun.file(new URL(`../../public${story.image}`, import.meta.url)).exists()).toBe(
       true,
     )
+  }
+})
+
+test('Baros leads the mock villages and links its local media, sellers and products', async () => {
+  const baros = previewVillages[0]!
+  expect(baros.slug).toBe('desa-baros')
+  expect(getPreviewProduct('kopi-baros')?.product.images).toHaveLength(3)
+  expect(
+    await Bun.file(new URL(`../../public/media/${baros.bannerKey}`, import.meta.url)).exists(),
+  ).toBe(true)
+  for (const village of previewVillages) {
+    const businesses = getPreviewVillageBusinesses(village.slug)
+    expect(village.isSeed).toBe(true)
+    expect(
+      await Bun.file(new URL(`../../public/media/${village.logoKey}`, import.meta.url)).exists(),
+    ).toBe(true)
+    expect(businesses.length).toBe(village.businessCount)
+    expect(businesses.length).toBeGreaterThan(0)
+    for (const business of businesses) {
+      expect(getPreviewBusiness(business.slug)?.village.slug).toBe(village.slug)
+      expect(searchPreviewProducts({ business: business.slug }).meta.total).toBe(
+        business.productCount,
+      )
+    }
   }
 })
 

@@ -47,8 +47,8 @@ export function ExploreFilters({
         </Button>
       </Sheet.Trigger>
       <Sheet.Backdrop variant="opaque">
-        <Sheet.Content>
-          <Sheet.Dialog>
+        <Sheet.Content className="rounded-t-(--radius)">
+          <Sheet.Dialog className="rounded-t-(--radius)">
             <Sheet.Handle aria-hidden className="pt-2.5 pb-1" />
             <Sheet.Header className="border-line border-b px-4 pt-1 pb-2.5">
               <div className="relative mx-auto flex min-h-8 w-full max-w-lg items-center">
@@ -75,11 +75,11 @@ export function ExploreFilters({
                       fullWidth
                     >
                       <Label className="text-sm font-semibold">{label}</Label>
-                      <Select.Trigger className="min-h-9 rounded-lg py-1.5">
+                      <Select.Trigger className="min-h-9 rounded-(--radius-compact) py-1.5">
                         <Select.Value className="truncate text-sm" />
                         <Select.Indicator className="size-3.5" />
                       </Select.Trigger>
-                      <Select.Popover className="rounded-xl">
+                      <Select.Popover className="rounded-(--radius)">
                         <ListBox>
                           {options.map((option) => (
                             <ListBox.Item
@@ -103,7 +103,7 @@ export function ExploreFilters({
                   type="submit"
                   variant="primary"
                   size="sm"
-                  className="mx-auto min-h-10 w-full max-w-lg rounded-lg"
+                  className="mx-auto min-h-10 w-full max-w-lg rounded-full"
                 >
                   {t('apply')}
                 </Button>

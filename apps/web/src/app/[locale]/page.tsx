@@ -28,14 +28,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const preview = isCataloguePreview()
   const [t, villages, homeProducts, categories, storyText] = await Promise.all([
     getTranslations('home'),
-    preview ? [] : getVillages(),
+    getVillages(),
     preview
-      ? previewProducts.slice(0, 2)
+      ? previewProducts.slice(0, 4)
       : searchProducts({ sort: 'newest', pageSize: 4 }).then((page) => page.data),
     preview ? previewCategories : getCategories(),
     preview ? getTranslations('stories.captions') : null,
   ])
-  const featured = [...villages].sort((a, b) => b.businessCount - a.businessCount)[0]
+  const featured = preview
+    ? villages[0]
+    : [...villages].sort((a, b) => b.businessCount - a.businessCount)[0]
   const stories = storyText
     ? previewStories.map(({ product, image, caption }) => ({
         id: product.id,
@@ -60,7 +62,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section aria-labelledby="latest-products" className="pt-3 sm:pt-7">
         <Container>
           <div className="flex items-center justify-between gap-2">
-            <h2 id="latest-products" className="page-title">
+            <h2 id="latest-products" className="section-title">
               {t('latestTitle')}
             </h2>
             <Link
@@ -109,9 +111,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
       <section aria-labelledby="seller-title" className="pt-8 sm:pt-12">
         <Container>
-          <div className="border-line bg-surface flex flex-col gap-4 rounded-2xl border p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
+          <div className="border-line bg-surface flex flex-col gap-4 rounded-(--radius) border p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
             <div className="flex min-w-0 items-start gap-3">
-              <span className="bg-accent-soft text-accent-soft-foreground grid size-9 shrink-0 place-items-center rounded-xl">
+              <span className="bg-accent-soft text-accent-soft-foreground grid size-9 shrink-0 place-items-center rounded-(--radius)">
                 <Store className="size-4" aria-hidden />
               </span>
               <div className="min-w-0">

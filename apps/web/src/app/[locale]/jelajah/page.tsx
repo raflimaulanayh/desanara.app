@@ -14,7 +14,6 @@ import {
   previewCategories,
   previewProducts,
   previewRegency,
-  searchPreviewProducts,
 } from '@/lib/catalogue-preview'
 import { groupMapBusinesses } from '@/lib/catalogue-map'
 import {
@@ -82,11 +81,7 @@ export default async function ExplorePage({
   }
   const [t, results, categories, regencies] = await Promise.all([
     getTranslations('explore'),
-    preview
-      ? searchPreviewProducts(queryParams)
-      : mapView
-        ? getMapProducts(queryParams)
-        : searchProducts(queryParams),
+    mapView && !preview ? getMapProducts(queryParams) : searchProducts(queryParams),
     preview ? previewCategories : getCategories(),
     preview ? [previewRegency] : getRegencies(),
   ])
@@ -149,6 +144,7 @@ export default async function ExplorePage({
         )}
       >
         <SearchForm
+          key={q}
           action={action}
           defaultValue={q}
           placeholder={mapView ? t('map.searchPlaceholder') : t('searchPlaceholder')}
@@ -157,7 +153,7 @@ export default async function ExplorePage({
         />
         {mapView ? null : (
           <nav aria-label={t('category')}>
-            <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 py-0.5 sm:mx-0 sm:flex-wrap sm:px-0">
+            <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-0.5 sm:mx-0 sm:flex-wrap sm:px-0">
               {[{ slug: undefined as string | undefined, label: t('allCategories') }]
                 .concat(
                   categories.map((c) => ({ slug: c.slug, label: pick(locale, c.name, c.nameEn) })),
@@ -338,7 +334,7 @@ export default async function ExplorePage({
             />
           </>
         ) : results.data.length === 0 ? (
-          <div className="bg-wash rounded-3xl px-6 py-14 text-center">{emptyMessage}</div>
+          <div className="bg-wash rounded-(--radius) px-6 py-14 text-center">{emptyMessage}</div>
         ) : (
           <ProductGrid products={results.data} mobileList preview={preview} />
         )}

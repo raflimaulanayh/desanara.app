@@ -2,6 +2,13 @@ import { ApiError, unwrap } from '@repo/api-client'
 import { notFound } from 'next/navigation'
 import { cache } from 'react'
 import { api } from './api'
+import {
+  getPreviewBusiness,
+  getPreviewVillageBusinesses,
+  isCataloguePreview,
+  previewVillages,
+  searchPreviewProducts,
+} from './catalogue-preview'
 
 /** Lists degrade to empty when the API is down (build time, local dev); details 404 properly. */
 async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
@@ -22,30 +29,39 @@ async function orNotFound<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 export const getVillages = () =>
-  safe(
-    async () =>
-      (await unwrap(await api.v1.villages.$get({ query: { page: '1', pageSize: '24' } }))).data,
-    [],
-  )
+  isCataloguePreview()
+    ? Promise.resolve(previewVillages)
+    : safe(
+        async () =>
+          (await unwrap(await api.v1.villages.$get({ query: { page: '1', pageSize: '24' } }))).data,
+        [],
+      )
 
-export const getVillage = cache((slug: string) =>
-  orNotFound(
-    async () => (await unwrap(await api.v1.villages[':slug'].$get({ param: { slug } }))).data,
-  ),
+const readVillage = async (slug: string) =>
+  (await unwrap(await api.v1.villages[':slug'].$get({ param: { slug } }))).data
+
+export const getVillage = cache(async (slug: string): Promise<VillageDetail> =>
+  isCataloguePreview()
+    ? (previewVillages.find((village) => village.slug === slug) ?? notFound())
+    : orNotFound(() => readVillage(slug)),
 )
 
 export const getVillageBusinesses = cache((slug: string) =>
-  safe(
-    async () =>
-      (await unwrap(await api.v1.villages[':slug'].businesses.$get({ param: { slug } }))).data,
-    [],
-  ),
+  isCataloguePreview()
+    ? Promise.resolve(getPreviewVillageBusinesses(slug))
+    : safe(
+        async () =>
+          (await unwrap(await api.v1.villages[':slug'].businesses.$get({ param: { slug } }))).data,
+        [],
+      ),
 )
 
 export const getBusiness = cache((slug: string) =>
-  orNotFound(
-    async () => (await unwrap(await api.v1.businesses[':slug'].$get({ param: { slug } }))).data,
-  ),
+  isCataloguePreview()
+    ? Promise.resolve(getPreviewBusiness(slug) ?? notFound())
+    : orNotFound(
+        async () => (await unwrap(await api.v1.businesses[':slug'].$get({ param: { slug } }))).data,
+      ),
 )
 
 export const getProduct = cache((slug: string) =>
@@ -65,25 +81,29 @@ export interface ProductQuery {
   pageSize?: number
 }
 
-export const searchProducts = (query: ProductQuery) =>
-  safe(
-    async () =>
-      unwrap(
-        await api.v1.products.$get({
-          query: {
-            q: query.q || undefined,
-            category: query.category || undefined,
-            region: query.region || undefined,
-            village: query.village || undefined,
-            business: query.business || undefined,
-            sort: query.sort ?? 'newest',
-            page: String(query.page ?? 1),
-            pageSize: String(query.pageSize ?? 20),
-          },
-        }),
-      ),
-    { data: [], meta: { page: 1, pageSize: query.pageSize ?? 20, total: 0 } },
+const readProductPage = async (query: ProductQuery) =>
+  unwrap(
+    await api.v1.products.$get({
+      query: {
+        q: query.q || undefined,
+        category: query.category || undefined,
+        region: query.region || undefined,
+        village: query.village || undefined,
+        business: query.business || undefined,
+        sort: query.sort ?? 'newest',
+        page: String(query.page ?? 1),
+        pageSize: String(query.pageSize ?? 20),
+      },
+    }),
   )
+
+export const searchProducts = async (query: ProductQuery): Promise<ApiProductPage> =>
+  isCataloguePreview()
+    ? searchPreviewProducts(query)
+    : safe(() => readProductPage(query), {
+        data: [],
+        meta: { page: 1, pageSize: query.pageSize ?? 20, total: 0 },
+      })
 
 export const getCategories = () =>
   safe(async () => (await unwrap(await api.v1.categories.$get())).data, [])
@@ -91,7 +111,9 @@ export const getCategories = () =>
 export const getRegencies = () =>
   safe(async () => (await unwrap(await api.v1.regions.regencies.$get())).data, [])
 
-export type ProductSummary = Awaited<ReturnType<typeof searchProducts>>['data'][number]
+type ApiProductPage = Awaited<ReturnType<typeof readProductPage>>
+export type ProductSummary = ApiProductPage['data'][number]
+export type VillageDetail = Awaited<ReturnType<typeof readVillage>>
 
 export async function getMapProducts(query: ProductQuery) {
   const pageSize = 50

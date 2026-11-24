@@ -9,6 +9,7 @@ import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageLogo } from '@/components/village-logo'
 import { Link } from '@/i18n/navigation'
+import { isCataloguePreview } from '@/lib/catalogue-preview'
 import { getVillage, getVillageBusinesses, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
 import { initialStatus } from '@/lib/status'
@@ -21,7 +22,7 @@ type Params = Promise<{ locale: string; village: string }>
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, village: slug } = await params
   const village = await getVillage(slug)
-  const banner = mediaUrl(village.bannerKey)
+  const banner = mediaUrl(village.bannerKey, isCataloguePreview())
   return {
     title: village.name,
     alternates: pageAlternates(`/desa/${slug}`, locale),
@@ -33,18 +34,19 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function VillagePage({ params }: { params: Params }) {
   const { locale, village: slug } = await params
   setRequestLocale(locale)
+  const preview = isCataloguePreview()
   const [t, village, businesses, products] = await Promise.all([
     getTranslations('village'),
     getVillage(slug),
     getVillageBusinesses(slug),
     searchProducts({ village: slug, pageSize: 24, sort: 'newest' }),
   ])
-  const banner = mediaUrl(village.bannerKey)
+  const banner = mediaUrl(village.bannerKey, preview)
   const productTotal = businesses.reduce((n, b) => n + b.productCount, 0)
 
   return (
     <>
-      <TrackView event={{ type: 'village_view', villageSlug: village.slug }} />
+      {preview ? null : <TrackView event={{ type: 'village_view', villageSlug: village.slug }} />}
       {/* Destination header: cover, crest, place, and the trust claim */}
       <section>
         <div className="bg-accent relative h-[clamp(10rem,30vw,20rem)] overflow-hidden">
@@ -64,7 +66,7 @@ export default async function VillagePage({ params }: { params: Params }) {
           <div className="-mt-10 sm:-mt-12">
             <VillageLogo
               name={village.name}
-              logoUrl={mediaUrl(village.logoKey)}
+              logoUrl={mediaUrl(village.logoKey, preview)}
               accent="var(--accent)"
               size={88}
             />
@@ -80,8 +82,10 @@ export default async function VillagePage({ params }: { params: Params }) {
             <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-3">
-            <VerifiedBadge />
-            <span className="text-muted text-sm">{t('verifiedNote')}</span>
+            {preview ? null : <VerifiedBadge />}
+            <span className="text-muted text-sm">
+              {t(preview ? 'previewNote' : 'verifiedNote')}
+            </span>
           </div>
           {village.description ? (
             <p className="mt-5 max-w-[68ch] text-base leading-relaxed">{village.description}</p>
@@ -131,7 +135,7 @@ export default async function VillagePage({ params }: { params: Params }) {
             {products.data.length === 0 ? (
               <p className="text-muted">{t('productsEmpty')}</p>
             ) : (
-              <ProductGrid products={products.data} />
+              <ProductGrid products={products.data} preview={preview} />
             )}
           </div>
         </Container>

@@ -53,7 +53,7 @@ export function ProductGallery({
             if (e.key === 'ArrowRight') go(active + 1)
             if (e.key === 'ArrowLeft') go(active - 1)
           }}
-          className="no-scrollbar focus-visible:outline-accent flex snap-x snap-mandatory overflow-x-auto rounded-2xl focus-visible:outline-2 lg:rounded-(--radius)"
+          className="focus-visible:outline-accent flex snap-x snap-mandatory overflow-x-auto rounded-(--radius) focus-visible:outline-2"
         >
           {photos.map((p, i) => (
             <div
@@ -110,7 +110,7 @@ export function ProductGallery({
       </div>
 
       {many ? (
-        <ul className="no-scrollbar hidden gap-2 overflow-x-auto sm:flex">
+        <ul className="hidden gap-2 overflow-x-auto sm:flex">
           {photos.map((p, i) => (
             <li key={`${p.src ?? 'none'}-thumb-${i}`} className="shrink-0">
               <Button
@@ -121,7 +121,7 @@ export function ProductGallery({
                 aria-label={t('photoOf', { n: i + 1, total: photos.length })}
                 aria-current={i === active ? 'true' : undefined}
                 className={cn(
-                  'block size-12 min-w-0 overflow-hidden rounded-lg border-2 p-0',
+                  'block size-12 min-w-0 overflow-hidden rounded-(--radius-compact) border-2 p-0',
                   i === active ? 'border-accent' : 'hover:border-line-strong border-transparent',
                 )}
               >

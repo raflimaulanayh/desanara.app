@@ -73,7 +73,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
               <BrandMark mark="satu" height={48} />
             </div>
           </div>
-          <ul className="bg-wash flex flex-col gap-5 self-start rounded-2xl p-6">
+          <ul className="bg-wash flex flex-col gap-5 self-start rounded-(--radius) p-6">
             {TRUST.map(([k, Icon]) => (
               <li key={k} className="flex gap-3">
                 <span className="bg-accent-soft text-accent-soft-foreground grid size-10 shrink-0 place-items-center rounded-full">
@@ -106,7 +106,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         {/* Target of every "Daftarkan UMKM" link until self-registration (/gabung) ships. */}
         <section
           id="gabung"
-          className="bg-wash mt-14 scroll-mt-32 rounded-2xl p-6 sm:p-8 lg:scroll-mt-20"
+          className="bg-wash mt-14 scroll-mt-32 rounded-(--radius) p-6 sm:p-8 lg:scroll-mt-20"
         >
           <h2 className="section-title">{t('joinTitle')}</h2>
           <p className="text-muted mt-2 max-w-[60ch] text-base leading-relaxed">

@@ -15,6 +15,54 @@ Format:
 
 ---
 
+## 2026-11-24 — Label web publik lebih ringkas di HP
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Tombol pindah dari Peta ke Daftar memakai label satu baris dalam bahasa Indonesia dan Inggris.
+- Teks pencarian, filter, pemesanan, dan pengenalan Desanara memakai bahasa yang lebih sehari-hari.
+- Tautan publik yang salah menampilkan halaman 404 dalam bahasa yang sedang dipakai.
+- Alamat tanpa awalan selalu membuka bahasa Indonesia. Bahasa Inggris memakai `/en`, dan pilihan
+  bahasa di Pengaturan langsung membuka alamat yang sesuai.
+
+## 2026-11-24 — Saran pencarian dan desa contoh di katalog
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Pencarian menampilkan saran produk dan UMKM setelah dua karakter, dengan tautan ke halaman masing-masing.
+  Pencarian teks bebas dan filter tetap tersedia.
+- Pratinjau menampilkan tiga desa contoh dengan tautan ke UMKM dan produknya. Desa Baros tampil pertama
+  dengan logo, foto sampul, Kopi Baros, dan besek bambu. Lima produk contoh mendapat foto galeri tambahan.
+- Bojongsoang dan Mekarwangi memakai lambang Kabupaten Bandung dari portal Desa Mekarwangi.
+
+## 2026-11-24 — Radius web publik diseragamkan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Kartu, galeri, panel, banner, dan sudut atas filter memakai token radius kartu. Kontrol kotak kecil
+  dan thumbnail memakai radius 8 px. Tombol utama, pencarian, dan badge memakai bentuk pil.
+
+## 2026-11-24 — Ukuran judul bagian Beranda diseragamkan
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Judul Produk Desa Terbaru mengikuti skala yang sama dengan judul Cerita UMKM dan Belanja per Kategori.
+
+## 2026-11-24 — Scrollbar web publik disembunyikan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Scrollbar halaman dan area gulir disembunyikan. Gestur sentuh, trackpad, dan navigasi keyboard tetap tersedia.
+
+## 2026-11-24 — Kartu foto portrait untuk Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Foto memenuhi kartu portrait bersudut lembut. Nama UMKM tampil di atas gradasi di bagian bawah foto.
+  Titik hijau dan tanda centang membedakan cerita baru dan cerita yang sudah dibuka.
+- Radius kartu cerita dan kartu produk di penampil mengikuti token radius kartu katalog.
+- Pratinjau memuat 11 cerita contoh untuk mencoba geser mendatar di HP dan desktop.
+
 ## 2026-11-23 — Peta Jelajah untuk katalog publik
 
 - **Area**: apps/web

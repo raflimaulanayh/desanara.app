@@ -75,8 +75,12 @@ headings. Prices use bold, tabular numerals.
 
 ## Layout & shape
 
-Container `max-w-6xl`, 16 px gutters on phones. Product grids: 2 columns on phones, 3 on tablets, 4 on desktop. Cards are
-`rounded-(--radius)` with a `line` border and a soft shadow only on hover. Use HeroUI v3 for form controls,
+Container `max-w-6xl`, 16 px gutters on phones. Product grids: 2 columns on phones, 3 on tablets, 4 on desktop.
+Cards, panels, and stand-alone photo surfaces use `rounded-(--radius)` (12 px by default). Village themes
+can override this token. Thumbnails inside cards and compact rectangular controls use
+`rounded-(--radius-compact)` (8 px).
+Prominent actions, the search field, chips, and badges use pill corners. The filter sheet shares the card
+radius on its top edge, and the story viewer stays flush with the screen on phones. Use HeroUI v3 for form controls,
 buttons and overlays. Keep filters and toolbar controls compact, with 36 px fields and secondary actions,
 40 px search, and at least 44 px for the main order action and bottom navigation targets.
 
@@ -104,16 +108,20 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
   list link above the provider credit returns to the results with the same search and filters. The village panel
   opens below the map on phones and beside it on desktop. Pinch gestures control the map within its canvas.
-- **Story preview** puts a horizontally scrollable row of round photo buttons below search, before products.
-  Green rings mark new stories. A dashed neutral ring and a replay label mark stories opened on the current page.
+- **Story preview** puts a horizontally scrollable row of portrait photo cards below search, before products.
+  Photos fill each card, with the seller name over a bottom scrim. A green dot marks new stories. A check and
+  a replay label mark stories opened on the current page.
   The viewer fills the phone screen, with story position and seller at the top and the caption and linked product
   at the bottom. Stories advance with explicit controls. Desktop uses a centred portrait viewer.
 - **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
   (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
   "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"
   (outline). From `md`: text left, landscape right with edges faded into the cream by a mask.
-- **Search form** uses a HeroUI `InputGroup` and submits a GET request. HeroUI draws one focus ring around the
-  group. The shared base focus style covers native links and controls.
+- **Search form** uses a HeroUI `ComboBox` with a pill-shaped `InputGroup`. After two characters, a compact
+  list under the field links to matching products and businesses. A free-text search submits a GET request
+  with the current filters. HeroUI draws one focus ring around the group.
+- **Compact actions** use short labels that fit on one line at 320 px in both locales. For example, the
+  floating map action reads “Daftar” or “List” and its accessible label describes the destination.
 - **Product card** shows a photo or tinted category tile, product name (two lines), village of origin, and tabular
   price. Mobile homepage images use a 4:3 ratio to keep prices close to the top of the catalogue. The homepage uses
   green prices and keeps seller information on the detail page. Out-of-stock uses a

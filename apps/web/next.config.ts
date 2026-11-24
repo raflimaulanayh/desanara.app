@@ -18,7 +18,7 @@ const legacyRedirects = () => {
     rules.push({ source: `/en/${from}${tail}`, destination: `/en/${to}${tail}`, permanent: true })
     rules.push({ source: `/${from}${tail}`, destination: `/${to}${tail}`, permanent: true })
   }
-  rules.push({ source: '/id', destination: '/', permanent: true })
+  rules.push({ source: '/id/:path*', destination: '/:path*', permanent: true })
   return rules
 }
 
