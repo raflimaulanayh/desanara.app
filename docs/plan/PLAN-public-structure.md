@@ -90,6 +90,9 @@ memiliki kode wilayah tingkat desa dan koordinat tersedia.
 Halaman publik memakai skala judul dan teks pendukung yang sama, dengan judul lebih besar khusus banner
 dan hero Tentang. Ukuran dan peran teks mengikuti [DESIGN.md](../../DESIGN.md#typography).
 
+Instalasi dari layar utama, gestur di aplikasi terpasang, dan notifikasi uji dibahas di
+[PLAN-public-pwa](PLAN-public-pwa.md).
+
 ### 3.2 Halaman Tentang (`/tentang`)
 
 Pengenalan Desanara untuk publik, mitra, dan pengunjung yang penasaran:

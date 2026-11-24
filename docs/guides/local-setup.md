@@ -37,6 +37,15 @@ Upload foto butuh Cloudflare R2. Isi `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SE
 jangan membuat token baru di akun HIMASIF tanpa koordinasi. Tanpa variabel itu, aplikasi tetap jalan dan endpoint upload
 menjawab `503 SERVICE_UNAVAILABLE`. Detail: [storage](../architecture/storage.md).
 
+## PWA dan notifikasi uji
+
+Gunakan `localhost` untuk uji desktop atau HTTPS untuk uji di HP. Buka **Pengaturan → Aplikasi
+Desanara**, pasang aplikasi, lalu buka lagi dari ikonnya. Untuk mengirim notifikasi uji, buat
+sepasang kunci dengan `bun run --cwd apps/web push:keys`. Isi `WEB_PUSH_PUBLIC_KEY`,
+`WEB_PUSH_PRIVATE_KEY`, dan `WEB_PUSH_SUBJECT` di `.env`, lalu jalankan ulang web. Di aplikasi
+terpasang, pilih **Aktifkan notifikasi** lalu **Kirim tes**. Cek notifikasi sistem dan ketuk untuk
+membuka Pengaturan.
+
 ## Test integrasi API
 
 Test di `apps/api` yang butuh database (mis. `/v1/manage/businesses`) hanya jalan bila `TEST_DATABASE_URL`

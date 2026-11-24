@@ -81,6 +81,21 @@ the session today. Set `COOKIE_DOMAIN=desanara.app` only when another subdomain 
 - `production` (+ Vercel previews for now): one Supabase project. A separate dev project once the team works in
   parallel or real UMKM data arrives (previews currently write to the same database).
 
+## Public PWA
+
+The public web project serves the app manifest and service worker over HTTPS. For device test
+notifications, set `WEB_PUSH_PUBLIC_KEY`, `WEB_PUSH_PRIVATE_KEY`, and `WEB_PUSH_SUBJECT` in
+the web project. Generate one VAPID keypair per environment with `bun run --cwd apps/web push:keys`
+and keep the same keypair across deploys. Use an externally valid contact URI such as
+`mailto:webpush@desanara.app` for the subject. A key rotation requires users to subscribe again.
+Installation also works on deployments without these variables.
+
+`GET /api/pwa/push` returns the public key or `null`. Same-origin `POST /api/pwa/push` accepts
+`{ locale, subscription: { endpoint, keys: { p256dh, auth } } }` and queues a fixed test notification
+for that browser subscription. The endpoint allows supported HTTPS push-provider destinations and
+limits requests per subscription and per server instance. It stores no subscriptions and exposes no
+provider response bodies.
+
 ## Backups
 
 Supabase Free keeps daily backups for 7 days (not downloadable). Before real data arrives, add a scheduled GitHub

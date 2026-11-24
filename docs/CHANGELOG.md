@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-24 — Desanara bisa dipasang dari layar utama
+
+- **Area**: apps/web, packages/validators
+- **Jenis**: Added
+- Web publik bisa dipasang sebagai PWA dalam bahasa Indonesia atau Inggris. Di aplikasi terpasang,
+  gestur cubit pada halaman dibatasi dan peta tetap bisa diperbesar.
+- Pengaturan memuat pemasangan, izin, dan tes notifikasi sistem ke perangkat sendiri. Tes memakai Web
+  Push dan membutuhkan tiga variabel `WEB_PUSH_*` di server web. Terkait [PLAN-public-pwa](plan/PLAN-public-pwa.md).
+
 ## 2026-11-24 — Label web publik lebih ringkas di HP
 
 - **Area**: apps/web

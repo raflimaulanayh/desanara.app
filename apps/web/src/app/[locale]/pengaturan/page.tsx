@@ -3,6 +3,7 @@ import { Container } from '@repo/ui/components/container'
 import { Check, ChevronRight, Languages } from 'lucide-react'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { PwaSettings } from '@/components/pwa-settings'
 import { getPathname } from '@/i18n/navigation'
 import { SETTINGS_PATH } from '@/lib/paths'
 import { pageAlternates } from '@/lib/site-url'
@@ -68,6 +69,7 @@ export default async function SettingsPage({ params }: Props) {
           })}
         </ul>
       </section>
+      <PwaSettings />
     </Container>
   )
 }

@@ -26,6 +26,33 @@
       "en": "English"
     }
   },
+  "pwa": {
+    "title": "Desanara app",
+    "installTitle": "Install on this device",
+    "installAction": "Install app",
+    "installDescription": "Open Desanara right from your Home Screen.",
+    "installHelp": "On iPhone, open the Share menu and choose Add to Home Screen. On Android, choose Install app from your browser menu.",
+    "installed": "Opened as an app",
+    "installFailed": "The setup prompt couldn't open. Try installing from your browser menu.",
+    "notifications": "Notifications",
+    "installForPush": "Install and open Desanara from your Home Screen to turn on notifications.",
+    "checking": "Checking notifications…",
+    "workerFailed": "The app isn't ready for notifications yet. Try reopening Desanara.",
+    "unsupported": "This device doesn't support web notifications.",
+    "loadFailed": "Notification settings couldn't load. Try reopening Desanara.",
+    "blocked": "Notifications are blocked. Allow them in your device settings.",
+    "unconfigured": "Notifications aren't available here yet.",
+    "enabled": "Notifications are on for this device.",
+    "disabled": "Turn on notifications to get updates on this device.",
+    "enable": "Turn on notifications",
+    "disable": "Turn off",
+    "test": "Send test",
+    "testBody": "Desanara notifications are on. Tap to go back to Settings.",
+    "testSent": "Test sent. Check your device notifications.",
+    "expired": "This subscription expired. Turn on notifications again to retry.",
+    "rateLimited": "Wait a moment before sending another test.",
+    "failed": "That didn't work. Please try again."
+  },
   "footer": {
     "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
     "byline": "Run by",

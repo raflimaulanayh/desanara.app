@@ -26,6 +26,33 @@
       "en": "English"
     }
   },
+  "pwa": {
+    "title": "Aplikasi Desanara",
+    "installTitle": "Pasang di perangkat ini",
+    "installAction": "Pasang aplikasi",
+    "installDescription": "Buka Desanara langsung dari layar utama.",
+    "installHelp": "Di iPhone, buka menu Bagikan lalu pilih Tambah ke Layar Utama. Di Android, pilih Instal aplikasi dari menu browser.",
+    "installed": "Dibuka sebagai aplikasi",
+    "installFailed": "Dialog pemasangan belum bisa dibuka. Coba lewat menu browser.",
+    "notifications": "Notifikasi",
+    "installForPush": "Pasang dan buka Desanara dari layar utama untuk mengaktifkan notifikasi.",
+    "checking": "Memeriksa notifikasi…",
+    "workerFailed": "Aplikasi belum siap menerima notifikasi. Coba buka ulang Desanara.",
+    "unsupported": "Perangkat ini belum mendukung notifikasi web.",
+    "loadFailed": "Pengaturan notifikasi belum bisa dimuat. Coba buka ulang Desanara.",
+    "blocked": "Izin notifikasi diblokir. Buka pengaturan perangkat untuk mengizinkannya.",
+    "unconfigured": "Notifikasi belum tersedia di sini.",
+    "enabled": "Notifikasi aktif di perangkat ini.",
+    "disabled": "Aktifkan notifikasi untuk menerima pesan di perangkat ini.",
+    "enable": "Aktifkan notifikasi",
+    "disable": "Matikan",
+    "test": "Kirim tes",
+    "testBody": "Notifikasi Desanara sudah aktif. Ketuk untuk kembali ke Pengaturan.",
+    "testSent": "Tes dikirim. Cek notifikasi perangkatmu.",
+    "expired": "Langganan notifikasi sudah kedaluwarsa. Aktifkan lagi untuk mencoba.",
+    "rateLimited": "Tunggu sebentar sebelum mengirim tes lagi.",
+    "failed": "Perubahan belum berhasil. Coba lagi."
+  },
   "footer": {
     "about": "Katalog produk UMKM dari desa-desa mitra. Pesanan dikirim langsung ke pembuatnya lewat WhatsApp — tanpa perantara, tanpa potongan.",
     "byline": "Dikelola oleh",

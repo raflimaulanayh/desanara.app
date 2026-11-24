@@ -32,9 +32,19 @@ const images: NextConfig['images'] = {
 const nextConfig: NextConfig = {
   devIndicators: process.env.DESANARA_UI_PREVIEW === '1' ? false : undefined,
   images,
+  serverExternalPackages: ['web-push'],
   transpilePackages: ['@repo/ui', '@repo/i18n', '@repo/api-client', '@repo/validators'],
   typedRoutes: false,
   redirects: async () => legacyRedirects(),
+  headers: async () => [
+    {
+      source: '/sw.js',
+      headers: [
+        { key: 'Cache-Control', value: 'no-cache' },
+        { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self'" },
+      ],
+    },
+  ],
 }
 
 export default createNextIntlPlugin('./src/i18n/request.ts')(nextConfig)
