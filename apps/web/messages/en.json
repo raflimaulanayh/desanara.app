@@ -232,6 +232,8 @@
     "off": "-{pct}%",
     "normalPrice": "Normal price",
     "gallery": "Product photos",
+    "openPhoto": "Open photo {n} full screen",
+    "closeGallery": "Close gallery",
     "photoOf": "Photo {n} of {total}",
     "prevPhoto": "Previous photo",
     "nextPhoto": "Next photo"

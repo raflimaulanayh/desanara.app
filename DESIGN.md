@@ -133,6 +133,8 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   the verification badge. Official crests are shown untouched.
 - **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked
   rows for the village and seller.
+- **Product gallery** supports swipe, arrow buttons, and keyboard navigation. Tapping a photo opens it uncropped in a
+  dark full-screen viewer. When there are multiple photos, the viewer shows the current position and a thumbnail strip.
 - **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. The quantity stepper
   and note sit in an expandable section. The total updates when the quantity exceeds one.
 - **Open-status badge**: dot + label (Buka / Tutup / Tutup sementara) with detail text where there is room; never shown

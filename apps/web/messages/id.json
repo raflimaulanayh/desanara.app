@@ -232,6 +232,8 @@
     "off": "-{pct}%",
     "normalPrice": "Harga normal",
     "gallery": "Foto produk",
+    "openPhoto": "Buka foto {n} layar penuh",
+    "closeGallery": "Tutup galeri",
     "photoOf": "Foto {n} dari {total}",
     "prevPhoto": "Foto sebelumnya",
     "nextPhoto": "Foto berikutnya"

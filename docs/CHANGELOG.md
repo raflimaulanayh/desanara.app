@@ -37,6 +37,14 @@ Format:
 - **Jenis**: Changed
 - Deret dan penampil Cerita UMKM menampilkan foto, nama UMKM, desa, dan keterangan tanpa label contoh.
 
+## 2026-11-24 — Foto produk bisa dibuka layar penuh
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Galeri detail produk bisa digeser di HP, dipindah lewat tombol panah, dan dibuka layar penuh.
+  Penampil mempertahankan proporsi foto dan menyediakan thumbnail untuk langsung memilih foto lain.
+- Lingkaran tombol panah berukuran 32 px dengan area ketuk 44 px.
+
 ## 2026-11-24 — Cerita UMKM contoh tampil di Beranda publik
 
 - **Area**: apps/web
