@@ -117,6 +117,8 @@
     "open": "Buka cerita {business}",
     "reopen": "Lihat lagi cerita {business}",
     "close": "Tutup cerita",
+    "pause": "Jeda cerita",
+    "resume": "Lanjutkan cerita",
     "previous": "Cerita sebelumnya",
     "next": "Cerita berikutnya",
     "position": "Cerita {current} dari {total}",

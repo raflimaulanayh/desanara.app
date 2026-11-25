@@ -151,6 +151,19 @@ main:has(.catalogue-home) + footer {
   );
 }
 
+.story-progress {
+  animation: story-progress 6s linear both;
+}
+
+@keyframes story-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 @media (width >= 40rem) {
   .story-viewer {
     width: min(28rem, 50dvh);

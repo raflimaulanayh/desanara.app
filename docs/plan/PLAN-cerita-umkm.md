@@ -34,9 +34,10 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
   saat masih ada cerita yang belum dilihat. Tanda centang muncul saat semua cerita akun sudah dibuka.
   Tiap UMKM tampil satu kali dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
   menampilkan cerita aktif dari usaha tersebut.
-- Penampil foto menampilkan nama UMKM, desa, waktu unggah, dan keterangan. Tombol Sebelumnya, Berikutnya, dan
-  Tutup bisa diakses dengan sentuhan serta keyboard. Gestur geser dan tombol panah berpindah di dalam
-  akun yang dibuka. Saat dibuka lagi, cerita dimulai dari status yang belum dilihat. Tautan
+- Penampil foto menampilkan nama UMKM, desa, waktu unggah, dan keterangan. Foto diberi waktu enam detik
+  setelah dimuat. Setelah status terakhir, penampil lanjut ke UMKM berikutnya lalu kembali ke Beranda saat
+  deret habis. Pembeli bisa menjeda lewat tombol atau dengan menahan foto. Gestur geser dan tombol panah
+  juga bisa berpindah ke status di akun berikutnya. Saat dibuka lagi, cerita dimulai dari status yang belum dilihat. Tautan
   **Lihat produk** muncul ketika produk terkait masih tayang.
 - Usulan masa tampil adalah 24 jam sejak terbit. Dashboard memberi pratinjau dan menunjukkan kapan cerita
   berakhir. Pemilik bisa menarik cerita lebih awal.
@@ -84,6 +85,7 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
 
 - Penjual berwenang bisa menerbitkan foto, keterangan, dan produk opsional, lalu menarik ceritanya.
 - Pembeli bisa membuka dan menutup cerita, berpindah foto, serta menuju produk yang masih tayang.
+- Cerita berjalan otomatis, bisa dijeda, dan lanjut ke UMKM berikutnya dalam deret yang sama.
 - Cerita kedaluwarsa, ditarik, atau milik UMKM yang kehilangan status publik hilang dari pembacaan publik berikutnya.
 - Jika daftar kosong, deret cerita tidak mengambil ruang di beranda atau profil UMKM.
 

@@ -2,10 +2,10 @@
 
 import { Button, Modal } from '@heroui/react'
 import { Container } from '@repo/ui/components/container'
-import { ArrowRight, Check, ChevronLeft, ChevronRight, X } from 'lucide-react'
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Pause, Play, X } from 'lucide-react'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { useId, useRef, useState } from 'react'
+import { useId, useRef, useState, useSyncExternalStore } from 'react'
 import { Price } from '@/components/price'
 import { Link } from '@/i18n/navigation'
 
@@ -29,18 +29,35 @@ interface StoryAccount {
   stories: CatalogueStory[]
 }
 
+function subscribeToVisibility(listener: () => void) {
+  document.addEventListener('visibilitychange', listener)
+  return () => document.removeEventListener('visibilitychange', listener)
+}
+
 export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
   const t = useTranslations('stories')
   const [open, setOpen] = useState(false)
   const titleId = useId()
   const businessId = useId()
   const [selection, setSelection] = useState<{ accountId: string; index: number }>()
+  const [paused, setPaused] = useState(false)
+  const [holding, setHolding] = useState(false)
+  const [readyStoryId, setReadyStoryId] = useState<string>()
+  const hidden = useSyncExternalStore(
+    subscribeToVisibility,
+    () => document.hidden,
+    () => false,
+  )
   const swipeStart = useRef<{ pointerId: number; x: number; y: number } | null>(null)
   const [viewed, setViewed] = useState<ReadonlySet<string>>(() => new Set())
-  const account = accounts.find(({ id }) => id === selection?.accountId)
+  const activeAccounts = accounts.filter(({ stories }) => stories.length > 0)
+  const accountIndex = activeAccounts.findIndex(({ id }) => id === selection?.accountId)
+  const account = activeAccounts[accountIndex]
   const index = selection?.index ?? 0
   const story = account?.stories[index]
   const product = story?.product
+  const hasPrevious = index > 0 || accountIndex > 0
+  const hasNext = Boolean(account?.stories[index + 1] || activeAccounts[accountIndex + 1])
 
   function viewStory(target: StoryAccount, nextIndex: number) {
     const next = target.stories[nextIndex]
@@ -49,7 +66,22 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
     setViewed((current) => (current.has(next.id) ? current : new Set(current).add(next.id)))
   }
 
-  if (accounts.length === 0) return null
+  function step(direction: -1 | 1) {
+    if (!account) return
+    const nextIndex = index + direction
+    if (account.stories[nextIndex]) {
+      viewStory(account, nextIndex)
+      return
+    }
+    const adjacent = activeAccounts[accountIndex + direction]
+    if (adjacent) {
+      viewStory(adjacent, direction === 1 ? 0 : adjacent.stories.length - 1)
+    } else if (direction === 1) {
+      setOpen(false)
+    }
+  }
+
+  if (activeAccounts.length === 0) return null
 
   return (
     <section aria-labelledby={titleId} className="border-line/70 bg-surface border-b">
@@ -58,7 +90,7 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
           {t('title')}
         </h2>
         <ul className="-mx-4 mt-1.5 flex snap-x scroll-px-4 gap-2.5 overflow-x-auto px-4 pt-1.5 pb-2 sm:-mx-6 sm:scroll-px-6 sm:px-6">
-          {accounts.map((item) => {
+          {activeAccounts.map((item) => {
             const cover = item.stories[0]
             if (!cover) return null
             const nextUnread = item.stories.findIndex((status) => !viewed.has(status.id))
@@ -74,6 +106,8 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                   onPress={(event) => {
                     event.target.closest('button')?.focus()
                     swipeStart.current = null
+                    setPaused(false)
+                    setHolding(false)
                     viewStory(item, Math.max(0, nextUnread))
                     setOpen(true)
                   }}
@@ -122,6 +156,8 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                 quality={75}
                 loading="eager"
                 sizes="(min-width: 640px) 28rem, 100vw"
+                onLoad={() => setReadyStoryId(story.id)}
+                onError={() => setReadyStoryId(story.id)}
                 className="object-cover"
               />
               <div className="story-viewer-scrim absolute inset-0" aria-hidden />
@@ -129,7 +165,7 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                 onKeyDown={(event) => {
                   if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
                   event.preventDefault()
-                  viewStory(account, index + (event.key === 'ArrowLeft' ? -1 : 1))
+                  step(event.key === 'ArrowLeft' ? -1 : 1)
                 }}
                 onPointerDown={(event) => {
                   if (
@@ -142,18 +178,21 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                     x: event.clientX,
                     y: event.clientY,
                   }
+                  setHolding(true)
                 }}
                 onPointerCancel={() => {
                   swipeStart.current = null
+                  setHolding(false)
                 }}
                 onPointerUp={(event) => {
                   const start = swipeStart.current
-                  swipeStart.current = null
                   if (!start || start.pointerId !== event.pointerId) return
+                  swipeStart.current = null
+                  setHolding(false)
                   const dx = event.clientX - start.x
                   const dy = event.clientY - start.y
                   if (Math.abs(dx) >= 44 && Math.abs(dx) > Math.abs(dy)) {
-                    viewStory(account, index + (dx < 0 ? 1 : -1))
+                    step(dx < 0 ? 1 : -1)
                   }
                 }}
                 className="relative flex flex-1 touch-pan-y flex-col justify-between gap-4 p-4 pt-[max(1rem,env(safe-area-inset-top))] pb-[max(1rem,env(safe-area-inset-bottom))]"
@@ -163,8 +202,21 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                     {account.stories.map((item, i) => (
                       <span
                         key={item.id}
-                        className={`h-1 flex-1 rounded-full ${i === index ? 'bg-white' : i < index ? 'bg-white/70' : 'bg-white/35'}`}
-                      />
+                        className={`h-1 flex-1 overflow-hidden rounded-full ${i < index ? 'bg-white/70' : 'bg-white/35'}`}
+                      >
+                        {open && i === index ? (
+                          <span
+                            className="story-progress block h-full origin-left rounded-full bg-white"
+                            style={{
+                              animationPlayState:
+                                paused || holding || hidden || readyStoryId !== story.id
+                                  ? 'paused'
+                                  : 'running',
+                            }}
+                            onAnimationEnd={() => step(1)}
+                          />
+                        ) : null}
+                      </span>
                     ))}
                   </div>
                   <div className="flex items-center gap-2.5">
@@ -190,6 +242,20 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                       type="button"
                       size="sm"
                       variant="ghost"
+                      aria-label={t(paused ? 'resume' : 'pause')}
+                      onPress={() => setPaused(!paused)}
+                      className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-full bg-black/45 text-white focus-visible:outline-white"
+                    >
+                      {paused ? (
+                        <Play className="size-4" aria-hidden />
+                      ) : (
+                        <Pause className="size-4" aria-hidden />
+                      )}
+                    </Button>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="ghost"
                       autoFocus
                       aria-label={t('close')}
                       onPress={() => setOpen(false)}
@@ -200,15 +266,15 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                   </div>
                 </header>
 
-                {account.stories.length > 1 ? (
+                {hasPrevious || hasNext ? (
                   <div className="flex items-center justify-between">
                     <Button
                       type="button"
                       size="sm"
                       variant="ghost"
                       aria-label={t('previous')}
-                      onPress={() => viewStory(account, index - 1)}
-                      isDisabled={index === 0}
+                      onPress={() => step(-1)}
+                      isDisabled={!hasPrevious}
                       className="group grid size-11 cursor-pointer place-items-center rounded-full bg-transparent p-0 text-white hover:bg-transparent focus-visible:outline-white disabled:invisible"
                     >
                       <span
@@ -223,8 +289,8 @@ export function StoryRail({ accounts }: { accounts: StoryAccount[] }) {
                       size="sm"
                       variant="ghost"
                       aria-label={t('next')}
-                      onPress={() => viewStory(account, index + 1)}
-                      isDisabled={index === account.stories.length - 1}
+                      onPress={() => step(1)}
+                      isDisabled={!hasNext}
                       className="group grid size-11 cursor-pointer place-items-center rounded-full bg-transparent p-0 text-white hover:bg-transparent focus-visible:outline-white disabled:invisible"
                     >
                       <span

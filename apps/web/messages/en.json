@@ -117,6 +117,8 @@
     "open": "Open the story from {business}",
     "reopen": "View the story from {business} again",
     "close": "Close story",
+    "pause": "Pause story",
+    "resume": "Resume story",
     "previous": "Previous story",
     "next": "Next story",
     "position": "Story {current} of {total}",

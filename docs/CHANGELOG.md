@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-25 — Cerita UMKM berjalan otomatis
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Status maju setelah enam detik dan berlanjut ke UMKM berikutnya saat status terakhir satu usaha selesai.
+  Pembeli bisa menjeda lewat tombol atau dengan menahan foto. Penampil ditutup saat semua status dalam deret selesai.
+
 ## 2026-11-24 — Satu UMKM bisa punya beberapa status
 
 - **Area**: apps/web

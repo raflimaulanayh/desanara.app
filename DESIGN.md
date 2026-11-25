@@ -111,8 +111,10 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Story preview** puts a horizontally scrollable row of portrait photo cards below search, before products.
   Each card belongs to one seller. A green dot marks unread updates and a check marks a completed set.
   The viewer uses portrait photos at full height, with one progress segment per update from that seller.
-  Viewers can swipe, use the arrow buttons, or press the arrow keys. Reopening a card starts at the first
-  unread update. Desktop uses a centred portrait viewer.
+  The active segment fills over six seconds from photo load. Playback continues to the next seller, then closes
+  after the final update. Viewers can pause and resume, hold a finger on the photo, swipe, or use the arrows.
+  Playback pauses when the page is hidden. Reopening a card starts at the first unread update. Desktop uses a
+  centred portrait viewer.
 - **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
   (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
   "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"
