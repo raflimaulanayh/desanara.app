@@ -31,9 +31,8 @@ interface PreviewEntry {
   business: string
   category: string
   photo: string
-  storyPhoto?: string
   gallery?: string[]
-  caption: string
+  stories: { image: string; caption: string }[]
   description: string
   descriptionEn: string
 }
@@ -48,9 +47,12 @@ const entries: PreviewEntry[] = [
     business: 'Dapur Bu Euis',
     category: 'makanan-camilan',
     photo: 'chips-b.webp',
-    storyPhoto: 'chips-a.webp',
     gallery: ['chips-a.webp'],
-    caption: 'chips',
+    stories: [
+      { image: 'cassava-frying', caption: 'chips-frying' },
+      { image: 'cassava-packing', caption: 'chips-packing' },
+      { image: 'cassava-ready', caption: 'chips' },
+    ],
     description: 'Keripik singkong renyah yang cocok untuk camilan dan oleh-oleh.',
     descriptionEn: 'Crispy cassava chips for snacking or gifting.',
   },
@@ -63,9 +65,12 @@ const entries: PreviewEntry[] = [
     business: 'Kopi Baros',
     category: 'minuman',
     photo: 'coffee-beans.webp',
-    storyPhoto: 'coffee-beans.webp',
     gallery: ['coffee-ground.webp', 'coffee-iced.webp'],
-    caption: 'coffee',
+    stories: [
+      { image: 'coffee-roasting', caption: 'coffee-roasting' },
+      { image: 'coffee-brewing', caption: 'coffee-brewing' },
+      { image: 'coffee-ready', caption: 'coffee' },
+    ],
     description: 'Biji kopi dari Desa Baros untuk diseduh di rumah.',
     descriptionEn: 'Coffee beans from Baros to brew at home.',
   },
@@ -78,9 +83,12 @@ const entries: PreviewEntry[] = [
     business: 'Anyaman Pak Ujang',
     category: 'kerajinan',
     photo: 'besek.webp',
-    storyPhoto: 'besek-trays.webp',
     gallery: ['besek-trays.webp'],
-    caption: 'bamboo',
+    stories: [
+      { image: 'bamboo-weaving', caption: 'bamboo-weaving' },
+      { image: 'bamboo-finished', caption: 'bamboo' },
+      { image: 'bamboo-detail', caption: 'bamboo-detail' },
+    ],
     description:
       'Besek bambu yang dianyam tangan untuk kemasan makanan, bingkisan, atau oleh-oleh.',
     descriptionEn: 'A handwoven bamboo box for food, gifts, or souvenirs.',
@@ -94,7 +102,7 @@ const entries: PreviewEntry[] = [
     business: 'Dodol Ibu Rina',
     category: 'makanan-camilan',
     photo: 'dodol.webp',
-    caption: 'dodol',
+    stories: [{ image: 'dodol', caption: 'dodol' }],
     description: 'Dodol ketan bertekstur kenyal untuk suguhan dan oleh-oleh.',
     descriptionEn: 'Chewy glutinous rice dodol for sharing or gifting.',
   },
@@ -108,7 +116,7 @@ const entries: PreviewEntry[] = [
     category: 'makanan-camilan',
     photo: 'sale-a.webp',
     gallery: ['sale-b.webp'],
-    caption: 'sale-pisang',
+    stories: [{ image: 'dried-banana', caption: 'sale-pisang' }],
     description: 'Irisan pisang matang yang dikeringkan, manis alami dan sedikit kenyal.',
     descriptionEn: 'Dried slices of ripe banana with a naturally sweet, chewy bite.',
   },
@@ -121,7 +129,7 @@ const entries: PreviewEntry[] = [
     business: 'Dapur Rempah',
     category: 'minuman',
     photo: 'bandrek.webp',
-    caption: 'bandrek-jahe',
+    stories: [{ image: 'ginger-bandrek', caption: 'bandrek-jahe' }],
     description: 'Minuman jahe dan gula aren dengan aroma kayu manis. Seduh dengan air panas.',
     descriptionEn: 'A warming ginger drink with palm sugar and cinnamon. Just add hot water.',
   },
@@ -134,7 +142,7 @@ const entries: PreviewEntry[] = [
     business: 'Pawon Ubi',
     category: 'makanan-camilan',
     photo: 'ubi-chips.webp',
-    caption: 'keripik-ubi',
+    stories: [{ image: 'sweet-potato-chips', caption: 'keripik-ubi' }],
     description: 'Ubi diiris tipis dan digoreng hingga renyah. Cocok untuk camilan atau oleh-oleh.',
     descriptionEn: 'Thin-cut sweet potatoes fried until crisp, for snacking or gifting.',
   },
@@ -147,7 +155,7 @@ const entries: PreviewEntry[] = [
     business: 'Telur Asin Bu Sari',
     category: 'makanan-camilan',
     photo: 'egg-salted.webp',
-    caption: 'telur-asin',
+    stories: [{ image: 'salted-eggs', caption: 'telur-asin' }],
     description: 'Telur bebek asin dengan kuning telur yang gurih. Enak untuk teman nasi hangat.',
     descriptionEn: 'Salted duck eggs with rich, savoury yolks, best served with warm rice.',
   },
@@ -161,7 +169,7 @@ const entries: PreviewEntry[] = [
     category: 'makanan-camilan',
     photo: 'honey-a.webp',
     gallery: ['honey-b.webp'],
-    caption: 'madu-kebun',
+    stories: [{ image: 'garden-honey', caption: 'madu-kebun' }],
     description: 'Madu dari kebun, cocok untuk campuran teh, roti, atau sarapan.',
     descriptionEn: 'Garden honey for stirring into tea or drizzling over toast.',
   },
@@ -174,7 +182,7 @@ const entries: PreviewEntry[] = [
     business: 'Kayu Rupa',
     category: 'kerajinan',
     photo: 'spoons.webp',
-    caption: 'sendok-kayu',
+    stories: [{ image: 'wooden-spoons', caption: 'sendok-kayu' }],
     description: 'Sendok kayu yang dihaluskan dengan tangan untuk mengaduk dan menyajikan makanan.',
     descriptionEn: 'A hand-sanded wooden spoon for stirring and serving.',
   },
@@ -187,7 +195,7 @@ const entries: PreviewEntry[] = [
     business: 'Rupa Kulit',
     category: 'kerajinan',
     photo: 'wallet.webp',
-    caption: 'dompet-kulit',
+    stories: [{ image: 'leather-wallet', caption: 'dompet-kulit' }],
     description: 'Dompet kulit jahit tangan dengan ruang untuk kartu dan uang kertas.',
     descriptionEn: 'A hand-stitched leather wallet with space for cards and notes.',
   },
@@ -291,11 +299,34 @@ export function getPreviewBusiness(slug: string) {
   return null
 }
 
-export const previewStories = entries.map((entry) => ({
-  product: toProduct(entry),
-  image: `/media/seed/products/${entry.storyPhoto ?? entry.photo}`,
-  caption: entry.caption,
-}))
+interface PreviewStoryAccount {
+  id: string
+  business: string
+  village: string
+  stories: { id: string; image: string; caption: string; product: ProductSummary }[]
+}
+
+const storyAccounts = new Map<string, PreviewStoryAccount>()
+for (const entry of entries) {
+  const product = toProduct(entry)
+  const id = product.business.slug
+  const account = storyAccounts.get(id) ?? {
+    id,
+    business: product.business.name,
+    village: product.village.name,
+    stories: [],
+  }
+  account.stories.push(
+    ...entry.stories.map(({ image, caption }) => ({
+      id: image,
+      image: `/media/seed/stories/${image}.webp`,
+      caption,
+      product,
+    })),
+  )
+  storyAccounts.set(id, account)
+}
+export const previewStoryAccounts = [...storyAccounts.values()]
 
 export function getPreviewProduct(slug: string) {
   const entry = entries.find((candidate) => candidate.slug === slug)

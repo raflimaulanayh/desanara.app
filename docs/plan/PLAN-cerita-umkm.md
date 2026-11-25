@@ -30,13 +30,14 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
 ### Pengalaman pembeli dan penjual
 
 - Beranda menampilkan satu deret **Cerita UMKM** di bawah pencarian, sebelum produk terbaru. Kartu foto portrait
-  dapat digeser mendatar. Nama UMKM tampil di atas gradasi gelap di bagian bawah foto. Titik hijau menandai
-  cerita baru dan tanda centang menandai cerita yang dibuka selama halaman aktif. Tiap UMKM tampil satu kali
-  dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
+  dapat digeser mendatar. Nama UMKM tampil di atas gradasi gelap di bagian bawah foto. Titik hijau muncul
+  saat masih ada cerita yang belum dilihat. Tanda centang muncul saat semua cerita akun sudah dibuka.
+  Tiap UMKM tampil satu kali dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
   menampilkan cerita aktif dari usaha tersebut.
 - Penampil foto menampilkan nama UMKM, desa, waktu unggah, dan keterangan. Tombol Sebelumnya, Berikutnya, dan
-  Tutup bisa diakses dengan sentuhan serta keyboard. Pembeli berpindah foto secara manual. Tautan **Lihat produk**
-  muncul ketika produk terkait masih tayang.
+  Tutup bisa diakses dengan sentuhan serta keyboard. Gestur geser dan tombol panah berpindah di dalam
+  akun yang dibuka. Saat dibuka lagi, cerita dimulai dari status yang belum dilihat. Tautan
+  **Lihat produk** muncul ketika produk terkait masih tayang.
 - Usulan masa tampil adalah 24 jam sejak terbit. Dashboard memberi pratinjau dan menunjukkan kapan cerita
   berakhir. Pemilik bisa menarik cerita lebih awal.
 - Label antarmuka tersedia dalam ID dan EN. Keterangan mengikuti bahasa yang ditulis penjual.

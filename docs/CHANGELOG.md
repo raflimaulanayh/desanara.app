@@ -15,6 +15,15 @@ Format:
 
 ---
 
+## 2026-11-24 — Satu UMKM bisa punya beberapa status
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Geser atau gunakan tombol panah untuk berpindah status dari UMKM yang sama. Kartu menyisakan
+  titik hijau sampai semua status dibuka.
+- Prototipe memuat 17 status untuk 11 UMKM, termasuk tiga status masing-masing untuk Dapur Bu Euis,
+  Kopi Baros, dan Anyaman Pak Ujang. Foto contoh memakai aset portrait beresolusi tinggi.
+
 ## 2026-11-24 — Label contoh di Cerita UMKM disederhanakan
 
 - **Area**: apps/web

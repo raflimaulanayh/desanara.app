@@ -7,7 +7,7 @@ import {
   groupPreviewMapBusinesses,
   isCataloguePreview,
   previewProducts,
-  previewStories,
+  previewStoryAccounts,
   previewVillages,
   searchPreviewProducts,
 } from './catalogue-preview'
@@ -21,12 +21,20 @@ test('mock catalogue requires opt-in and runs only in development or Vercel Prev
   expect(isCataloguePreview({ VERCEL_ENV: 'preview' })).toBe(false)
 })
 
-test('each mock story opens its matching detail and uses locally available demo media', async () => {
-  expect(previewStories).toHaveLength(11)
-  expect(new Set(previewStories.map(({ product }) => product.business.slug)).size).toBe(
-    previewStories.length,
-  )
-  for (const story of previewStories) {
+test('mock stories stay with their business and use locally available demo media', async () => {
+  expect(previewStoryAccounts).toHaveLength(11)
+  expect(new Set(previewStoryAccounts.map(({ id }) => id)).size).toBe(11)
+  expect(
+    previewStoryAccounts.find(({ business }) => business === 'Kopi Baros')?.stories,
+  ).toHaveLength(3)
+  const stories = previewStoryAccounts.flatMap(({ id, stories }) => {
+    expect(stories.length).toBeGreaterThan(0)
+    for (const { product } of stories) expect(product.business.slug).toBe(id)
+    return stories
+  })
+  expect(stories).toHaveLength(17)
+  expect(new Set(stories.map(({ id }) => id)).size).toBe(stories.length)
+  for (const story of stories) {
     const entry = getPreviewProduct(story.product.slug)
     expect(entry?.product.isSeed).toBe(true)
     expect(entry?.product.price).toBe(story.product.price)

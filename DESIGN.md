@@ -109,10 +109,10 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   list link above the provider credit returns to the results with the same search and filters. The village panel
   opens below the map on phones and beside it on desktop. Pinch gestures control the map within its canvas.
 - **Story preview** puts a horizontally scrollable row of portrait photo cards below search, before products.
-  Photos fill each card, with the seller name over a bottom scrim. A green dot marks new stories. A check and
-  a replay label mark stories opened on the current page.
-  The viewer fills the phone screen, with story position and seller at the top and the caption and linked product
-  at the bottom. Stories advance with explicit controls. Desktop uses a centred portrait viewer.
+  Each card belongs to one seller. A green dot marks unread updates and a check marks a completed set.
+  The viewer uses portrait photos at full height, with one progress segment per update from that seller.
+  Viewers can swipe, use the arrow buttons, or press the arrow keys. Reopening a card starts at the first
+  unread update. Desktop uses a centred portrait viewer.
 - **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
   (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
   "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"

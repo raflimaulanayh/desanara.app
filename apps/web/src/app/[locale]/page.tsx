@@ -13,7 +13,7 @@ import {
   isCataloguePreview,
   previewCategories,
   previewProducts,
-  previewStories,
+  previewStoryAccounts,
 } from '@/lib/catalogue-preview'
 import { getCategories, getVillages, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
@@ -38,27 +38,28 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const featured = preview
     ? villages[0]
     : [...villages].sort((a, b) => b.businessCount - a.businessCount)[0]
-  const stories = previewStories.map(({ product, image, caption }) => ({
-    id: product.id,
-    business: product.business.name,
-    village: product.village.name,
-    image,
-    caption: storyText(caption),
-    product: preview
-      ? {
-          slug: product.slug,
-          name: pick(locale, product.name, product.nameEn),
-          price: product.price,
-          compareAtPrice: product.compareAtPrice,
-          image: mediaUrl(product.imageKey, true),
-        }
-      : undefined,
+  const storyAccounts = previewStoryAccounts.map((account) => ({
+    ...account,
+    stories: account.stories.map(({ id, product, image, caption }) => ({
+      id,
+      image,
+      caption: storyText(caption),
+      product: preview
+        ? {
+            slug: product.slug,
+            name: pick(locale, product.name, product.nameEn),
+            price: product.price,
+            compareAtPrice: product.compareAtPrice,
+            image: mediaUrl(product.imageKey, true),
+          }
+        : undefined,
+    })),
   }))
 
   return (
     <div className="catalogue-home pb-10 sm:pb-14">
       <h1 className="sr-only">{BRAND_NAME}</h1>
-      <StoryRail stories={stories} />
+      <StoryRail accounts={storyAccounts} />
       <section aria-labelledby="latest-products" className="pt-3 sm:pt-7">
         <Container>
           <div className="flex items-center justify-between gap-2">
