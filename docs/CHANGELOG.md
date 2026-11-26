@@ -15,6 +15,12 @@ Format:
 
 ---
 
+## 2026-11-27 — Penanda UMKM mengikuti zoom peta
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Penanda desa terurai menjadi lokasi UMKM saat peta diperbesar dan bergabung kembali saat diperkecil.
+
 ## 2026-11-27 — Enam lokasi demo UMKM Baros di peta
 
 - **Area**: apps/web

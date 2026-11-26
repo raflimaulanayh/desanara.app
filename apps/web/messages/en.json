@@ -218,6 +218,7 @@
       "clusterLabel": "villages",
       "openVillagePin": "See businesses in {name}",
       "openBusinessPin": "See a product from {name}",
+      "zoomBusinesses": "Zoom in to see {count} shop locations",
       "noPublicBusinessLocations": "No shop locations have been shared yet.",
       "somePublicBusinessLocations": "{count} of {total} businesses have a location on the map.",
       "businessList": "Business list",

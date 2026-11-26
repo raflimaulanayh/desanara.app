@@ -33,6 +33,10 @@ export async function ExploreMap({
   const [t, locale] = await Promise.all([getTranslations('explore.map'), getLocale()])
   const selected = villages.find((village) => village.slug === selectedSlug)
   const businessPoints = mapBusinessPins(selected?.businesses ?? [], businessLocations)
+  const allBusinessPoints = mapBusinessPins(
+    villages.flatMap(({ businesses }) => businesses),
+    businessLocations,
+  )
   const totalBusinesses = selected?.businesses.length ?? 0
   const locationNote =
     businessPoints.length === 0
@@ -80,6 +84,7 @@ export async function ExploreMap({
           }))}
           selectedSlug={selectedSlug}
           businessPoints={businessPoints}
+          allBusinessPoints={allBusinessPoints}
         />
         <Link
           href={listHref}

@@ -31,12 +31,13 @@ export type ExploreLeafletProps = {
   villages: VillageMarker[]
   selectedSlug?: string
   businessPoints: MapMarker[]
+  allBusinessPoints: MapMarker[]
 }
 
 type SafariGesture = Event & { scale: number; clientX: number; clientY: number }
 const businessZoom = 15
 
-function projectVillage({ lat, lng }: VillageMarker, zoom: number) {
+function projectVillage({ lat, lng }: MapCoordinates, zoom: number) {
   return L.CRS.EPSG3857.latLngToPoint(L.latLng(lat, lng), zoom)
 }
 
@@ -99,6 +100,7 @@ export default function ExploreLeafletMap({
   villages,
   selectedSlug,
   businessPoints,
+  allBusinessPoints,
 }: ExploreLeafletProps) {
   const t = useTranslations('explore.map')
   const container = useRef<HTMLDivElement>(null)
@@ -112,14 +114,24 @@ export default function ExploreLeafletMap({
   const [tilesFailed, setTilesFailed] = useState(false)
   const [zoom, setZoom] = useState<number | null>(null)
   const [expandedGroup, setExpandedGroup] = useState<string>()
+  const showBusinesses = zoom !== null && zoom >= businessZoom
+  const businessGroups = useMemo(
+    () =>
+      groupNearbyVillages(showBusinesses ? allBusinessPoints : [], (point) =>
+        projectVillage(point, zoom ?? 0),
+      ),
+    [allBusinessPoints, showBusinesses, zoom],
+  )
   const pins = useMemo(() => {
     if (zoom === null) return []
     return groupNearbyVillages(
-      businessPoints.length ? villages.filter(({ slug }) => slug !== selectedSlug) : villages,
+      villages.filter(({ slug, locationCount }) =>
+        showBusinesses ? locationCount === 0 : !(businessPoints.length && slug === selectedSlug),
+      ),
       (village) => projectVillage(village, zoom),
       selectedSlug,
     )
-  }, [businessPoints.length, selectedSlug, villages, zoom])
+  }, [businessPoints.length, selectedSlug, villages, zoom, showBusinesses])
   const selectedVillage = villages.find(({ slug }) => slug === selectedSlug)
 
   useEffect(() => {
@@ -235,7 +247,10 @@ export default function ExploreLeafletMap({
   useEffect(() => {
     const instance = map.current
     if (!instance) return
-    const positions = [...pins.map(({ anchor }) => anchor), ...businessPoints]
+    const positions = [
+      ...pins.map(({ anchor }) => anchor),
+      ...businessGroups.map(({ anchor }) => anchor),
+    ]
     const visible = new Set(positions.map(({ slug }) => slug))
     let changed = false
     for (const [slug, entry] of markers.current) {
@@ -275,7 +290,7 @@ export default function ExploreLeafletMap({
       if (!selectedVillage) fitVillages(instance, villages)
       previousBounds.current = bounds
     }
-  }, [pins, villages, selectedVillage, businessPoints])
+  }, [pins, villages, selectedVillage, businessGroups])
 
   return (
     <div className="relative size-full">
@@ -398,8 +413,32 @@ export default function ExploreLeafletMap({
           village.slug,
         )
       })}
-      {businessPoints.map((business) => {
+      {businessGroups.map(({ anchor: business, members }) => {
         const target = targets.get(business.slug)
+        if (target && members.length > 1) {
+          return createPortal(
+            <Button
+              size="sm"
+              variant="primary"
+              aria-label={t('zoomBusinesses', { count: members.length })}
+              onPress={() => {
+                const instance = map.current
+                if (!instance) return
+                const bounds = L.latLngBounds(members.map(({ lat, lng }) => L.latLng(lat, lng)))
+                revealPins(
+                  instance,
+                  bounds.getCenter(),
+                  villageSplitZoom(members, instance.getZoom(), projectVillage),
+                )
+              }}
+              className="grid size-11 min-w-0 place-items-center rounded-full border-2 border-white p-0 text-sm font-bold shadow-sm"
+            >
+              {members.length}
+            </Button>,
+            target,
+            business.slug,
+          )
+        }
         return target
           ? createPortal(
               <Link

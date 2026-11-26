@@ -218,6 +218,7 @@
       "clusterLabel": "desa",
       "openVillagePin": "Lihat UMKM di {name}",
       "openBusinessPin": "Lihat produk dari {name}",
+      "zoomBusinesses": "Perbesar untuk melihat {count} lokasi UMKM",
       "noPublicBusinessLocations": "Belum ada lokasi toko yang dibagikan.",
       "somePublicBusinessLocations": "{count} dari {total} UMKM punya lokasi di peta.",
       "businessList": "Daftar UMKM",
