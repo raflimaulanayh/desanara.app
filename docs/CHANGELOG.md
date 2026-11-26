@@ -15,6 +15,33 @@ Format:
 
 ---
 
+## 2026-11-27 — Penanda UMKM mengikuti zoom peta
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Penanda desa terurai menjadi lokasi UMKM saat peta diperbesar dan bergabung kembali saat diperkecil.
+
+## 2026-11-27 — Enam lokasi demo UMKM Baros di peta
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Ketuk angka pada penanda Baros untuk melihat enam titik simulasi. Titik mengikuti filter katalog dan
+  hanya tersedia untuk produk demo Baros yang masih tayang.
+
+## 2026-11-27 — Jumlah lokasi toko pada penanda desa
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Angka pada penanda desa menghitung lokasi toko yang tersedia di peta. Jika lokasinya belum tersedia,
+  peta memakai ikon pin desa. Jumlah semua UMKM tetap terlihat di panel hasil.
+
+## 2026-11-27 — Hasil desa terbuka dari bawah peta
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Ketuk pin desa untuk membuka hasil dalam bottom sheet. Geser pegangan ke bawah, ketuk di luar sheet,
+  atau tekan Escape untuk kembali ke peta.
+
 ## 2026-11-27 — Pusat desa tetap terlihat saat pin toko belum tersedia
 
 - **Area**: apps/web

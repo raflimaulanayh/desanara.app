@@ -89,9 +89,12 @@ Kabupaten Bandung sebagai identitas wilayah. Aset bersumber dari [portal Desa Me
 Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Daftar tersedia di bagian
 bawah peta dan membawa pencarian serta filter yang sama. Cubit dengan dua jari atau gulir di area peta untuk
 mengubah tingkat zoom. Ketuk jumlah desa untuk memperbesar peta sampai pin terpecah ke grup yang lebih kecil
-atau muncul sendiri. Saat desa dipilih, angka grup hilang dan pin toko memakai koordinat yang boleh
-ditampilkan ke publik. Panel desa menampilkan semua UMKM yang cocok dengan filter, termasuk yang belum
-membagikan lokasi. Tiga kartu atau lebih bisa digeser mendatar. Nama toko tampil maksimal dua baris.
+atau muncul sendiri. Angka pada penanda satu desa menghitung lokasi toko yang bisa ditampilkan. Desa yang
+belum punya koordinat toko publik ditandai dengan ikon pin. Saat desa dipilih, pin toko memakai koordinat yang boleh
+ditampilkan ke publik. Hasil desa muncul dalam sheet dari bawah dan menampilkan semua UMKM yang cocok dengan
+filter, termasuk yang belum membagikan lokasi. Sheet bisa ditutup dengan menggeser pegangan ke bawah,
+mengetuk area di luar sheet, atau menekan Escape. Tiga kartu atau lebih bisa digeser mendatar.
+Nama toko tampil maksimal dua baris.
 Peta publik memakai pusat desa dari API publik. Pratinjau memakai titik pusat desa dari dataset wilayah
 dan dua titik toko fiktif untuk menguji perincian pin. Sumber titik toko publik dibahas di
 [Rencana lokasi toko publik](PLAN-public-business-locations.md).

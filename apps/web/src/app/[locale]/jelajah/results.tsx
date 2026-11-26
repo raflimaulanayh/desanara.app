@@ -23,6 +23,7 @@ import {
   searchProducts,
   type ProductQuery,
 } from '@/lib/data'
+import { getDemoBusinessLocations } from '@/lib/demo-business-locations'
 import { VILLAGES_HASH } from '@/lib/paths'
 
 const actionClass = buttonVariants({
@@ -87,6 +88,10 @@ export async function ExploreResults({
       ? groupPreviewMapBusinesses(results.data)
       : groupMapBusinesses(results.data, locations?.points ?? [])
     : []
+  const demoLocations = mapView && !preview ? getDemoBusinessLocations(results.data) : undefined
+  const hasDemoLocations = mapVillages.some(({ businesses }) =>
+    businesses.some(({ business }) => demoLocations?.has(business.slug)),
+  )
   villageName ??= results.data.find((product) => product.village.slug === village)?.village.name
   const pages = Math.max(1, Math.ceil(results.meta.total / pageSize))
   const emptyPage = !mapView && page > pages && results.meta.total > 0
@@ -156,7 +161,13 @@ export async function ExploreResults({
                 hasFilters && mapStatusNoteWithReset,
               )}
             >
-              {t(preview ? 'map.approximate' : 'map.villageCentres')}
+              {t(
+                preview
+                  ? 'map.approximate'
+                  : hasDemoLocations
+                    ? 'map.shopLocations'
+                    : 'map.villageCentres',
+              )}
             </p>
           ) : null}
         </div>
@@ -200,7 +211,7 @@ export async function ExploreResults({
               }))}
               selectedSlug={selectedSlug}
               preview={preview}
-              businessLocations={preview ? previewBusinessLocations : undefined}
+              businessLocations={preview ? previewBusinessLocations : demoLocations}
               closeHref={query({})}
               listHref={listHref}
             />

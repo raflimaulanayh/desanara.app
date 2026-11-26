@@ -119,12 +119,13 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   A placeholder uses the content's grid, row height, image ratio and breakpoints. Keep ready navigation and
   headings visible. Reserve space only for the section that is still loading.
 - **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
-  Compact circles show matching business counts up to
-  `99+` on a pannable Leaflet basemap, with 44 px touch targets. The accessible
-  label and the details panel show the full village name and exact count. The map fills the available viewport
+  Compact circles show the number of matching shop locations up to `99+` on a pannable Leaflet basemap,
+  with 44 px touch targets. Villages without shop locations use a pin icon. The details panel shows
+  the full village name and total matching businesses. The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
-  list link above the provider credit returns to the results with the same search and filters. The village panel
-  opens below the map on phones and beside it on desktop. It lists every matching business with compact
+  list link above the provider credit returns to the results with the same search and filters. Village results
+  open in a bottom sheet with a drag handle. Swiping down, tapping outside, or pressing Escape dismisses the
+  sheet and returns to the map. It lists every matching business with compact
   type and caps business names at two lines. Three or more cards use a horizontal swipe rail with previous
   and next controls. Tapping a village group zooms to the first scale that separates
   its pins. Selecting a village hides its count marker and fits the map to the shop coordinates available to

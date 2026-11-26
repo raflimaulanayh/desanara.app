@@ -201,10 +201,11 @@
       "title": "Village map",
       "searchPlaceholder": "Search map",
       "allCategories": "All categories",
-      "marker": "{village}, {count, plural, one {# business} other {# businesses}}",
+      "marker": "{village}, {count, plural, one {# shop location} other {# shop locations}} on map",
       "count": "{count, plural, one {# business} other {# businesses}}",
       "approximate": "Village pins · Sample data",
       "villageCentres": "Pins show village centres",
+      "shopLocations": "Shop locations",
       "selectedVillageCentre": "Centre of {village}",
       "noVillagePoints": "Village locations are unavailable for these results.",
       "locationsUnavailable": "Some village locations couldn't load.",
@@ -217,6 +218,7 @@
       "clusterLabel": "villages",
       "openVillagePin": "See businesses in {name}",
       "openBusinessPin": "See a product from {name}",
+      "zoomBusinesses": "Zoom in to see {count} shop locations",
       "noPublicBusinessLocations": "No shop locations have been shared yet.",
       "somePublicBusinessLocations": "{count} of {total} businesses have a location on the map.",
       "businessList": "Business list",
@@ -225,7 +227,6 @@
       "tilesUnavailable": "The basemap could not load.",
       "retry": "Try again",
       "selected": "Businesses in {village}",
-      "close": "Close village results",
       "listVillage": "See village products",
       "removeVillage": "Remove the {village} filter"
     }

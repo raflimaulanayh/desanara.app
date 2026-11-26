@@ -201,10 +201,11 @@
       "mapMode": "Peta",
       "title": "Peta desa",
       "allCategories": "Semua kategori",
-      "marker": "{village}, {count} UMKM",
+      "marker": "{village}, {count} lokasi UMKM di peta",
       "count": "{count} UMKM",
       "approximate": "Lokasi desa · Data contoh",
       "villageCentres": "Penanda di pusat desa",
+      "shopLocations": "Lokasi UMKM",
       "selectedVillageCentre": "Pusat {village}",
       "noVillagePoints": "Belum ada lokasi desa untuk hasil ini.",
       "locationsUnavailable": "Sebagian lokasi desa belum bisa dimuat.",
@@ -217,6 +218,7 @@
       "clusterLabel": "desa",
       "openVillagePin": "Lihat UMKM di {name}",
       "openBusinessPin": "Lihat produk dari {name}",
+      "zoomBusinesses": "Perbesar untuk melihat {count} lokasi UMKM",
       "noPublicBusinessLocations": "Belum ada lokasi toko yang dibagikan.",
       "somePublicBusinessLocations": "{count} dari {total} UMKM punya lokasi di peta.",
       "businessList": "Daftar UMKM",
@@ -225,7 +227,6 @@
       "tilesUnavailable": "Peta belum bisa dibuka.",
       "retry": "Coba lagi",
       "selected": "UMKM di {village}",
-      "close": "Tutup hasil desa",
       "listVillage": "Lihat produk desa",
       "removeVillage": "Hapus filter {village}"
     }
