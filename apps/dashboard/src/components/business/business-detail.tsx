@@ -8,7 +8,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type ReactNode, useState } from 'react'
 import { formatRtRw } from '@repo/validators'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback } from '@/components/query-feedback'
+import { BusinessDetailSkeleton } from '@/components/dashboard-skeletons'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import {
   type Business,
   type BusinessAction,
@@ -78,19 +80,20 @@ export function BusinessDetail({ id }: { id: string }) {
   const [panel, setPanel] = useState<'reject' | 'takedown' | 'delete' | null>(null)
   const [message, setMessage] = useState<{ kind: 'error' | 'ok'; text: string } | null>(null)
 
-  if (q.isPending) return <Container className="py-10 text-sm">{t('common.loading')}</Container>
-  if (q.isError) {
+  const b = readableData(q)
+  if (!b) {
     return (
-      <Container className="flex flex-col items-start gap-3 py-10">
-        <p role="alert">{describeApiError(q.error, t).message}</p>
-        <Link href="/businesses" className="text-accent font-semibold">
-          {t('businessDetail.backToList')}
-        </Link>
+      <Container className="py-6 sm:py-10">
+        <QueryFeedback
+          query={q}
+          loading={<BusinessDetailSkeleton />}
+          backHref="/businesses"
+          backLabel={t('businessDetail.backToList')}
+        />
       </Container>
     )
   }
 
-  const b = q.data
   const p = b.permissions
   const checklist = publishChecklist(b)
   const ready = checklist.every((c) => c.ok)
@@ -113,6 +116,7 @@ export function BusinessDetail({ id }: { id: string }) {
       <Link href="/businesses" className="text-muted text-sm font-semibold hover:underline">
         ← {t('businessDetail.backToList')}
       </Link>
+      <QueryFeedback query={q} />
 
       <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">

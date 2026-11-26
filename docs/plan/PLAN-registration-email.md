@@ -34,7 +34,7 @@ Scope:
 - Halaman kebijakan privasi dan syarat & ketentuan (ID dan EN).
 - Job harian (Vercel Cron): ringkasan untuk admin desa, hapus pengajuan ditolak setelah 30 hari, hapus undangan kedaluwarsa.
 
-Non-goals (sesudah seminar): login dengan nomor WhatsApp/OTP, notifikasi push (PWA), pengajuan desa baru
+Non-goals (sesudah seminar): login dengan nomor WhatsApp/OTP, pengajuan desa baru
 (modul terpisah), aplikasi mobile.
 
 ## 3. Keputusan (produk, arsitektur, API)

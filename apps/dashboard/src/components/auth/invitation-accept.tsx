@@ -2,6 +2,7 @@
 
 import { Button, Card, Input, Label, TextField } from '@heroui/react'
 import { ApiError, unwrap } from '@repo/api-client'
+import { LoadingRegion } from '@repo/ui/components/loading-region'
 import { passwordSchema } from '@repo/validators'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
@@ -9,7 +10,9 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { type FormEvent, useState } from 'react'
 import { api } from '@/lib/api'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback, QueryProblem } from '@/components/query-feedback'
+import { InvitationSkeleton } from '@/components/dashboard-skeletons'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import { authClient } from '@/lib/auth-client'
 import { isUnverified } from '@/lib/auth-errors'
 import { useFinishSignIn } from '@/lib/use-finish-sign-in'
@@ -56,7 +59,7 @@ export function InvitationAccept({ token }: { token: string }) {
   /** The account exists but its email still needs the code. */
   const [verifying, setVerifying] = useState<string | null>(null)
 
-  const inv = preview.data
+  const inv = readableData(preview)
   const lockedEmail = inv?.inviteeEmail ?? null
   const nameValue = name || (inv?.inviteeName ?? '')
   const emailValue = lockedEmail ?? email
@@ -115,18 +118,12 @@ export function InvitationAccept({ token }: { token: string }) {
     }
   }
 
-  if (preview.isPending || session.isPending) {
-    return <p className="text-sm">{t('invite.loading')}</p>
-  }
-
   const gone = preview.isError ? goneReason(preview.error) : null
-  if (preview.isError) {
+  if (gone) {
     return (
       <Card className="w-full max-w-sm">
         <Card.Content className="flex flex-col gap-4">
-          <p role="alert">
-            {gone ? t(`invite.gone.${gone}`) : describeApiError(preview.error, t).message}
-          </p>
+          <p role="alert">{t(`invite.gone.${gone}`)}</p>
           <Link href="/login" className="font-semibold hover:underline">
             {t('invite.toLogin')}
           </Link>
@@ -135,7 +132,33 @@ export function InvitationAccept({ token }: { token: string }) {
     )
   }
 
-  if (!inv) return null
+  if (!inv)
+    return (
+      <div className="w-full max-w-sm">
+        <QueryFeedback
+          query={preview}
+          label={t('invite.loading')}
+          loading={<InvitationSkeleton />}
+        />
+      </div>
+    )
+  if (session.isPending)
+    return (
+      <LoadingRegion label={t('invite.loading')} className="w-full max-w-sm">
+        <InvitationSkeleton />
+      </LoadingRegion>
+    )
+  if (session.error && !session.data && session.error.status !== 401) {
+    return (
+      <div className="w-full max-w-sm">
+        <QueryProblem
+          description={t('errors.network')}
+          pending={session.isRefetching}
+          onRetry={() => void session.refetch()}
+        />
+      </div>
+    )
+  }
   const user = session.data?.user
   const header = (
     <Card.Header>

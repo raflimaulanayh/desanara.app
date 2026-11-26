@@ -9,7 +9,9 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback, QueryProblem } from '@/components/query-feedback'
+import { VillageSettingsSkeleton } from '@/components/dashboard-skeletons'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import { fieldMessages } from '@/lib/business-form'
 import type { LatLng } from '@/lib/map'
 import { useSession } from '@/lib/session'
@@ -204,31 +206,34 @@ function TeamCard({ v }: { v: VillageSettings }) {
 export function VillageSettingsPage({ id }: { id: string }) {
   const t = useTranslations()
   const q = useVillageSettings(id)
+  const village = readableData(q)
 
   return (
     <Container className="flex max-w-3xl flex-col gap-5 py-6 sm:py-10">
       <Link href="/villages" className="text-muted text-sm font-semibold hover:underline">
         ← {t('nav.villageSettings')}
       </Link>
-      {q.isPending ? (
-        <p className="text-sm">{t('common.loading')}</p>
-      ) : q.isError ? (
-        <p role="alert">{describeApiError(q.error, t).message}</p>
-      ) : !q.data.permissions.update ? (
-        <p role="alert">{t('errors.forbidden')}</p>
-      ) : (
+      <QueryFeedback
+        query={q}
+        loading={<VillageSettingsSkeleton />}
+        backHref="/villages"
+        backLabel={t('nav.villageSettings')}
+      />
+      {village?.permissions.update ? (
         <>
           <header>
-            <h1 className="text-2xl font-extrabold sm:text-3xl">{q.data.name}</h1>
+            <h1 className="text-2xl font-extrabold sm:text-3xl">{village.name}</h1>
             <p className="text-muted mt-1 text-sm">
-              {q.data.region?.fullName ?? t('villageSettings.noRegion')}
+              {village.region?.fullName ?? t('villageSettings.noRegion')}
             </p>
           </header>
-          <CenterCard v={q.data} />
-          <ProfileCard v={q.data} />
-          <TeamCard v={q.data} />
+          <CenterCard v={village} />
+          <ProfileCard v={village} />
+          <TeamCard v={village} />
         </>
-      )}
+      ) : village ? (
+        <QueryProblem title={t('states.forbiddenTitle')} description={t('errors.forbidden')} />
+      ) : null}
     </Container>
   )
 }

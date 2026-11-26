@@ -3,7 +3,7 @@ name: Desanara
 description: Desanara — a friendly village marketplace where every product carries its village's name, colour and story.
 colors:
   brand-green: '#387b4c'
-  sprout: '#9dd853'
+  sprout: '#9dd950'
   leaf: '#6cac4e'
   sun: '#e3a84f'
   clay: '#c2612c'
@@ -18,7 +18,7 @@ colors:
   open-green: '#15803d'
   pause-amber: '#b45309'
 typography:
-  family: 'Plus Jakarta Sans, system-ui, sans-serif'
+  family: 'Montserrat, system-ui, sans-serif'
   display:
     {
       fontSize: 'clamp(2rem, 6.5vw, 3.5rem)',
@@ -46,14 +46,15 @@ Replaces the earlier "Buku Nota & Stempel" concept (rejected 2026-11-03: too met
 - **Desanara green** `#387b4c`: platform accent (primary buttons, links, search submit), the dark end of the logo
   gradient. White on it 5.1:1. Inside a village page the accent becomes that village's own colour (ADR 0007).
 - **Secondary palette** (tokens `sprout`, `leaf`, `sun`, `clay`): decoration, illustration and highlights only.
-  `sprout` `#9dd853` (the logo's light leaf tip) and `sun` `#e3a84f` take dark text (10.3:1 and 8.3:1); `leaf`
+  `sprout` `#9dd950` (the logo's light leaf tip) and `sun` `#e3a84f` take dark text (10.4:1 and 8.3:1); `leaf`
   `#6cac4e` (the wordmark green, 2.8:1) and `clay` `#c2612c` (4.2:1 with white) only for large text (≥ 19 px bold) or
   non-text shapes.
 - **WhatsApp green** `#0f7a3f`: only for ordering/chat actions, in every village, so the action is always recognised.
 - **Neutrals**: white surfaces (cards), warm cream `wash` `#f9f4e7` backgrounds for sections and tiles, `line` borders.
   Text is warm near-black.
 - **Status**: green = open, amber = temporarily closed, neutral = closed. Verified uses the accent-soft tint.
-- Rules: no gradients except the village cover when it has no banner; no pure `#000`; village accents keep 3:1 contrast
+- Village page covers can use a gradient when they have no photo. The mobile catalogue banner uses a dark scrim to
+  keep text legible over the illustration. Village accents keep 3:1 contrast
   on white (enforced in code) and are used for headings, icons and badges, not for body text.
 
 ## Logo
@@ -64,36 +65,120 @@ tall, so the horizontal logo needs at least 32 px height (header 44 px). Use the
 
 ## Typography
 
-Plus Jakarta Sans for everything on platform pages (400–800). Villages may swap the _display_ face through
-`font-village` (Barlow Condensed, Bitter, Nunito, Poppins) for their name and section headings only. Prices are bold with
-tabular numerals. Body ≥ 16 px, line length ≤ 68ch.
+Montserrat for platform pages and the dashboard (variable, 400–800), the same family as the logo wordmark.
+Public page titles use `page-title` (20 px on phones, 24 px from `sm`). Section titles use `section-title`
+(18 px on phones, 20 px from `sm`). The home banner uses 20–22 px on smaller screens and `display-title`
+from `md`. The about hero uses `display-title` (24–36 px).
+Body text stays at least 16 px with a line length of up to 68ch. Search hints and compact controls use 14 px,
+and supporting labels use 12–14 px. Search input text stays 16 px on phones. Keep card names to two lines
+and check long names at 320 px. Villages may swap the display face through `font-village` for their own
+headings. Prices use bold, tabular numerals.
 
 ## Layout & shape
 
-Container `max-w-6xl`, 16 px gutters on phones. Product grids: 2 columns on phones, 3 on tablets, 4 on desktop. Cards are
-`rounded-(--radius)` with a `line` border and a soft shadow only on hover. Buttons, chips, search and badges are fully
-rounded pills. Tap targets ≥ 44 px.
+Container `max-w-6xl`, 16 px gutters on phones. Product grids: 2 columns on phones, 3 on tablets, 4 on desktop.
+Cards, panels, and stand-alone photo surfaces use `rounded-(--radius)` (12 px by default). Village themes
+can override this token. Thumbnails inside cards and compact rectangular controls use
+`rounded-(--radius-compact)` (8 px).
+Prominent actions, the search field, chips, and badges use pill corners. The filter sheet shares the card
+radius on its top edge, and the story viewer stays flush with the screen on phones. Use HeroUI v3 for form controls,
+buttons and overlays. Keep filters and toolbar controls compact, with 36 px fields and secondary actions,
+40 px search, and at least 44 px for the main order action and bottom navigation targets.
 
 ## Components
 
-- **Header**: logo, always-visible search pill, Jelajah/Tentang, ID|EN switch. Sticky. Search stays in the header on phones (second row).
-- **Search form**: plain GET form, works without JavaScript.
-- **Product card**: square photo (or tinted category tile in the village colour when there is no photo), name (2 lines),
-  price, a pin line "Desa · UMKM". Out-of-stock shows a dark pill on the photo.
-- **Village card / village page**: cover (photo or gradient in the village colour), round crest with white frame, name in
-  the village font, region, counts, "Diverifikasi desa" badge. Official crests are shown untouched.
-- **Order panel (product page)**: quantity stepper, note, then one WhatsApp-green button. On phones the total and button
-  stick to the bottom; on desktop they sit in the flow. Below it: "Dari desa …" and "Dijual oleh …" cards.
+- **Header** uses a sticky logo, a neutral search pill, and a thin divider. On mobile, the drawer holds Tentang and
+  Daftarkan UMKM. Desktop shows Beranda, Produk, Desa, Tentang, and Pengaturan beside the search field. Wide desktops
+  also show Daftarkan UMKM.
+- **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in one fixed white bar. Each destination has an
+  icon and a label. The current destination and hovered tabs use green text and a tint behind the icon.
+- **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
+- **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
+  products share a row, with a link to the full catalogue. Categories follow in a horizontal row of tinted icons
+  with labels. The rice-terrace banner and village cards follow categories. Desktop shows four products and the
+  category links in a grid. Keep the home village preview to six cards. The village directory shows 12 cards per
+  page, with equal horizontal padding around the home directory link's hover area.
+  The seller invitation uses a white card and the HeroUI primary green action.
+- **Catalogue results** retain the current filters when searching and use compact category links. A full-width
+  HeroUI bottom `Sheet` groups region, village, category, and sorting in list and map modes. Region, village,
+  and category use searchable HeroUI `Autocomplete` fields. Regional selection narrows the village options.
+  Field values sit vertically centred inside consistent 36 px triggers. The form stays centred at a readable
+  width on desktop, and the trigger shows the number of active selections. Phone results use rows with the
+  photo beside the title, village, and price. Desktop uses the product grid.
+  Loading placeholders follow the result layout. A white status card gives a relevant next action for an empty
+  search or catalogue. A failed load offers a retry with the current query intact. Partial map failures leave
+  available pins and list navigation accessible.
+- **Status illustrations** use Nara, the rice-sprout mascot, in the public site and dashboard. Both apps use the
+  same page and notice layouts, shape tokens, and art. Show the illustration next to the message and action, with
+  a smaller size in cards. Inline status messages keep their footprint small where useful content remains visible.
+  See the [mascot guide](docs/brand/mascot.md) for poses and assets.
+- **Data feedback** keeps loading, empty, unavailable, access-restricted, and unexpected error states distinct.
+  Use a skeleton shaped like the content for an initial load. Keep previously loaded content and draft fields
+  visible during a temporary failure, with a clear retry at the affected section. Hide protected cached data
+  when a read confirms that the session, access, or record is gone. Both apps show an offline notice.
+  A placeholder uses the content's grid, row height, image ratio and breakpoints. Keep ready navigation and
+  headings visible. Reserve space only for the section that is still loading.
+- **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
+  Compact circles show matching business counts up to
+  `99+` on a pannable Leaflet basemap, with 44 px touch targets. The selected circle fills green. The accessible
+  label and the details panel show the full village name and exact count. The map fills the available viewport
+  below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
+  list link above the provider credit returns to the results with the same search and filters. The village panel
+  opens below the map on phones and beside it on desktop. It lists every matching business with compact
+  type and caps business names at two lines. Three or more cards use a horizontal swipe rail with previous
+  and next controls. Tapping a village group zooms to the first scale that separates
+  its pins. Selecting a village hides its count marker and fits the map to the shop coordinates available to
+  the public. The list includes shops without public coordinates. Catalogue preview uses fictional storefront
+  points marked as sample data. Pinch, mouse wheel, and trackpad gestures control the map within its canvas.
+- **Story preview** puts a horizontally scrollable row of portrait photo cards below search, before products.
+  Each card belongs to one seller and shows the newest update as its cover, with a compact 11 px name.
+  A green dot marks unread updates and a check marks a completed set. Unread sellers come first, with
+  both groups ordered by their latest update. Viewed status is kept in the current browser.
+  The viewer supports photos, portrait clips, and text on a solid green background. Clips start muted and
+  offer a sound toggle beside the caption. Each update gets one
+  progress segment. Photos and text play for six seconds. Video progress follows playback. Story cards can show
+  a compact pre-order or shop-open indicator when availability is known. The prototype exercises both indicators
+  in catalogue preview mode. A linked product card shows the published name and price when available.
+  Playback continues to the next seller, then closes
+  after the final update. Viewers can pause and resume, hold the photo, swipe or drag it horizontally,
+  or use the arrows. On devices with a mouse, the arrows appear on viewer hover or when they receive focus.
+  Playback pauses when the page is hidden. Reopening a card starts at the first unread update. Desktop uses a
+  centred portrait viewer.
+- **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
+  (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
+  "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"
+  (outline). From `md`: text left, landscape right with edges faded into the cream by a mask.
+- **Search form** uses a HeroUI `ComboBox` with a pill-shaped `InputGroup`. After two characters, a compact
+  list under the field links to matching products and businesses. A free-text search submits a GET request
+  with the current filters. HeroUI draws one focus ring around the group.
+- **Compact actions** use short labels that fit on one line at 320 px in both locales. For example, the
+  floating map action reads “Daftar” or “List” and its accessible label describes the destination.
+- **Product card** shows a photo or tinted category tile, product name (two lines), village of origin, and tabular
+  price. Mobile homepage images use a 4:3 ratio to keep prices close to the top of the catalogue. The homepage uses
+  green prices and keeps seller information on the detail page. Out-of-stock uses a
+  dark pill on the photo. The entire card opens the detail page.
+- **Village card / village page**: village links on the catalogue home show the crest, name, area, and business count.
+  Village pages show a cover photo or a gradient in the village colour, a white-framed crest, village display font and
+  the verification badge. Official crests are shown untouched.
+  A thin circular border frames the crest. A labelled regency emblem may fill the slot until a village logo is available.
+- **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked
+  rows for the village and seller.
+- **Product gallery** supports swipe, arrow buttons, and keyboard navigation. Tapping a photo opens it uncropped in a
+  dark full-screen viewer. When there are multiple photos, the viewer shows the current position and a thumbnail strip.
+- **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. The quantity stepper
+  and note sit in an expandable section. The total updates when the quantity exceeds one.
 - **Open-status badge**: dot + label (Buka / Tutup / Tutup sementara) with detail text where there is room; never shown
   without a schedule.
 - **Verified badge**: accent-soft pill with a check icon.
-- **Footer**: platform description, links, required credit with HIMASIF and SATU University logos (mono recolour only).
+- **Footer** uses a white surface and a thin border. It carries the platform description, links, and credits
+  with the monochrome HIMASIF and SATU University logos.
 
 ## Do
 
 - Put the village name on every product surface.
 - Keep one primary action per screen; ordering is always WhatsApp green.
 - Design the no-photo state as a normal state: most products start without photos.
+  Keep the photo frame and center a size-limited category icon on a soft tinted surface.
 - Test at 360 px width.
 
 ## Don't

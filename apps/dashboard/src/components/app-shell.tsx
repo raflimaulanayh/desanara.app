@@ -3,6 +3,8 @@
 import { Button, Dropdown, Label } from '@heroui/react'
 import { ApiError, unwrap } from '@repo/api-client'
 import { cn } from '@repo/ui/cn'
+import { Container } from '@repo/ui/components/container'
+import { SkeletonBlock } from '@repo/ui/components/loading-region'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { CircleCheck, House, LogOut, Settings, Store, type LucideIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -10,11 +12,13 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { type ReactNode, useEffect } from 'react'
 import { api } from '@/lib/api'
+import { isReadRestricted, readableData } from '@/lib/api-errors'
 import { authClient } from '@/lib/auth-client'
 import { clearDrafts } from '@/lib/form-draft'
 import { type NavIcon, isActive, navFor } from '@/lib/nav'
 import { type Session, SessionProvider } from '@/lib/session'
 import { Logo, LogoMark } from './logo'
+import { QueryFeedback } from './query-feedback'
 
 const ICONS: Record<NavIcon, LucideIcon> = {
   home: House,
@@ -22,6 +26,12 @@ const ICONS: Record<NavIcon, LucideIcon> = {
   check: CircleCheck,
   settings: Settings,
 }
+
+const shellLayout = 'min-h-dvh lg:grid lg:grid-cols-[15rem_1fr]'
+const sidebarLayout =
+  'border-line bg-surface sticky top-0 hidden h-dvh flex-col gap-6 border-r p-4 lg:flex'
+const mobileHeaderLayout =
+  'border-line bg-surface/95 sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b px-4 backdrop-blur-sm lg:hidden'
 
 /** Short role line for the header: "Admin desa · Desa Baros", or the first role found. */
 function roleLine(s: Session, t: (key: string) => string) {
@@ -45,7 +55,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const me = useQuery({
     queryKey: ['me'],
     queryFn: async () => (await unwrap(await api.v1.me.$get())).data,
-    retry: (count, error) => !(error instanceof ApiError && error.status === 401) && count < 2,
+    retry: (count, error) => !isReadRestricted(error) && count < 2,
   })
   const expired = me.error instanceof ApiError && me.error.status === 401
 
@@ -53,27 +63,47 @@ export function AppShell({ children }: { children: ReactNode }) {
     if (expired) router.replace(`/login?next=${encodeURIComponent(pathname)}`)
   }, [expired, pathname, router])
 
-  if (!me.data) {
+  const session = readableData(me)
+  if (!session) {
+    if (me.isPending) {
+      return (
+        <div className={shellLayout}>
+          <aside aria-hidden className={sidebarLayout}>
+            <div className="px-2 pt-1">
+              <Logo />
+            </div>
+            <div className="space-y-1">
+              {[0, 1, 2].map((row) => (
+                <SkeletonBlock key={row} className="h-11 rounded-xl" />
+              ))}
+            </div>
+          </aside>
+          <div className="flex min-w-0 flex-col">
+            <header className={mobileHeaderLayout}>
+              <Logo className="h-9" />
+              <SkeletonBlock className="size-9 rounded-full" />
+            </header>
+            <main id="main" className="flex-1">
+              <Container className="py-6 sm:py-10">
+                <QueryFeedback query={me} label={t('dashboard.loadingSession')} />
+              </Container>
+            </main>
+          </div>
+        </div>
+      )
+    }
     return (
-      <div className="grid min-h-dvh place-items-center px-4 text-center">
-        {me.isError && !expired ? (
-          <div className="flex flex-col items-center gap-3">
-            <p className="text-sm">{t('errors.network')}</p>
-            <Button variant="secondary" onPress={() => me.refetch()}>
-              {t('common.retry')}
-            </Button>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-3" role="status">
+      <main className="grid min-h-dvh place-items-center px-4 text-center">
+        <div className="w-full max-w-sm space-y-4">
+          <div className="flex justify-center">
             <LogoMark size={40} />
-            <p className="text-muted text-sm">{t('dashboard.loadingSession')}</p>
           </div>
-        )}
-      </div>
+          <QueryFeedback query={me} label={t('dashboard.loadingSession')} />
+        </div>
+      </main>
     )
   }
 
-  const session = me.data
   const items = navFor(session.actor, (k) => t(`nav.${k}`))
   const logout = async () => {
     clearDrafts(session.user.id)
@@ -115,8 +145,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <SessionProvider value={session}>
-      <div className="min-h-dvh lg:grid lg:grid-cols-[15rem_1fr]">
-        <aside className="border-line bg-surface sticky top-0 hidden h-dvh flex-col gap-6 border-r p-4 lg:flex">
+      <div className={shellLayout}>
+        <aside className={sidebarLayout}>
           <Link href="/" className="px-2 pt-1">
             <Logo />
           </Link>
@@ -144,13 +174,18 @@ export function AppShell({ children }: { children: ReactNode }) {
         </aside>
 
         <div className="flex min-w-0 flex-col">
-          <header className="border-line bg-surface/95 sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b px-4 backdrop-blur-sm lg:hidden">
+          <header className={mobileHeaderLayout}>
             <Link href="/" aria-label={t('nav.home')}>
               <Logo className="h-9" />
             </Link>
             {account}
           </header>
           <main id="main" className={cn('flex-1', items.length > 1 && 'pb-20 lg:pb-0')}>
+            {me.isError ? (
+              <div className="px-4 pt-4">
+                <QueryFeedback query={me} />
+              </div>
+            ) : null}
             {children}
           </main>
         </div>

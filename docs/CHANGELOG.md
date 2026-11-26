@@ -15,6 +15,448 @@ Format:
 
 ---
 
+## 2026-11-27 — Web development membaca katalog produksi
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Web development memakai API produksi sebagai sumber katalog bawaan. `WEB_API_URL` menyediakan override
+  untuk pengujian API lain. Event analitik hanya dikirim di luar development.
+
+## 2026-11-27 — Pratinjau katalog dari repo utama
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Pratinjau lokal memakai direktori build terpisah agar bisa berjalan langsung dari repo yang sama.
+
+## 2026-11-26 — Lokasi toko pada peta Jelajah
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Angka di pusat desa hilang saat desa dipilih. Pin toko memakai koordinat publik yang tersedia.
+  UMKM yang belum membagikan lokasi tetap muncul di daftar. Pratinjau menyediakan dua titik fiktif di Baros.
+
+## 2026-11-26 — Pin peta terpecah saat diperbesar
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Grup desa langsung diperbesar ke tingkat yang memisahkan pin. Pin yang masih berimpit pada zoom maksimum
+  dipisahkan di sekitar titiknya. Saat desa dipilih, penanda UMKM menyebar dari pusat desa dan panel menampilkan
+  seluruh UMKM yang cocok dengan filter. Tiga kartu atau lebih bisa digeser mendatar, dan nama toko
+  dibatasi dua baris. Ukuran tombol tutup panel disamakan dengan tombol panah slider. Angka pada pin pusat
+  tetap terbaca saat pin di sekitarnya terbuka.
+
+## 2026-11-26 — Filter Jelajah yang bisa dicari
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Kabupaten/kota, desa, dan kategori bisa dicari dari sheet di mode daftar dan peta. Pilihan desa
+  mengikuti kabupaten/kota, dan teks pada tombol pilihan diposisikan di tengah secara vertikal.
+- Peta pratinjau menampilkan UMKM contoh di 27 desa dengan koordinat pusat desa.
+- Pin yang berdekatan bisa diketuk sebagai satu grup untuk memperbesar area. Zoom peta mendukung cubit,
+  gulir mouse, dan trackpad.
+
+## 2026-11-26 — Kontrol suara video Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Video contoh Anyaman Pak Ujang punya efek suara gesekan dan ketukan bambu. Tombol suara tersedia pada
+  cerita video dalam kedua bahasa situs.
+
+## 2026-11-26 — Video, teks, dan produk di Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Penampil Cerita mendukung foto, video vertikal, dan teks saja. Anyaman Pak Ujang punya video contoh sembilan
+  detik dan tautan ke produk besek yang masih tayang. Indikator PO dan toko buka dicontohkan di preview katalog.
+
+## 2026-11-26 — Placeholder foto produk lebih rapi
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Produk tanpa foto memakai latar lembut dan ikon kategori di tengah dengan ukuran terbatas. Placeholder mengikuti
+  bingkai foto di daftar, galeri, peta, dan saran pencarian.
+
+## 2026-11-26 — Direktori desa mitra
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Beranda menampilkan maksimal enam desa dan tautan **Lihat semua desa** dengan padding hover seimbang.
+  Direktori bilingual menampilkan 12 desa per halaman. Preview katalog berisi 27 desa, termasuk Desa Baros.
+
+## 2026-11-26 — Skeleton mengikuti struktur halaman
+
+- **Area**: apps/web, apps/dashboard, packages/ui
+- **Jenis**: Changed
+- Skeleton awal mengikuti grid, rasio galeri, baris daftar, dan susunan form yang tampil saat data siap.
+  Beranda menampilkan bagian yang sudah siap sambil menunggu tiap bagian katalog. Jelajah memakai bentuk
+  daftar atau peta sesuai mode yang dibuka.
+- Deret Cerita UMKM mulai dari kiri setelah refresh. Skeleton berukuran sama mengisi deret sampai riwayat
+  dilihat siap, sehingga kartu yang muncul pertama sudah sesuai urutan akhir.
+- Avatar desa memakai garis tipis. Desa tanpa logo terdaftar dapat memakai lambang kabupaten yang sesuai
+  dengan kode wilayahnya, termasuk Garut dan Sumedang.
+
+## 2026-11-26 — Kondisi data di situs publik dan dashboard
+
+- **Area**: apps/web, apps/dashboard, packages/ui
+- **Jenis**: Changed
+- Situs publik membedakan hasil kosong, gangguan data, halaman yang hilang, dan error tak terduga.
+  Beranda dan profil tetap menampilkan bagian yang berhasil dimuat. Pencarian dan peta menyediakan pemulihan sesuai konteks.
+- Dashboard menampilkan skeleton, pemulihan daftar dan detail, serta pesan sesi habis dan akses terbatas.
+  Gangguan muat ulang atau paginasi mempertahankan data yang sudah tersedia selama akses masih berlaku.
+- Kedua aplikasi memakai komponen status dan aset Nara yang sama untuk halaman dan kartu status.
+- Indikator koneksi tampil di kedua aplikasi. PWA yang sudah terpasang dapat menampilkan layar offline saat
+  navigasi gagal dan memuat ulang URL yang sama setelah tersambung. Terkait [PLAN-ui-states](plan/PLAN-ui-states.md).
+
+## 2026-11-26 — Nara, maskot Desanara untuk halaman status
+
+- **Area**: apps/web, packages/ui
+- **Jenis**: Added
+- Nara mengambil bentuk tunas padi dengan tas anyaman bambu. Tiga pose memberi konteks pada halaman
+  tidak ditemukan, gagal memuat hasil Jelajah, dan katalog atau hasil pencarian kosong.
+- Aset WebP transparan digunakan bersama pesan dan aksi dalam bahasa Indonesia dan Inggris.
+  Terkait [panduan maskot](brand/mascot.md).
+
+## 2026-11-26 — Jelajah menangani hasil kosong dan gagal muat
+
+- **Area**: apps/web, packages/ui
+- **Jenis**: Changed
+- Jelajah menampilkan skeleton saat memuat. Katalog kosong, pencarian tanpa hasil, dan halaman di luar
+  hasil pencarian punya pesan serta aksi yang sesuai dalam bahasa Indonesia dan Inggris.
+- Saat API produk bermasalah, pengguna bisa mencoba lagi tanpa kehilangan pencarian atau filter.
+  Dari mode peta, pengguna juga bisa kembali ke daftar. Terkait [PLAN-ui-states](plan/PLAN-ui-states.md).
+
+## 2026-11-26 — Urutan dan kontrol Cerita UMKM di Beranda
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Cerita yang belum dilihat tampil lebih dulu. Masing-masing kelompok diurutkan dari pembaruan terbaru,
+  dan status dilihat tersimpan di browser.
+- Cerita bisa digeser dengan jari atau diseret dengan mouse. Panah di desktop muncul saat penampil
+  di-hover atau panah mendapat fokus keyboard. Nama UMKM di kartu dan judul banner di HP lebih ringkas.
+- Label navigasi bawah tetap satu baris pada layar 320 px, termasuk label Pengaturan.
+
+## 2026-11-25 — Cerita UMKM berjalan otomatis
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Status maju setelah enam detik dan berlanjut ke UMKM berikutnya saat status terakhir satu usaha selesai.
+  Pembeli bisa menjeda lewat tombol atau dengan menahan foto. Penampil ditutup saat semua status dalam deret selesai.
+
+## 2026-11-24 — Satu UMKM bisa punya beberapa status
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Geser atau gunakan tombol panah untuk berpindah status dari UMKM yang sama. Kartu menyisakan
+  titik hijau sampai semua status dibuka.
+- Prototipe memuat 17 status untuk 11 UMKM, termasuk tiga status masing-masing untuk Dapur Bu Euis,
+  Kopi Baros, dan Anyaman Pak Ujang. Foto contoh memakai aset portrait beresolusi tinggi.
+
+## 2026-11-24 — Label contoh di Cerita UMKM disederhanakan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Deret dan penampil Cerita UMKM menampilkan foto, nama UMKM, desa, dan keterangan tanpa label contoh.
+
+## 2026-11-24 — Foto produk bisa dibuka layar penuh
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Galeri detail produk bisa digeser di HP, dipindah lewat tombol panah, dan dibuka layar penuh.
+  Penampil mempertahankan proporsi foto dan menyediakan thumbnail untuk langsung memilih foto lain.
+- Lingkaran tombol panah berukuran 32 px dengan area ketuk 44 px.
+
+## 2026-11-24 — Cerita UMKM contoh tampil di Beranda publik
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Sebelas cerita contoh bisa dibuka di Beranda produksi dalam bahasa Indonesia dan Inggris. Deret
+  dan penampil cerita menandai kontennya sebagai contoh. Harga dan tautan produk contoh tampil di
+  mode pratinjau katalog.
+
+## 2026-11-24 — Desanara bisa dipasang dari layar utama
+
+- **Area**: apps/web, packages/validators
+- **Jenis**: Added
+- Web publik bisa dipasang sebagai PWA dalam bahasa Indonesia atau Inggris. Di aplikasi terpasang,
+  gestur cubit pada halaman dibatasi dan peta tetap bisa diperbesar.
+- Pengaturan memuat pemasangan, izin, dan tes notifikasi sistem ke perangkat sendiri. Tes memakai Web
+  Push dan membutuhkan tiga variabel `WEB_PUSH_*` di server web. Terkait [PLAN-public-pwa](plan/PLAN-public-pwa.md).
+
+## 2026-11-24 — Label web publik lebih ringkas di HP
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Tombol pindah dari Peta ke Daftar memakai label satu baris dalam bahasa Indonesia dan Inggris.
+- Teks pencarian, filter, pemesanan, dan pengenalan Desanara memakai bahasa yang lebih sehari-hari.
+- Tautan publik yang salah menampilkan halaman 404 dalam bahasa yang sedang dipakai.
+- Alamat tanpa awalan selalu membuka bahasa Indonesia. Bahasa Inggris memakai `/en`, dan pilihan
+  bahasa di Pengaturan langsung membuka alamat yang sesuai.
+
+## 2026-11-24 — Saran pencarian dan desa contoh di katalog
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Pencarian menampilkan saran produk dan UMKM setelah dua karakter, dengan tautan ke halaman masing-masing.
+  Pencarian teks bebas dan filter tetap tersedia.
+- Pratinjau menampilkan tiga desa contoh dengan tautan ke UMKM dan produknya. Desa Baros tampil pertama
+  dengan logo, foto sampul, Kopi Baros, dan besek bambu. Lima produk contoh mendapat foto galeri tambahan.
+- Bojongsoang dan Mekarwangi memakai lambang Kabupaten Bandung dari portal Desa Mekarwangi.
+
+## 2026-11-24 — Radius web publik diseragamkan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Kartu, galeri, panel, banner, dan sudut atas filter memakai token radius kartu. Kontrol kotak kecil
+  dan thumbnail memakai radius 8 px. Tombol utama, pencarian, dan badge memakai bentuk pil.
+
+## 2026-11-24 — Ukuran judul bagian Beranda diseragamkan
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Judul Produk Desa Terbaru mengikuti skala yang sama dengan judul Cerita UMKM dan Belanja per Kategori.
+
+## 2026-11-24 — Scrollbar web publik disembunyikan
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Scrollbar halaman dan area gulir disembunyikan. Gestur sentuh, trackpad, dan navigasi keyboard tetap tersedia.
+
+## 2026-11-24 — Kartu foto portrait untuk Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Foto memenuhi kartu portrait bersudut lembut. Nama UMKM tampil di atas gradasi di bagian bawah foto.
+  Titik hijau dan tanda centang membedakan cerita baru dan cerita yang sudah dibuka.
+- Radius kartu cerita dan kartu produk di penampil mengikuti token radius kartu katalog.
+- Pratinjau memuat 11 cerita contoh untuk mencoba geser mendatar di HP dan desktop.
+
+## 2026-11-23 — Peta Jelajah untuk katalog publik
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Mode Peta tersedia di produksi. Pin memakai pusat desa dari API wilayah, dan jumlah UMKM mengikuti
+  hasil pencarian. Desa dengan kode kabupaten atau koordinat kosong tetap tersedia di daftar.
+
+## 2026-11-23 — Pratinjau web katalog di Vercel
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Vercel Preview dapat menampilkan katalog contoh, Cerita UMKM, peta, dan detail produk melalui
+  `DESANARA_UI_PREVIEW=1`. Deployment Production selalu mengambil katalog dari API.
+
+## 2026-11-23 — Cerita UMKM di atas Beranda
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Deret Cerita UMKM tampil di bawah pencarian dengan foto bulat yang bisa digeser. Cincin putus-putus
+  menandai cerita yang sudah dibuka selama halaman aktif.
+
+## 2026-11-23 — Ajakan daftar UMKM di Beranda
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Kartu ajakan UMKM memakai permukaan putih, ikon hijau lembut, dan tombol hijau utama HeroUI.
+
+## 2026-11-23 — Skala tipografi halaman publik
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Judul halaman, judul bagian, dan petunjuk pencarian memakai ukuran yang konsisten. Banner dan hero
+  Tentang memakai skala tersendiri. Judul nama produk, desa, dan UMKM dapat membungkus di layar sempit.
+
+## 2026-11-23 — Tipografi Jelajah lebih ringkas
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Judul halaman Daftar dan petunjuk di kolom pencarian Jelajah memakai ukuran teks yang lebih ringkas.
+
+## 2026-11-23 — Ringkasan hasil peta Jelajah lebih rapi
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Jumlah produk lebih menonjol dan keterangan pin diringkas. Di HP, keterangan memakai baris sendiri saat
+  tombol reset filter tampil.
+- Jarak di bawah toolbar memberi ruang untuk indikator fokus pencarian.
+
+## 2026-11-23 — Mode Peta memenuhi layar Jelajah
+
+- **Area**: apps/web
+- **Jenis**: Changed | Fixed
+- Peta mengisi layar di bawah pencarian dan filter. Tombol Kembali ke daftar membawa pencarian dan filter
+  aktif, termasuk saat hasil kosong. Detail desa muncul di bawah peta pada HP dan di samping pada desktop.
+- Gesture dua jari di atas peta dan pin mengubah zoom Leaflet. Zoom halaman tetap tersedia di luar area peta.
+
+## 2026-11-23 — Pin desa lebih ringkas di peta Jelajah
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Pin menampilkan jumlah UMKM dengan target sentuh 44 px dan warna hijau saat dipilih. Nama desa lengkap
+  dan jumlah pasti tetap tersedia di panel detail dan untuk pembaca layar.
+
+## 2026-11-23 — Atribusi peta lebih ringkas
+
+- **Area**: apps/web, apps/dashboard, packages/ui
+- **Jenis**: Changed
+- Kredit tile bawaan ditampilkan sebagai © OpenStreetMap dan tetap menaut ke halaman lisensi.
+
+## 2026-11-23 — Bottom sheet filter dan fokus input
+
+- **Area**: apps/web, packages/ui, docs
+- **Jenis**: Changed | Fixed
+- Wilayah, urutan, dan kategori di mode Peta dibuka dari bottom sheet HeroUI selebar layar. Tombol Filter
+  menunjukkan jumlah pilihan aktif. Pencarian dan mode tampilan tetap terbawa saat filter diterapkan.
+- Gaya fokus bersama menjadi cadangan untuk kontrol bawaan. Grup input HeroUI menampilkan satu indikator fokus
+  mengikuti bentuk grup, termasuk pada pencarian dan jumlah pesanan.
+
+## 2026-11-22 — Kontrol HeroUI yang lebih ringkas
+
+- **Area**: apps/web, apps/dashboard, docs
+- **Jenis**: Changed
+- Filter Jelajah memakai HeroUI `Select` dan `Disclosure` dengan kontrol lebih ringkas. Pencarian memakai
+  `InputGroup`. Pilihan filter tetap dikirim lewat URL dan dipakai bersama oleh Daftar serta Peta.
+- Tombol peta dan galeri, drawer menu HP, modal Cerita UMKM, serta jumlah dan catatan pesanan memakai komponen
+  HeroUI. Filter UMKM dan kontrol bagian bahasa Inggris di dashboard memakai `Tabs` dan `Button`.
+
+## 2026-11-22 — Hover navigasi bawah
+
+- **Area**: apps/web, docs
+- **Jenis**: Fixed
+- Sorotan hover mengikuti warna tab aktif dan berada di belakang ikon.
+
+## 2026-11-22 — Peta dasar aktual di Jelajah
+
+- **Area**: apps/web, apps/dashboard, packages/ui, docs, .env.example
+- **Jenis**: Changed
+- Peta Jelajah memakai Leaflet dan OpenStreetMap. Pembeli bisa menggeser serta memperbesar peta. Titik berisi
+  jumlah UMKM contoh pada pusat desa. Web dan dashboard memakai konfigurasi tile dan atribusi yang sama.
+- Bingkai awal peta memakai tingkat zoom yang lebih rapat agar titik desa tetap terpisah di layar HP sempit.
+
+## 2026-11-22 — Pratinjau mode Peta di Jelajah
+
+- **Area**: apps/web, docs
+- **Jenis**: Added
+- Mode Daftar dan Peta memakai pencarian serta filter yang sama dalam pratinjau lokal. Titik ilustrasi menampilkan
+  jumlah UMKM per desa. Memilih titik membuka hasil desa dan tautan ke detail produk atau daftar yang sudah difilter.
+
+## 2026-11-22 — Pratinjau Cerita UMKM dengan data mock
+
+- **Area**: apps/web, docs, .env.example
+- **Jenis**: Added | Changed
+- Pratinjau beranda, Jelajah, Cerita UMKM, dan detail produk memakai data dan foto lokal. Cerita tampil di bawah
+  dua kartu produk dan bisa dibuka layar penuh. Pembeli bisa berpindah cerita dan membuka detail produk terkait.
+- Detail produk menempatkan tombol WhatsApp setelah asal desa dan penjual. Di pratinjau, tombol menampilkan
+  contoh pesan. Jumlah dan catatan pesanan tersedia di bagian yang bisa dibuka.
+
+## 2026-11-22 — Katalog mobile-first
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Beranda menempatkan produk terbaru di bawah pencarian dan memakai deret kategori yang bisa digeser di HP.
+- Jelajah mempertahankan pencarian dan filter aktif. Detail produk menampilkan asal desa dan penjual sebelum
+  pengaturan pesanan, dengan tombol WhatsApp di atas navigasi bawah.
+
+## 2026-11-22 — Draft Cerita UMKM dan mockup Peta
+
+- **Area**: docs
+- **Jenis**: Added
+- Draft [Cerita UMKM](plan/PLAN-cerita-umkm.md) merinci alur pembeli, penerbitan, dan izin. Mockup
+  [mode Daftar dan Peta](plan/assets/peta-umkm-mockup.png) menggambarkan pengelompokan hasil per desa.
+- Rencana pilot Peta dan Cerita UMKM menargetkan Rp0 biaya layanan tambahan, dengan sumber tile yang dapat
+  dikonfigurasi dan penyimpanan foto kompatibel S3 agar keduanya bisa di-host sendiri.
+
+## 2026-11-22 — Mockup Cerita UMKM
+
+- **Area**: docs
+- **Jenis**: Added
+- Mockup alur pembeli dari beranda ke cerita dan produk tersedia untuk ditinjau di
+  [aset rencana](plan/assets/cerita-umkm-mockup.png).
+
+## 2026-11-22 — Menu kategori dan fokus pencarian
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Menu kategori memakai satu panel dengan ikon pada bidang warna lembut dan label di bawah ikon. Fokus pada
+  kolom pencarian menggunakan garis di tepi pill.
+
+## 2026-11-22 — Navigasi bawah dan pengaturan bahasa
+
+- **Area**: apps/web, docs
+- **Jenis**: Added
+- Navigasi HP menyediakan tab Beranda, Produk, Desa, dan Pengaturan. Pilihan bahasa Indonesia dan Inggris ada di
+  halaman Pengaturan. Tombol pesan WhatsApp berada tepat di atas navigasi pada halaman produk.
+- Foto produk di beranda HP memakai rasio 4:3 agar harga lebih cepat terlihat.
+- Enam kategori tampil dalam grid yang seimbang, dengan ikon dan ukuran tombol seragam.
+
+## 2026-11-22 — Latar beranda dan footer lebih terang
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Latar beranda dan header memakai krem yang lebih dekat ke putih. Teks petunjuk pencarian dibuat lebih gelap,
+  dan ilustrasi desktop memudar lebih awal agar judul lebih mudah dibaca.
+- Footer situs publik memakai latar putih dengan garis pemisah tipis.
+
+## 2026-11-22 — Beranda mengikuti mockup Desanara
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Beranda memakai ilustrasi sawah dengan susunan banner sesuai mockup HP dan laptop. Pencarian, ikon kategori, dan
+  produk dua kolom dipadatkan agar produk desa terlihat lebih cepat di HP.
+- Terkait: PLAN-rebranding-v2.md, PLAN-public-structure.md
+
+## 2026-11-21 — Penyegaran visual beranda katalog Desanara
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Beranda menampilkan tagline resmi di bidang krem dengan foto desa terpisah. Kategori memakai warna palet Desanara
+  dan kartu produk menempatkan asal desa, nama penjual, dan harga pada baris terpisah agar mudah dipindai.
+- Terkait: PLAN-rebranding-v2.md
+
+## 2026-11-21 — Beranda berfokus pada katalog pembeli
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Beranda menampilkan pencarian, banner desa, kategori berikon, produk terbaru, dan desa mitra. Menu HP membuka
+  navigasi dan pilihan bahasa. Hero pengenalan dan cara pesan pindah ke halaman Tentang.
+- Tautan Daftarkan UMKM membuka bagian kontak di `/tentang#gabung` selama halaman pendaftaran disiapkan.
+
+## 2026-11-21 — Rencana struktur halaman publik
+
+- **Area**: docs
+- **Jenis**: Added
+- Rencana baru mengikuti pola marketplace pada umumnya: beranda `desanara.app` fokus ke katalog untuk pembeli
+  (pencarian, banner, kategori berikon, produk), pengenalan Desanara pindah ke `/tentang`, dan landing untuk penjual di
+  `/gabung` (sekaligus tempat formulir pendaftaran PR 2). Tidak ada subdomain baru.
+- Terkait: PLAN-public-structure.md
+
+## 2026-11-21 — Beranda dibuka dengan hero bergaya splash screen
+
+- **Area**: apps/web, docs
+- **Jenis**: Changed
+- Bagian atas beranda kini mengikuti layar pembuka di mockup papan brand. Di HP: logo vertikal, ilustrasi desa
+  (matahari, bukit, sawah berundak, rumah, pohon), judul "Karya Desa, untuk Indonesia.", lalu tombol "Jelajahi
+  Sekarang" dan "Daftarkan UMKM". Di layar lebar: teks di kiri, ilustrasi di kanan. Ilustrasinya SVG inline dengan
+  warna brand, tanpa file tambahan, dengan satu animasi naik halus saat dibuka (mati bila pengguna memilih gerak
+  dikurangi). Splash tidak memblokir halaman, jadi link produk dari WhatsApp tetap langsung ke produk.
+- Tombol "Daftarkan UMKM" sementara mengarah ke bagian baru "Punya usaha di desa? Daftarkan UMKM-mu" di halaman Tentang
+  (hubungi admin desa atau HIMASIF lewat Instagram), sampai pendaftaran mandiri `/gabung` selesai.
+- Terkait: PLAN-rebranding-v2.md
+
+## 2026-11-21 — Font Montserrat di semua aplikasi, panduan brand & UX v1.3
+
+- **Area**: apps/web, apps/dashboard, apps/api, packages/ui, docs
+- **Jenis**: Changed
+- Font platform berganti dari Plus Jakarta Sans ke Montserrat, satu keluarga dengan wordmark logo. Dimuat lewat
+  `next/font` sebagai font variabel (satu file untuk semua ketebalan). Dashboard sebelumnya belum memuat font sama sekali
+  dan jatuh ke font sistem; sekarang ikut memuat Montserrat. Halaman login dokumentasi API juga ikut diganti. Font judul
+  pilihan desa (ADR 0007) tetap berlaku di halaman desa.
+- Semua hex brand mengikuti file SVG desainer. Token `sprout` (Tunas) berubah dari `#9dd853` ke `#9dd950`, ujung terang
+  gradasi logo, dengan teks gelap 10,4:1. Label `#109C4F` di brand sheet tidak dipakai karena warna kotaknya dan gradasi
+  logo sama-sama `#387b4c`.
+- Panduan brand dan UX lintas generasi (`docs/plan/PLAN-rebranding-v2.md`, versi 1.3) disesuaikan dengan logo daun,
+  palet dari SVG, dan Montserrat. Dua segmen pengguna (penjual dan pengurus desa, serta pembeli) dan prinsip "familiar
+  dulu" dari versi 1.2 tetap.
+- Terkait: PLAN-rebranding-v2.md
+
 ## 2026-11-20 — Logo baru Desanara dan warna utama mengikuti logo
 
 - **Area**: apps/web, apps/dashboard, apps/api, packages/ui, packages/email, docs

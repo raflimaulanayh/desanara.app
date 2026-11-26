@@ -1,152 +1,282 @@
+import { buttonVariants } from '@heroui/styles'
+import { BRAND_NAME } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
-import { ArrowRight, BadgeCheck, GraduationCap, HandCoins } from 'lucide-react'
+import { LoadingRegion } from '@repo/ui/components/loading-region'
+import { ArrowRight, Store } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { ProductGrid } from '@/components/product-card'
-import { SearchForm } from '@/components/search-form'
-import { VillageCard } from '@/components/village-card'
+import { Suspense } from 'react'
+import type { ComponentProps } from 'react'
+import { CatalogueState, CatalogueUnavailable } from '@/components/catalogue-state'
+import { CategoryGrid, CategoryGridSkeleton } from '@/components/home/category-grid'
+import { HomeBanner } from '@/components/home/home-banner'
+import { StoryRail } from '@/components/home/story-rail'
+import { ProductGrid, ProductGridSkeleton } from '@/components/product-card'
+import { VillageGrid, VillageGridSkeleton } from '@/components/village-card'
 import { Link } from '@/i18n/navigation'
-import { getCategories, getVillages, searchProducts } from '@/lib/data'
+import {
+  isCataloguePreview,
+  previewCategories,
+  previewProducts,
+  previewStoryAccounts,
+} from '@/lib/catalogue-preview'
+import {
+  getCategories,
+  getStoryProduct,
+  getVillages,
+  readSection,
+  searchProducts,
+} from '@/lib/data'
 import { pick } from '@/lib/localize'
-import { localePath } from '@/lib/paths'
+import { mediaUrl } from '@/lib/media'
+import { JOIN_HREF, VILLAGES_HASH, VILLAGES_PATH } from '@/lib/paths'
+import type { StoryProduct } from '@/lib/story-order'
 
 export const revalidate = 300
-
-const TRUST = [
-  ['verified', BadgeCheck],
-  ['direct', HandCoins],
-  ['mentored', GraduationCap],
-] as const
+const homeVillageLimit = 6
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
-  const [t, villages, latest, categories] = await Promise.all([
+  const preview = isCataloguePreview()
+  const villages = readSection(getVillages())
+  const products = preview
+    ? Promise.resolve(previewProducts.slice(0, 4))
+    : readSection(searchProducts({ sort: 'newest', pageSize: 4 }).then((page) => page.data))
+  const categories = preview ? Promise.resolve(previewCategories) : readSection(getCategories())
+  const storyProducts = preview ? undefined : loadStoryProducts(locale)
+  const [t, states, storyText] = await Promise.all([
     getTranslations('home'),
-    getVillages(),
-    searchProducts({ sort: 'newest', pageSize: 8 }),
-    getCategories(),
+    getTranslations('states'),
+    getTranslations('stories.captions'),
   ])
+  const storyAccounts = previewStoryAccounts.map((account) => ({
+    ...account,
+    stories: account.stories.map(
+      ({ id, product, image, video, caption, publishedAt, status, catalogueSlug }) => ({
+        id,
+        image,
+        video,
+        caption: storyText(caption),
+        publishedAt,
+        status: preview ? status : undefined,
+        catalogueSlug: preview ? undefined : catalogueSlug,
+        product: preview
+          ? {
+              slug: product.slug,
+              name: pick(locale, product.name, product.nameEn),
+              price: product.price,
+              compareAtPrice: product.compareAtPrice,
+              image: mediaUrl(product.imageKey, true),
+            }
+          : undefined,
+      }),
+    ),
+  }))
 
   return (
-    <>
-      <section className="bg-wash">
-        <Container className="py-10 sm:py-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-[clamp(2rem,6.5vw,3.5rem)] leading-[1.08] font-extrabold tracking-tight text-balance">
-              {t('heroTitle')}
-            </h1>
-            <p className="text-muted mx-auto mt-4 max-w-[56ch] text-base text-pretty sm:text-lg">
-              {t('heroSubtitle')}
-            </p>
-            <SearchForm
-              size="lg"
-              className="mx-auto mt-7 max-w-xl max-md:hidden"
-              action={localePath(locale, '/jelajah')}
-              placeholder={t('searchPlaceholder')}
-            />
-          </div>
-          {categories.length > 0 ? (
-            <div className="mx-auto mt-8 max-w-3xl">
-              <h2 className="sr-only">{t('categoriesTitle')}</h2>
-              <ul className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0">
-                {categories.map((c) => (
-                  <li key={c.slug} className="shrink-0">
-                    <Link
-                      href={`/jelajah?category=${c.slug}`}
-                      className="border-line-strong bg-surface hover:border-accent hover:text-accent inline-flex h-11 items-center rounded-full border px-4 text-sm font-semibold transition-colors"
-                    >
-                      {pick(locale, c.name, c.nameEn)}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </Container>
-      </section>
-
-      <section className="pt-12">
+    <div className="catalogue-home pb-10 sm:pb-14">
+      <h1 className="sr-only">{BRAND_NAME}</h1>
+      <StoryRail accounts={storyAccounts} products={storyProducts} />
+      <section aria-labelledby="latest-products" className="pt-3 sm:pt-7">
         <Container>
-          <div className="flex items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
-                {t('villagesTitle')}
-              </h2>
-              <p className="text-muted mt-1 text-sm sm:text-base">{t('villagesAside')}</p>
-            </div>
-          </div>
-          {villages.length === 0 ? (
-            <p className="text-muted mt-6">{t('villagesEmpty')}</p>
-          ) : (
-            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {villages.slice(0, 6).map((v) => (
-                <li key={v.id}>
-                  <VillageCard village={v} />
-                </li>
-              ))}
-            </ul>
-          )}
-        </Container>
-      </section>
-
-      <section className="pt-14">
-        <Container>
-          <div className="flex items-end justify-between gap-4">
-            <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">
+          <div className="flex items-center justify-between gap-2">
+            <h2 id="latest-products" className="section-title">
               {t('latestTitle')}
             </h2>
             <Link
               href="/jelajah"
-              className="text-accent inline-flex h-11 items-center gap-1.5 text-sm font-bold hover:underline"
+              className="text-accent hover:bg-accent/8 -mr-1.5 inline-flex min-h-11 shrink-0 items-center gap-1 rounded-full px-1.5 text-xs font-bold transition-colors sm:px-3 sm:text-sm"
             >
-              {t('seeAll')}
-              <ArrowRight className="size-4" aria-hidden />
+              <span className="sr-only sm:not-sr-only">{t('seeAll')}</span>
+              <ArrowRight className="size-4 shrink-0" aria-hidden />
             </Link>
           </div>
-          <div className="mt-6">
-            {latest.data.length === 0 ? (
-              <p className="text-muted">{t('latestEmpty')}</p>
-            ) : (
-              <ProductGrid products={latest.data} />
-            )}
+          <div className="catalogue-latest mt-1.5 sm:mt-3">
+            <Suspense
+              fallback={
+                <LoadingRegion label={states('loading')}>
+                  <ProductGridSkeleton showSeller={false} />
+                </LoadingRegion>
+              }
+            >
+              <LatestProducts
+                request={products}
+                preview={preview}
+                emptyTitle={t('latestEmpty')}
+                emptyBody={states('tryLater')}
+              />
+            </Suspense>
           </div>
         </Container>
       </section>
 
-      <section className="pt-16">
+      <Suspense
+        fallback={<CategoryGridSkeleton title={t('categoriesTitle')} label={states('loading')} />}
+      >
+        <HomeCategories request={categories} title={t('categoriesTitle')} />
+      </Suspense>
+      <Suspense fallback={<HomeBanner />}>
+        <FeaturedBanner request={villages} preview={preview} />
+      </Suspense>
+
+      <section
+        id={VILLAGES_HASH}
+        aria-labelledby="villages-title"
+        className="scroll-mt-32 pt-8 sm:pt-12 lg:scroll-mt-20"
+      >
         <Container>
-          <ul className="bg-wash grid gap-6 rounded-3xl p-6 sm:p-8 md:grid-cols-3">
-            {TRUST.map(([k, Icon]) => (
-              <li key={k} className="flex gap-4">
-                <span className="bg-accent-soft text-accent-soft-foreground grid size-11 shrink-0 place-items-center rounded-full">
-                  <Icon className="size-5" aria-hidden />
-                </span>
-                <div>
-                  <h3 className="font-bold">{t(`trust.${k}.title`)}</h3>
-                  <p className="text-muted mt-1 text-sm leading-relaxed">{t(`trust.${k}.body`)}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div className="flex items-center justify-between gap-2">
+            <h2 id="villages-title" className="section-title">
+              {t('villagesTitle')}
+            </h2>
+            <Link
+              href={VILLAGES_PATH}
+              className="text-accent hover:bg-accent/8 inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-bold whitespace-nowrap transition-colors sm:px-4 sm:text-sm"
+            >
+              {t('seeAllVillages')} <ArrowRight className="size-4 shrink-0" aria-hidden />
+            </Link>
+          </div>
+          <div className="mt-4">
+            <Suspense
+              fallback={
+                <LoadingRegion label={states('loading')}>
+                  <VillageGridSkeleton count={homeVillageLimit} />
+                </LoadingRegion>
+              }
+            >
+              <HomeVillages
+                request={villages}
+                emptyTitle={t('villagesEmpty')}
+                emptyBody={states('tryLater')}
+              />
+            </Suspense>
+          </div>
         </Container>
       </section>
 
-      <section className="pt-14">
+      <section aria-labelledby="seller-title" className="pt-8 sm:pt-12">
         <Container>
-          <h2 className="text-2xl font-extrabold tracking-tight sm:text-3xl">{t('howTitle')}</h2>
-          <ol className="mt-6 grid gap-4 md:grid-cols-3">
-            {(['1', '2', '3'] as const).map((n) => (
-              <li key={n} className="border-line rounded-(--radius) border p-5">
-                <span className="bg-accent text-accent-foreground grid size-8 place-items-center rounded-full text-sm font-bold">
-                  {n}
-                </span>
-                <p className="mt-3 font-bold">{t(`how.${n}.title`)}</p>
-                <p className="text-muted mt-1 text-sm leading-relaxed">{t(`how.${n}.body`)}</p>
-              </li>
-            ))}
-          </ol>
+          <div className="border-line bg-surface flex flex-col gap-4 rounded-(--radius) border p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
+            <div className="flex min-w-0 items-start gap-3">
+              <span className="bg-accent-soft text-accent-soft-foreground grid size-9 shrink-0 place-items-center rounded-(--radius)">
+                <Store className="size-4" aria-hidden />
+              </span>
+              <div className="min-w-0">
+                <h2 id="seller-title" className="section-title">
+                  {t('sellerTitle')}
+                </h2>
+                <p className="text-muted mt-1 max-w-[52ch] text-sm leading-relaxed">
+                  {t('sellerBody')}
+                </p>
+              </div>
+            </div>
+            <Link
+              href={JOIN_HREF}
+              className={buttonVariants({
+                variant: 'primary',
+                className:
+                  'h-auto min-h-11 w-full rounded-full px-4 py-2 text-center font-semibold whitespace-normal sm:w-auto sm:shrink-0',
+              })}
+            >
+              {t('sellerCta')}
+              <ArrowRight className="size-4 shrink-0" aria-hidden />
+            </Link>
+          </div>
         </Container>
       </section>
-    </>
+    </div>
+  )
+}
+
+async function loadStoryProducts(locale: string): Promise<Record<string, StoryProduct>> {
+  const slugs = new Set(
+    previewStoryAccounts.flatMap(({ stories }) =>
+      stories.flatMap(({ catalogueSlug }) => (catalogueSlug ? [catalogueSlug] : [])),
+    ),
+  )
+  const products = await Promise.all([...slugs].map((slug) => getStoryProduct(slug)))
+  return Object.fromEntries(
+    products.flatMap((product) =>
+      product
+        ? [
+            [
+              product.slug,
+              {
+                slug: product.slug,
+                name: pick(locale, product.name, product.nameEn),
+                price: product.price,
+                compareAtPrice: product.compareAtPrice,
+                image: mediaUrl(product.images[0]?.key),
+              },
+            ],
+          ]
+        : [],
+    ),
+  )
+}
+
+type VillagesRequest = Promise<Awaited<ReturnType<typeof getVillages>> | null>
+
+async function FeaturedBanner({
+  request,
+  preview,
+}: {
+  request: VillagesRequest
+  preview: boolean
+}) {
+  const villages = await request
+  const featured = preview
+    ? villages?.[0]
+    : villages?.toSorted((a, b) => b.businessCount - a.businessCount)[0]
+  return <HomeBanner villageSlug={featured?.slug} />
+}
+
+async function HomeVillages({
+  request,
+  emptyTitle,
+  emptyBody,
+}: {
+  request: VillagesRequest
+  emptyTitle: string
+  emptyBody: string
+}) {
+  const villages = await request
+  if (!villages) return <CatalogueUnavailable />
+  if (!villages.length) return <CatalogueState title={emptyTitle} description={emptyBody} compact />
+
+  return <VillageGrid villages={villages.slice(0, homeVillageLimit)} />
+}
+
+async function LatestProducts({
+  request,
+  preview,
+  emptyTitle,
+  emptyBody,
+}: {
+  request: Promise<Awaited<ReturnType<typeof searchProducts>>['data'] | null>
+  preview: boolean
+  emptyTitle: string
+  emptyBody: string
+}) {
+  const products = await request
+  if (!products) return <CatalogueUnavailable />
+  if (!products.length) return <CatalogueState title={emptyTitle} description={emptyBody} compact />
+  return <ProductGrid products={products} preview={preview} showSeller={false} />
+}
+
+async function HomeCategories({
+  request,
+  title,
+}: {
+  request: Promise<ComponentProps<typeof CategoryGrid>['categories'] | null>
+  title: string
+}) {
+  const categories = await request
+  if (categories) return <CategoryGrid categories={categories} />
+  return (
+    <Container className="space-y-3 pt-7 sm:pt-9">
+      <h2 className="section-title">{title}</h2>
+      <CatalogueUnavailable />
+    </Container>
   )
 }

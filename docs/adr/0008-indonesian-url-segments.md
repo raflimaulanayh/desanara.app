@@ -14,6 +14,8 @@ with Indonesian slugs (`/id/villages/baros/keripik-bu-ani`) reads oddly to the m
   `/produk/[product]`, `/tentang`.
 - next-intl `localePrefix: 'as-needed'`: Indonesian (default) has no prefix (`/desa/baros`); English uses `/en`
   (`/en/desa/baros`).
+- The URL determines the locale. Browser language preferences and previous locale cookies do not redirect
+  Indonesian URLs. The language setting links to the canonical URL for each locale.
 - Old URLs (`/id/...`, `/villages/...`, `/products/...`, `/explore`, `/about`) permanently redirect (308) to the new ones.
 - API paths are unchanged (`/v1/villages`, `/v1/products`): they are a code contract, not public URLs.
 - Code identifiers stay English (`village`, `business`, `product`); only route folders and URLs change.

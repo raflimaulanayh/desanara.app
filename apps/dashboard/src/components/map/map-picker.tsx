@@ -1,5 +1,7 @@
 'use client'
 
+import { SkeletonBlock } from '@repo/ui/components/loading-region'
+
 import { Button } from '@heroui/react'
 import { ExternalLink, LocateFixed, MapPinOff } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -15,11 +17,16 @@ import {
   initialView,
   readGps,
 } from '@/lib/map'
+import { dashboardMapFrame } from './map-frame'
 
 /** Leaflet (~40 KB gzip + CSS) loads only when a map is on screen. Same height while loading. */
 const LeafletMap = dynamic(() => import('./leaflet-map'), {
   ssr: false,
-  loading: () => <div className="bg-wash h-72 w-full animate-pulse rounded-xl sm:h-96" />,
+  loading: () => (
+    <div aria-hidden>
+      <SkeletonBlock className={dashboardMapFrame} />
+    </div>
+  ),
 })
 
 /**

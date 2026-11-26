@@ -1,18 +1,22 @@
 import { formatRupiah } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
-import { ChevronRight, MapPin, Store } from 'lucide-react'
+import { ArrowLeft, ChevronRight, MapPin, Store } from 'lucide-react'
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import type { ReactNode } from 'react'
+import { CatalogueUnavailable } from '@/components/catalogue-state'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
 import { ProductGallery } from '@/components/product-gallery'
 import { Price } from '@/components/price'
+import { productDetailLayout } from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
-import { VillageLogo } from '@/components/village-logo'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
-import { getBusiness, getProduct } from '@/lib/data'
+import { getPreviewProduct, isCataloguePreview } from '@/lib/catalogue-preview'
+import { getBusiness, getProduct, readSection } from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -25,15 +29,19 @@ type Params = Promise<{ locale: string; product: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, product: slug } = await params
+  const preview = isCataloguePreview()
   const [p, t] = await Promise.all([
-    getProduct(slug),
+    preview ? getPreviewProduct(slug)?.product : readSection(getProduct(slug)),
     getTranslations({ locale, namespace: 'product' }),
   ])
+  if (p === undefined) notFound()
+  if (p === null) return {}
   const name = pick(locale, p.name, p.nameEn)
-  const image = mediaUrl(p.images[0]?.key)
+  const image = mediaUrl(p.images[0]?.key, preview)
   const price = p.price === 0 ? t('free') : formatRupiah(p.price, asLocale(locale))
   return {
     title: `${name} · ${p.business.name}`,
+    robots: preview ? { index: false, follow: false } : undefined,
     alternates: pageAlternates(`/produk/${slug}`, locale),
     description:
       `${price} — ${p.business.name}, ${p.village.name}. ${pick(locale, p.description ?? '', p.descriptionEn)}`.trim(),
@@ -41,15 +49,39 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   }
 }
 
+async function loadProduct(slug: string, preview: boolean) {
+  if (preview) {
+    const entry = getPreviewProduct(slug)
+    if (!entry) notFound()
+    return entry
+  }
+  const product = await getProduct(slug)
+  return { product, business: await getBusiness(product.business.slug) }
+}
+
+function OriginRow({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="hover:bg-wash flex min-h-12 items-center gap-3 py-2 transition-colors"
+    >
+      {children}
+      <ChevronRight className="text-muted size-4 shrink-0" aria-hidden />
+    </Link>
+  )
+}
+
 export default async function ProductPage({ params }: { params: Params }) {
   const { locale, product: slug } = await params
   setRequestLocale(locale)
-  const [t, tb, product] = await Promise.all([
+  const preview = isCataloguePreview()
+  const [t, tb, data] = await Promise.all([
     getTranslations('product'),
     getTranslations('business'),
-    getProduct(slug),
+    readSection(loadProduct(slug, preview)),
   ])
-  const business = await getBusiness(product.business.slug)
+  if (!data) return <CatalogueUnavailable fullPage />
+  const { product, business } = data
   const loc = asLocale(locale)
   const name = pick(locale, product.name, product.nameEn)
   const description = pick(locale, product.description ?? '', product.descriptionEn)
@@ -59,10 +91,23 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   return (
     <VillageTheme theme={village.theme}>
-      <TrackView event={{ type: 'product_view', productSlug: product.slug }} />
-      {/* pb reserves room for the sticky order bar on phones */}
-      <Container className="pt-5 pb-28 lg:pb-12">
-        <nav aria-label="Breadcrumb" className="text-muted text-sm">
+      {preview ? null : <TrackView event={{ type: 'product_view', productSlug: product.slug }} />}
+      <Container className={productDetailLayout.container}>
+        <div className={productDetailLayout.titleBar}>
+          <Link
+            href={preview ? '/' : '/jelajah'}
+            aria-label={t(preview ? 'backToHome' : 'backToProducts')}
+            className="hover:bg-accent/8 -ml-2 grid size-11 place-items-center rounded-full"
+          >
+            <ArrowLeft className="size-5" aria-hidden />
+          </Link>
+          <p className="text-center text-base font-bold">{t('detailTitle')}</p>
+        </div>
+        <nav
+          aria-label={t('breadcrumb')}
+          className="text-muted hidden text-sm lg:block"
+          hidden={preview}
+        >
           <ol className="flex flex-wrap items-center gap-x-1.5">
             <li>
               <Link href={`/desa/${village.slug}`} className="hover:text-accent font-medium">
@@ -81,83 +126,60 @@ export default async function ProductPage({ params }: { params: Params }) {
           </ol>
         </nav>
 
-        <div className="mt-4 grid gap-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+        <div className={productDetailLayout.grid}>
           <ProductGallery
-            photos={photos.map((img) => ({ src: mediaUrl(img?.key), alt: img?.alt ?? name }))}
+            photos={photos.map((img) => ({
+              src: mediaUrl(img?.key, preview),
+              alt: img?.alt ?? name,
+            }))}
             category={product.category?.slug}
           />
 
-          <div className="flex flex-col gap-5">
+          <div className={productDetailLayout.details}>
             <div>
-              <h1 className="font-village text-[clamp(1.6rem,5vw,2.4rem)] leading-tight font-extrabold tracking-tight text-balance">
-                {name}
-              </h1>
-              <p className="mt-3">
+              <h1 className="page-title lg:font-village text-balance">{name}</h1>
+              <p className="mt-1.5 lg:mt-3">
                 <Price
                   price={product.price}
                   compareAtPrice={product.compareAtPrice}
-                  className="text-3xl font-extrabold tabular-nums"
-                  strikeClassName="text-lg"
+                  className="product-detail-price text-xl font-bold tabular-nums sm:text-2xl"
+                  strikeClassName="text-sm"
                   showBadge
                 />
               </p>
               {product.category ? (
-                <p className="text-muted mt-1 text-sm">
+                <p className="text-muted mt-1 hidden text-sm lg:block">
                   {pick(locale, product.category.name, product.category.nameEn)}
                 </p>
               ) : null}
             </div>
 
-            <OrderPanel
-              product={{
-                slug: product.slug,
-                name: product.name,
-                price: product.price,
-                compareAtPrice: product.compareAtPrice,
-              }}
-              businessName={business.name}
-              businessSlug={business.slug}
-              villageName={village.name}
-              whatsappNumber={business.whatsappNumber}
-              productUrl={`${webUrl}${localePath(locale, `/produk/${product.slug}`)}`}
-              available={product.isAvailable}
-            />
-
-            {/* The village is the differentiator: origin card right under the action */}
-            <section className="border-line overflow-hidden rounded-(--radius) border">
-              <Link
-                href={`/desa/${village.slug}`}
-                className="hover:bg-wash flex items-center gap-3 p-4 transition-colors"
-              >
-                <VillageLogo
-                  name={village.name}
-                  logoUrl={mediaUrl(village.logoKey)}
-                  accent="var(--accent)"
-                  size={52}
+            <section aria-label={t('origin')} className="divide-line divide-y">
+              <OriginRow href={`/desa/${village.slug}`}>
+                <MapPin
+                  className="lg:text-accent size-5 shrink-0 text-(--catalogue-accent)"
+                  aria-hidden
                 />
                 <div className="min-w-0 flex-1">
-                  <p className="text-muted text-xs font-semibold">{t('fromVillage')}</p>
-                  <p className="font-village truncate text-lg font-extrabold">{village.name}</p>
+                  <p className="text-muted sr-only text-xs font-semibold lg:not-sr-only">
+                    {t('fromVillage')}
+                  </p>
+                  <p className="lg:font-village text-base font-semibold wrap-break-word">
+                    {village.name}
+                  </p>
                   {village.regionName ? (
-                    <p className="text-muted flex items-center gap-1 text-sm">
-                      <MapPin className="size-3.5" aria-hidden />
-                      {village.regionName}
-                    </p>
+                    <p className="text-muted hidden text-sm lg:block">{village.regionName}</p>
                   ) : null}
                 </div>
-                <ChevronRight className="text-muted size-5" aria-hidden />
-              </Link>
-              <Link
-                href={`/desa/${village.slug}/${business.slug}`}
-                className="border-line hover:bg-wash flex items-center gap-3 border-t p-4 transition-colors"
-              >
-                <span className="bg-wash-strong text-muted grid size-[52px] shrink-0 place-items-center rounded-full">
-                  <Store className="size-5" aria-hidden />
-                </span>
+              </OriginRow>
+              <OriginRow href={`/desa/${village.slug}/${business.slug}`}>
+                <Store className="text-muted size-5 shrink-0" aria-hidden />
                 <div className="min-w-0 flex-1">
-                  <p className="text-muted text-xs font-semibold">{t('by')}</p>
-                  <p className="truncate font-bold">{business.name}</p>
-                  <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <p className="text-muted sr-only text-xs font-semibold lg:not-sr-only">
+                    {t('by')}
+                  </p>
+                  <p className="text-base font-semibold wrap-break-word">{business.name}</p>
+                  <div className="flex flex-wrap items-center gap-2" hidden={preview}>
                     {business.verifiedAt ? (
                       <VerifiedBadge
                         title={tb('verifiedOn', {
@@ -177,13 +199,28 @@ export default async function ProductPage({ params }: { params: Params }) {
                     />
                   </div>
                 </div>
-                <ChevronRight className="text-muted size-5" aria-hidden />
-              </Link>
+              </OriginRow>
             </section>
+
+            <OrderPanel
+              product={{
+                slug: product.slug,
+                name: product.name,
+                price: product.price,
+                compareAtPrice: product.compareAtPrice,
+              }}
+              businessName={business.name}
+              businessSlug={business.slug}
+              villageName={village.name}
+              whatsappNumber={business.whatsappNumber}
+              productUrl={`${webUrl}${localePath(locale, `/produk/${product.slug}`)}`}
+              available={product.isAvailable}
+              preview={preview}
+            />
 
             {description ? (
               <section>
-                <h2 className="text-lg font-extrabold">{t('description')}</h2>
+                <h2 className="section-title">{t('description')}</h2>
                 <p className="mt-2 max-w-[68ch] leading-relaxed whitespace-pre-line">
                   {description}
                 </p>
@@ -194,9 +231,7 @@ export default async function ProductPage({ params }: { params: Params }) {
 
         {product.more.length > 0 ? (
           <section className="mt-12">
-            <h2 className="text-xl font-extrabold">
-              {t('moreTitle', { business: business.name })}
-            </h2>
+            <h2 className="section-title">{t('moreTitle', { business: business.name })}</h2>
             <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
               {product.more.map((m) => (
                 <li key={m.slug}>
@@ -211,7 +246,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                       <Price
                         price={m.price}
                         compareAtPrice={m.compareAtPrice}
-                        className="font-extrabold tabular-nums"
+                        className="font-bold tabular-nums"
                         strikeClassName="text-xs"
                       />
                     </span>

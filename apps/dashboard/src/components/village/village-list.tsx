@@ -3,6 +3,11 @@
 import { Button, Chip, SearchField } from '@heroui/react'
 import { can } from '@repo/auth/permissions'
 import { Container } from '@repo/ui/components/container'
+import { EmptyState } from '@repo/ui/components/empty-state'
+import { StatusMascot } from '@repo/ui/components/status-mascot'
+import { LoadMore, QueryFeedback } from '@/components/query-feedback'
+import { VillageRowsSkeleton, villageRowLayout } from '@/components/dashboard-skeletons'
+import { readableData } from '@/lib/api-errors'
 import { ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -24,7 +29,7 @@ export function VillageList() {
   const [search, setSearch] = useState('')
   const q = useDebouncedValue(search.trim())
   const list = useVillageList(q)
-  const villages = (list.data?.pages.flatMap((p) => p.data) ?? []).filter(
+  const villages = (readableData(list)?.pages.flatMap((p) => p.data) ?? []).filter(
     (v) => v.permissions.update,
   )
 
@@ -45,21 +50,34 @@ export function VillageList() {
           </SearchField.Group>
         </SearchField>
       ) : null}
-      {list.isPending || only ? <p className="text-sm">{t('common.loading')}</p> : null}
-      {list.isError ? <p role="alert">{t('errors.generic')}</p> : null}
-      {list.isSuccess && !only && villages.length === 0 ? (
-        <p className="bg-wash rounded-xl p-4 text-sm">
-          {q ? t('villageSettings.noMatch') : t('villageSettings.none')}
+      {only ? (
+        <p role="status" className="text-sm">
+          {t('common.loading')}
         </p>
+      ) : (
+        <QueryFeedback query={list} loading={<VillageRowsSkeleton />} />
+      )}
+      {list.isSuccess && !only && villages.length === 0 ? (
+        <EmptyState
+          title={q ? t('villageSettings.noMatch') : t('villageSettings.none')}
+          illustration={<StatusMascot pose="empty" />}
+          action={
+            q ? (
+              <Button
+                className="min-h-11 rounded-full px-4 font-semibold"
+                onPress={() => setSearch('')}
+              >
+                {t('states.clearFilters')}
+              </Button>
+            ) : undefined
+          }
+        />
       ) : null}
       {!only ? (
         <ul className="flex flex-col">
           {villages.map((v) => (
             <li key={v.id} className="border-line border-b last:border-0">
-              <Link
-                href={`/villages/${v.id}`}
-                className="hover:bg-wash -mx-2 flex items-center gap-3 rounded-xl p-3"
-              >
+              <Link href={`/villages/${v.id}`} className={`${villageRowLayout} hover:bg-wash`}>
                 <span className="min-w-0 flex-1">
                   <span className="block font-semibold">{v.name}</span>
                   <span className="text-muted block truncate text-xs">
@@ -77,16 +95,7 @@ export function VillageList() {
           ))}
         </ul>
       ) : null}
-      {list.hasNextPage ? (
-        <Button
-          variant="secondary"
-          className="self-center"
-          isPending={list.isFetchingNextPage}
-          onPress={() => list.fetchNextPage()}
-        >
-          {t('businessList.more')}
-        </Button>
-      ) : null}
+      {only ? null : <LoadMore query={list} label={t('businessList.more')} />}
     </Container>
   )
 }

@@ -1,62 +1,209 @@
-import { Search } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
-import { cn } from '@repo/ui/cn'
+'use client'
 
-/** Plain GET form: works before JavaScript loads and on the slowest phones. */
-export async function SearchForm({
+import { Button, ComboBox, Form, InputGroup, ListBox } from '@heroui/react'
+import { cn } from '@repo/ui/cn'
+import { useOnline } from '@repo/ui/components/offline-notice'
+import { ArrowUpRight, Search, Store } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
+import { useContext, useEffect, useState, type ComponentProps } from 'react'
+import { ButtonContext } from 'react-aria-components/Button'
+import { ComboBoxStateContext } from 'react-aria-components/ComboBox'
+import type { SearchSuggestion } from '@/app/api/search-suggestions/route'
+import { ProductPhoto } from './product-photo'
+
+function canSuggest(query: string) {
+  return query.trim().length >= 2 && /[\p{L}\p{N}]/u.test(query)
+}
+
+function SuggestionInput({
+  onQueryChange,
+  ...props
+}: ComponentProps<typeof InputGroup.Input> & { onQueryChange: (query: string) => void }) {
+  const comboBox = useContext(ComboBoxStateContext)
+  return (
+    <InputGroup.Input
+      {...props}
+      onChange={(event) => {
+        onQueryChange(event.target.value)
+        // Open while the request is pending, before React Aria has any options to show.
+        if (canSuggest(event.target.value)) comboBox?.open(null, 'input')
+        else if (comboBox?.isOpen) comboBox.close()
+      }}
+      onKeyDownCapture={(event) => {
+        if (
+          (event.key === 'ArrowDown' || event.key === 'ArrowUp') &&
+          !canSuggest(event.currentTarget.value)
+        ) {
+          event.stopPropagation()
+          return
+        }
+
+        if (
+          event.key === 'Enter' &&
+          !event.nativeEvent.isComposing &&
+          comboBox?.isOpen &&
+          comboBox.selectionManager.focusedKey == null
+        ) {
+          event.preventDefault()
+          comboBox.close()
+          event.currentTarget.form?.requestSubmit()
+        }
+      }}
+    />
+  )
+}
+
+/** Suggestions link to catalogue entries, while free text still submits with GET. */
+export function SearchForm({
   action,
   defaultValue,
   placeholder,
-  size = 'md',
   hidden,
   className,
 }: {
   action: string
   defaultValue?: string
   placeholder: string
-  size?: 'lg' | 'md'
   hidden?: Record<string, string | undefined>
   className?: string
 }) {
-  const t = await getTranslations('home')
+  const t = useTranslations('home')
+  const locale = useLocale()
+  const online = useOnline()
+  const [input, setInput] = useState(defaultValue ?? '')
+  const [response, setResponse] = useState<{ url: string; items: SearchSuggestion[] | null }>()
+  const scope = new URLSearchParams({ locale, q: input.trim() })
+  for (const key of ['category', 'region', 'village']) {
+    const value = hidden?.[key]
+    if (value) scope.set(key, value)
+  }
+  const hasQuery = canSuggest(input)
+  const url = hasQuery ? `/api/search-suggestions?${scope}` : ''
+  const items = online && response?.url === url ? (response.items ?? []) : []
+  const suggestionMessage = !online
+    ? 'searchSuggestionsOffline'
+    : response?.url !== url
+      ? 'searchSuggestionsLoading'
+      : response.items
+        ? 'searchSuggestionsEmpty'
+        : 'searchSuggestionsError'
+
+  useEffect(() => {
+    if (!url || !online) return
+
+    const controller = new AbortController()
+    const timeout = setTimeout(async () => {
+      let items: SearchSuggestion[] | null = null
+      try {
+        const result = await fetch(url, { signal: controller.signal })
+        if (result.ok) {
+          const { data }: { data: SearchSuggestion[] } = await result.json()
+          items = data
+        }
+      } catch {
+        // Search submission remains available if suggestions fail to load.
+      }
+      if (!controller.signal.aborted) setResponse({ url, items })
+    }, 200)
+
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
+  }, [url, online])
+
   return (
-    <form
-      action={action}
-      method="get"
-      role="search"
-      className={cn(
-        'border-line-strong bg-surface focus-within:border-accent flex items-center gap-1 rounded-full border pl-4 shadow-sm',
-        size === 'lg' ? 'h-14' : 'h-11',
-        className,
-      )}
-    >
+    <Form action={action} method="get" role="search" className={cn('min-w-0', className)}>
       {Object.entries(hidden ?? {}).map(([k, v]) =>
         v ? <input key={k} type="hidden" name={k} value={v} /> : null,
       )}
-      <Search className="text-muted size-5 shrink-0" aria-hidden />
-      <label className="min-w-0 flex-1">
-        <span className="sr-only">{t('searchLabel')}</span>
-        <input
-          type="search"
-          name="q"
-          defaultValue={defaultValue}
-          placeholder={placeholder}
-          enterKeyHint="search"
-          className={cn(
-            'placeholder:text-muted/80 w-full bg-transparent px-2 focus:outline-none',
-            size === 'lg' ? 'h-12 text-base sm:text-lg' : 'h-10 text-base',
-          )}
-        />
-      </label>
-      <button
-        type="submit"
-        className={cn(
-          'bg-accent text-accent-foreground mr-1 inline-flex shrink-0 items-center justify-center rounded-full font-semibold transition-colors hover:bg-[var(--accent-hover)]',
-          size === 'lg' ? 'h-11 px-6 text-base' : 'h-9 px-4 text-sm',
-        )}
+      <ComboBox
+        allowsCustomValue
+        allowsEmptyCollection={hasQuery}
+        fullWidth
+        name="q"
+        aria-label={placeholder}
+        inputValue={input}
+        menuTrigger="manual"
+        items={items}
+        onInputChange={setInput}
       >
-        {t('searchSubmit')}
-      </button>
-    </form>
+        <InputGroup fullWidth variant="secondary" className="h-10 rounded-full">
+          <InputGroup.Prefix className="text-muted border-0 pr-2">
+            <Search className="size-4 shrink-0" aria-hidden />
+          </InputGroup.Prefix>
+          <SuggestionInput
+            type="search"
+            onQueryChange={setInput}
+            aria-label={placeholder}
+            placeholder={placeholder}
+            enterKeyHint="search"
+            autoComplete="off"
+            maxLength={100}
+            className="min-w-0 py-1 text-base placeholder:text-sm sm:text-sm"
+          />
+          <InputGroup.Suffix className="border-0 px-1">
+            {/* The search submit button sits in the group without becoming the combobox trigger. */}
+            <ButtonContext.Provider value={null}>
+              <Button
+                type="submit"
+                variant="ghost"
+                size="sm"
+                className="text-accent h-8 min-h-0 rounded-full px-3 font-bold"
+              >
+                {t('searchSubmit')}
+              </Button>
+            </ButtonContext.Provider>
+          </InputGroup.Suffix>
+        </InputGroup>
+        <ComboBox.Popover
+          placement="bottom start"
+          className="border-line bg-surface w-(--trigger-width) min-w-0 rounded-(--radius) border p-1 shadow-lg"
+        >
+          <ListBox
+            aria-label={t('searchSuggestions')}
+            items={items}
+            className="max-h-[min(22rem,50dvh)] overflow-y-auto"
+            renderEmptyState={() => (
+              <p role="status" className="text-muted px-3 py-2 text-sm">
+                {t(suggestionMessage)}
+              </p>
+            )}
+          >
+            {(item) => (
+              <ListBox.Item
+                id={item.id}
+                href={item.href}
+                textValue={item.name}
+                className="hover:bg-wash data-[focused]:bg-wash flex items-center gap-2.5 rounded-lg px-2 py-1.5"
+              >
+                {item.kind === 'product' ? (
+                  <ProductPhoto
+                    src={item.image}
+                    alt=""
+                    category={item.category}
+                    className="size-9 shrink-0 rounded-lg"
+                    sizes="36px"
+                  />
+                ) : (
+                  <span className="bg-accent-soft text-accent grid size-9 shrink-0 place-items-center rounded-lg">
+                    <Store className="size-4" aria-hidden />
+                  </span>
+                )}
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold">{item.name}</span>
+                  <span className="text-muted block truncate text-xs">
+                    {item.kind === 'business'
+                      ? t('searchSuggestionBusiness', { village: item.detail })
+                      : item.detail}
+                  </span>
+                </span>
+                <ArrowUpRight className="text-muted mr-1 size-3.5 shrink-0" aria-hidden />
+              </ListBox.Item>
+            )}
+          </ListBox>
+        </ComboBox.Popover>
+      </ComboBox>
+    </Form>
   )
 }

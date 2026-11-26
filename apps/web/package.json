@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start --port 3000",
     "lint": "eslint .",
+    "push:keys": "web-push generate-vapid-keys",
     "check-types": "next typegen && tsc --noEmit",
     "test": "bun test src"
   },
@@ -21,21 +22,25 @@
     "@repo/i18n": "workspace:*",
     "@repo/ui": "workspace:*",
     "@repo/validators": "workspace:*",
+    "leaflet": "1.9.4",
     "lucide-react": "1.66.0",
     "next": "16.4.5",
     "next-intl": "4.14.9",
     "react": "19.3.1",
     "react-aria": "3.53.1",
     "react-aria-components": "1.22.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "web-push": "4.0.0"
   },
   "devDependencies": {
     "@repo/config": "workspace:*",
     "@tailwindcss/postcss": "4.3.3",
     "@types/bun": "1.4.4",
+    "@types/leaflet": "1.9.20",
     "@types/node": "22.20.5",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "@types/web-push": "3.6.4",
     "eslint": "9.39.5",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3"

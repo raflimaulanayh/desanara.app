@@ -7,7 +7,8 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { fieldMessages } from '@/lib/business-form'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback } from '@/components/query-feedback'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import {
   type CreatedInvitation,
   type InvitationScope,
@@ -41,6 +42,7 @@ export function InvitePanel({
   const t = useTranslations()
   const router = useRouter()
   const pending = usePendingInvitations(scope, roles.length > 0)
+  const invitations = readableData(pending)
   const create = useCreateInvitation(scope)
   const revoke = useRevokeInvitation(scope)
   const [open, setOpen] = useState(false)
@@ -206,11 +208,15 @@ export function InvitePanel({
           </p>
         ) : null}
 
-        {pending.data && pending.data.length > 0 ? (
+        <QueryFeedback query={pending} />
+        {pending.isSuccess && invitations?.length === 0 ? (
+          <p className="text-muted text-sm">{t('states.noPendingInvitations')}</p>
+        ) : null}
+        {invitations && invitations.length > 0 ? (
           <div className="flex flex-col gap-2">
             <p className="text-sm font-semibold">{t('invitePanel.pending')}</p>
             <ul className="flex flex-col">
-              {pending.data.map((inv) => (
+              {invitations.map((inv) => (
                 <li
                   key={inv.id}
                   className="border-line flex items-center gap-3 border-b py-2 last:border-0"

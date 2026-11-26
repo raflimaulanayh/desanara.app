@@ -26,6 +26,11 @@ Detail teknis: `docs/architecture/deployment.md`. Keputusan: ADR 0009 (semua di 
 Pengaturan build sudah ada di `apps/*/vercel.json` (region Singapura `sin1`; API memakai `bun run build:vercel`).
 Saat import di Vercel, biarkan "Include files outside the root directory" menyala (monorepo).
 
+Untuk meninjau UI katalog dengan data contoh, gunakan `DESANARA_UI_PREVIEW=1` pada build dan runtime
+deployment Preview untuk `desanara-web`. Opsi ini mengaktifkan Beranda, Cerita UMKM, mode Peta Jelajah,
+dan detail produk contoh. Vercel perlu menyediakan variabel sistem `VERCEL_ENV` agar aplikasi bisa
+membedakan Preview dan Production. Kedua variabel masuk ke cache build Turborepo.
+
 ### 3. Domain
 
 Sudah dikerjakan 2026-11-17. Domain `desanara.app`, DNS di Cloudflare akun HIMASIF.

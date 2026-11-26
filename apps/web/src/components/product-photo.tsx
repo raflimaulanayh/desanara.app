@@ -1,20 +1,8 @@
 import { cn } from '@repo/ui/cn'
-import { Coffee, Cookie, Fish, Package, Shapes, Shirt, Sprout, type LucideIcon } from 'lucide-react'
 import Image from 'next/image'
+import { CategoryIcon } from '@/lib/category-icons'
 
-const ICONS: Record<string, LucideIcon> = {
-  'makanan-camilan': Cookie,
-  minuman: Coffee,
-  kerajinan: Shapes,
-  fesyen: Shirt,
-  'hasil-tani': Sprout,
-  'peternakan-perikanan': Fish,
-}
-
-/**
- * Product picture. Many products have no photo yet, so the fallback is a tinted tile in the
- * village's colour with the category icon: it reads as intentional, not as a broken image.
- */
+/** Product photos and their category placeholders share the same frame. */
 export function ProductPhoto({
   src,
   alt,
@@ -30,9 +18,10 @@ export function ProductPhoto({
   sizes?: string
   priority?: boolean
 }) {
+  const frame = 'relative aspect-square overflow-hidden'
   if (src) {
     return (
-      <div className={cn('bg-wash relative aspect-square overflow-hidden', className)}>
+      <div className={cn(frame, 'bg-wash', className)}>
         <Image
           src={src}
           alt={alt}
@@ -44,17 +33,22 @@ export function ProductPhoto({
       </div>
     )
   }
-  const Icon = (category && ICONS[category]) || Package
   return (
     <div
-      role="img"
-      aria-label={alt}
+      role={alt ? 'img' : undefined}
+      aria-label={alt || undefined}
       className={cn(
-        'bg-accent-soft text-accent-soft-foreground relative grid aspect-square place-items-center overflow-hidden',
+        frame,
+        'bg-accent/4 text-accent-soft-foreground grid place-items-center',
         className,
       )}
     >
-      <Icon className="size-1/3 opacity-60" strokeWidth={1.5} aria-hidden />
+      <span
+        aria-hidden
+        className="bg-accent/8 ring-accent/12 grid aspect-square w-[clamp(1.25rem,40%,3.25rem)] place-items-center rounded-(--radius-compact) ring-1 ring-inset"
+      >
+        <CategoryIcon slug={category} className="size-1/2" strokeWidth={1.75} />
+      </span>
     </div>
   )
 }

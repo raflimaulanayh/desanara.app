@@ -33,6 +33,25 @@
     "loading": "Memuat…",
     "cancel": "Batal"
   },
+  "states": {
+    "offline": "Koneksi internet terputus. Sambungkan kembali untuk memuat atau menyimpan data.",
+    "waitingForConnection": "Menunggu koneksi untuk melanjutkan.",
+    "unavailableTitle": "Data belum bisa dimuat",
+    "sessionTitle": "Perlu masuk lagi",
+    "forbiddenTitle": "Akses terbatas",
+    "missingTitle": "Data tidak ditemukan",
+    "notFoundTitle": "Halaman dashboard tidak ditemukan",
+    "notFoundBody": "Tautannya mungkin sudah berubah atau halaman ini sudah tidak tersedia.",
+    "errorTitle": "Halaman belum bisa dibuka",
+    "errorBody": "Muat ulang halaman ini atau kembali ke beranda dashboard.",
+    "home": "Kembali ke beranda",
+    "refreshing": "Memperbarui data…",
+    "moreFailed": "Data berikutnya belum bisa dimuat. Daftar yang sudah tampil masih bisa digunakan.",
+    "clearFilters": "Hapus filter",
+    "noCreatableVillages": "Belum ada desa yang bisa kamu pilih untuk menambahkan UMKM.",
+    "noCategories": "Belum ada kategori yang bisa dipilih.",
+    "noPendingInvitations": "Tidak ada undangan yang menunggu."
+  },
   "nav": {
     "label": "Menu utama",
     "home": "Beranda",

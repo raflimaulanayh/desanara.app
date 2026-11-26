@@ -7,7 +7,9 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback } from '@/components/query-feedback'
+import { DashboardProductSkeleton } from '@/components/dashboard-skeletons'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import { useBusiness } from '@/lib/businesses'
 import {
   type Product,
@@ -102,28 +104,29 @@ export function ProductPage({ id }: { id: string }) {
   const t = useTranslations()
   const router = useRouter()
   const q = useProduct(id)
-  const business = useBusiness(q.data?.business.id ?? '')
+  const p = readableData(q)
+  const business = useBusiness(p?.business.id ?? '')
   const action = useProductAction(id)
   const [deleting, setDeleting] = useState(false)
   const [message, setMessage] = useState<{ kind: 'error' | 'ok'; text: string } | null>(null)
   const remove = useDeleteProduct({
     id,
-    business: q.data?.business ?? { id: '', slug: '', name: '' },
+    business: p?.business ?? { id: '', slug: '', name: '' },
   })
 
-  if (q.isPending) return <Container className="py-10 text-sm">{t('common.loading')}</Container>
-  if (q.isError) {
+  if (!p) {
     return (
-      <Container className="flex flex-col items-start gap-3 py-10">
-        <p role="alert">{describeApiError(q.error, t).message}</p>
-        <Link href="/businesses" className="text-accent font-semibold">
-          {t('businessDetail.backToList')}
-        </Link>
+      <Container className="max-w-3xl py-6 sm:py-10">
+        <QueryFeedback
+          query={q}
+          loading={<DashboardProductSkeleton />}
+          backHref="/businesses"
+          backLabel={t('businessDetail.backToList')}
+        />
       </Container>
     )
   }
 
-  const p = q.data
   const checklist = productChecklist(p)
   const ready = checklist.every((c) => c.ok)
   const businessHidden = business.data && business.data.status !== 'published'
@@ -148,6 +151,14 @@ export function ProductPage({ id }: { id: string }) {
       >
         ← {p.business.name}
       </Link>
+      <QueryFeedback query={q} />
+      {business.isError ? (
+        <QueryFeedback
+          query={business}
+          backHref="/businesses"
+          backLabel={t('businessDetail.backToList')}
+        />
+      ) : null}
 
       <header className="min-w-0">
         <h1 className="text-2xl font-extrabold break-words sm:text-3xl">{p.name}</h1>

@@ -6,7 +6,10 @@ import { Check, ChevronDown } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback } from '@/components/query-feedback'
+import { describeApiError, readableData } from '@/lib/api-errors'
+import { useOnline } from '@repo/ui/components/offline-notice'
+import { SkeletonBlock } from '@repo/ui/components/loading-region'
 import { fieldMessages } from '@/lib/business-form'
 import { draftKey, useFormDraft } from '@/lib/form-draft'
 import {
@@ -97,8 +100,10 @@ function PriceField({
 export function ProductForm({ businessId, product }: { businessId: string; product?: Product }) {
   const t = useTranslations()
   const router = useRouter()
+  const online = useOnline()
   const { user } = useSession()
   const categories = useCategories()
+  const categoryOptions = readableData(categories) ?? []
   const editing = Boolean(product)
 
   const initial = useMemo(() => valuesFrom(product ?? null), [product])
@@ -237,22 +242,29 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
               error={errors.name}
             />
 
+            <QueryFeedback query={categories} loading={null} compact />
+            {categories.isSuccess && categoryOptions.length === 0 ? (
+              <p role="status" className="text-muted text-sm">
+                {t('states.noCategories')}
+              </p>
+            ) : null}
             <Select
               value={values.categoryId || null}
               onChange={(key) => set('categoryId', String(key ?? ''))}
               placeholder={t('productForm.chooseCategory')}
+              isDisabled={categoryOptions.length === 0}
               isInvalid={Boolean(errors.categoryId)}
               isRequired
               className="flex flex-col gap-1.5"
             >
               <Label>{t('productForm.fields.categoryId')}</Label>
               <Select.Trigger className="h-12">
-                <Select.Value />
+                {categories.isPending ? <SkeletonBlock className="h-5 w-28" /> : <Select.Value />}
                 <Select.Indicator />
               </Select.Trigger>
               <Select.Popover>
                 <ListBox>
-                  {(categories.data ?? []).map((c) => (
+                  {categoryOptions.map((c) => (
                     <ListBox.Item key={c.id} id={c.id} textValue={c.name}>
                       {c.name}
                       <ListBox.ItemIndicator />
@@ -331,11 +343,13 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
 
         <Card>
           <Card.Content className="flex flex-col gap-4">
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               aria-expanded={showEn}
-              onClick={() => setShowEn((s) => !s)}
-              className="flex items-center justify-between gap-3 text-left"
+              onPress={() => setShowEn((s) => !s)}
+              className="h-auto w-full justify-between gap-3 rounded-lg px-2 py-1.5 text-left whitespace-normal"
             >
               <span>
                 <span className="block font-bold">{t('productForm.english')}</span>
@@ -345,7 +359,7 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
                 className={`size-5 shrink-0 transition-transform ${showEn ? 'rotate-180' : ''}`}
                 aria-hidden
               />
-            </button>
+            </Button>
             {showEn ? (
               <>
                 <Field
@@ -398,7 +412,7 @@ export function ProductForm({ businessId, product }: { businessId: string; produ
           ) : null}
         </div>
       ) : (
-        <Button className="h-12" isPending={pending} onPress={submit}>
+        <Button className="h-12" isDisabled={!online} isPending={pending} onPress={submit}>
           <Check className="size-4" aria-hidden />
           {editing ? t('productForm.save') : t('productForm.create')}
         </Button>

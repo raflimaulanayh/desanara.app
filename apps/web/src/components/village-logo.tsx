@@ -1,29 +1,31 @@
 import Image from 'next/image'
 
 /**
- * Village crest in a white round frame. Official logos are shown untouched; with no logo we print
- * the village's initial in its colour.
+ * Village crest in a round frame. The caller can label a regency emblem used as a fallback.
  */
 export function VillageLogo({
   name,
   logoUrl,
+  crestLabel,
   accent,
   size = 64,
 }: {
   name: string
   logoUrl: string | null
+  crestLabel?: string
   accent: string
   size?: number
 }) {
   return (
     <span
-      className="relative z-10 grid shrink-0 place-items-center overflow-hidden rounded-full border-2 border-white bg-white shadow-md"
+      title={crestLabel}
+      className="border-line/70 bg-surface relative z-10 grid shrink-0 place-items-center overflow-hidden rounded-full border"
       style={{ width: size, height: size }}
     >
       {logoUrl ? (
         <Image
           src={logoUrl}
-          alt={name}
+          alt={crestLabel ?? ''}
           width={size}
           height={size}
           className="size-full object-contain p-1"

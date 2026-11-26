@@ -4,7 +4,9 @@ import { can } from '@repo/auth/permissions'
 import { Container } from '@repo/ui/components/container'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback, QueryProblem } from '@/components/query-feedback'
+import { ProductFormSkeleton } from '@/components/dashboard-skeletons'
+import { readableData } from '@/lib/api-errors'
 import { useBusiness } from '@/lib/businesses'
 import { useSession } from '@/lib/session'
 import { ProductForm } from './product-form'
@@ -14,32 +16,37 @@ export function ProductNew({ businessId }: { businessId: string }) {
   const t = useTranslations()
   const { actor } = useSession()
   const q = useBusiness(businessId)
+  const business = readableData(q)
   const allowed =
-    q.data &&
+    business &&
     can(actor, 'product.create', {
       type: 'business',
       businessId,
-      villageId: q.data.village.id,
+      villageId: business.village.id,
     })
 
   return (
     <Container className="flex max-w-3xl flex-col gap-4 py-6 sm:py-10">
       <Link
-        href={`/businesses/${businessId}`}
+        href={business ? `/businesses/${businessId}` : '/businesses'}
         className="text-muted text-sm font-semibold hover:underline"
       >
-        ← {q.data?.name ?? t('businessDetail.backToList')}
+        ← {business?.name ?? t('businessDetail.backToList')}
       </Link>
       <h1 className="text-2xl font-extrabold sm:text-3xl">{t('productForm.newTitle')}</h1>
-      {q.isPending ? (
-        <p className="text-sm">{t('common.loading')}</p>
-      ) : q.isError ? (
-        <p role="alert">{describeApiError(q.error, t).message}</p>
-      ) : !allowed ? (
-        <p role="alert">{t('errors.forbidden')}</p>
-      ) : (
-        <ProductForm businessId={businessId} />
-      )}
+      <QueryFeedback
+        query={q}
+        loading={<ProductFormSkeleton />}
+        backHref="/businesses"
+        backLabel={t('businessDetail.backToList')}
+      />
+      {business ? (
+        allowed ? (
+          <ProductForm businessId={businessId} />
+        ) : (
+          <QueryProblem title={t('states.forbiddenTitle')} description={t('errors.forbidden')} />
+        )
+      ) : null}
     </Container>
   )
 }

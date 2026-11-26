@@ -34,16 +34,14 @@ export default async function PhotoCreditsPage({
   const [t, credits] = await Promise.all([getTranslations('credits'), readPhotoCredits()])
   return (
     <Container className="py-10 sm:py-14">
-      <h1 className="text-[clamp(1.8rem,5vw,2.6rem)] leading-tight font-extrabold tracking-tight">
-        {t('title')}
-      </h1>
-      <p className="text-muted mt-4 max-w-[66ch] text-lg leading-relaxed">{t('lead')}</p>
+      <h1 className="page-title">{t('title')}</h1>
+      <p className="text-muted mt-4 max-w-[66ch] text-base leading-relaxed">{t('lead')}</p>
       <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {credits.map((c) => {
           const src = mediaUrl(c.key)
           return (
             <li key={c.key} className="border-line flex gap-3 rounded-(--radius) border p-3">
-              <div className="bg-wash relative size-16 shrink-0 overflow-hidden rounded-lg">
+              <div className="bg-wash relative size-16 shrink-0 overflow-hidden rounded-(--radius-compact)">
                 {src ? <Image src={src} alt="" fill sizes="64px" className="object-cover" /> : null}
               </div>
               <div className="min-w-0 text-sm">

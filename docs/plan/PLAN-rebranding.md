@@ -1,11 +1,11 @@
 # PLAN-rebranding — Sudut Desa menjadi Desanara
 
-|         |                                                                                       |
-| ------- | ------------------------------------------------------------------------------------- |
-| Status  | Approved (2026-11-15) — fase 1 selesai, fase 2 perlu diskusi                          |
-| Owner   | HIMA Sistem Informasi                                                                 |
-| Tanggal | 2026-11-15                                                                            |
-| Terkait | `docs/brand/README.md`, `DESIGN.md`, PLAN-familiar-interface.md, ADR 0007 (tema desa) |
+|         |                                                                                  |
+| ------- | -------------------------------------------------------------------------------- |
+| Status  | Approved (2026-11-15) — fase 1 selesai, fase 2 perlu diskusi                     |
+| Owner   | HIMA Sistem Informasi                                                            |
+| Tanggal | 2026-11-15                                                                       |
+| Terkait | `docs/brand/README.md`, `DESIGN.md`, PLAN-rebranding-v2.md, ADR 0007 (tema desa) |
 
 ## 1. Tujuan & kondisi saat ini
 
@@ -27,7 +27,7 @@ tata letak, URL, API, atau skema database.
 **Fase 2 (perlu diskusi dulu, belum dikerjakan)**
 
 - Tata letak dan UI/UX dari mockup brand guideline (hero banner, ikon kategori, detail produk, profil desa, onboarding),
-  digabung dengan PLAN-familiar-interface.md.
+  digabung dengan PLAN-rebranding-v2.md.
 - Yang perlu dibahas: rating, "terjual", dan ikon keranjang di mockup bertentangan dengan MVP (pesan via WhatsApp,
   tanpa ulasan); layar onboarding/login hanya relevan untuk aplikasi HP.
 

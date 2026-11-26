@@ -45,12 +45,24 @@ dibuang, dan kanvas A4 dipotong pas ke logo. Semua file di `desanara/` dibuat ul
 [`build-logo.py`](build-logo.py); cara menjalankannya ada di kepala file itu. Kalau desainer merevisi logo, perbarui
 path di skrip lalu jalankan ulang, jangan mengedit SVG satu per satu.
 
+## Maskot
+
+Nara adalah tunas padi yang membawa tas anyaman bambu. Ia mendampingi pengguna saat halaman tidak ditemukan,
+data gagal dimuat, atau hasil pencarian kosong. Pose, aset, dan cara penggunaan ada di [panduan maskot](mascot.md).
+
+## Lambang wilayah
+
+Kartu dan profil desa mengutamakan logo yang diunggah oleh pengelola. Saat logo belum tersedia, kode wilayah
+memilih lambang kabupaten yang sesuai dan gambar diberi label kabupaten. Aset Garut dan Sumedang bersumber dari
+[Wikimedia Commons Garut](https://commons.wikimedia.org/wiki/File:Lambang_Kabupaten_Garut.svg) dan
+[Wikimedia Commons Sumedang](https://commons.wikimedia.org/wiki/File:Lambang_Kabupaten_Sumedang.png).
+
 ## Warna
 
 | Nama           | Hex       | Peran                                                         |
 | -------------- | --------- | ------------------------------------------------------------- |
 | Hijau Desanara | `#387B4C` | Warna utama: tombol utama, tautan, ujung gelap gradasi logo   |
-| Tunas          | `#9DD853` | Sorotan dengan teks gelap (10,3:1); ujung terang gradasi logo |
+| Tunas          | `#9DD950` | Sorotan dengan teks gelap (10,4:1); ujung terang gradasi logo |
 | Daun           | `#6CAC4E` | Warna tulisan logo; dekorasi dan teks besar saja              |
 | Mentari        | `#E3A84F` | Aksen kecil: badge promo, catatan draf (teks gelap)           |
 | Bata           | `#C2612C` | Pelengkap: penekanan hemat                                    |
@@ -58,13 +70,14 @@ path di skrip lalu jalankan ulang, jangan mengedit SVG satu per satu.
 
 Gradasi logo: `#9DD950` (atas) ke `#387B4C` (bawah), dengan bayangan hitam transparan di dalam daun. Kontras: teks
 putih di Hijau Desanara 5,1:1 (lolos AA), di krem 4,7:1. Daun hanya untuk bentuk atau teks besar. Tombol **Pesan via
-WhatsApp** tetap hijau WhatsApp `#0F7A3F`. Brand sheet desainer menyebut `#109C4F`; warna itu tidak dipakai untuk teks
-karena teks putih di atasnya hanya 3,6:1.
+WhatsApp** tetap hijau WhatsApp `#0F7A3F`. Semua hex mengikuti file SVG desainer. Label `#109C4F` di brand sheet
+desainer tidak cocok dengan warna kotaknya maupun gradasi logo (keduanya `#387B4C`), jadi tidak dipakai.
 
 ## Tipografi
 
 Logo: Montserrat Bold (wordmark) dan SemiBold (tagline), sudah jadi outline sehingga tidak perlu font terpasang.
-Situs: Plus Jakarta Sans. Desa boleh memakai font judulnya sendiri di halaman desa (ADR 0007).
+Situs, dashboard, dan dokumen: Montserrat juga (sejak 2026-11-21), supaya tulisan di aplikasi satu keluarga dengan
+logo. Isi teks 400 sampai 500, judul 700 sampai 800, ukuran teks isi minimal 16 px. Desa boleh memakai font judulnya sendiri di halaman desa (ADR 0007).
 
 ## Aturan pakai
 

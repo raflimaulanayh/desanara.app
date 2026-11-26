@@ -1,5 +1,13 @@
 import { ApiError } from '@repo/api-client'
 
+export function isReadRestricted(error: unknown) {
+  return error instanceof ApiError && [401, 403, 404].includes(error.status)
+}
+
+export function readableData<T>(query: { data: T | undefined; error: unknown }) {
+  return isReadRestricted(query.error) ? undefined : query.data
+}
+
 /**
  * Turns an API error into plain Indonesian for people who are not tech-savvy:
  * - 409 `details.reason` (NOT_VERIFIED, NO_PHOTO, …) → `errors.reason.<CODE>`

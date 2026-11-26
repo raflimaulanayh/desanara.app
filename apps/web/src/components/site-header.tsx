@@ -1,25 +1,54 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Container } from '@repo/ui/components/container'
+import { Info, Settings, Store } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
-import { localePath } from '@/lib/paths'
+import { JOIN_HREF, localePath, SETTINGS_PATH, VILLAGES_HASH } from '@/lib/paths'
 import { Logo } from './brand/logo'
-import { LocaleSwitcher } from './locale-switcher'
+import { MobileMenu } from './mobile-menu'
 import { SearchForm } from './search-form'
 
-/** Sticky marketplace header: brand, search (always one tap away), language. */
+/** Sticky search and brand, with full navigation on desktop. */
 export async function SiteHeader() {
   const [t, th, locale] = await Promise.all([
     getTranslations('nav'),
     getTranslations('home'),
     getLocale(),
   ])
+  const menuItems = [
+    { href: '/', label: t('homeLink') },
+    { href: '/jelajah', label: t('products') },
+    { href: { pathname: '/', hash: VILLAGES_HASH }, label: t('villages') },
+    { href: '/tentang', label: t('about') },
+  ]
   return (
-    <header className="bg-surface/95 border-line sticky top-0 z-20 border-b backdrop-blur-sm">
-      <Container className="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5 md:flex-nowrap">
-        <Link href="/" aria-label={t('home')} className="inline-flex h-11 shrink-0 items-center">
-          <Logo size="md" priority />
+    <header className="site-header bg-surface lg:border-line/75 sticky top-0 z-20 lg:border-b">
+      <Container className="grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-y-1.5 pt-1.5 pb-2 lg:flex lg:gap-5 lg:py-2.5">
+        <MobileMenu openLabel={t('menu')} closeLabel={t('menuClose')}>
+          <nav aria-label={t('menu')}>
+            <Link
+              href="/tentang"
+              className="hover:bg-wash flex h-10 items-center gap-2 rounded-(--radius-compact) px-3 text-sm font-semibold"
+            >
+              <Info className="text-accent size-5 shrink-0" aria-hidden />
+              {t('about')}
+            </Link>
+            <Link
+              href={JOIN_HREF}
+              className="bg-accent text-accent-foreground mt-3 flex h-10 items-center justify-center gap-2 rounded-full text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
+            >
+              <Store className="size-5" aria-hidden />
+              {t('join')}
+            </Link>
+          </nav>
+        </MobileMenu>
+        <Link
+          href="/"
+          aria-label={t('home')}
+          className="inline-flex h-11 shrink-0 items-center justify-self-center"
+        >
+          <Logo size="sm" priority className="h-10 w-auto" />
         </Link>
-        <div className="order-3 w-full md:order-none md:max-w-xl md:flex-1">
+        <div className="site-search col-span-full row-start-2 min-w-0 lg:max-w-sm lg:flex-1">
           <SearchForm
             action={localePath(locale, '/jelajah')}
             placeholder={th('searchPlaceholder')}
@@ -27,21 +56,30 @@ export async function SiteHeader() {
         </div>
         <nav
           aria-label={t('primary')}
-          className="ml-auto flex items-center gap-1 text-sm font-semibold md:ml-0"
+          className="ml-auto hidden items-center gap-1 text-sm font-semibold lg:flex"
         >
+          {menuItems.map(({ href, label }) => (
+            <Link
+              key={label}
+              href={href}
+              className="hover:bg-wash-strong inline-flex h-11 items-center rounded-full px-3 whitespace-nowrap"
+            >
+              {label}
+            </Link>
+          ))}
           <Link
-            href="/jelajah"
-            className="hover:bg-wash hidden h-10 items-center rounded-full px-4 md:inline-flex"
+            href={JOIN_HREF}
+            className="text-accent hover:bg-wash-strong mr-1 hidden h-11 items-center rounded-full px-3 whitespace-nowrap transition-colors xl:inline-flex"
           >
-            {t('explore')}
+            {t('join')}
           </Link>
           <Link
-            href="/tentang"
-            className="hover:bg-wash hidden h-10 items-center rounded-full px-4 md:inline-flex"
+            href={SETTINGS_PATH}
+            className="hover:bg-wash-strong inline-flex h-11 items-center gap-1.5 rounded-full px-3 whitespace-nowrap"
           >
-            {t('about')}
+            <Settings className="text-accent size-4" aria-hidden />
+            {t('settings')}
           </Link>
-          <LocaleSwitcher />
         </nav>
       </Container>
     </header>
