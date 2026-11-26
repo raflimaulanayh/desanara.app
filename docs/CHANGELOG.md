@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-27 — Pusat desa tetap terlihat saat pin toko belum tersedia
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Memilih desa tanpa koordinat toko publik menampilkan ikon di pusat desa dan tetap membuka daftar UMKM.
+  Profil desa menampilkan keterangan verifikasi UMKM setelah ada UMKM yang tayang.
+
 ## 2026-11-27 — Web development membaca katalog produksi
 
 - **Area**: apps/web

@@ -205,6 +205,7 @@
       "count": "{count} UMKM",
       "approximate": "Lokasi desa · Data contoh",
       "villageCentres": "Penanda di pusat desa",
+      "selectedVillageCentre": "Pusat {village}",
       "noVillagePoints": "Belum ada lokasi desa untuk hasil ini.",
       "locationsUnavailable": "Sebagian lokasi desa belum bisa dimuat.",
       "resultsUnavailable": "Sebagian hasil di peta belum bisa dimuat.",

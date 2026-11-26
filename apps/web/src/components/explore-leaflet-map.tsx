@@ -104,10 +104,11 @@ export default function ExploreLeafletMap({
   const pins = useMemo(() => {
     if (zoom === null) return []
     return groupNearbyVillages(
-      villages.filter(({ slug }) => slug !== selectedSlug),
+      businessPoints.length ? villages.filter(({ slug }) => slug !== selectedSlug) : villages,
       (village) => projectVillage(village, zoom),
+      selectedSlug,
     )
-  }, [selectedSlug, villages, zoom])
+  }, [businessPoints.length, selectedSlug, villages, zoom])
   const selectedVillage = villages.find(({ slug }) => slug === selectedSlug)
 
   useEffect(() => {
@@ -251,7 +252,9 @@ export default function ExploreLeafletMap({
       }
       markers.current
         .get(village.slug)
-        ?.marker.setZIndexOffset(village.slug.startsWith('business:') ? 500 : 0)
+        ?.marker.setZIndexOffset(
+          village.slug === selectedVillage?.slug || village.slug.startsWith('business:') ? 500 : 0,
+        )
     }
 
     if (changed)
@@ -298,6 +301,19 @@ export default function ExploreLeafletMap({
       {pins.map(({ anchor: village, members }) => {
         const target = targets.get(village.slug)
         if (!target) return null
+        if (village.slug === selectedSlug) {
+          return createPortal(
+            <span
+              role="img"
+              aria-label={t('selectedVillageCentre', { village: village.name })}
+              className="explore-village-centre bg-accent text-accent-foreground mx-auto mt-1 grid size-9 place-items-center rounded-full border-2 border-white shadow-xs"
+            >
+              <MapPin className="size-4" aria-hidden />
+            </span>,
+            target,
+            village.slug,
+          )
+        }
         if (members.length > 1) {
           const expanded = zoom === MAP_MAX_ZOOM && expandedGroup === village.slug
           return createPortal(

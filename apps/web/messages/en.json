@@ -205,6 +205,7 @@
       "count": "{count, plural, one {# business} other {# businesses}}",
       "approximate": "Village pins · Sample data",
       "villageCentres": "Pins show village centres",
+      "selectedVillageCentre": "Centre of {village}",
       "noVillagePoints": "Village locations are unavailable for these results.",
       "locationsUnavailable": "Some village locations couldn't load.",
       "resultsUnavailable": "Some map results couldn't load.",

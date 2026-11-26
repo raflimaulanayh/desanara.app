@@ -108,12 +108,14 @@ async function VillageContent({ slug }: { slug: string }) {
               <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
             ) : null}
           </div>
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            {preview ? null : <VerifiedBadge />}
-            <span className="text-muted text-sm">
-              {t(preview ? 'previewNote' : 'verifiedNote')}
-            </span>
-          </div>
+          {preview || Boolean(businesses?.length) ? (
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              {preview ? null : <VerifiedBadge />}
+              <span className="text-muted text-sm">
+                {t(preview ? 'previewNote' : 'verifiedNote')}
+              </span>
+            </div>
+          ) : null}
           {village.description ? (
             <p className="mt-5 max-w-[68ch] text-base leading-relaxed">{village.description}</p>
           ) : null}
