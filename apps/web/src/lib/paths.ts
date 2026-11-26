@@ -9,13 +9,14 @@ export function localePath(locale: string, path: string): string {
 export const JOIN_HREF = '/tentang#gabung'
 
 export const VILLAGES_HASH = 'desa'
+export const VILLAGES_PATH = '/desa'
 export const SETTINGS_PATH = '/pengaturan'
 
 /** Highlights the section containing the current public page. */
 export function publicNavSection(pathname: string, hash = '') {
   if (pathname === '/') return hash === `#${VILLAGES_HASH}` ? 'villages' : 'home'
   if (pathname === '/jelajah' || pathname.startsWith('/produk/')) return 'products'
-  if (pathname.startsWith('/desa/')) return 'villages'
+  if (pathname === VILLAGES_PATH || pathname.startsWith(`${VILLAGES_PATH}/`)) return 'villages'
   if (pathname === SETTINGS_PATH) return 'settings'
   return null
 }

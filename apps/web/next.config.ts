@@ -30,6 +30,12 @@ const images: NextConfig['images'] = {
 }
 
 const nextConfig: NextConfig = {
+  // Local servers can share the checkout while keeping their Next.js artifacts separate.
+  distDir:
+    process.env.NODE_ENV === 'development'
+      ? process.env.DESANARA_WEB_DEV_DIST_DIR ||
+        (process.env.DESANARA_UI_PREVIEW === '1' ? '.next/preview' : undefined)
+      : undefined,
   devIndicators: process.env.DESANARA_UI_PREVIEW === '1' ? false : undefined,
   images,
   serverExternalPackages: ['web-push'],

@@ -1,4 +1,5 @@
 import { BRAND_NAME } from '@repo/i18n'
+import { OfflineNotice } from '@repo/ui/components/offline-notice'
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
@@ -52,7 +53,7 @@ export default async function LocaleLayout({
   const { locale } = await params
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
-  const t = await getTranslations('nav')
+  const [t, states] = await Promise.all([getTranslations('nav'), getTranslations('states')])
 
   return (
     <html lang={locale} className={fontVariables}>
@@ -66,6 +67,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <PwaProvider>
             <div className="site-shell flex min-h-dvh flex-col pb-(--mobile-nav-space) lg:pb-0">
+              <OfflineNotice message={states('offline')} />
               <SiteHeader />
               <main id="main" className="flex-1">
                 {children}

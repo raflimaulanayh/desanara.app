@@ -21,6 +21,7 @@ Cara setiap peran memakai fitur ini: [alur pengguna](user-flows.md).
 | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
 | Beranda, Jelajah (pencarian, filter wilayah dan kategori, urutan)                                                      | Selesai (pencarian ILIKE; pg_trgm menyusul) |
 | Halaman desa bertema (warna, logo, huruf, gaya sudut per desa)                                                         | Selesai                                     |
+| Direktori desa di `/desa` dan `/en/desa`, dengan daftar 12 desa per halaman                                            | Selesai                                     |
 | Halaman UMKM: cerita, status buka/tutup otomatis, toko online, produk; alamat tidak tampil                             | Selesai                                     |
 | Halaman produk: slider foto, harga / Gratis / harga coret + badge diskon, panel pesan (jumlah dan catatan) ke WhatsApp | Selesai                                     |
 | Halaman Tentang dan Kredit foto                                                                                        | Selesai                                     |

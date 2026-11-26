@@ -71,7 +71,7 @@ export function MobileNavigation() {
                   aria-hidden
                 />
               </span>
-              <span className="max-w-full wrap-break-word">{t(label)}</span>
+              <span className="whitespace-nowrap max-[360px]:text-[0.6875rem]">{t(label)}</span>
             </>
           )
           // Native same-page anchors publish hashchange and keep the URL and active tab together.

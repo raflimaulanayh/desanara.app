@@ -1,5 +1,5 @@
 import { isCataloguePreview } from '@/lib/catalogue-preview'
-import { searchProducts } from '@/lib/data'
+import { readSection, searchProducts } from '@/lib/data'
 import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -22,13 +22,28 @@ export async function GET(request: Request) {
   }
 
   const locale = params.get('locale') === 'en' ? 'en' : 'id'
-  const { data } = await searchProducts({
-    q,
-    category: params.get('category') || undefined,
-    region: params.get('region') || undefined,
-    village: params.get('village') || undefined,
-    pageSize: 12,
-  })
+  const result = await readSection(
+    searchProducts({
+      q,
+      category: params.get('category') || undefined,
+      region: params.get('region') || undefined,
+      village: params.get('village') || undefined,
+      pageSize: 12,
+    }),
+  )
+  if (!result) {
+    return Response.json(
+      {
+        error: {
+          code: 'UNAVAILABLE',
+          message: 'Search suggestions unavailable',
+          requestId: crypto.randomUUID(),
+        },
+      },
+      { status: 503 },
+    )
+  }
+  const { data } = result
   const preview = isCataloguePreview()
   const term = q.toLocaleLowerCase(locale)
   const matchingBusinesses = new Map<string, SearchSuggestion>()

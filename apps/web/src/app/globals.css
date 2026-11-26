@@ -79,6 +79,13 @@ body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)),
   background: var(--catalogue-background);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .catalogue-explore .skeleton,
+  .catalogue-explore .skeleton::after {
+    animation: none;
+  }
+}
+
 .site-header:has(+ main .catalogue-explore) .site-search {
   display: none;
 }
@@ -110,6 +117,28 @@ main:has(> .catalogue-explore-map) {
 .explore-map-canvas .explore-leaflet .leaflet-control-attribution {
   margin: 0 0.5rem max(0.375rem, env(safe-area-inset-bottom)) 0;
   border-radius: 0.375rem;
+}
+
+.explore-map-fan-pin {
+  transform: translate(var(--pin-x), var(--pin-y));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .explore-map-fan-pin {
+    animation: explore-map-fan-in 220ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+@keyframes explore-map-fan-in {
+  from {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(var(--pin-x), var(--pin-y));
+  }
 }
 
 @media (width < 64rem) {
@@ -149,6 +178,17 @@ main:has(.catalogue-home) + footer {
     transparent 53%,
     rgb(0 0 0 / 95%)
   );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .story-viewer-arrows {
+    opacity: 0;
+  }
+
+  .story-viewer:hover .story-viewer-arrows,
+  .story-viewer-arrows:focus-within {
+    opacity: 1;
+  }
 }
 
 .story-progress {

@@ -1,19 +1,30 @@
 import { Container } from '@repo/ui/components/container'
+import { cn } from '@repo/ui/cn'
 import { MapPin } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Suspense } from 'react'
+import { CatalogueState, CatalogueUnavailable } from '@/components/catalogue-state'
 import { OpenStatusBadge } from '@/components/open-status'
 import { ProductGrid } from '@/components/product-card'
+import { VillagePageSkeleton } from '@/components/public-detail-skeletons'
+import {
+  villageBusinessGrid,
+  villageCover,
+  villageCrestPosition,
+} from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageLogo } from '@/components/village-logo'
+import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
 import { isCataloguePreview } from '@/lib/catalogue-preview'
-import { getVillage, getVillageBusinesses, searchProducts } from '@/lib/data'
+import { getVillage, getVillageBusinesses, readSection, searchProducts } from '@/lib/data'
 import { mediaUrl } from '@/lib/media'
 import { initialStatus } from '@/lib/status'
 import { pageAlternates } from '@/lib/site-url'
+import { villageCrest } from '@/lib/village-crest'
 
 export const revalidate = 300
 
@@ -21,7 +32,8 @@ type Params = Promise<{ locale: string; village: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, village: slug } = await params
-  const village = await getVillage(slug)
+  const village = await readSection(getVillage(slug))
+  if (!village) return {}
   const banner = mediaUrl(village.bannerKey, isCataloguePreview())
   return {
     title: village.name,
@@ -34,22 +46,34 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function VillagePage({ params }: { params: Params }) {
   const { locale, village: slug } = await params
   setRequestLocale(locale)
+  const t = await getTranslations('states')
+  return (
+    <Suspense fallback={<VillagePageSkeleton label={t('loading')} />}>
+      <VillageContent slug={slug} />
+    </Suspense>
+  )
+}
+
+async function VillageContent({ slug }: { slug: string }) {
   const preview = isCataloguePreview()
-  const [t, village, businesses, products] = await Promise.all([
+  const [t, states, village, businesses, products] = await Promise.all([
     getTranslations('village'),
-    getVillage(slug),
-    getVillageBusinesses(slug),
-    searchProducts({ village: slug, pageSize: 24, sort: 'newest' }),
+    getTranslations('states'),
+    readSection(getVillage(slug)),
+    readSection(getVillageBusinesses(slug)),
+    readSection(searchProducts({ village: slug, pageSize: 24, sort: 'newest' })),
   ])
+  if (!village) return <CatalogueUnavailable fullPage />
+  const crest = villageCrest(village, preview)
   const banner = mediaUrl(village.bannerKey, preview)
-  const productTotal = businesses.reduce((n, b) => n + b.productCount, 0)
+  const productTotal = businesses?.reduce((n, b) => n + b.productCount, 0) ?? 0
 
   return (
-    <>
+    <VillageTheme theme={village.theme}>
       {preview ? null : <TrackView event={{ type: 'village_view', villageSlug: village.slug }} />}
       {/* Destination header: cover, crest, place, and the trust claim */}
       <section>
-        <div className="bg-accent relative h-[clamp(10rem,30vw,20rem)] overflow-hidden">
+        <div className={cn(villageCover, 'bg-accent')}>
           {banner ? (
             <Image src={banner} alt="" fill priority sizes="100vw" className="object-cover" />
           ) : (
@@ -63,10 +87,11 @@ export default async function VillagePage({ params }: { params: Params }) {
           )}
         </div>
         <Container>
-          <div className="-mt-10 sm:-mt-12">
+          <div className={villageCrestPosition}>
             <VillageLogo
               name={village.name}
-              logoUrl={mediaUrl(village.logoKey, preview)}
+              logoUrl={crest.url}
+              crestLabel={crest.regency ? t('regencyCrest', { regency: crest.regency }) : undefined}
               accent="var(--accent)"
               size={88}
             />
@@ -79,7 +104,9 @@ export default async function VillagePage({ params }: { params: Params }) {
                 {village.regionName}
               </span>
             ) : null}
-            <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
+            {businesses ? (
+              <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
+            ) : null}
           </div>
           <div className="mt-4 flex flex-wrap items-center gap-3">
             {preview ? null : <VerifiedBadge />}
@@ -98,33 +125,45 @@ export default async function VillagePage({ params }: { params: Params }) {
           <h2 className="section-title font-village">
             {t('businessesTitle', { village: village.name })}
           </h2>
-          {businesses.length === 0 ? <p className="text-muted mt-4">{t('noBusinesses')}</p> : null}
-          <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {businesses.map((b) => (
-              <li key={b.id}>
-                <Link
-                  href={`/desa/${village.slug}/${b.slug}`}
-                  className="border-line bg-surface flex h-full flex-col gap-2 rounded-(--radius) border p-4 transition-shadow hover:shadow-md"
-                >
-                  <p className="text-base leading-snug font-bold wrap-anywhere">{b.name}</p>
-                  <p className="text-muted text-sm">
-                    {[b.ownerName, t('productCount', { count: b.productCount })]
-                      .filter(Boolean)
-                      .join(' · ')}
-                  </p>
-                  <OpenStatusBadge
-                    className="mt-auto pt-1"
-                    showDetail={false}
-                    initial={initialStatus(b, village.timezone)}
-                    hours={b.openingHours}
-                    closedUntil={b.closedUntil}
-                    closedNote={b.closedNote}
-                    timeZone={village.timezone}
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-5">
+            {!businesses ? (
+              <CatalogueUnavailable />
+            ) : businesses.length === 0 ? (
+              <CatalogueState
+                title={t('noBusinesses')}
+                href="/jelajah"
+                actionLabel={states('browseProducts')}
+                compact
+              />
+            ) : (
+              <ul className={villageBusinessGrid}>
+                {businesses.map((b) => (
+                  <li key={b.id}>
+                    <Link
+                      href={`/desa/${village.slug}/${b.slug}`}
+                      className="border-line bg-surface flex h-full flex-col gap-2 rounded-(--radius) border p-4 transition-shadow hover:shadow-md"
+                    >
+                      <p className="text-base leading-snug font-bold wrap-anywhere">{b.name}</p>
+                      <p className="text-muted text-sm">
+                        {[b.ownerName, t('productCount', { count: b.productCount })]
+                          .filter(Boolean)
+                          .join(' · ')}
+                      </p>
+                      <OpenStatusBadge
+                        className="mt-auto pt-1"
+                        showDetail={false}
+                        initial={initialStatus(b, village.timezone)}
+                        hours={b.openingHours}
+                        closedUntil={b.closedUntil}
+                        closedNote={b.closedNote}
+                        timeZone={village.timezone}
+                      />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </Container>
       </section>
 
@@ -132,14 +171,21 @@ export default async function VillagePage({ params }: { params: Params }) {
         <Container>
           <h2 className="section-title font-village">{t('products', { village: village.name })}</h2>
           <div className="mt-5">
-            {products.data.length === 0 ? (
-              <p className="text-muted">{t('productsEmpty')}</p>
+            {!products ? (
+              <CatalogueUnavailable />
+            ) : products.data.length === 0 ? (
+              <CatalogueState
+                title={t('productsEmpty')}
+                href="/jelajah"
+                actionLabel={states('browseProducts')}
+                compact
+              />
             ) : (
               <ProductGrid products={products.data} preview={preview} />
             )}
           </div>
         </Container>
       </section>
-    </>
+    </VillageTheme>
   )
 }

@@ -2,7 +2,7 @@
 import { describe, expect, test } from 'bun:test'
 import { ApiError } from '@repo/api-client'
 import type { Actor } from '@repo/auth/permissions'
-import { describeApiError, fieldErrors } from './api-errors'
+import { describeApiError, fieldErrors, readableData } from './api-errors'
 import { clearDrafts, draftKey, readDraft, writeDraft } from './form-draft'
 import {
   canReview,
@@ -82,6 +82,15 @@ describe('api errors', () => {
   test('401 asks for a new login; non-API errors are network errors', () => {
     expect(describeApiError(apiError(401), t).sessionExpired).toBe(true)
     expect(describeApiError(new TypeError('Failed to fetch'), t).message).toBe('network')
+  })
+
+  test('cached data stays available during outages and is hidden after access is lost', () => {
+    const data = { name: 'UMKM' }
+    expect(readableData({ data, error: apiError(503) })).toBe(data)
+    expect(readableData({ data, error: new TypeError('Failed to fetch') })).toBe(data)
+    for (const status of [401, 403, 404]) {
+      expect(readableData({ data, error: apiError(status) })).toBeUndefined()
+    }
   })
 })
 

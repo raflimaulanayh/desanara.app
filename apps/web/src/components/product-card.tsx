@@ -1,4 +1,5 @@
 import { cn } from '@repo/ui/cn'
+import { SkeletonBlock } from '@repo/ui/components/loading-region'
 import { ArrowRight, MapPin } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
@@ -7,6 +8,22 @@ import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { Price, PromoBadge } from './price'
 import { ProductPhoto } from './product-photo'
+
+const cardFrame =
+  'border-line bg-surface flex h-full flex-col overflow-hidden rounded-(--radius) border'
+const rowFrame = 'max-sm:flex-row max-sm:gap-1 max-sm:p-1.5'
+const photoFrame = 'relative overflow-hidden'
+const rowPhotoFrame = 'max-sm:w-[36%] max-sm:shrink-0 max-sm:rounded-(--radius-compact)'
+const photoShape = 'product-card-photo aspect-square'
+const rowPhotoShape = 'max-sm:aspect-[4/3] max-sm:h-full max-sm:w-full'
+const cardContent = 'flex min-w-0 flex-1 flex-col gap-1.5 px-3 py-2.5 sm:px-4 sm:py-3'
+
+function productGridLayout(mobileList: boolean) {
+  return cn(
+    'grid gap-2.5 sm:gap-4 md:grid-cols-3 lg:grid-cols-4',
+    mobileList ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2',
+  )
+}
 
 /** Marketplace card: photo, name, price, and where it comes from (the village is the differentiator). */
 export async function ProductCard({
@@ -30,16 +47,12 @@ export async function ProductCard({
     <Link
       href={`/produk/${p.slug}`}
       className={cn(
-        'group border-line bg-surface hover:border-accent flex h-full flex-col overflow-hidden rounded-(--radius) border transition-colors',
-        mobileList && 'max-sm:flex-row max-sm:gap-1 max-sm:p-1.5',
+        'group hover:border-accent transition-colors',
+        cardFrame,
+        mobileList && rowFrame,
       )}
     >
-      <div
-        className={cn(
-          'relative overflow-hidden',
-          mobileList && 'max-sm:w-[36%] max-sm:shrink-0 max-sm:rounded-(--radius-compact)',
-        )}
-      >
+      <div className={cn(photoFrame, mobileList && rowPhotoFrame)}>
         <ProductPhoto
           src={mediaUrl(p.imageKey, preview)}
           alt=""
@@ -47,8 +60,9 @@ export async function ProductCard({
           priority={priority}
           sizes={mobileList ? '(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 36vw' : undefined}
           className={cn(
-            'product-card-photo motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]',
-            mobileList && 'max-sm:aspect-[4/3] max-sm:h-full',
+            photoShape,
+            'motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]',
+            mobileList && rowPhotoShape,
           )}
         />
         {!p.isAvailable ? (
@@ -62,7 +76,7 @@ export async function ProductCard({
           className="absolute top-2 right-2"
         />
       </div>
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5 px-3 py-2.5 sm:px-4 sm:py-3">
+      <div className={cardContent}>
         <h3 className="line-clamp-2 text-base leading-snug font-bold tracking-tight wrap-break-word">
           {name}
         </h3>
@@ -107,12 +121,7 @@ export async function ProductGrid({
   preview?: boolean
 }) {
   return (
-    <ul
-      className={cn(
-        'grid gap-2.5 sm:gap-4 md:grid-cols-3 lg:grid-cols-4',
-        mobileList ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-2',
-      )}
-    >
+    <ul className={productGridLayout(mobileList)}>
       {products.map((p, i) => (
         <li key={p.id}>
           <ProductCard
@@ -123,6 +132,38 @@ export async function ProductGrid({
             preview={preview}
             priority={i < 2}
           />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+export function ProductGridSkeleton({
+  mobileList = false,
+  showSeller = true,
+  showVillage = true,
+}: {
+  mobileList?: boolean
+  showSeller?: boolean
+  showVillage?: boolean
+}) {
+  return (
+    <ul className={productGridLayout(mobileList)}>
+      {[0, 1, 2, 3].map((index) => (
+        <li key={index} className={cn(cardFrame, mobileList && rowFrame)}>
+          <div className={cn(photoFrame, mobileList && rowPhotoFrame)}>
+            <SkeletonBlock
+              className={cn(photoShape, 'rounded-none', mobileList && rowPhotoShape)}
+            />
+          </div>
+          <div className={cardContent}>
+            <SkeletonBlock className="h-[1.375rem] w-4/5" />
+            {showVillage ? <SkeletonBlock className="h-4 w-3/5 sm:h-5" /> : null}
+            {showSeller ? <SkeletonBlock className="h-[1.25rem] w-1/2 sm:h-[1.375rem]" /> : null}
+            <div className="mt-auto pt-0.5">
+              <SkeletonBlock className="h-6 w-2/5" />
+            </div>
+          </div>
         </li>
       ))}
     </ul>

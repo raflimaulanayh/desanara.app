@@ -2,6 +2,7 @@
 
 import { Button, ComboBox, Form, InputGroup, ListBox } from '@heroui/react'
 import { cn } from '@repo/ui/cn'
+import { useOnline } from '@repo/ui/components/offline-notice'
 import { ArrowUpRight, Search, Store } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useContext, useEffect, useState, type ComponentProps } from 'react'
@@ -68,8 +69,9 @@ export function SearchForm({
 }) {
   const t = useTranslations('home')
   const locale = useLocale()
+  const online = useOnline()
   const [input, setInput] = useState(defaultValue ?? '')
-  const [response, setResponse] = useState<{ url: string; items: SearchSuggestion[] }>()
+  const [response, setResponse] = useState<{ url: string; items: SearchSuggestion[] | null }>()
   const scope = new URLSearchParams({ locale, q: input.trim() })
   for (const key of ['category', 'region', 'village']) {
     const value = hidden?.[key]
@@ -77,14 +79,21 @@ export function SearchForm({
   }
   const hasQuery = canSuggest(input)
   const url = hasQuery ? `/api/search-suggestions?${scope}` : ''
-  const items = response?.url === url ? response.items : []
+  const items = online && response?.url === url ? (response.items ?? []) : []
+  const suggestionMessage = !online
+    ? 'searchSuggestionsOffline'
+    : response?.url !== url
+      ? 'searchSuggestionsLoading'
+      : response.items
+        ? 'searchSuggestionsEmpty'
+        : 'searchSuggestionsError'
 
   useEffect(() => {
-    if (!url) return
+    if (!url || !online) return
 
     const controller = new AbortController()
     const timeout = setTimeout(async () => {
-      let items: SearchSuggestion[] = []
+      let items: SearchSuggestion[] | null = null
       try {
         const result = await fetch(url, { signal: controller.signal })
         if (result.ok) {
@@ -101,7 +110,7 @@ export function SearchForm({
       clearTimeout(timeout)
       controller.abort()
     }
-  }, [url])
+  }, [url, online])
 
   return (
     <Form action={action} method="get" role="search" className={cn('min-w-0', className)}>
@@ -157,7 +166,7 @@ export function SearchForm({
             className="max-h-[min(22rem,50dvh)] overflow-y-auto"
             renderEmptyState={() => (
               <p role="status" className="text-muted px-3 py-2 text-sm">
-                {t(response?.url === url ? 'searchSuggestionsEmpty' : 'searchSuggestionsLoading')}
+                {t(suggestionMessage)}
               </p>
             )}
           >

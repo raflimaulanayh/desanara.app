@@ -19,11 +19,16 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
   integrasi API. Jalankan `DESANARA_UI_PREVIEW=1 bun run --cwd apps/web dev` dan buka `/` atau `/en`.
   Data katalog contoh ada di `apps/web/src/lib/catalogue-preview.ts`. Tombol WhatsApp menampilkan contoh pesan.
 - Beranda produksi menampilkan prototipe deret cerita selama alur penerbitan disiapkan.
-  Penampil memuat foto dan keterangan. Harga dan tautan produk contoh tersedia di pratinjau katalog.
+  Penampil mendukung foto, video vertikal, dan teks saja. Video contoh berupa montase sembilan detik
+  dengan efek suara gesekan dan ketukan bambu. Suara dapat dinyalakan atau dimatikan dari penampil.
+  Pratinjau katalog memakai produk contoh. Beranda publik memakai harga dan tautan dari produk yang masih
+  tayang untuk cerita dengan padanan produk terverifikasi.
+- Pratinjau katalog menampilkan contoh indikator **PO dibuka** dan **Toko buka** pada kartu dan penampil.
+  Status publik nanti membutuhkan data ketersediaan yang masih aktif dari UMKM.
 - Versi awal mencakup satu foto, keterangan singkat, dan pilihan menautkan satu produk dari UMKM yang sama.
 - Pembeli membuka cerita dari beranda dan profil UMKM. Pemilik dan pendamping mengunggah serta menarik cerita
   dari dashboard.
-- Video vertikal, reaksi, komentar, pengikut, dan daftar cerita personal masuk pembahasan fase lanjutan.
+- Unggahan video, reaksi, komentar, pengikut, dan daftar cerita personal masuk pembahasan fase lanjutan.
 
 ## 3. Keputusan yang diusulkan
 
@@ -32,12 +37,14 @@ via WhatsApp. Cerita menambahkan jalan masuk ke fitur tersebut dari pembaruan si
 - Beranda menampilkan satu deret **Cerita UMKM** di bawah pencarian, sebelum produk terbaru. Kartu foto portrait
   dapat digeser mendatar. Nama UMKM tampil di atas gradasi gelap di bagian bawah foto. Titik hijau muncul
   saat masih ada cerita yang belum dilihat. Tanda centang muncul saat semua cerita akun sudah dibuka.
-  Tiap UMKM tampil satu kali dalam deret, diurutkan menurut cerita terbarunya. Profil UMKM
-  menampilkan cerita aktif dari usaha tersebut.
-- Penampil foto menampilkan nama UMKM, desa, waktu unggah, dan keterangan. Foto diberi waktu enam detik
-  setelah dimuat. Setelah status terakhir, penampil lanjut ke UMKM berikutnya lalu kembali ke Beranda saat
-  deret habis. Pembeli bisa menjeda lewat tombol atau dengan menahan foto. Gestur geser dan tombol panah
-  juga bisa berpindah ke status di akun berikutnya. Saat dibuka lagi, cerita dimulai dari status yang belum dilihat. Tautan
+  Tiap UMKM tampil satu kali di deret. UMKM yang masih punya cerita baru muncul lebih dulu, lalu yang sudah
+  selesai dilihat. Di tiap kelompok, urutannya mengikuti waktu terbit cerita terakhir. Status dilihat disimpan
+  di browser. Profil UMKM menampilkan cerita aktif dari usaha tersebut.
+- Penampil cerita menampilkan nama UMKM, desa, dan keterangan. Foto dan teks tampil enam detik
+  setelah siap. Cerita video mengikuti durasi klip. Setelah status terakhir, penampil lanjut ke UMKM berikutnya lalu kembali ke Beranda saat
+  deret habis. Pembeli bisa menjeda lewat tombol atau dengan menahan foto. Geser dengan jari, seret dengan
+  mouse, atau gunakan tombol panah untuk pindah status. Di desktop tombol panah muncul saat kursor berada di
+  penampil atau tombol mendapat fokus. Saat dibuka lagi, cerita dimulai dari status yang belum dilihat. Tautan
   **Lihat produk** muncul ketika produk terkait masih tayang.
 - Usulan masa tampil adalah 24 jam sejak terbit. Dashboard memberi pratinjau dan menunjukkan kapan cerita
   berakhir. Pemilik bisa menarik cerita lebih awal.

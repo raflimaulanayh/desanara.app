@@ -67,7 +67,8 @@ tall, so the horizontal logo needs at least 32 px height (header 44 px). Use the
 
 Montserrat for platform pages and the dashboard (variable, 400–800), the same family as the logo wordmark.
 Public page titles use `page-title` (20 px on phones, 24 px from `sm`). Section titles use `section-title`
-(18 px on phones, 20 px from `sm`). The home banner and about hero use `display-title` (24–36 px).
+(18 px on phones, 20 px from `sm`). The home banner uses 20–22 px on smaller screens and `display-title`
+from `md`. The about hero uses `display-title` (24–36 px).
 Body text stays at least 16 px with a line length of up to 68ch. Search hints and compact controls use 14 px,
 and supporting labels use 12–14 px. Search input text stays 16 px on phones. Keep card names to two lines
 and check long names at 320 px. Villages may swap the display face through `font-village` for their own
@@ -95,24 +96,52 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
   products share a row, with a link to the full catalogue. Categories follow in a horizontal row of tinted icons
   with labels. The rice-terrace banner and village cards follow categories. Desktop shows four products and the
-  category links in a grid.
+  category links in a grid. Keep the home village preview to six cards. The village directory shows 12 cards per
+  page, with equal horizontal padding around the home directory link's hover area.
   The seller invitation uses a white card and the HeroUI primary green action.
 - **Catalogue results** retain the current filters when searching and use compact category links. A full-width
-  HeroUI bottom `Sheet` groups region, sorting, and map categories. The form stays centred at a readable
+  HeroUI bottom `Sheet` groups region, village, category, and sorting in list and map modes. Region, village,
+  and category use searchable HeroUI `Autocomplete` fields. Regional selection narrows the village options.
+  Field values sit vertically centred inside consistent 36 px triggers. The form stays centred at a readable
   width on desktop, and the trigger shows the number of active selections. Phone results use rows with the
   photo beside the title, village, and price. Desktop uses the product grid.
+  Loading placeholders follow the result layout. A white status card gives a relevant next action for an empty
+  search or catalogue. A failed load offers a retry with the current query intact. Partial map failures leave
+  available pins and list navigation accessible.
+- **Status illustrations** use Nara, the rice-sprout mascot, in the public site and dashboard. Both apps use the
+  same page and notice layouts, shape tokens, and art. Show the illustration next to the message and action, with
+  a smaller size in cards. Inline status messages keep their footprint small where useful content remains visible.
+  See the [mascot guide](docs/brand/mascot.md) for poses and assets.
+- **Data feedback** keeps loading, empty, unavailable, access-restricted, and unexpected error states distinct.
+  Use a skeleton shaped like the content for an initial load. Keep previously loaded content and draft fields
+  visible during a temporary failure, with a clear retry at the affected section. Hide protected cached data
+  when a read confirms that the session, access, or record is gone. Both apps show an offline notice.
+  A placeholder uses the content's grid, row height, image ratio and breakpoints. Keep ready navigation and
+  headings visible. Reserve space only for the section that is still loading.
 - **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
   Compact circles show matching business counts up to
   `99+` on a pannable Leaflet basemap, with 44 px touch targets. The selected circle fills green. The accessible
   label and the details panel show the full village name and exact count. The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
   list link above the provider credit returns to the results with the same search and filters. The village panel
-  opens below the map on phones and beside it on desktop. Pinch gestures control the map within its canvas.
+  opens below the map on phones and beside it on desktop. It lists every matching business with compact
+  type and caps business names at two lines. Three or more cards use a horizontal swipe rail with previous
+  and next controls. Tapping a village group zooms to the first scale that separates
+  its pins. Selecting a village hides its count marker and fits the map to the shop coordinates available to
+  the public. The list includes shops without public coordinates. Catalogue preview uses fictional storefront
+  points marked as sample data. Pinch, mouse wheel, and trackpad gestures control the map within its canvas.
 - **Story preview** puts a horizontally scrollable row of portrait photo cards below search, before products.
-  Each card belongs to one seller. A green dot marks unread updates and a check marks a completed set.
-  The viewer uses portrait photos at full height, with one progress segment per update from that seller.
-  The active segment fills over six seconds from photo load. Playback continues to the next seller, then closes
-  after the final update. Viewers can pause and resume, hold a finger on the photo, swipe, or use the arrows.
+  Each card belongs to one seller and shows the newest update as its cover, with a compact 11 px name.
+  A green dot marks unread updates and a check marks a completed set. Unread sellers come first, with
+  both groups ordered by their latest update. Viewed status is kept in the current browser.
+  The viewer supports photos, portrait clips, and text on a solid green background. Clips start muted and
+  offer a sound toggle beside the caption. Each update gets one
+  progress segment. Photos and text play for six seconds. Video progress follows playback. Story cards can show
+  a compact pre-order or shop-open indicator when availability is known. The prototype exercises both indicators
+  in catalogue preview mode. A linked product card shows the published name and price when available.
+  Playback continues to the next seller, then closes
+  after the final update. Viewers can pause and resume, hold the photo, swipe or drag it horizontally,
+  or use the arrows. On devices with a mouse, the arrows appear on viewer hover or when they receive focus.
   Playback pauses when the page is hidden. Reopening a card starts at the first unread update. Desktop uses a
   centred portrait viewer.
 - **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
@@ -131,6 +160,7 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Village card / village page**: village links on the catalogue home show the crest, name, area, and business count.
   Village pages show a cover photo or a gradient in the village colour, a white-framed crest, village display font and
   the verification badge. Official crests are shown untouched.
+  A thin circular border frames the crest. A labelled regency emblem may fill the slot until a village logo is available.
 - **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked
   rows for the village and seller.
 - **Product gallery** supports swipe, arrow buttons, and keyboard navigation. Tapping a photo opens it uncropped in a
@@ -148,6 +178,7 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - Put the village name on every product surface.
 - Keep one primary action per screen; ordering is always WhatsApp green.
 - Design the no-photo state as a normal state: most products start without photos.
+  Keep the photo frame and center a size-limited category icon on a soft tinted surface.
 - Test at 360 px width.
 
 ## Don't

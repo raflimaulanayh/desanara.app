@@ -45,6 +45,18 @@ dibuang, dan kanvas A4 dipotong pas ke logo. Semua file di `desanara/` dibuat ul
 [`build-logo.py`](build-logo.py); cara menjalankannya ada di kepala file itu. Kalau desainer merevisi logo, perbarui
 path di skrip lalu jalankan ulang, jangan mengedit SVG satu per satu.
 
+## Maskot
+
+Nara adalah tunas padi yang membawa tas anyaman bambu. Ia mendampingi pengguna saat halaman tidak ditemukan,
+data gagal dimuat, atau hasil pencarian kosong. Pose, aset, dan cara penggunaan ada di [panduan maskot](mascot.md).
+
+## Lambang wilayah
+
+Kartu dan profil desa mengutamakan logo yang diunggah oleh pengelola. Saat logo belum tersedia, kode wilayah
+memilih lambang kabupaten yang sesuai dan gambar diberi label kabupaten. Aset Garut dan Sumedang bersumber dari
+[Wikimedia Commons Garut](https://commons.wikimedia.org/wiki/File:Lambang_Kabupaten_Garut.svg) dan
+[Wikimedia Commons Sumedang](https://commons.wikimedia.org/wiki/File:Lambang_Kabupaten_Sumedang.png).
+
 ## Warna
 
 | Nama           | Hex       | Peran                                                         |

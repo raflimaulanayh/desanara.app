@@ -27,7 +27,7 @@ export async function HomeBanner({ villageSlug }: { villageSlug?: string }) {
           </div>
           <div className="px-4 py-4 sm:px-6 md:px-8 md:py-10 lg:px-11">
             <h2 id="catalogue-title" className="display-title">
-              <span className="block max-w-[10ch] text-white sm:max-w-[16ch] md:hidden">
+              <span className="block max-w-[18ch] text-xl leading-snug text-white sm:text-[1.375rem] md:hidden">
                 {t('bannerMobileTitle')}
               </span>
               <span lang="id" className="text-accent hidden md:block">

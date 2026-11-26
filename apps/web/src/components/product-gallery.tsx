@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { useCallback, useRef, useState } from 'react'
 import { ProductPhoto } from './product-photo'
+import { productDetailLayout } from './public-page-layout'
 
 export interface GalleryPhoto {
   src: string | null
@@ -15,7 +16,7 @@ export interface GalleryPhoto {
 
 type ViewablePhoto = GalleryPhoto & { src: string }
 
-const coverShape = 'aspect-[5/4] sm:aspect-[4/3] lg:aspect-square'
+const coverShape = productDetailLayout.cover
 const darkControl =
   'border border-white/20 bg-black/65 text-white hover:bg-black/90 focus-visible:outline-white'
 

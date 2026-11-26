@@ -2,6 +2,9 @@
 
 Foto dibuat dengan ImageGen bawaan untuk data contoh. Berkas di folder ini merupakan hasil konversi ke WebP.
 
+`bamboo-story.mp4` adalah video potret 9 detik yang disusun dari tiga foto di folder ini, dengan efek
+suara gesekan dan ketukan bambu yang dibuat khusus untuk prototipe.
+
 ## Prompt
 
 Semua gambar memakai instruksi berikut dengan kalimat adegan dari daftar di bawah.

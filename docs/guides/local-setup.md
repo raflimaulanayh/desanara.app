@@ -24,6 +24,17 @@ Buka:
 - http://localhost:3001/login — dashboard (akun demo di [seed-data.md](seed-data.md))
 - http://localhost:8787/docs — dokumentasi API
 
+Situs publik membaca katalog dari `https://api.desanara.app` secara default saat development. Bila perlu
+menguji API lokal, isi `WEB_API_URL=http://localhost:8787` di `.env` dan jalankan ulang web.
+Web development tidak mengirim event analitik. Dashboard memakai konfigurasi API-nya sendiri.
+
+Untuk menjalankan web di port 3034 dari repo yang sama, gunakan direktori build terpisah.
+
+```bash
+cd apps/web
+DESANARA_WEB_DEV_DIST_DIR=.next/review bun --env-file=../../.env next dev --port 3034
+```
+
 ## Email (opsional)
 
 Tanpa `RESEND_API_KEY`, email (kode verifikasi, kode lupa kata sandi, undangan) tidak dikirim, tetapi dicetak di

@@ -10,7 +10,8 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "passThroughEnv": ["WEB_API_URL", "DESANARA_UI_PREVIEW", "DESANARA_WEB_DEV_DIST_DIR"]
     },
     "lint": {
       "dependsOn": ["^lint"]

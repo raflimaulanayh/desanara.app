@@ -4,11 +4,18 @@ import { Button, SearchField, Tabs } from '@heroui/react'
 import { can } from '@repo/auth/permissions'
 import { Container } from '@repo/ui/components/container'
 import { EmptyState } from '@repo/ui/components/empty-state'
+import { StatusMascot } from '@repo/ui/components/status-mascot'
 import { ChevronRight, Package, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useDeferredValue, useState } from 'react'
-import { describeApiError } from '@/lib/api-errors'
+import { LoadMore, QueryFeedback } from '@/components/query-feedback'
+import {
+  BusinessRowsSkeleton,
+  businessRowLayout,
+  businessRowsLayout,
+} from '@/components/dashboard-skeletons'
+import { readableData } from '@/lib/api-errors'
 import { type BusinessFilters, useBusinessList } from '@/lib/businesses'
 import { canReview } from '@/lib/nav'
 import { useSession } from '@/lib/session'
@@ -31,8 +38,10 @@ export function BusinessList() {
   const [q, setQ] = useState('')
   const query = useDeferredValue(q.trim())
   const list = useBusinessList({ ...TAB_FILTER[tab], q: query || undefined })
-  const rows = list.data?.pages.flatMap((p) => p.data) ?? []
-  const total = list.data?.pages[0]?.meta.total
+  const data = readableData(list)
+  const rows = data?.pages.flatMap((p) => p.data) ?? []
+  const total = data?.pages[0]?.meta.total
+  const filtered = Boolean(query || tab !== 'all')
 
   const canCreate =
     actor.globalRole === 'super_admin' ||
@@ -96,33 +105,33 @@ export function BusinessList() {
             </p>
           ) : null}
 
-          {list.isError ? (
-            <div className="flex flex-col items-start gap-3">
-              <p role="alert" className="text-sm">
-                {describeApiError(list.error, t).message}
-              </p>
-              <Button variant="secondary" onPress={() => list.refetch()}>
-                {t('common.retry')}
-              </Button>
-            </div>
-          ) : list.isPending ? (
-            <ul className="flex flex-col gap-2" aria-hidden>
-              {[0, 1, 2].map((i) => (
-                <li key={i} className="bg-wash h-20 animate-pulse rounded-2xl" />
-              ))}
-            </ul>
-          ) : rows.length === 0 ? (
+          <QueryFeedback query={list} loading={<BusinessRowsSkeleton />} />
+          {list.isSuccess && rows.length === 0 ? (
             <EmptyState
-              title={query ? t('businessList.emptySearch') : t('businessList.empty')}
-              description={canCreate && !query ? t('businessList.emptyHint') : undefined}
+              title={filtered ? t('businessList.emptySearch') : t('businessList.empty')}
+              illustration={<StatusMascot pose="empty" />}
+              description={canCreate && !filtered ? t('businessList.emptyHint') : undefined}
+              action={
+                filtered ? (
+                  <Button
+                    className="min-h-11 rounded-full px-4 font-semibold"
+                    onPress={() => {
+                      setQ('')
+                      setTab('all')
+                    }}
+                  >
+                    {t('states.clearFilters')}
+                  </Button>
+                ) : undefined
+              }
             />
-          ) : (
-            <ul className="border-line divide-line bg-surface divide-y overflow-hidden rounded-2xl border">
+          ) : rows.length > 0 ? (
+            <ul className={businessRowsLayout}>
               {rows.map((b) => (
                 <li key={b.id}>
                   <Link
                     href={`/businesses/${b.id}`}
-                    className="hover:bg-wash flex items-center gap-3 p-4"
+                    className={`${businessRowLayout} hover:bg-wash`}
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-bold">{b.name}</p>
@@ -140,18 +149,9 @@ export function BusinessList() {
                 </li>
               ))}
             </ul>
-          )}
-
-          {list.hasNextPage ? (
-            <Button
-              variant="secondary"
-              className="self-center"
-              isPending={list.isFetchingNextPage}
-              onPress={() => list.fetchNextPage()}
-            >
-              {t('businessList.more')}
-            </Button>
           ) : null}
+
+          <LoadMore query={list} label={t('businessList.more')} />
         </Tabs.Panel>
       </Tabs>
     </Container>

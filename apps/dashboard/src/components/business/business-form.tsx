@@ -3,6 +3,8 @@
 import { Button, Card, Checkbox, Label, ListBox, Select } from '@heroui/react'
 import { can } from '@repo/auth/permissions'
 import { unwrap } from '@repo/api-client'
+import { SkeletonBlock } from '@repo/ui/components/loading-region'
+import { useOnline } from '@repo/ui/components/offline-notice'
 import { businessCreateSchema, businessUpdateSchema } from '@repo/validators'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react'
@@ -10,7 +12,8 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 import { api } from '@/lib/api'
-import { describeApiError } from '@/lib/api-errors'
+import { QueryFeedback } from '@/components/query-feedback'
+import { describeApiError, readableData } from '@/lib/api-errors'
 import {
   type BusinessFormValues,
   STEPS,
@@ -29,19 +32,22 @@ import { Field } from '../field'
 import { MapPicker } from '../map/map-picker'
 
 /** Villages where the user may create a business (super admin: every published village). */
-function useCreatableVillages() {
+function useCreatableVillages(creating: boolean) {
   const { actor, memberships } = useSession()
   const all = useQuery({
     queryKey: ['villages', 'all'],
-    enabled: actor.globalRole === 'super_admin',
+    enabled: creating && actor.globalRole === 'super_admin',
     queryFn: async () =>
       (await unwrap(await api.v1.villages.$get({ query: { page: '1', pageSize: '50' } }))).data,
   })
   if (actor.globalRole === 'super_admin')
-    return (all.data ?? []).map(({ id, name }) => ({ id, name }))
-  return memberships.villages
-    .filter((v) => can(actor, 'business.create', { type: 'village', villageId: v.id }))
-    .map(({ id, name }) => ({ id, name }))
+    return { villages: readableData(all) ?? [], query: creating ? all : null }
+  return {
+    villages: memberships.villages.filter((v) =>
+      can(actor, 'business.create', { type: 'village', villageId: v.id }),
+    ),
+    query: null,
+  }
 }
 
 /**
@@ -51,9 +57,10 @@ function useCreatableVillages() {
 export function BusinessForm({ business }: { business?: Business }) {
   const t = useTranslations()
   const router = useRouter()
+  const online = useOnline()
   const { user } = useSession()
-  const villages = useCreatableVillages()
   const editing = Boolean(business)
+  const { villages, query: villageOptions } = useCreatableVillages(!editing)
 
   const initial = useMemo(
     () => valuesFrom(business ?? null, villages.length === 1 ? villages[0]!.id : ''),
@@ -90,7 +97,9 @@ export function BusinessForm({ business }: { business?: Business }) {
   }
 
   // Village is chosen automatically when there is only one; asked otherwise.
-  const needsVillage = !editing && villages.length > 1
+  const needsVillage = !editing && (Boolean(villageOptions) || villages.length > 1)
+  const noVillages =
+    !editing && (!villageOptions || villageOptions.isSuccess) && villages.length === 0
 
   function validate(): Record<string, string> {
     const result = editing
@@ -187,17 +196,30 @@ export function BusinessForm({ business }: { business?: Business }) {
         <Card.Content className="flex flex-col gap-5">
           {stepInfo.id === 'about' ? (
             <>
+              {villageOptions ? (
+                <QueryFeedback query={villageOptions} loading={null} compact />
+              ) : null}
+              {noVillages ? (
+                <p role="status" className="text-muted text-sm">
+                  {t('states.noCreatableVillages')}
+                </p>
+              ) : null}
               {needsVillage ? (
                 <Select
                   value={values.villageId || null}
                   onChange={(key) => set('villageId')(String(key ?? ''))}
                   placeholder={t('businessForm.chooseVillage')}
+                  isDisabled={villages.length === 0}
                   isInvalid={Boolean(errors.villageId)}
                   className="flex flex-col gap-1.5"
                 >
                   <Label>{t('businessForm.fields.villageId')}</Label>
                   <Select.Trigger className="h-12">
-                    <Select.Value />
+                    {villageOptions?.isPending ? (
+                      <SkeletonBlock className="h-5 w-28" />
+                    ) : (
+                      <Select.Value />
+                    )}
                     <Select.Indicator />
                   </Select.Trigger>
                   <Select.Popover>
@@ -323,6 +345,7 @@ export function BusinessForm({ business }: { business?: Business }) {
               </div>
               <div className="flex flex-col gap-1.5">
                 <p className="text-sm font-medium">{t('businessForm.fields.pin')}</p>
+                {villageSettings.isError ? <QueryFeedback query={villageSettings} /> : null}
                 <MapPicker
                   value={values.pin}
                   onChange={(pin) => {
@@ -384,19 +407,29 @@ export function BusinessForm({ business }: { business?: Business }) {
           </Button>
         ) : null}
         {last ? (
-          <Button className="h-12 flex-1" isPending={pending} onPress={submit}>
+          <Button className="h-12 flex-1" isDisabled={!online} isPending={pending} onPress={submit}>
             <Check className="size-4" aria-hidden />
             {editing ? t('businessForm.save') : t('businessForm.create')}
           </Button>
         ) : (
-          <Button className="h-12 flex-1" onPress={next}>
+          <Button
+            className="h-12 flex-1"
+            isDisabled={step === 0 && !editing && villages.length === 0}
+            onPress={next}
+          >
             {t('businessForm.next')}
             <ArrowRight className="size-4" aria-hidden />
           </Button>
         )}
       </div>
       {editing && !last ? (
-        <Button variant="ghost" isPending={pending} onPress={submit} className="self-center">
+        <Button
+          variant="ghost"
+          isDisabled={!online}
+          isPending={pending}
+          onPress={submit}
+          className="self-center"
+        >
           {t('businessForm.saveNow')}
         </Button>
       ) : null}

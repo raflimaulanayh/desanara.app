@@ -11,8 +11,10 @@ export function track(event: {
   villageSlug?: string
   locale?: string
 }) {
+  if (process.env.NODE_ENV === 'development') return
+
   try {
-    const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8787'
+    const base = process.env.NEXT_PUBLIC_API_URL || 'https://api.desanara.app'
     void fetch(`${base}/v1/events`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

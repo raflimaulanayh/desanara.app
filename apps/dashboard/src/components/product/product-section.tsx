@@ -1,12 +1,20 @@
 'use client'
 
-import { Button, Card } from '@heroui/react'
+import { Card } from '@heroui/react'
 import { can } from '@repo/auth/permissions'
 import { formatRupiah } from '@repo/i18n'
+import { EmptyState } from '@repo/ui/components/empty-state'
+import { StatusMascot } from '@repo/ui/components/status-mascot'
 import { ImageOff, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
+import { LoadMore, QueryFeedback } from '@/components/query-feedback'
+import {
+  DashboardProductRowsSkeleton,
+  dashboardProductRowLayout,
+} from '@/components/dashboard-skeletons'
+import { readableData } from '@/lib/api-errors'
 import type { Business } from '@/lib/businesses'
 import { mediaUrl } from '@/lib/media'
 import { type Product, useProductList } from '@/lib/products'
@@ -35,7 +43,7 @@ export function ProductSection({ business }: { business: Business }) {
     businessId: business.id,
     villageId: business.village.id,
   })
-  const products = q.data?.pages.flatMap((page) => page.data) ?? []
+  const products = readableData(q)?.pages.flatMap((page) => page.data) ?? []
 
   return (
     <Card>
@@ -57,13 +65,14 @@ export function ProductSection({ business }: { business: Business }) {
         ) : null}
       </Card.Header>
       <Card.Content className="flex flex-col gap-2">
-        {q.isPending ? <p className="text-sm">{t('common.loading')}</p> : null}
-        {q.isError ? <p role="alert">{t('errors.generic')}</p> : null}
+        <QueryFeedback query={q} loading={<DashboardProductRowsSkeleton />} />
         {q.isSuccess && products.length === 0 ? (
-          <div className="bg-wash rounded-xl p-4 text-sm">
-            <p className="font-semibold">{t('productList.empty')}</p>
-            {canCreate ? <p className="text-muted mt-1">{t('productList.emptyHint')}</p> : null}
-          </div>
+          <EmptyState
+            title={t('productList.empty')}
+            illustration={<StatusMascot pose="empty" />}
+            description={canCreate ? t('productList.emptyHint') : undefined}
+            className="py-6"
+          />
         ) : null}
         <ul className="flex flex-col">
           {products.map((p) => {
@@ -72,7 +81,7 @@ export function ProductSection({ business }: { business: Business }) {
               <li key={p.id} className="border-line border-b last:border-0">
                 <Link
                   href={`/products/${p.id}`}
-                  className="hover:bg-wash -mx-2 flex items-center gap-3 rounded-xl p-2"
+                  className={`${dashboardProductRowLayout} hover:bg-wash`}
                 >
                   <span className="bg-wash relative size-16 shrink-0 overflow-hidden rounded-lg">
                     {cover ? (
@@ -98,16 +107,7 @@ export function ProductSection({ business }: { business: Business }) {
             )
           })}
         </ul>
-        {q.hasNextPage ? (
-          <Button
-            variant="secondary"
-            className="self-center"
-            isPending={q.isFetchingNextPage}
-            onPress={() => q.fetchNextPage()}
-          >
-            {t('productList.more')}
-          </Button>
-        ) : null}
+        <LoadMore query={q} label={t('productList.more')} />
       </Card.Content>
     </Card>
   )

@@ -62,7 +62,9 @@ Urutan dari atas, di HP:
 4. **Banner** menampilkan ilustrasi sawah dengan judul "Jelajahi Karya Desa Nusantara" dan tombol Mentari "Lihat Desa".
    Tombol membuka desa dengan jumlah UMKM terverifikasi terbanyak dalam daftar publik. Jika daftar masih kosong,
    tombol "Jelajahi produk" membuka `/jelajah`. Ilustrasi menggambarkan lanskap desa secara umum.
-5. **Desa**: kartu desa yang sudah ada.
+5. **Desa**: maksimal enam kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
+   menampilkan 12 desa per halaman. Preview katalog memakai 27 desa contoh, termasuk Desa Baros, agar tiga
+   halaman direktori bisa ditinjau.
 6. **Ajakan penjual**: satu kartu kecil "Punya usaha di desa? Daftarkan UMKM" ke `/gabung`, seperti link "Mulai
    Berjualan" di marketplace. Tidak di atas, agar pembeli langsung melihat produk.
 
@@ -73,19 +75,26 @@ Nusantara." dan tombol "Jelajahi produk" tampil dengan ilustrasi dari kanan.
 
 Jelajah memakai kartu hasil berjajar foto dan informasi di HP. Pencarian Beranda dan Jelajah menampilkan saran
 produk serta UMKM setelah pengguna mengetik dua karakter. Saran membuka halaman produk atau UMKM.
-Pencarian teks bebas tetap membawa filter aktif. Pilihan wilayah serta urutan bisa dibuka dari tombol
-Filter. Detail produk di HP memakai judul ringkas di atas foto, diikuti harga, asal desa, penjual,
+Pencarian teks bebas tetap membawa filter aktif. Tombol Filter membuka sheet yang berisi pilihan kabupaten/kota,
+desa, kategori, dan urutan di mode daftar dan peta. Pengunjung bisa mencari opsi kabupaten/kota, desa, dan
+kategori. Pilihan desa mengikuti wilayah yang dipilih. Detail produk di HP memakai judul ringkas di atas foto,
+diikuti harga, asal desa, penjual,
 dan tombol WhatsApp. Pengaturan jumlah dan catatan bisa dibuka di
 bawah tombol. [Pratinjau Cerita UMKM](PLAN-cerita-umkm.md) tampil tepat di atas kartu produk Beranda.
 
-Pratinjau menampilkan Baros, Bojongsoang, dan Mekarwangi (Ibun) dengan UMKM dan produk contoh. Baros membuka
+Pratinjau menampilkan UMKM dan produk contoh di 27 desa di Kabupaten Bandung, Garut, dan Sumedang. Baros membuka
 banner Beranda dan memakai aset desa yang sudah tersedia. Bojongsoang dan Mekarwangi memakai lambang
 Kabupaten Bandung sebagai identitas wilayah. Aset bersumber dari [portal Desa Mekarwangi](https://www.mekarwangi-ibun.desa.id/index.php/).
 
 Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Daftar tersedia di bagian
-bawah peta dan membawa pencarian serta filter yang sama. Gesture dua jari di area peta mengubah zoom peta.
-Di produksi, peta memakai hasil katalog dan pusat desa dari API publik. Pin hanya muncul jika desa
-memiliki kode wilayah tingkat desa dan koordinat tersedia.
+bawah peta dan membawa pencarian serta filter yang sama. Cubit dengan dua jari atau gulir di area peta untuk
+mengubah tingkat zoom. Ketuk jumlah desa untuk memperbesar peta sampai pin terpecah ke grup yang lebih kecil
+atau muncul sendiri. Saat desa dipilih, angka grup hilang dan pin toko memakai koordinat yang boleh
+ditampilkan ke publik. Panel desa menampilkan semua UMKM yang cocok dengan filter, termasuk yang belum
+membagikan lokasi. Tiga kartu atau lebih bisa digeser mendatar. Nama toko tampil maksimal dua baris.
+Peta publik memakai pusat desa dari API publik. Pratinjau memakai titik pusat desa dari dataset wilayah
+dan dua titik toko fiktif untuk menguji perincian pin. Sumber titik toko publik dibahas di
+[Rencana lokasi toko publik](PLAN-public-business-locations.md).
 
 Halaman publik memakai skala judul dan teks pendukung yang sama, dengan judul lebih besar khusus banner
 dan hero Tentang. Ukuran dan peran teks mengikuti [DESIGN.md](../../DESIGN.md#typography).

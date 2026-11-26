@@ -15,6 +15,126 @@ Format:
 
 ---
 
+## 2026-11-27 — Web development membaca katalog produksi
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Web development memakai API produksi sebagai sumber katalog bawaan. `WEB_API_URL` menyediakan override
+  untuk pengujian API lain. Event analitik hanya dikirim di luar development.
+
+## 2026-11-27 — Pratinjau katalog dari repo utama
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Pratinjau lokal memakai direktori build terpisah agar bisa berjalan langsung dari repo yang sama.
+
+## 2026-11-26 — Lokasi toko pada peta Jelajah
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Angka di pusat desa hilang saat desa dipilih. Pin toko memakai koordinat publik yang tersedia.
+  UMKM yang belum membagikan lokasi tetap muncul di daftar. Pratinjau menyediakan dua titik fiktif di Baros.
+
+## 2026-11-26 — Pin peta terpecah saat diperbesar
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Grup desa langsung diperbesar ke tingkat yang memisahkan pin. Pin yang masih berimpit pada zoom maksimum
+  dipisahkan di sekitar titiknya. Saat desa dipilih, penanda UMKM menyebar dari pusat desa dan panel menampilkan
+  seluruh UMKM yang cocok dengan filter. Tiga kartu atau lebih bisa digeser mendatar, dan nama toko
+  dibatasi dua baris. Ukuran tombol tutup panel disamakan dengan tombol panah slider. Angka pada pin pusat
+  tetap terbaca saat pin di sekitarnya terbuka.
+
+## 2026-11-26 — Filter Jelajah yang bisa dicari
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Kabupaten/kota, desa, dan kategori bisa dicari dari sheet di mode daftar dan peta. Pilihan desa
+  mengikuti kabupaten/kota, dan teks pada tombol pilihan diposisikan di tengah secara vertikal.
+- Peta pratinjau menampilkan UMKM contoh di 27 desa dengan koordinat pusat desa.
+- Pin yang berdekatan bisa diketuk sebagai satu grup untuk memperbesar area. Zoom peta mendukung cubit,
+  gulir mouse, dan trackpad.
+
+## 2026-11-26 — Kontrol suara video Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Video contoh Anyaman Pak Ujang punya efek suara gesekan dan ketukan bambu. Tombol suara tersedia pada
+  cerita video dalam kedua bahasa situs.
+
+## 2026-11-26 — Video, teks, dan produk di Cerita UMKM
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Penampil Cerita mendukung foto, video vertikal, dan teks saja. Anyaman Pak Ujang punya video contoh sembilan
+  detik dan tautan ke produk besek yang masih tayang. Indikator PO dan toko buka dicontohkan di preview katalog.
+
+## 2026-11-26 — Placeholder foto produk lebih rapi
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Produk tanpa foto memakai latar lembut dan ikon kategori di tengah dengan ukuran terbatas. Placeholder mengikuti
+  bingkai foto di daftar, galeri, peta, dan saran pencarian.
+
+## 2026-11-26 — Direktori desa mitra
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Beranda menampilkan maksimal enam desa dan tautan **Lihat semua desa** dengan padding hover seimbang.
+  Direktori bilingual menampilkan 12 desa per halaman. Preview katalog berisi 27 desa, termasuk Desa Baros.
+
+## 2026-11-26 — Skeleton mengikuti struktur halaman
+
+- **Area**: apps/web, apps/dashboard, packages/ui
+- **Jenis**: Changed
+- Skeleton awal mengikuti grid, rasio galeri, baris daftar, dan susunan form yang tampil saat data siap.
+  Beranda menampilkan bagian yang sudah siap sambil menunggu tiap bagian katalog. Jelajah memakai bentuk
+  daftar atau peta sesuai mode yang dibuka.
+- Deret Cerita UMKM mulai dari kiri setelah refresh. Skeleton berukuran sama mengisi deret sampai riwayat
+  dilihat siap, sehingga kartu yang muncul pertama sudah sesuai urutan akhir.
+- Avatar desa memakai garis tipis. Desa tanpa logo terdaftar dapat memakai lambang kabupaten yang sesuai
+  dengan kode wilayahnya, termasuk Garut dan Sumedang.
+
+## 2026-11-26 — Kondisi data di situs publik dan dashboard
+
+- **Area**: apps/web, apps/dashboard, packages/ui
+- **Jenis**: Changed
+- Situs publik membedakan hasil kosong, gangguan data, halaman yang hilang, dan error tak terduga.
+  Beranda dan profil tetap menampilkan bagian yang berhasil dimuat. Pencarian dan peta menyediakan pemulihan sesuai konteks.
+- Dashboard menampilkan skeleton, pemulihan daftar dan detail, serta pesan sesi habis dan akses terbatas.
+  Gangguan muat ulang atau paginasi mempertahankan data yang sudah tersedia selama akses masih berlaku.
+- Kedua aplikasi memakai komponen status dan aset Nara yang sama untuk halaman dan kartu status.
+- Indikator koneksi tampil di kedua aplikasi. PWA yang sudah terpasang dapat menampilkan layar offline saat
+  navigasi gagal dan memuat ulang URL yang sama setelah tersambung. Terkait [PLAN-ui-states](plan/PLAN-ui-states.md).
+
+## 2026-11-26 — Nara, maskot Desanara untuk halaman status
+
+- **Area**: apps/web, packages/ui
+- **Jenis**: Added
+- Nara mengambil bentuk tunas padi dengan tas anyaman bambu. Tiga pose memberi konteks pada halaman
+  tidak ditemukan, gagal memuat hasil Jelajah, dan katalog atau hasil pencarian kosong.
+- Aset WebP transparan digunakan bersama pesan dan aksi dalam bahasa Indonesia dan Inggris.
+  Terkait [panduan maskot](brand/mascot.md).
+
+## 2026-11-26 — Jelajah menangani hasil kosong dan gagal muat
+
+- **Area**: apps/web, packages/ui
+- **Jenis**: Changed
+- Jelajah menampilkan skeleton saat memuat. Katalog kosong, pencarian tanpa hasil, dan halaman di luar
+  hasil pencarian punya pesan serta aksi yang sesuai dalam bahasa Indonesia dan Inggris.
+- Saat API produk bermasalah, pengguna bisa mencoba lagi tanpa kehilangan pencarian atau filter.
+  Dari mode peta, pengguna juga bisa kembali ke daftar. Terkait [PLAN-ui-states](plan/PLAN-ui-states.md).
+
+## 2026-11-26 — Urutan dan kontrol Cerita UMKM di Beranda
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Cerita yang belum dilihat tampil lebih dulu. Masing-masing kelompok diurutkan dari pembaruan terbaru,
+  dan status dilihat tersimpan di browser.
+- Cerita bisa digeser dengan jari atau diseret dengan mouse. Panah di desktop muncul saat penampil
+  di-hover atau panah mendapat fokus keyboard. Nama UMKM di kartu dan judul banner di HP lebih ringkas.
+- Label navigasi bawah tetap satu baris pada layar 320 px, termasuk label Pengaturan.
+
 ## 2026-11-25 — Cerita UMKM berjalan otomatis
 
 - **Area**: apps/web

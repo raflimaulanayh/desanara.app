@@ -1,29 +1,52 @@
 'use client'
 
 import { Button } from '@heroui/react'
-import { cn } from '@repo/ui/cn'
 import { mapTileConfig } from '@repo/ui/map-tiles'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { Minus, Plus } from 'lucide-react'
+import { MapPin, Minus, Plus, Store } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from '@/i18n/navigation'
+import {
+  groupNearbyVillages,
+  MAP_MAX_ZOOM,
+  MAP_ZOOM_STEP,
+  pinFanOffsets,
+  villageSplitZoom,
+  type MapCoordinates,
+} from '@/lib/catalogue-map'
 
-type VillageMarker = {
-  slug: string
-  name: string
-  lat: number
-  lng: number
-  count: number
-  href: string
-}
+type PinLink = { name: string; href: string }
+
+type MapMarker = PinLink &
+  MapCoordinates & {
+    slug: string
+  }
+
+type VillageMarker = MapMarker & { businessCount: number }
 
 export type ExploreLeafletProps = {
   villages: VillageMarker[]
   selectedSlug?: string
-  closeHref: string
+  businessPoints: MapMarker[]
+}
+
+type SafariGesture = Event & { scale: number; clientX: number; clientY: number }
+const businessZoom = 15
+
+function projectVillage({ lat, lng }: VillageMarker, zoom: number) {
+  return L.CRS.EPSG3857.latLngToPoint(L.latLng(lat, lng), zoom)
+}
+
+function revealPins(map: L.Map, center: L.LatLng, zoom: number) {
+  map.stop()
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    map.setView(center, zoom, { animate: false })
+  } else {
+    map.flyTo(center, zoom, { duration: 0.35 })
+  }
 }
 
 function fitVillages(map: L.Map, villages: VillageMarker[]) {
@@ -39,14 +62,32 @@ function fitVillages(map: L.Map, villages: VillageMarker[]) {
   })
 }
 
-function boundsKey(villages: VillageMarker[]) {
-  return villages.map(({ lat, lng }) => `${lat},${lng}`).join(';')
+function fitSelectedVillage(
+  map: L.Map,
+  village: VillageMarker,
+  businesses: MapMarker[],
+  animate: boolean,
+) {
+  const bounds = L.latLngBounds(
+    (businesses.length ? businesses : [village]).map(({ lat, lng }) => L.latLng(lat, lng)),
+  )
+  const center = bounds.getCenter()
+  const zoom = businesses.length
+    ? Math.min(18, map.getBoundsZoom(bounds, false, L.point(88, 120)))
+    : businessZoom
+  if (animate) revealPins(map, center, zoom)
+  else map.setView(center, zoom, { animate: false })
+  return center
+}
+
+function boundsKey(points: MapCoordinates[]) {
+  return points.map(({ lat, lng }) => `${lat},${lng}`).join(';')
 }
 
 export default function ExploreLeafletMap({
   villages,
   selectedSlug,
-  closeHref,
+  businessPoints,
 }: ExploreLeafletProps) {
   const t = useTranslations('explore.map')
   const container = useRef<HTMLDivElement>(null)
@@ -54,11 +95,20 @@ export default function ExploreLeafletMap({
   const tiles = useRef<L.TileLayer | null>(null)
   const markers = useRef(new Map<string, { marker: L.Marker; target: HTMLDivElement }>())
   const previousBounds = useRef('')
-  const activeVillage = useRef<VillageMarker | undefined>(undefined)
-  const [initialVillages] = useState(villages)
+  const activeView = useRef<{ key: string; center: L.LatLng } | undefined>(undefined)
+  const [initialView] = useState({ villages, selectedSlug, businessPoints })
   const [targets, setTargets] = useState<ReadonlyMap<string, HTMLDivElement>>(new Map())
   const [tilesFailed, setTilesFailed] = useState(false)
   const [zoom, setZoom] = useState<number | null>(null)
+  const [expandedGroup, setExpandedGroup] = useState<string>()
+  const pins = useMemo(() => {
+    if (zoom === null) return []
+    return groupNearbyVillages(
+      villages.filter(({ slug }) => slug !== selectedSlug),
+      (village) => projectVillage(village, zoom),
+    )
+  }, [selectedSlug, villages, zoom])
+  const selectedVillage = villages.find(({ slug }) => slug === selectedSlug)
 
   useEffect(() => {
     const element = container.current
@@ -66,20 +116,53 @@ export default function ExploreLeafletMap({
     const currentMarkers = markers.current
     const instance = L.map(element, {
       zoomControl: false,
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       touchZoom: true,
-      zoomSnap: 0.25,
+      zoomSnap: MAP_ZOOM_STEP,
     })
-    // Safari also emits native gesture events for a pinch.
-    L.DomEvent.on(element, 'gesturestart gesturechange', L.DomEvent.preventDefault)
+    // Desktop Safari reports trackpad pinch as a gesture. Touchscreens use Leaflet's touch handler.
+    let gestureZoom: number | undefined
+    function startGesture(event: Event) {
+      event.preventDefault()
+      gestureZoom = instance.getZoom()
+    }
+    function changeGesture(event: Event) {
+      event.preventDefault()
+      if (navigator.maxTouchPoints > 0) return
+      const gesture = event as SafariGesture
+      if (!(gesture.scale > 0)) return
+      const rect = instance.getContainer().getBoundingClientRect()
+      const point =
+        Number.isFinite(gesture.clientX) && Number.isFinite(gesture.clientY)
+          ? L.point(gesture.clientX - rect.left, gesture.clientY - rect.top)
+          : instance.getSize().divideBy(2)
+      instance.setZoomAround(
+        point,
+        (gestureZoom ?? instance.getZoom()) + Math.log2(gesture.scale),
+        { animate: false },
+      )
+    }
+    element.addEventListener('gesturestart', startGesture, { passive: false })
+    element.addEventListener('gesturechange', changeGesture, { passive: false })
     map.current = instance
-    fitVillages(instance, initialVillages)
-    previousBounds.current = boundsKey(initialVillages)
+    const initialVillage = initialView.villages.find(
+      ({ slug }) => slug === initialView.selectedSlug,
+    )
+    if (initialVillage) {
+      const center = fitSelectedVillage(instance, initialVillage, initialView.businessPoints, false)
+      activeView.current = {
+        key: `${initialVillage.slug}:${boundsKey(initialView.businessPoints)}`,
+        center,
+      }
+    } else {
+      fitVillages(instance, initialView.villages)
+    }
+    previousBounds.current = boundsKey(initialView.villages)
     const { url, attribution } = mapTileConfig(
       process.env.NEXT_PUBLIC_MAP_TILE_URL,
       process.env.NEXT_PUBLIC_MAP_ATTRIBUTION,
     )
-    const layer = L.tileLayer(url, { attribution, maxZoom: 19 })
+    const layer = L.tileLayer(url, { attribution, maxZoom: MAP_MAX_ZOOM })
     let loaded = false
     layer.on('loading', () => {
       loaded = false
@@ -94,32 +177,54 @@ export default function ExploreLeafletMap({
     layer.addTo(instance)
     tiles.current = layer
     instance.attributionControl.setPrefix(false)
-    instance.on('zoomend', () => setZoom(instance.getZoom()))
+    instance.on('zoomend', () => {
+      setZoom(instance.getZoom())
+      if (instance.getZoom() < MAP_MAX_ZOOM) setExpandedGroup(undefined)
+    })
     setZoom(instance.getZoom())
 
     const resize = new ResizeObserver(() => {
+      const size = instance.getSize()
+      if (size.x === element.clientWidth && size.y === element.clientHeight) return
       instance.invalidateSize({ animate: false })
-      const active = activeVillage.current
-      if (active)
-        instance.panInside([active.lat, active.lng], { padding: [48, 48], animate: false })
+      const center = activeView.current?.center
+      if (center) instance.panInside(center, { padding: [48, 48], animate: false })
     })
     resize.observe(element)
     return () => {
       resize.disconnect()
-      L.DomEvent.off(element, 'gesturestart gesturechange', L.DomEvent.preventDefault)
+      element.removeEventListener('gesturestart', startGesture)
+      element.removeEventListener('gesturechange', changeGesture)
       instance.remove()
       currentMarkers.clear()
       previousBounds.current = ''
       map.current = null
       tiles.current = null
     }
-  }, [initialVillages])
+  }, [initialView])
 
   useEffect(() => {
     const instance = map.current
     if (!instance) return
-    activeVillage.current = villages.find(({ slug }) => slug === selectedSlug)
-    const visible = new Set(villages.map(({ slug }) => slug))
+    if (!selectedVillage) {
+      activeView.current = undefined
+      return
+    }
+    const key = `${selectedVillage.slug}:${boundsKey(businessPoints)}`
+    if (key === activeView.current?.key) return
+
+    instance.invalidateSize({ animate: false })
+    activeView.current = {
+      key,
+      center: fitSelectedVillage(instance, selectedVillage, businessPoints, true),
+    }
+  }, [selectedVillage, businessPoints])
+
+  useEffect(() => {
+    const instance = map.current
+    if (!instance) return
+    const positions = [...pins.map(({ anchor }) => anchor), ...businessPoints]
+    const visible = new Set(positions.map(({ slug }) => slug))
     let changed = false
     for (const [slug, entry] of markers.current) {
       if (visible.has(slug)) continue
@@ -127,7 +232,7 @@ export default function ExploreLeafletMap({
       markers.current.delete(slug)
       changed = true
     }
-    for (const village of villages) {
+    for (const village of positions) {
       const point = L.latLng(village.lat, village.lng)
       const existing = markers.current.get(village.slug)
       if (existing) {
@@ -146,17 +251,17 @@ export default function ExploreLeafletMap({
       }
       markers.current
         .get(village.slug)
-        ?.marker.setZIndexOffset(village.slug === selectedSlug ? 500 : 0)
+        ?.marker.setZIndexOffset(village.slug.startsWith('business:') ? 500 : 0)
     }
 
     if (changed)
       setTargets(new Map([...markers.current].map(([slug, entry]) => [slug, entry.target])))
     const bounds = boundsKey(villages)
     if (previousBounds.current !== bounds) {
-      fitVillages(instance, villages)
+      if (!selectedVillage) fitVillages(instance, villages)
       previousBounds.current = bounds
     }
-  }, [villages, selectedSlug])
+  }, [pins, villages, selectedVillage, businessPoints])
 
   return (
     <div className="relative size-full">
@@ -171,7 +276,7 @@ export default function ExploreLeafletMap({
           variant="ghost"
           size="sm"
           isIconOnly
-          isDisabled={zoom === null || zoom >= 19}
+          isDisabled={zoom === null || zoom >= MAP_MAX_ZOOM}
           aria-label={t('zoomIn')}
           onPress={() => map.current?.zoomIn()}
           className="size-11 rounded-(--radius-compact)"
@@ -190,35 +295,89 @@ export default function ExploreLeafletMap({
           <Minus className="size-4" aria-hidden />
         </Button>
       </div>
-      {villages.map((village) => {
+      {pins.map(({ anchor: village, members }) => {
         const target = targets.get(village.slug)
         if (!target) return null
-        const active = village.slug === selectedSlug
+        if (members.length > 1) {
+          const expanded = zoom === MAP_MAX_ZOOM && expandedGroup === village.slug
+          return createPortal(
+            <>
+              <Button
+                type="button"
+                size="sm"
+                variant="primary"
+                aria-label={t(expanded ? 'collapseGroup' : 'zoomGroup', { count: members.length })}
+                aria-expanded={expanded}
+                onPress={({ pointerType }) => {
+                  const instance = map.current
+                  if (!instance) return
+                  const currentZoom = instance.getZoom()
+                  if (currentZoom === MAP_MAX_ZOOM) {
+                    setExpandedGroup(expanded ? undefined : village.slug)
+                    return
+                  }
+                  const bounds = L.latLngBounds(members.map(({ lat, lng }) => L.latLng(lat, lng)))
+                  const nextZoom = villageSplitZoom(members, currentZoom, projectVillage)
+                  if (nextZoom === MAP_MAX_ZOOM) setExpandedGroup(village.slug)
+                  if (pointerType === 'keyboard') {
+                    instance.getContainer().focus({ preventScroll: true })
+                  }
+                  revealPins(instance, bounds.getCenter(), nextZoom)
+                }}
+                className="relative z-20 grid size-11 min-w-0 cursor-pointer content-center gap-0 rounded-full border-2 border-white p-0 leading-none tabular-nums shadow-sm"
+              >
+                <span aria-hidden className="text-sm leading-none font-bold">
+                  {members.length}
+                </span>
+                <span aria-hidden className="text-[0.5625rem] leading-tight font-semibold">
+                  {t('clusterLabel')}
+                </span>
+              </Button>
+              {expanded ? <PinFan pins={members} /> : null}
+            </>,
+            target,
+            village.slug,
+          )
+        }
         return createPortal(
           <Link
-            href={active ? closeHref : village.href}
+            href={village.href}
             prefetch={false}
             scroll={false}
-            aria-current={active ? 'true' : undefined}
-            aria-label={t('marker', { village: village.name, count: village.count })}
+            aria-label={t('marker', { village: village.name, count: village.businessCount })}
             title={village.name}
-            className="explore-map-marker group grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
+            className="explore-map-marker group relative z-20 grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
           >
             <span
               aria-hidden
-              className={cn(
-                'grid size-9 place-items-center rounded-full border text-sm leading-none font-bold tabular-nums shadow-xs motion-safe:transition-colors',
-                active
-                  ? 'border-accent bg-accent text-accent-foreground'
-                  : 'border-accent/60 bg-surface text-accent group-hover:border-accent group-hover:bg-wash',
-              )}
+              className="border-accent/60 bg-surface text-accent group-hover:border-accent group-hover:bg-wash grid size-9 place-items-center rounded-full border text-sm leading-none font-bold tabular-nums shadow-xs motion-safe:transition-colors"
             >
-              {village.count > 99 ? '99+' : village.count}
+              {village.businessCount > 99 ? '99+' : village.businessCount}
             </span>
           </Link>,
           target,
           village.slug,
         )
+      })}
+      {businessPoints.map((business) => {
+        const target = targets.get(business.slug)
+        return target
+          ? createPortal(
+              <Link
+                href={business.href}
+                prefetch={false}
+                aria-label={t('openBusinessPin', { name: business.name })}
+                title={business.name}
+                className="explore-business-marker group grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
+              >
+                <span className="border-accent bg-surface text-accent group-hover:bg-accent group-hover:text-accent-foreground grid size-8 place-items-center rounded-full border shadow-xs">
+                  <Store className="size-4" aria-hidden />
+                </span>
+              </Link>,
+              target,
+              business.slug,
+            )
+          : null
       })}
       {tilesFailed ? (
         <div
@@ -237,6 +396,45 @@ export default function ExploreLeafletMap({
           </Button>
         </div>
       ) : null}
+    </div>
+  )
+}
+
+function PinFan({ pins }: { pins: PinLink[] }) {
+  const t = useTranslations('explore.map')
+  const offsets = pinFanOffsets(pins.length)
+  return (
+    <div className="pointer-events-none absolute top-1/2 left-1/2 size-0">
+      {pins.map((pin, index) => {
+        const { x, y } = offsets[index]!
+        const offset = { '--pin-x': `${x}px`, '--pin-y': `${y}px` } as CSSProperties
+        return (
+          <div key={pin.href}>
+            <span
+              aria-hidden
+              className="bg-accent/55 absolute top-0 left-0 h-0.5 origin-left"
+              style={{
+                width: Math.hypot(x, y),
+                transform: `rotate(${Math.atan2(y, x)}rad)`,
+              }}
+            />
+            <div className="explore-map-fan-pin absolute top-0 left-0 z-10 size-0" style={offset}>
+              <Link
+                href={pin.href}
+                prefetch={false}
+                scroll={false}
+                aria-label={t('openVillagePin', { name: pin.name })}
+                title={pin.name}
+                className="group pointer-events-auto grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus-visible:outline-offset-0"
+              >
+                <span className="border-accent bg-surface text-accent group-hover:bg-accent group-hover:text-accent-foreground grid size-8 place-items-center rounded-full border shadow-xs">
+                  <MapPin className="size-4" aria-hidden />
+                </span>
+              </Link>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

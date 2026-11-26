@@ -1,34 +1,34 @@
 import { cn } from '@repo/ui/cn'
 import { Container } from '@repo/ui/components/container'
-import { ChevronLeft, ChevronRight, List, Map, MapPin, X } from 'lucide-react'
+import { List, Map } from 'lucide-react'
 import type { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { Suspense } from 'react'
 import { ExploreFilters } from '@/components/explore-filters'
-import { ExploreMap } from '@/components/explore-map'
-import { ProductGrid } from '@/components/product-card'
+import {
+  ExplorePageSkeleton,
+  ExploreResultsLoading,
+  explorePageLayout,
+  exploreToolbarLayout,
+} from '@/components/explore-results-loading'
 import { SearchForm } from '@/components/search-form'
 import { Link } from '@/i18n/navigation'
 import {
-  groupPreviewMapBusinesses,
   isCataloguePreview,
   previewCategories,
   previewProducts,
-  previewRegency,
+  previewRegencies,
 } from '@/lib/catalogue-preview'
-import { groupMapBusinesses } from '@/lib/catalogue-map'
-import {
-  getCategories,
-  getMapProducts,
-  getMapVillagePoints,
-  getRegencies,
-  searchProducts,
-} from '@/lib/data'
+import { getCategories, getRegencies, getVillagesForFilter, readSection } from '@/lib/data'
+import { ALL_FILTER_OPTIONS as ALL, regencyCode } from '@/lib/explore-filters'
 import { pick } from '@/lib/localize'
 import { localePath } from '@/lib/paths'
 import { pageAlternates } from '@/lib/site-url'
+import { ExploreResults } from './results'
 
 type Params = Promise<{ locale: string }>
-type Search = Promise<Record<string, string | string[] | undefined>>
+type Query = Record<string, string | string[] | undefined>
+type Search = Promise<Query>
 
 const PAGE_SIZE = 20
 const SORTS = ['newest', 'price_asc', 'price_desc'] as const
@@ -41,11 +41,19 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v)?.trim() || undefined
 
-const ALL = '_all'
-
 function filterValue(value: string | string[] | undefined) {
   const key = one(value)
   return key === ALL ? undefined : key
+}
+
+function hasExploreFilters(search: Query) {
+  return Boolean(
+    one(search.q) ||
+    filterValue(search.region) ||
+    filterValue(search.category) ||
+    filterValue(search.village) ||
+    SORTS.slice(1).some((sort) => sort === one(search.sort)),
+  )
 }
 
 export default async function ExplorePage({
@@ -58,6 +66,33 @@ export default async function ExplorePage({
   const { locale } = await params
   setRequestLocale(locale)
   const sp = await searchParams
+  const t = await getTranslations('explore')
+  const mapView = one(sp.view) === 'map'
+  return (
+    <Suspense
+      fallback={
+        <ExplorePageSkeleton
+          label={t('loading')}
+          title={t(mapView ? 'map.title' : 'title')}
+          mapView={mapView}
+          filtered={hasExploreFilters(sp)}
+        />
+      }
+    >
+      <ExploreView sp={sp} locale={locale} mapView={mapView} />
+    </Suspense>
+  )
+}
+
+async function ExploreView({
+  sp,
+  locale,
+  mapView,
+}: {
+  sp: Query
+  locale: string
+  mapView: boolean
+}) {
   const q = one(sp.q)?.slice(0, 100)
   const region = filterValue(sp.region)
   const category = filterValue(sp.category)
@@ -66,9 +101,8 @@ export default async function ExplorePage({
   const page = Math.max(1, Number.parseInt(one(sp.page) ?? '1', 10) || 1)
 
   const preview = isCataloguePreview()
-  const mapView = one(sp.view) === 'map'
   const view = mapView ? 'map' : undefined
-  const village = one(sp.village)
+  const village = filterValue(sp.village)
   const selectedSlug = mapView ? one(sp.selected) : undefined
   const queryParams = {
     q,
@@ -79,25 +113,15 @@ export default async function ExplorePage({
     page: mapView ? 1 : page,
     pageSize: mapView && preview ? previewProducts.length : PAGE_SIZE,
   }
-  const [t, results, categories, regencies] = await Promise.all([
+  const [t, categories, regencies, villages] = await Promise.all([
     getTranslations('explore'),
-    mapView && !preview ? getMapProducts(queryParams) : searchProducts(queryParams),
-    preview ? previewCategories : getCategories(),
-    preview ? [previewRegency] : getRegencies(),
+    preview ? previewCategories : readSection(getCategories()),
+    preview ? previewRegencies : readSection(getRegencies()),
+    readSection(getVillagesForFilter()),
   ])
-  const mapVillages = mapView
-    ? preview
-      ? groupPreviewMapBusinesses(results.data)
-      : groupMapBusinesses(results.data, await getMapVillagePoints(results.data))
-    : []
-  const pages = Math.max(1, Math.ceil(results.meta.total / PAGE_SIZE))
-  const hasFilters = Boolean(q || region || category || village || sort !== 'newest')
+  const selectedVillage = villages?.find(({ slug }) => slug === village)
   const activeFilterCount =
-    Number(Boolean(region)) + Number(sort !== 'newest') + Number(Boolean(mapView && category))
-  const villageName =
-    village &&
-    (preview ? previewProducts : results.data).find((product) => product.village.slug === village)
-      ?.village.name
+    [region, village, category].filter(Boolean).length + Number(sort !== 'newest')
   const query = (overrides: Record<string, string | undefined>) => {
     const out = new URLSearchParams()
     for (const [k, v] of Object.entries({
@@ -115,34 +139,13 @@ export default async function ExplorePage({
     return s ? `/jelajah?${s}` : '/jelajah'
   }
   const action = localePath(locale, '/jelajah')
-  const emptyMessage = (
-    <>
-      <p className="section-title">{t('emptyTitle')}</p>
-      <p className="text-muted mx-auto mt-1 max-w-[48ch] text-sm">{t('emptyBody')}</p>
-    </>
-  )
-
   return (
-    <Container
-      className={cn(
-        'catalogue-explore',
-        mapView
-          ? 'catalogue-explore-map flex max-w-none flex-1 flex-col px-0 sm:px-0'
-          : 'pt-2 pb-8 sm:pt-7 sm:pb-10',
-      )}
-    >
+    <Container className={explorePageLayout(mapView)}>
       <h1 className={mapView ? 'sr-only' : 'page-title'}>
         {mapView ? t('map.title') : t('title')}
       </h1>
 
-      <div
-        className={cn(
-          'flex',
-          mapView
-            ? 'bg-surface flex-wrap items-center gap-2 px-4 pt-3 pb-1 sm:px-6'
-            : 'mt-3 flex-col gap-3 sm:mt-5 sm:gap-4',
-        )}
-      >
+      <div className={exploreToolbarLayout(mapView)}>
         <SearchForm
           key={q}
           action={action}
@@ -156,7 +159,10 @@ export default async function ExplorePage({
             <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-0.5 sm:mx-0 sm:flex-wrap sm:px-0">
               {[{ slug: undefined as string | undefined, label: t('allCategories') }]
                 .concat(
-                  categories.map((c) => ({ slug: c.slug, label: pick(locale, c.name, c.nameEn) })),
+                  (categories ?? []).map((c) => ({
+                    slug: c.slug,
+                    label: pick(locale, c.name, c.nameEn),
+                  })),
                 )
                 .map((c) => {
                   const active = (c.slug ?? undefined) === category
@@ -186,31 +192,55 @@ export default async function ExplorePage({
             key={query({})}
             action={action}
             activeCount={activeFilterCount}
-            hidden={{ q, view, village, category: mapView ? undefined : category }}
+            hidden={{
+              q,
+              view,
+              village: villages ? undefined : village,
+              category: categories ? undefined : category,
+              region: regencies ? undefined : region,
+            }}
             fields={[
-              {
-                name: 'region',
-                label: t('region'),
-                value: regencies.find((item) => item.code === region)?.code ?? ALL,
-                options: [
-                  { id: ALL, label: t('allRegions') },
-                  ...regencies.map((item) => ({ id: item.code, label: item.name })),
-                ],
-              },
-              ...(mapView
+              ...(regencies
+                ? [
+                    {
+                      name: 'region',
+                      label: t('region'),
+                      searchLabel: t('searchRegion'),
+                      all: t('allRegions'),
+                      value: regencies.find((item) => item.code === region)?.code ?? ALL,
+                      options: regencies.map((item) => ({ id: item.code, label: item.name })),
+                    } as const,
+                  ]
+                : []),
+              ...(villages
+                ? [
+                    {
+                      name: 'village',
+                      label: t('village'),
+                      searchLabel: t('searchVillage'),
+                      all: t('allVillages'),
+                      value: selectedVillage?.slug ?? ALL,
+                      options: villages.map((item) => ({
+                        id: item.slug,
+                        label: item.name,
+                        region: regencyCode(item.regionCode),
+                      })),
+                    } as const,
+                  ]
+                : []),
+              ...(categories
                 ? [
                     {
                       name: 'category',
                       label: t('category'),
+                      searchLabel: t('searchCategory'),
+                      all: t('map.allCategories'),
                       value: categories.find((item) => item.slug === category)?.slug ?? ALL,
-                      options: [
-                        { id: ALL, label: t('map.allCategories') },
-                        ...categories.map((item) => ({
-                          id: item.slug,
-                          label: pick(locale, item.name, item.nameEn),
-                        })),
-                      ],
-                    },
+                      options: categories.map((item) => ({
+                        id: item.slug,
+                        label: pick(locale, item.name, item.nameEn),
+                      })),
+                    } as const,
                   ]
                 : []),
               {
@@ -257,119 +287,26 @@ export default async function ExplorePage({
         </div>
       </div>
 
-      <div className={mapView ? 'flex flex-1 flex-col' : 'mt-3 sm:mt-4'}>
-        <div
-          className={cn(
-            'flex min-h-9 flex-wrap gap-x-3',
-            mapView
-              ? 'bg-surface items-baseline gap-y-1 px-4 py-2 sm:px-6'
-              : 'mb-2 items-center justify-between',
-          )}
-        >
-          <p
-            className={cn(
-              'text-sm leading-5 font-semibold',
-              mapView ? 'text-foreground tabular-nums' : 'text-muted',
-            )}
-            aria-live="polite"
-          >
-            {t('results', { count: results.meta.total })}
-          </p>
-          {hasFilters ? (
-            <Link
-              href={view ? '/jelajah?view=map' : '/jelajah'}
-              className={cn(
-                'text-accent inline-flex min-h-9 items-center text-sm font-semibold hover:underline',
-                mapView && 'ml-auto min-h-7 sm:ml-0',
-              )}
-            >
-              {t('reset')}
-            </Link>
-          ) : null}
-          {mapView ? (
-            <p
-              className={cn(
-                'text-muted ml-auto text-xs leading-5',
-                hasFilters && 'ml-0 basis-full sm:ml-auto sm:basis-auto',
-              )}
-            >
-              {t(preview ? 'map.approximate' : 'map.villageCentres')}
-            </p>
-          ) : null}
-        </div>
-        {villageName ? (
-          <Link
-            href={query({ village: undefined })}
-            aria-label={t('map.removeVillage', { village: villageName })}
-            scroll={false}
-            className={cn(
-              'bg-accent/8 hover:bg-accent/14 mb-3 inline-flex min-h-9 items-center gap-2 rounded-full px-3 text-xs font-semibold',
-              mapView && 'mx-4 self-start sm:mx-6',
-            )}
-          >
-            <MapPin className="text-accent size-4 shrink-0" aria-hidden />
-            <span className="min-w-0 wrap-anywhere">{villageName}</span>
-            <X className="text-muted size-4 shrink-0" aria-hidden />
-          </Link>
-        ) : null}
-        {mapView ? (
-          <>
-            {results.data.length === 0 ? (
-              <div className="bg-surface px-4 pt-1 pb-3 text-center">{emptyMessage}</div>
-            ) : mapVillages.length === 0 ? (
-              <p className="text-muted bg-surface px-4 pb-3 text-center text-sm">
-                {t('map.noVillagePoints')}
-              </p>
-            ) : null}
-            <ExploreMap
-              villages={mapVillages.map((point) => ({
-                ...point,
-                href: query({ selected: point.slug }),
-                listHref: query({ view: undefined, village: point.slug }),
-              }))}
-              selectedSlug={selectedSlug}
-              preview={preview}
-              closeHref={query({})}
-              listHref={query({ view: undefined })}
-            />
-          </>
-        ) : results.data.length === 0 ? (
-          <div className="bg-wash rounded-(--radius) px-6 py-14 text-center">{emptyMessage}</div>
-        ) : (
-          <ProductGrid products={results.data} mobileList preview={preview} />
-        )}
-      </div>
-
-      {!mapView && pages > 1 ? (
-        <nav
-          aria-label={t('page', { page, pages })}
-          className="mt-8 flex items-center justify-between gap-4"
-        >
-          {page > 1 ? (
-            <Link
-              href={query({ page: String(page - 1) })}
-              className="border-line-strong inline-flex h-9 items-center gap-1 rounded-full border px-3 text-sm font-semibold"
-            >
-              <ChevronLeft className="size-4" aria-hidden />
-              {t('prev')}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span className="text-muted text-sm">{t('page', { page, pages })}</span>
-          {page < pages ? (
-            <Link
-              href={query({ page: String(page + 1) })}
-              className="border-line-strong inline-flex h-9 items-center gap-1 rounded-full border px-3 text-sm font-semibold"
-            >
-              {t('next')}
-              <ChevronRight className="size-4" aria-hidden />
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
-      ) : null}
+      <Suspense
+        key={query({})}
+        fallback={
+          <ExploreResultsLoading
+            label={t('loading')}
+            mapView={mapView}
+            filtered={hasExploreFilters(sp)}
+          />
+        }
+      >
+        <ExploreResults
+          queryParams={queryParams}
+          mapView={mapView}
+          selectedSlug={selectedSlug}
+          href={query}
+          preview={preview}
+          villageName={selectedVillage?.name}
+          filtersUnavailable={!categories || !regencies || !villages}
+        />
+      </Suspense>
     </Container>
   )
 }

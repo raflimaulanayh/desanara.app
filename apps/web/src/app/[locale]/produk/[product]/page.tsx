@@ -5,16 +5,18 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { ReactNode } from 'react'
+import { CatalogueUnavailable } from '@/components/catalogue-state'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
 import { ProductGallery } from '@/components/product-gallery'
 import { Price } from '@/components/price'
+import { productDetailLayout } from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
 import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
 import { getPreviewProduct, isCataloguePreview } from '@/lib/catalogue-preview'
-import { getBusiness, getProduct } from '@/lib/data'
+import { getBusiness, getProduct, readSection } from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -29,10 +31,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const { locale, product: slug } = await params
   const preview = isCataloguePreview()
   const [p, t] = await Promise.all([
-    preview ? getPreviewProduct(slug)?.product : getProduct(slug),
+    preview ? getPreviewProduct(slug)?.product : readSection(getProduct(slug)),
     getTranslations({ locale, namespace: 'product' }),
   ])
-  if (!p) notFound()
+  if (p === undefined) notFound()
+  if (p === null) return {}
   const name = pick(locale, p.name, p.nameEn)
   const image = mediaUrl(p.images[0]?.key, preview)
   const price = p.price === 0 ? t('free') : formatRupiah(p.price, asLocale(locale))
@@ -72,11 +75,13 @@ export default async function ProductPage({ params }: { params: Params }) {
   const { locale, product: slug } = await params
   setRequestLocale(locale)
   const preview = isCataloguePreview()
-  const [t, tb, { product, business }] = await Promise.all([
+  const [t, tb, data] = await Promise.all([
     getTranslations('product'),
     getTranslations('business'),
-    loadProduct(slug, preview),
+    readSection(loadProduct(slug, preview)),
   ])
+  if (!data) return <CatalogueUnavailable fullPage />
+  const { product, business } = data
   const loc = asLocale(locale)
   const name = pick(locale, product.name, product.nameEn)
   const description = pick(locale, product.description ?? '', product.descriptionEn)
@@ -87,8 +92,8 @@ export default async function ProductPage({ params }: { params: Params }) {
   return (
     <VillageTheme theme={village.theme}>
       {preview ? null : <TrackView event={{ type: 'product_view', productSlug: product.slug }} />}
-      <Container className="product-detail pt-1 pb-10 lg:pt-5 lg:pb-12">
-        <div className="grid grid-cols-[2.75rem_1fr_2.75rem] items-center pb-2 lg:hidden">
+      <Container className={productDetailLayout.container}>
+        <div className={productDetailLayout.titleBar}>
           <Link
             href={preview ? '/' : '/jelajah'}
             aria-label={t(preview ? 'backToHome' : 'backToProducts')}
@@ -121,7 +126,7 @@ export default async function ProductPage({ params }: { params: Params }) {
           </ol>
         </nav>
 
-        <div className="grid grid-cols-1 gap-3.5 lg:mt-4 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+        <div className={productDetailLayout.grid}>
           <ProductGallery
             photos={photos.map((img) => ({
               src: mediaUrl(img?.key, preview),
@@ -130,7 +135,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             category={product.category?.slug}
           />
 
-          <div className="flex min-w-0 flex-col gap-4 lg:gap-5">
+          <div className={productDetailLayout.details}>
             <div>
               <h1 className="page-title lg:font-village text-balance">{name}</h1>
               <p className="mt-1.5 lg:mt-3">

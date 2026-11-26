@@ -5,32 +5,47 @@ import { unwrap } from '@repo/api-client'
 import { can } from '@repo/auth/permissions'
 import { Container } from '@repo/ui/components/container'
 import { EmptyState } from '@repo/ui/components/empty-state'
+import { StatusMascot } from '@repo/ui/components/status-mascot'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { api } from '@/lib/api'
+import { readableData } from '@/lib/api-errors'
 import { useSession } from '@/lib/session'
 import { greetingName } from '@/lib/greeting'
+import { QueryFeedback } from './query-feedback'
 
 /** Number of businesses matching a filter, from the list's `meta.total` (one row fetched). */
-function useBusinessCount(filter: { villageId?: string; verificationStatus?: 'pending' }) {
+function useBusinessCount(
+  filter: { villageId?: string; verificationStatus?: 'pending' },
+  enabled = true,
+) {
   return useQuery({
     queryKey: ['businesses', 'count', filter],
+    enabled,
     queryFn: async () =>
       (await unwrap(await api.v1.manage.businesses.$get({ query: { ...filter, pageSize: '1' } })))
         .meta.total,
   })
 }
 
-function Stat({ label, value }: { label: string; value: number | undefined }) {
+function Stat({ label, query }: { label: string; query: ReturnType<typeof useBusinessCount> }) {
+  const t = useTranslations('common')
+  const value = readableData(query)
   return (
     <div className="bg-wash rounded-xl p-3">
       <p className="text-muted text-xs font-semibold">{label}</p>
-      {value === undefined ? (
-        <Skeleton className="mt-1 h-7 w-10 rounded-md" />
-      ) : (
+      {value !== undefined ? (
         <p className="text-2xl font-extrabold tabular-nums">{value}</p>
-      )}
+      ) : query.isPending && query.fetchStatus !== 'paused' ? (
+        <div role="status">
+          <span className="sr-only">{t('loading')}</span>
+          <Skeleton animationType="none" className="mt-1 h-7 w-10 rounded-md" />
+        </div>
+      ) : null}
+      {query.isError || query.fetchStatus === 'paused' ? (
+        <QueryFeedback query={query} compact />
+      ) : null}
     </div>
   )
 }
@@ -44,6 +59,7 @@ function VillageCard({ id, name, role }: { id?: string; name: string; role: stri
   const total = useBusinessCount(id ? { villageId: id } : {})
   const pending = useBusinessCount(
     id ? { villageId: id, verificationStatus: 'pending' } : { verificationStatus: 'pending' },
+    reviewer,
   )
   return (
     <Card>
@@ -51,9 +67,9 @@ function VillageCard({ id, name, role }: { id?: string; name: string; role: stri
         <Card.Title className="text-lg font-bold">{name}</Card.Title>
         <Chip size="sm">{role}</Chip>
       </Card.Header>
-      <Card.Content className="grid grid-cols-2 gap-3">
-        <Stat label={t('home.businessCount')} value={total.data} />
-        {reviewer ? <Stat label={t('home.pendingCount')} value={pending.data} /> : null}
+      <Card.Content className="grid gap-3 sm:grid-cols-2">
+        <Stat label={t('home.businessCount')} query={total} />
+        {reviewer ? <Stat label={t('home.pendingCount')} query={pending} /> : null}
       </Card.Content>
     </Card>
   )
@@ -73,7 +89,11 @@ export function DashboardHome() {
       </h1>
 
       {noRoles ? (
-        <EmptyState title={t('home.noRolesTitle')} description={t('dashboard.noRoles')} />
+        <EmptyState
+          title={t('home.noRolesTitle')}
+          description={t('dashboard.noRoles')}
+          illustration={<StatusMascot pose="empty" />}
+        />
       ) : null}
 
       {actor.globalRole === 'super_admin' || memberships.villages.length > 0 ? (

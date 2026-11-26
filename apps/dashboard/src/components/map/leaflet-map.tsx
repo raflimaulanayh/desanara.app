@@ -1,5 +1,7 @@
 'use client'
 
+import { dashboardMapFrame } from './map-frame'
+
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useEffect, useRef, useState } from 'react'
@@ -82,12 +84,5 @@ export default function LeafletMap({ view, pin, onPick, focus, label, pinLabel }
     if (focus) map.current?.flyTo([focus.point.lat, focus.point.lng], focus.zoom, { duration: 0.6 })
   }, [focus])
 
-  return (
-    <div
-      ref={el}
-      role="application"
-      aria-label={label}
-      className="border-line h-72 w-full overflow-hidden rounded-xl border sm:h-96"
-    />
-  )
+  return <div ref={el} role="application" aria-label={label} className={dashboardMapFrame} />
 }
