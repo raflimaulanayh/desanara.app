@@ -30,6 +30,8 @@ yang cocok dengan filter. Alamat rinci, RT/RW, dan titik internal tetap hanya te
   mengikuti aturan visibilitas yang sudah berlaku.
 - Jika sumber awalnya berupa daftar koordinat yang sudah disetujui untuk umum, catat sumber dan persetujuan
   tiap titik sebelum menghubungkannya ke katalog. Jangan menebak titik dari nama usaha atau pusat desa.
+- Untuk demo publik Baros, peta memakai enam titik simulasi yang hanya cocok dengan produk berflag `isSeed`
+  dari enam UMKM contoh. Titik ini tidak berasal dari data dashboard.
 
 ## 4. Yang terdampak
 

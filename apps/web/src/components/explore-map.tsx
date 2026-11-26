@@ -1,5 +1,5 @@
 import { cn } from '@repo/ui/cn'
-import { ArrowRight, List, X } from 'lucide-react'
+import { ArrowRight, List } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { mapBusinessPins, type groupMapBusinesses, type MapCoordinates } from '@/lib/catalogue-map'
@@ -7,6 +7,7 @@ import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { ExploreBusinessSlider } from './explore-business-slider'
 import { ExploreMapCanvas } from './explore-map-canvas'
+import { ExploreVillageSheet } from './explore-village-sheet'
 import { ProductPhoto } from './product-photo'
 
 type Village = ReturnType<typeof groupMapBusinesses>[number] & {
@@ -64,7 +65,7 @@ export async function ExploreMap({
   ))
 
   return (
-    <div className="explore-map-layout flex flex-1 flex-col lg:flex-row">
+    <div className="flex flex-1 flex-col">
       <div className="explore-map-canvas bg-wash relative isolate min-h-44 min-w-0 flex-1 overflow-hidden">
         <ExploreMapCanvas
           villages={villages.map(({ slug, name, lat, lng, href, businesses }) => ({
@@ -73,7 +74,9 @@ export async function ExploreMap({
             lat,
             lng,
             href,
-            businessCount: businesses.length,
+            locationCount: businesses.filter(({ business }) =>
+              businessLocations?.has(business.slug),
+            ).length,
           }))}
           selectedSlug={selectedSlug}
           businessPoints={businessPoints}
@@ -89,27 +92,22 @@ export async function ExploreMap({
       </div>
 
       {selected ? (
-        <section
-          aria-label={t('selected', { village: selected.name })}
-          className="explore-map-details bg-surface border-line flex max-h-[42dvh] min-h-0 shrink-0 flex-col overflow-hidden border-t px-4 py-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:max-h-[calc(100dvh-8rem)] lg:w-80 lg:border-t-0 lg:border-l lg:p-4"
-        >
-          <div className="flex shrink-0 items-center justify-between gap-3">
-            <div className="min-w-0">
-              <h2 className="text-base leading-tight font-bold sm:text-lg">{selected.name}</h2>
-              <p className="text-muted mt-0.5 text-xs font-medium">
-                {t('count', { count: selected.businesses.length })}
-              </p>
-            </div>
+        <ExploreVillageSheet
+          key={selected.slug}
+          title={selected.name}
+          label={t('selected', { village: selected.name })}
+          count={t('count', { count: selected.businesses.length })}
+          closeHref={closeHref}
+          footer={
             <Link
-              href={closeHref}
-              scroll={false}
-              prefetch={false}
-              aria-label={t('close')}
-              className="text-accent bg-accent/8 hover:bg-accent/15 grid size-9 shrink-0 place-items-center rounded-full transition-colors"
+              href={selected.listHref}
+              className="bg-accent text-accent-foreground flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
             >
-              <X className="size-3.5" aria-hidden />
+              {t('listVillage')}
+              <ArrowRight className="size-4 shrink-0" aria-hidden />
             </Link>
-          </div>
+          }
+        >
           {selected.businesses.length > 2 ? (
             <ExploreBusinessSlider key={selected.slug} locationNote={locationNote}>
               {businessCards}
@@ -129,15 +127,7 @@ export async function ExploreMap({
               </ul>
             </>
           )}
-          <Link
-            href={selected.listHref}
-            scroll={false}
-            className="bg-accent text-accent-foreground mt-2 flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-bold whitespace-nowrap transition-colors hover:bg-[var(--accent-hover)]"
-          >
-            {t('listVillage')}
-            <ArrowRight className="size-4 shrink-0" aria-hidden />
-          </Link>
-        </section>
+        </ExploreVillageSheet>
       ) : null}
     </div>
   )

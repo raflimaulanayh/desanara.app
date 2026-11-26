@@ -25,7 +25,7 @@ type MapMarker = PinLink &
     slug: string
   }
 
-type VillageMarker = MapMarker & { businessCount: number }
+type VillageMarker = MapMarker & { locationCount: number }
 
 export type ExploreLeafletProps = {
   villages: VillageMarker[]
@@ -68,16 +68,27 @@ function fitSelectedVillage(
   businesses: MapMarker[],
   animate: boolean,
 ) {
-  const bounds = L.latLngBounds(
-    (businesses.length ? businesses : [village]).map(({ lat, lng }) => L.latLng(lat, lng)),
-  )
-  const center = bounds.getCenter()
-  const zoom = businesses.length
-    ? Math.min(18, map.getBoundsZoom(bounds, false, L.point(88, 120)))
-    : businessZoom
-  if (animate) revealPins(map, center, zoom)
-  else map.setView(center, zoom, { animate: false })
-  return center
+  if (businesses.length === 0) {
+    const center = L.latLng(village.lat, village.lng)
+    if (animate) revealPins(map, center, businessZoom)
+    else map.setView(center, businessZoom, { animate: false })
+    return center
+  }
+
+  const bounds = L.latLngBounds(businesses.map(({ lat, lng }) => L.latLng(lat, lng)))
+  const options: L.FitBoundsOptions = {
+    maxZoom: 18,
+    paddingTopLeft: [36, 32],
+    // Reserve room for the results sheet while keeping an area to fit the pins on short screens.
+    paddingBottomRight: [36, Math.min(276, map.getSize().y - 96)],
+  }
+  map.stop()
+  if (animate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    map.flyToBounds(bounds, { ...options, duration: 0.35 })
+  } else {
+    map.fitBounds(bounds, { ...options, animate: false })
+  }
+  return bounds.getCenter()
 }
 
 function boundsKey(points: MapCoordinates[]) {
@@ -360,7 +371,11 @@ export default function ExploreLeafletMap({
             href={village.href}
             prefetch={false}
             scroll={false}
-            aria-label={t('marker', { village: village.name, count: village.businessCount })}
+            aria-label={
+              village.locationCount > 0
+                ? t('marker', { village: village.name, count: village.locationCount })
+                : t('openVillagePin', { name: village.name })
+            }
             title={village.name}
             className="explore-map-marker group relative z-20 grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
           >
@@ -368,7 +383,15 @@ export default function ExploreLeafletMap({
               aria-hidden
               className="border-accent/60 bg-surface text-accent group-hover:border-accent group-hover:bg-wash grid size-9 place-items-center rounded-full border text-sm leading-none font-bold tabular-nums shadow-xs motion-safe:transition-colors"
             >
-              {village.businessCount > 99 ? '99+' : village.businessCount}
+              {village.locationCount > 0 ? (
+                village.locationCount > 99 ? (
+                  '99+'
+                ) : (
+                  village.locationCount
+                )
+              ) : (
+                <MapPin className="size-4" />
+              )}
             </span>
           </Link>,
           target,

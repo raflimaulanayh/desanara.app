@@ -19,6 +19,7 @@ import {
   previewVillages,
   searchPreviewProducts,
 } from './catalogue-preview'
+import { getDemoBusinessLocations } from './demo-business-locations'
 
 test('mock catalogue requires opt-in and runs only in development or Vercel Preview', () => {
   const optIn = { DESANARA_UI_PREVIEW: '1' }
@@ -149,6 +150,38 @@ test('business pins use only the provided shop coordinates and match the filtere
       href: '/produk/kopi-baros',
     },
   ])
+})
+
+test('the six Baros demo businesses get distinct pins and other catalogue entries do not', () => {
+  const products = [
+    'anyaman-bambu-pak-ujang',
+    'dodol-ibu-euis',
+    'keripik-bu-ani',
+    'kopi-gunung-baros',
+    'madu-hutan-baros',
+    'telur-asin-mang-oding',
+  ].map((slug) => {
+    const product = previewProducts[0]!
+    return {
+      ...product,
+      business: { ...product.business, slug },
+      village: { ...product.village, slug: 'baros' },
+    }
+  })
+  const locations = getDemoBusinessLocations(products)
+  const pins = mapBusinessPins(products, locations)
+
+  expect(pins).toHaveLength(6)
+  expect(new Set(pins.map(({ lat, lng }) => `${lat},${lng}`)).size).toBe(6)
+  for (const { business } of products) {
+    expect(pins.find(({ slug }) => slug === `business:${business.slug}`)).toMatchObject(
+      locations.get(business.slug)!,
+    )
+  }
+  expect(
+    getDemoBusinessLocations(products.map((product) => ({ ...product, isSeed: false }))).size,
+  ).toBe(0)
+  expect(getDemoBusinessLocations(previewProducts).size).toBe(0)
 })
 
 test('nearby pins group at the current scale and the selected village keeps its own marker', () => {
