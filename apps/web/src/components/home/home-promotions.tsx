@@ -11,6 +11,7 @@ type Promotion = {
   id: 'bamboo' | 'coffee' | 'villages'
   href: string
   image: string
+  imageOnly?: boolean
   sponsor?: string
   sample?: { previewSlug: string; catalogueSlug: string; sponsor: string }
 }
@@ -40,6 +41,7 @@ const publishedPromotions: Promotion[] = [
     id: 'villages',
     href: VILLAGES_PATH,
     image: '/brand/catalogue-landscape.webp',
+    imageOnly: true,
   },
 ]
 
@@ -61,36 +63,43 @@ export async function HomePromotions({ preview }: { preview: boolean }) {
     <section aria-label={t('title')} className="pt-7 md:pt-9">
       <Container>
         <PromotionCarousel count={promotions.length}>
-          {promotions.map(({ id, href, image, sponsor }) => (
+          {promotions.map(({ id, href, image, imageOnly, sponsor }) => (
             <li key={id}>
               <Link
                 href={href}
                 rel={sponsor ? 'sponsored' : undefined}
-                className="group bg-wash border-line hover:border-accent grid h-full min-h-40 grid-cols-[minmax(0,3fr)_minmax(0,2fr)] overflow-hidden rounded-(--radius) border transition-colors focus-visible:outline-offset-[-3px] md:min-h-48"
+                aria-label={imageOnly && !sponsor ? t(`${id}.action`) : undefined}
+                className="group bg-wash border-line hover:border-accent relative isolate flex h-full min-h-40 flex-col items-start justify-end overflow-hidden rounded-(--radius) border px-4 py-4 transition-colors focus-visible:outline-offset-[-3px] sm:px-6 md:min-h-48 md:px-8"
               >
-                <div className="flex flex-col items-start justify-center px-3 py-4 sm:px-6 md:px-8">
-                  {sponsor ? (
-                    <p className="text-muted text-xs leading-snug font-semibold">
-                      {t('sponsoredBy', { sponsor })}
-                    </p>
-                  ) : null}
-                  <h3 className="text-foreground mt-1 text-base leading-tight font-extrabold text-pretty sm:text-xl md:text-2xl">
-                    {t(`${id}.title`)}
-                  </h3>
-                  <span className="text-accent mt-3 inline-flex items-center gap-1.5 text-xs leading-snug font-bold sm:text-sm">
-                    {t(id === 'bamboo' && !sponsor ? 'bamboo.browse' : `${id}.action`)}
-                    <ArrowRight className="size-4 shrink-0" aria-hidden />
-                  </span>
-                </div>
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={image}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1152px) 440px, 40vw"
-                    className="object-cover motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]"
-                  />
-                </div>
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1152px) 1104px, (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)"
+                  className="-z-20 object-cover object-center motion-safe:transition-transform motion-safe:duration-300 motion-safe:group-hover:scale-[1.03]"
+                />
+                {sponsor ? (
+                  <p className="mb-auto rounded-full bg-stone-950/90 px-2.5 py-1 text-xs leading-snug font-semibold text-white">
+                    {t('sponsoredBy', { sponsor })}
+                  </p>
+                ) : null}
+                {imageOnly ? (
+                  sponsor && <span className="sr-only">{t(`${id}.action`)}</span>
+                ) : (
+                  <>
+                    <div
+                      className="absolute inset-0 -z-10 bg-linear-to-r from-stone-950/95 via-stone-950/75 to-transparent"
+                      aria-hidden
+                    />
+                    <h3 className="mt-6 max-w-[16ch] text-lg leading-tight font-extrabold text-pretty text-white sm:text-xl md:text-2xl">
+                      {t(`${id}.title`)}
+                    </h3>
+                    <span className="mt-2 inline-flex items-center gap-1.5 text-xs leading-snug font-bold text-white sm:text-sm">
+                      {t(id === 'bamboo' && !sponsor ? 'bamboo.browse' : `${id}.action`)}
+                      <ArrowRight className="size-4 shrink-0" aria-hidden />
+                    </span>
+                  </>
+                )}
               </Link>
             </li>
           ))}

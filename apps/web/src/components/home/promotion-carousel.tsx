@@ -5,6 +5,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useId, useRef, useState, type ReactNode } from 'react'
 
+const control = 'text-accent min-w-0 size-9 rounded-full bg-accent/8 p-0 disabled:opacity-40'
+
 function slideWidth(list: HTMLUListElement) {
   const [first, second] = list.children
   return first instanceof HTMLElement && second instanceof HTMLElement
@@ -27,33 +29,35 @@ export function PromotionCarousel({ children, count }: { children: ReactNode; co
 
   return (
     <div>
-      <div className="mb-2 flex min-h-11 items-center justify-between gap-3">
+      <div className="mb-2 flex min-h-9 items-center justify-between gap-3">
         <h2 id={titleId} className="section-title">
           {t('title')}
         </h2>
         {count > 1 ? (
           <div className="flex shrink-0 gap-1">
             <Button
+              size="sm"
               variant="ghost"
               isIconOnly
               isDisabled={active === 0}
               aria-label={t('previous')}
               aria-controls={listId}
               onPress={() => move(-1)}
-              className="text-accent size-11 min-w-0 rounded-full"
+              className={control}
             >
-              <ChevronLeft className="size-5" aria-hidden />
+              <ChevronLeft className="size-4" aria-hidden />
             </Button>
             <Button
+              size="sm"
               variant="ghost"
               isIconOnly
               isDisabled={active === count - 1}
               aria-label={t('next')}
               aria-controls={listId}
               onPress={() => move(1)}
-              className="text-accent size-11 min-w-0 rounded-full"
+              className={control}
             >
-              <ChevronRight className="size-5" aria-hidden />
+              <ChevronRight className="size-4" aria-hidden />
             </Button>
           </div>
         ) : null}
