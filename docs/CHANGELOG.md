@@ -15,6 +15,20 @@ Format:
 
 ---
 
+## 2026-11-27 — Ringkas navigasi PWA terpasang
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Bilah PWA memakai tinggi 52 px dan padding bawah 4 px. Area aman berada di luar panel kaca,
+  dan tab tetap punya area sentuh minimal 44 px.
+
+## 2026-11-27 — Rapikan area aman navigasi bawah
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Efek kaca memudar di area aman bawah agar ruang untuk gestur sistem tidak terlihat seperti bagian
+  kosong dari bilah navigasi. Posisi tab tetap mengikuti area aman perangkat.
+
 ## 2026-11-27 — Ringkas bilah navigasi bawah
 
 - **Area**: apps/web

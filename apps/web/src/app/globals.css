@@ -8,8 +8,13 @@
 :root {
   --radius-compact: 0.5rem;
   --safe-area-top: env(safe-area-inset-top, 0px);
-  --mobile-nav-bottom-padding: max(0.25rem, env(safe-area-inset-bottom, 0px));
-  --mobile-nav-space: calc(3.5rem + var(--mobile-nav-bottom-padding));
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-nav-row: 3.5rem;
+  --mobile-nav-icon-height: 1.75rem;
+  --mobile-nav-bottom-padding: max(0.25rem, var(--safe-area-bottom));
+  --mobile-nav-offset: 0px;
+  --mobile-nav-height: calc(var(--mobile-nav-row) + var(--mobile-nav-bottom-padding));
+  --mobile-nav-space: calc(var(--mobile-nav-height) + var(--mobile-nav-offset));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
 }
@@ -21,7 +26,12 @@
 }
 
 @media (display-mode: standalone) {
-  html {
+  :root {
+    --mobile-nav-row: 3rem;
+    --mobile-nav-icon-height: 1.5rem;
+    --mobile-nav-bottom-padding: 0.25rem;
+    /* Keep the row above the system inset, with the inset outside the glass. */
+    --mobile-nav-offset: max(0px, calc(var(--safe-area-bottom) - var(--mobile-nav-bottom-padding)));
     touch-action: pan-x pan-y;
   }
 }
@@ -112,6 +122,29 @@ body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)) {
 .mobile-navigation {
   padding-inline: max(0.5rem, env(safe-area-inset-left, 0px))
     max(0.5rem, env(safe-area-inset-right, 0px));
+}
+
+.mobile-navigation.navigation-glass::before {
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(100% - var(--mobile-nav-bottom-padding) + 0.25rem),
+    transparent
+  );
+}
+
+@media (display-mode: standalone) {
+  .mobile-navigation {
+    inset-inline: max(0.5rem, env(safe-area-inset-left, 0px))
+      max(0.5rem, env(safe-area-inset-right, 0px));
+    border-width: 1px;
+    border-radius: var(--radius);
+    padding-inline: 0.25rem;
+  }
+
+  .mobile-navigation.navigation-glass::before {
+    border-radius: inherit;
+    mask-image: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
