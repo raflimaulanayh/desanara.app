@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-27 — Rapikan tipografi dan tambah contoh banner gambar penuh
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Foto kembali mengisi seluruh banner Sorotan, dengan judul semibold dan ajakan berbobot medium.
+  Banner Jelajahi desa memakai file gambar Indonesia dan Inggris yang sudah memuat judul dan ajakan.
+
 ## 2026-11-27 — Perbarui artwork Sorotan beranda
 
 - **Area**: apps/web
