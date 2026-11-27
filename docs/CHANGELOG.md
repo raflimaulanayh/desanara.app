@@ -15,6 +15,71 @@ Format:
 
 ---
 
+## 2026-11-27 — Splash halaman Tentang yang baru
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Splash `/tentang` kini berlatar hijau tua dengan cincin terasering, logo putih yang tumbuh,
+  efek kedalaman mengikuti mouse, dan pembukaan melingkar ke hero. Skrip awalnya dipindah ke `<head>` layout
+  sehingga tidak lagi memicu peringatan React. Animasinya diperhalus (kurva lebih lembut, bukaan bertepi lembut)
+  dan tidak lagi mulai ulang saat hydrate di mode development. Celah putih sebelum footer di halaman Tentang dihapus.
+
+## 2026-11-27 — Scroll ke atas saat pindah halaman dan toolbar katalog
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Setiap pindah halaman kini dimulai dari atas, sedangkan tombol kembali tetap memulihkan posisi dan link ke
+  bagian halaman bergulir halus. Toolbar katalog di desktop dirapikan menjadi satu baris (cari, Filter,
+  Daftar/Peta) dengan chip kategori di bawahnya.
+
+## 2026-11-27 — Rapikan sorotan dan kategori beranda di desktop
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Sorotan di desktop kini kartu terbelah: panel krem berisi judul, keterangan, dan tombol, dengan foto di
+  kanan, plus titik posisi di bawah carousel. Kategori di desktop menjadi kartu bergaris tepi dengan sorotan
+  hijau tipis. Ajakan untuk UMKM di akhir beranda kini panel hijau tua dengan tiga keunggulan dan foto produk.
+  Teks "Jelajahi desa" pada gambar banner desa dihapus sehingga banner tampil seperti iklan.
+  Tampilan HP tidak berubah.
+
+## 2026-11-27 — Header desktop: bilah penuh di atas, kapsul saat di-scroll
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Di desktop, header tampil sebagai bilah selebar layar di posisi atas, lalu berubah mulus menjadi kapsul
+  kaca selebar konten halaman saat di-scroll. Halaman aktif ditandai pil hijau yang bergeser, Pengaturan
+  menjadi ikon, dan tombol Daftarkan UMKM memudar di mode kapsul. Header dan menu bawah di HP tidak berubah.
+
+## 2026-11-27 — Halaman kebijakan privasi dan syarat & ketentuan
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Halaman `/kebijakan-privasi` dan `/syarat-ketentuan` (ID dan EN) dengan bahasa sederhana, daftar isi di
+  desktop, dan stabilo pada janji penting. Isinya mengikuti cara Desanara menangani data (lihat
+  `docs/architecture/security-privacy.md`). Tautannya ada di footer dan sitemap. Perlu ditinjau pembina
+  sebelum peluncuran publik.
+- Terkait: PLAN-registration-email.md
+
+## 2026-11-27 — Revamp footer situs publik
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Footer di semua halaman publik kini berisi kolom brand dengan tagline, tiga kelompok tautan (Jelajahi,
+  Desanara, Hubungi kami dengan ikon Instagram, TikTok, dan YouTube @himasif.su), baris kredit HIMASIF dan SATU University dengan nama program, dan hak cipta.
+  Tautan "Ajak kerja sama" menuju panel kemitraan di halaman Tentang.
+
+## 2026-11-27 — Revamp halaman Tentang
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Halaman `/tentang` disusun ulang: splash logo sekali per sesi, hero dengan tagline resmi di atas pita
+  produk dari berbagai desa dan matahari terbit, cerita masalah lewat satu produk Desa Baros, simulasi
+  pesan WhatsApp, lima peran, alur verifikasi dengan status asli, Desa Baros dan desa mitra per kabupaten,
+  perjalanan menuju seminar 5 Desember, pembuat dan ajakan bermitra, tanya jawab, serta penutup `#gabung`.
+- Gaya mengikuti beranda (radius, garis tepi, panel `wash`). Gerak scroll memakai GSAP (dependensi baru
+  `gsap`, `@gsap/react`) dan mati untuk pengguna dengan preferensi gerak dikurangi.
+- Terkait: PLAN-about-page.md
+
 ## 2026-11-27 — Pulihkan tampilan bilah bawah yang menyatu dengan layar
 
 - **Area**: apps/web

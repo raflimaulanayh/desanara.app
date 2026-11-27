@@ -56,9 +56,9 @@ export function ExploreFilters({
           variant="secondary"
           aria-haspopup="dialog"
           aria-label={activeCount ? t('filtersActive', { count: activeCount }) : undefined}
-          className="min-h-9 rounded-full px-3 text-xs font-semibold"
+          className="h-10 min-h-10 rounded-full px-4 text-xs font-semibold sm:text-[0.8125rem]"
         >
-          <SlidersHorizontal className="size-3.5" aria-hidden />
+          <SlidersHorizontal className="size-4" aria-hidden />
           {t('filters')}
           {activeCount > 0 ? (
             <span

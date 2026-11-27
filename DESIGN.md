@@ -68,7 +68,7 @@ tall, so the horizontal logo needs at least 32 px height (header 44 px). Use the
 Montserrat for platform pages and the dashboard (variable, 400–800), the same family as the logo wordmark.
 Public page titles use `page-title` (20 px on phones, 24 px from `sm`). Section titles use `section-title`
 (18 px on phones, 20 px from `sm`). The home banner uses 20–22 px on smaller screens and `display-title`
-from `md`. The about hero uses `display-title` (24–36 px).
+from `md`. The about hero has its own larger scale (see About page below).
 Body text stays at least 16 px with a line length of up to 68ch. Search hints and compact controls use 14 px,
 and supporting labels use 12–14 px. Search input text stays 16 px on phones. Keep card names to two lines
 and check long names at 320 px. Villages may swap the display face through `font-village` for their own
@@ -82,14 +82,21 @@ can override this token. Thumbnails inside cards and compact rectangular control
 `rounded-(--radius-compact)` (8 px).
 Prominent actions, the search field, chips, and badges use pill corners. The filter sheet shares the card
 radius on its top edge, and the story viewer stays flush with the screen on phones. Use HeroUI v3 for form controls,
-buttons and overlays. Keep filters and toolbar controls compact, with 36 px fields and secondary actions,
-40 px search, and at least 44 px for the main order action and bottom navigation targets.
+buttons and overlays. Keep filters compact: 36 px fields inside the filter sheet, while the catalogue toolbar row (search, Filter, list or map) shares one 40 px height, and at least 44 px for the main order action and bottom navigation targets.
 
 ## Components
 
-- **Header** uses a sticky logo, a neutral search pill, and a thin divider over a translucent surface with backdrop blur. On mobile, the drawer holds Tentang and
-  Daftarkan UMKM. Desktop shows Beranda, Produk, Desa, Tentang, and Pengaturan beside the search field. Wide desktops
-  also show Daftarkan UMKM.
+- **Scrolling**: a new page always starts at the top; back and forward keep the restored position, links to a
+  section land on it, and catalogue filter changes do not move the page. In-page jumps glide (`scroll-behavior:
+smooth`), off with reduced motion. Anchored sections leave room for the floating header.
+- **Header** on phones is a full-width glass bar with the logo and a neutral search pill; the drawer holds Tentang
+  and Daftarkan UMKM. On desktop it starts as the same full-width bar (about 64 px tall, square corners, content aligned with the
+  page container) and, once the page scrolls, eases into a floating glass capsule as wide as the page content
+  (rounded, hairline border, soft shadow, 12 px from the top). It holds the logo, a search that fills the space
+  between logo and links, Beranda, Produk, Desa, Tentang, a gear icon for Pengaturan, and a green Daftarkan UMKM
+  pill on wide screens that fades and folds away in the capsule. A light-green pill marks the current page and
+  slides between links, and hover uses the same tint. All changes share one 0.55 s ease-out curve, with two scroll
+  thresholds so it does not flicker.
 - **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in a fixed translucent bar with backdrop blur.
   The tabs use a 56 px row, with bottom padding of 4 px or the device safe area, whichever is larger.
   In the browser and installed PWA, the full-width glass extends through the safe area to the bottom
@@ -98,12 +105,13 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
   products share a row, with a link to the full catalogue. Categories follow in a horizontal row of tinted icons
-  with labels. The promotion slot follows categories, then the village cards. Sponsored campaigns name their
-  sponsor. Multiple campaigns use swipe and previous/next controls. The village discovery banner fills an empty
-  slot. Desktop shows four products and a grid of category links. Keep the home village preview to six cards. The village directory shows 12 cards per
+  with labels on phones, and from `sm` as bordered cards (icon above a left-aligned name, a green tint and an
+  arrow on hover). The promotion slot follows categories, then the village cards. Sponsored campaigns name their
+  sponsor. Multiple campaigns use swipe, previous/next controls and clickable position dots. On phones a campaign is a photo with text over a dark gradient; from `md` it splits into a cream text panel (title, one-line description, green pill) and the photo on the right. Image-only campaigns stay full width. The village discovery banner (headline only, no call-to-action text in the artwork) fills an empty
+  slot. Desktop shows four products and the category cards. Keep the home village preview to six cards. The village directory shows 12 cards per
   page, with equal horizontal padding around the home directory link's hover area.
-  The seller invitation uses a white card and the HeroUI primary green action.
-- **Catalogue results** retain the current filters when searching and use compact category links. A full-width
+  The seller invitation is a forest-green panel: a two-tone heading (white, then light green), three true benefits as outlined chips with check marks, a stack of round product photos, a white Daftarkan UMKM pill and a Pelajari dulu link to the about page.
+- **Catalogue results** retain the current filters when searching. On wider screens the search, Filter and list or map switch sit on one row, with category chips below (white with a hairline, light-green on hover, green when active). A full-width
   HeroUI bottom `Sheet` groups region, village, category, and sorting in list and map modes. Region, village,
   and category use searchable HeroUI `Autocomplete` fields. Regional selection narrows the village options.
   Field values sit vertically centred inside consistent 36 px triggers. The form stays centred at a readable
@@ -150,10 +158,39 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   or use the arrows. On devices with a mouse, the arrows appear on viewer hover or when they receive focus.
   Playback pauses when the page is hidden. Reopening a card starts at the first unread update. Desktop uses a
   centred portrait viewer.
-- **About hero** (splash-style, from the brand board mockup): on phones the vertical logo, the village landscape
-  (`VillageScene`, inline SVG in the brand palette, one rise-on-load motion, none with reduced motion), headline
-  "Karya Desa, untuk Indonesia." in the accent, then full-width "Jelajahi Sekarang" (primary) and "Daftarkan UMKM"
-  (outline). From `md`: text left, landscape right with edges faded into the cream by a mask.
+- **About page** ([PLAN-about-page](docs/plan/PLAN-about-page.md)) opens with a splash once per browser
+  session: a forest-green sunrise where thin terrace rings draw in and turn slowly, the leaves grow, the white
+  wordmark rises letter by letter, then a soft-edged circular opening grows from the
+  centre while the logo drifts forward and fades, revealing the hero. With a mouse, the logo and rings drift against each other for depth. A tap, click or Escape
+  skips it. The splash runs in CSS, so it ends on its own without JavaScript, and reduced motion turns it off. The hero sits on white with darker supporting copy, centred: the tagline "Ragam Karya, Cerita Nusantara." at
+  42 to 80 px (first line semibold ink, second line regular accent green, so contrast comes from weight, not
+  heaviness), the lead, one primary pill with the seller path as an underlined link, and the figures as one
+  sentence. No label sits above the heading. Below, a full-width row of linked product photos from different
+  villages, each with its name and village, drifts slowly as a loop. Photos alternate between square and 4:5 portrait, centred on one line,
+  and it pauses on hover, focus or its pause button, and becomes a scrollable row with reduced motion. A sunrise is anchored to the top of that row: a two-tone `sun` core on the horizon behind the
+  photos, ringed by thin arcs like rice terraces that fade from `sun` to `leaf`. The rings draw in once from left
+  to right, fade where the headline sits, and fade out behind the photos so nothing reaches the next section. The problem section follows the hero type system (two-sentence heading, semibold ink then regular accent)
+  and tells the problem through one real product, Keripik Singkong Balado from Desa Baros. On desktop a sticky
+  warm panel changes with each step: known only inside a dashed circle of neighbours, a search with no clear
+  results, a bare listing with no photo and "price? just ask", then the full Desanara card with photo, village,
+  verified mark and WhatsApp button. The steps beside it dim until current. On phones each step shows its own
+  panel above the text. The answer sits under the leaf mark, with its two solutions drawn in a `sun`
+  highlighter stroke. A try-it order follows. A forest-green (`forest` `#235239`) section holds the order demo: the heading in white then light green,
+  a white control card with numbered steps (quantity, note, total), a light-green arrow, and a WhatsApp chat in
+  `wa` green whose bubble lines flash `sun` yellow when they change, labelled as step 3. The roles section uses HeroUI `secondary` tabs: on desktop a vertical list of the five roles (icon, name,
+  one-line description, green indicator, soft `sun` tint when selected) beside the role's steps and a drawing
+  of its screen in a warm panel; on phones a swipeable row of icon tabs. Panels settle in when chosen. The trust section sits on white: three verification steps whose connectors fill in sequence, each with
+  the real status chip it produces (waiting in `warning`, verified in accent-soft, live in `success`), then a
+  cream panel of four promises in a 2 by 2 grid with hairline dividers and small inline icons. Desa Baros has a tall rounded photo with a floating white card (crest, name, district,
+  businesses recorded), `sun`-tinted commodity chips, the village's aim drawn in the highlighter stroke, and a pausable ribbon of small linked village cards, each
+  with its regency marked by a dot (Bandung `leaf`, Garut `sun`, Sumedang `clay`) that the sentence above
+  repeats as a legend. A journey timeline on white (date pills, semibold titles, the 5 December seminar raised in a cream card with its venue), the makers (two-tone heading and lead, then two equal panels: a white credit panel with the HIMASIF and SATU University marks and the programme name, and a cream "Mari bermitra" invitation for villages, campuses, communities and companies with an Instagram contact pill), a FAQ (sticky two-tone heading with an Instagram "still have a question" box on desktop, questions as separate bordered cards that turn cream when open, the first one open), and a forest-green `#gabung` close (two-tone heading in white and light green, a buyer card with a stack of round product photos and a seller card with a shop icon)
+  complete the page. The page ends on the forest section with no gap before the footer (`data-footer-flush`). It uses the same shape tokens as the catalogue home: cards, panels and photos use `rounded-(--radius)`, small
+  pieces inside them `rounded-(--radius-compact)`, actions and chips are pills, elevation is a `border-line`
+  border, only a card floating over a photo adds `shadow-sm`, and tinted panels use `wash` at half strength. The
+  trust steps play once as a sequence: each step lights up, then its connector fills to the next. Scroll motion uses GSAP + ScrollTrigger on this page only. Content is readable
+  without JavaScript, and reduced motion keeps everything still. Avoid repeated icon-in-circle cards and
+  side-stripe quotes.
 - **Search form** uses a HeroUI `ComboBox` with a pill-shaped `InputGroup`. After two characters, a compact
   list under the field links to matching products and businesses. A free-text search submits a GET request
   with the current filters. HeroUI draws one focus ring around the group.
@@ -176,8 +213,14 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Open-status badge**: dot + label (Buka / Tutup / Tutup sementara) with detail text where there is room; never shown
   without a schedule.
 - **Verified badge**: accent-soft pill with a check icon.
-- **Footer** uses a white surface and a thin border. It carries the platform description, links, and credits
-  with the monochrome HIMASIF and SATU University logos.
+- **Legal pages** (`/kebijakan-privasi`, `/syarat-ketentuan`) use a reading layout: semibold title, an
+  effective-date pill, a lead, then plain-language sections in one 44rem column with a sticky table of contents on
+  wide screens. Key promises use the `sun` highlighter stroke. A cream contact box closes the page.
+- **Footer** uses a white surface and a hairline. A brand column carries the logo, the tagline in regular accent
+  green and a one-line description. Three link groups follow (Jelajahi, Desanara, Hubungi kami), two columns on
+  phones. Hubungi kami holds round outline icon links to Instagram, TikTok and YouTube (all @himasif.su) and the
+  partnership link. A credit row shows "Dikelola oleh" with the monochrome HIMASIF and SATU University marks and the
+  programme name, then the copyright line.
 
 ## Do
 

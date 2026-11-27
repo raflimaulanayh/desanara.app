@@ -1,6 +1,7 @@
 import { Container } from '@repo/ui/components/container'
 import { LoadingRegion, SkeletonBlock } from '@repo/ui/components/loading-region'
 import { cn } from '@repo/ui/cn'
+import { ArrowUpRight } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { categoryIcon } from '@/lib/category-icons'
@@ -23,10 +24,11 @@ const iconTones = new Map([
 ])
 
 const categoriesLayout =
-  '-mx-4 mt-3.5 flex snap-x gap-1 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-6 sm:gap-3 sm:px-0'
+  '-mx-4 mt-3.5 flex snap-x gap-1 overflow-x-auto px-4 pb-1 sm:mx-0 sm:mt-4 sm:grid sm:grid-cols-3 sm:gap-3 sm:px-0 lg:grid-cols-6'
 const itemLayout = 'w-[4.6rem] shrink-0 snap-center sm:w-auto'
+// Phones: a compact swipeable row. Wider: bordered cards with the icon above a left-aligned name.
 const categoryLayout =
-  'flex h-full flex-col items-center gap-2 rounded-(--radius) px-1 py-1 text-center text-xs leading-tight font-semibold sm:px-2 sm:py-2 sm:text-sm'
+  'flex h-full flex-col items-center gap-2 rounded-(--radius) px-1 py-1 text-center text-xs leading-tight font-semibold sm:relative sm:items-start sm:gap-4 sm:border sm:border-line sm:bg-surface sm:p-4 sm:text-left sm:text-sm'
 
 export function CategoryGridSkeleton({ title, label }: { title: string; label: string }) {
   return (
@@ -69,7 +71,7 @@ export async function CategoryGrid({ categories }: { categories: Category[] }) {
                   href={{ pathname: '/jelajah', query: { category: category.slug } }}
                   className={cn(
                     categoryLayout,
-                    'hover:bg-accent/6 hover:text-accent focus-visible:outline-offset-[-2px]',
+                    'group hover:bg-accent/6 hover:text-accent sm:hover:border-accent sm:hover:bg-accent-soft sm:hover:text-accent-soft-foreground transition-colors focus-visible:outline-offset-[-2px]',
                   )}
                 >
                   <span
@@ -80,6 +82,10 @@ export async function CategoryGrid({ categories }: { categories: Category[] }) {
                   >
                     <Icon className="size-5 sm:size-6" strokeWidth={1.9} aria-hidden />
                   </span>
+                  <ArrowUpRight
+                    className="text-accent absolute top-3.5 right-3.5 hidden size-4 opacity-0 transition-opacity group-hover:opacity-100 sm:block"
+                    aria-hidden
+                  />
                   <span className="max-w-full wrap-break-word">
                     {t.has(short) ? t(short) : pick(locale, category.name, category.nameEn)}
                   </span>

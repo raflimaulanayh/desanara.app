@@ -75,6 +75,30 @@ export function PromotionCarousel({ children, count }: { children: ReactNode; co
         {children}
       </ul>
       {count > 1 ? (
+        <div className="mt-3 flex justify-center gap-1.5">
+          {Array.from({ length: count }, (_, index) => (
+            <button
+              key={index}
+              type="button"
+              aria-label={t('goTo', { n: index + 1 })}
+              aria-controls={listId}
+              aria-current={index === active ? 'true' : undefined}
+              onClick={() => {
+                const list = rail.current
+                if (list) list.scrollTo({ left: index * slideWidth(list) })
+              }}
+              className="grid h-6 place-items-center px-0.5"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ${
+                  index === active ? 'bg-accent w-6' : 'bg-line-strong w-1.5'
+                }`}
+              />
+            </button>
+          ))}
+        </div>
+      ) : null}
+      {count > 1 ? (
         <p role="status" className="sr-only">
           {t('position', { current: active + 1, count })}
         </p>

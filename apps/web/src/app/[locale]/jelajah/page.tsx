@@ -139,22 +139,134 @@ async function ExploreView({
     return s ? `/jelajah?${s}` : '/jelajah'
   }
   const action = localePath(locale, '/jelajah')
+  const search = (
+    <SearchForm
+      key={q}
+      action={action}
+      defaultValue={q}
+      placeholder={mapView ? t('map.searchPlaceholder') : t('searchPlaceholder')}
+      hidden={{ category, region, village, view, sort: sort === 'newest' ? undefined : sort }}
+      className={cn(
+        mapView ? 'flex-[1_1_12rem] sm:max-w-lg' : 'sm:max-w-none sm:flex-1 lg:max-w-xl',
+      )}
+    />
+  )
+  const filters = (
+    <ExploreFilters
+      key={query({})}
+      action={action}
+      activeCount={activeFilterCount}
+      hidden={{
+        q,
+        view,
+        village: villages ? undefined : village,
+        category: categories ? undefined : category,
+        region: regencies ? undefined : region,
+      }}
+      fields={[
+        ...(regencies
+          ? [
+              {
+                name: 'region',
+                label: t('region'),
+                searchLabel: t('searchRegion'),
+                all: t('allRegions'),
+                value: regencies.find((item) => item.code === region)?.code ?? ALL,
+                options: regencies.map((item) => ({ id: item.code, label: item.name })),
+              } as const,
+            ]
+          : []),
+        ...(villages
+          ? [
+              {
+                name: 'village',
+                label: t('village'),
+                searchLabel: t('searchVillage'),
+                all: t('allVillages'),
+                value: selectedVillage?.slug ?? ALL,
+                options: villages.map((item) => ({
+                  id: item.slug,
+                  label: item.name,
+                  region: regencyCode(item.regionCode),
+                })),
+              } as const,
+            ]
+          : []),
+        ...(categories
+          ? [
+              {
+                name: 'category',
+                label: t('category'),
+                searchLabel: t('searchCategory'),
+                all: t('map.allCategories'),
+                value: categories.find((item) => item.slug === category)?.slug ?? ALL,
+                options: categories.map((item) => ({
+                  id: item.slug,
+                  label: pick(locale, item.name, item.nameEn),
+                })),
+              } as const,
+            ]
+          : []),
+        {
+          name: 'sort',
+          label: t('sort'),
+          value: sort,
+          options: [
+            { id: 'newest', label: t('sortNewest') },
+            { id: 'price_asc', label: t('sortPriceAsc') },
+            { id: 'price_desc', label: t('sortPriceDesc') },
+          ],
+        },
+      ]}
+    />
+  )
   return (
     <Container className={explorePageLayout(mapView)}>
       <h1 className={mapView ? 'sr-only' : 'page-title'}>
         {mapView ? t('map.title') : t('title')}
       </h1>
 
-      <div className={exploreToolbarLayout(mapView)}>
-        <SearchForm
-          key={q}
-          action={action}
-          defaultValue={q}
-          placeholder={mapView ? t('map.searchPlaceholder') : t('searchPlaceholder')}
-          hidden={{ category, region, village, view, sort: sort === 'newest' ? undefined : sort }}
-          className={cn('sm:max-w-lg', mapView && 'flex-[1_1_12rem]')}
-        />
-        {mapView ? null : (
+      {mapView ? (
+        <div className={exploreToolbarLayout(true)}>
+          {search}
+          {filters}
+        </div>
+      ) : (
+        <div className={exploreToolbarLayout(false)}>
+          {/* One row of controls (search, filters, list or map), then the category chips. */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            {search}
+            <div className="flex items-center justify-between gap-2 sm:justify-end">
+              {filters}
+              <nav
+                aria-label={t('map.viewLabel')}
+                className="border-line bg-surface flex h-10 items-center rounded-full border p-0.5"
+              >
+                {(
+                  [
+                    { value: undefined, Icon: List, label: t('map.listMode') },
+                    { value: 'map', Icon: Map, label: t('map.mapMode') },
+                  ] as const
+                ).map(({ value, Icon, label }) => (
+                  <Link
+                    key={label}
+                    href={query({ view: value })}
+                    aria-current={value === undefined ? 'page' : undefined}
+                    scroll={false}
+                    className={cn(
+                      'flex h-full items-center justify-center gap-1.5 rounded-full px-3 text-xs font-semibold transition-colors sm:text-[0.8125rem]',
+                      value === undefined
+                        ? 'bg-accent text-accent-foreground'
+                        : 'text-muted hover:bg-accent-soft hover:text-accent-soft-foreground',
+                    )}
+                  >
+                    <Icon className="size-4 shrink-0" aria-hidden />
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
           <nav aria-label={t('category')}>
             <ul className="-mx-4 flex gap-2 overflow-x-auto px-4 py-0.5 sm:mx-0 sm:flex-wrap sm:px-0">
               {[{ slug: undefined as string | undefined, label: t('allCategories') }]
@@ -172,10 +284,10 @@ async function ExploreView({
                         href={query({ category: c.slug, page: undefined })}
                         aria-current={active ? 'true' : undefined}
                         className={cn(
-                          'inline-flex h-9 items-center rounded-full px-3 text-xs font-semibold transition-colors focus-visible:outline-offset-[-2px]',
+                          'inline-flex h-9 items-center rounded-full border px-3.5 text-xs font-semibold transition-colors focus-visible:outline-offset-[-2px] sm:text-[0.8125rem]',
                           active
-                            ? 'bg-accent text-accent-foreground'
-                            : 'bg-accent/7 hover:bg-accent/14',
+                            ? 'bg-accent text-accent-foreground border-transparent'
+                            : 'bg-surface border-line hover:bg-accent-soft hover:text-accent-soft-foreground hover:border-transparent',
                         )}
                       >
                         {c.label}
@@ -185,107 +297,8 @@ async function ExploreView({
                 })}
             </ul>
           </nav>
-        )}
-
-        <div className={mapView ? 'contents' : 'flex items-center justify-between gap-2'}>
-          <ExploreFilters
-            key={query({})}
-            action={action}
-            activeCount={activeFilterCount}
-            hidden={{
-              q,
-              view,
-              village: villages ? undefined : village,
-              category: categories ? undefined : category,
-              region: regencies ? undefined : region,
-            }}
-            fields={[
-              ...(regencies
-                ? [
-                    {
-                      name: 'region',
-                      label: t('region'),
-                      searchLabel: t('searchRegion'),
-                      all: t('allRegions'),
-                      value: regencies.find((item) => item.code === region)?.code ?? ALL,
-                      options: regencies.map((item) => ({ id: item.code, label: item.name })),
-                    } as const,
-                  ]
-                : []),
-              ...(villages
-                ? [
-                    {
-                      name: 'village',
-                      label: t('village'),
-                      searchLabel: t('searchVillage'),
-                      all: t('allVillages'),
-                      value: selectedVillage?.slug ?? ALL,
-                      options: villages.map((item) => ({
-                        id: item.slug,
-                        label: item.name,
-                        region: regencyCode(item.regionCode),
-                      })),
-                    } as const,
-                  ]
-                : []),
-              ...(categories
-                ? [
-                    {
-                      name: 'category',
-                      label: t('category'),
-                      searchLabel: t('searchCategory'),
-                      all: t('map.allCategories'),
-                      value: categories.find((item) => item.slug === category)?.slug ?? ALL,
-                      options: categories.map((item) => ({
-                        id: item.slug,
-                        label: pick(locale, item.name, item.nameEn),
-                      })),
-                    } as const,
-                  ]
-                : []),
-              {
-                name: 'sort',
-                label: t('sort'),
-                value: sort,
-                options: [
-                  { id: 'newest', label: t('sortNewest') },
-                  { id: 'price_asc', label: t('sortPriceAsc') },
-                  { id: 'price_desc', label: t('sortPriceDesc') },
-                ],
-              },
-            ]}
-          />
-          {!mapView ? (
-            <nav
-              aria-label={t('map.viewLabel')}
-              className="border-line bg-surface flex items-center rounded-full border p-0.5"
-            >
-              {(
-                [
-                  { value: undefined, Icon: List, label: t('map.listMode') },
-                  { value: 'map', Icon: Map, label: t('map.mapMode') },
-                ] as const
-              ).map(({ value, Icon, label }) => (
-                <Link
-                  key={label}
-                  href={query({ view: value })}
-                  aria-current={value === undefined ? 'page' : undefined}
-                  scroll={false}
-                  className={cn(
-                    'flex min-h-8 items-center justify-center gap-1.5 rounded-full px-2.5 text-xs font-semibold transition-colors',
-                    value === undefined
-                      ? 'bg-accent text-accent-foreground'
-                      : 'text-muted hover:bg-accent/8 hover:text-foreground',
-                  )}
-                >
-                  <Icon className="size-4 shrink-0" aria-hidden />
-                  {label}
-                </Link>
-              ))}
-            </nav>
-          ) : null}
         </div>
-      </div>
+      )}
 
       <Suspense
         key={query({})}

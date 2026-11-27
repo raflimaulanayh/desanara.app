@@ -12,6 +12,16 @@ export const VILLAGES_HASH = 'desa'
 export const VILLAGES_PATH = '/desa'
 export const SETTINGS_PATH = '/pengaturan'
 
+/** HIMASIF's Instagram: the public contact for sign-up and partnership until /gabung ships. */
+export const HIMASIF_INSTAGRAM = 'https://www.instagram.com/himasif.su/'
+
+/** HIMASIF uses the same handle, @himasif.su, on every network. */
+export const HIMASIF_SOCIALS = [
+  { network: 'instagram', label: 'Instagram', href: HIMASIF_INSTAGRAM },
+  { network: 'tiktok', label: 'TikTok', href: 'https://www.tiktok.com/@himasif.su' },
+  { network: 'youtube', label: 'YouTube', href: 'https://www.youtube.com/@himasif.su' },
+] as const
+
 /** Highlights the section containing the current public page. */
 export function publicNavSection(pathname: string, hash = '') {
   if (pathname === '/') return hash === `#${VILLAGES_HASH}` ? 'villages' : 'home'

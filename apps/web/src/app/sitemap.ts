@@ -29,6 +29,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...page('/jelajah', { changeFrequency: 'daily', priority: 0.9 }),
     ...page('/desa', { changeFrequency: 'weekly', priority: 0.8 }),
     ...page('/tentang', { changeFrequency: 'monthly', priority: 0.3 }),
+    ...page('/kebijakan-privasi', { changeFrequency: 'yearly', priority: 0.1 }),
+    ...page('/syarat-ketentuan', { changeFrequency: 'yearly', priority: 0.1 }),
     ...villages.flatMap((v) =>
       page(`/desa/${v.slug}`, {
         lastModified: v.updatedAt,

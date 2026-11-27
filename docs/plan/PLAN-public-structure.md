@@ -110,6 +110,8 @@ Instalasi dari layar utama, gestur di aplikasi terpasang, dan notifikasi uji dib
 
 ### 3.2 Halaman Tentang (`/tentang`)
 
+Susunan ini sudah digantikan oleh [PLAN-about-page](PLAN-about-page.md) (revamp 2026-11-27).
+
 Pengenalan Desanara untuk publik, mitra, dan pengunjung yang penasaran:
 
 1. Hero splash: logo vertikal, ilustrasi desa, "Karya Desa, untuk Indonesia.", tombol "Jelajahi produk" dan
