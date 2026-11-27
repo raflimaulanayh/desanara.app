@@ -61,7 +61,8 @@ Urutan dari atas, di HP:
    Ikon diambil dari kolom `categories.icon` dan dipetakan ke ikon Lucide di web. Tab Produk membuka `/jelajah`.
 4. **Sorotan** menempati slot banner di bawah kategori. Slot memuat promosi sponsor UMKM atau brand serta
    kampanye Desanara. Banner berbayar menampilkan nama sponsor. Pengunjung berpindah banner dengan geser atau
-   tombol navigasi. Satu kampanye tampil sebagai banner tunggal. Saat slot kosong, ilustrasi sawah mengajak
+   tombol navigasi. Varian gambar penuh memuat judul, ajakan, dan nama sponsor (jika ada) di dalam
+   gambar sesuai bahasa halaman. Satu kampanye tampil sebagai banner tunggal. Saat slot kosong, ilustrasi sawah mengajak
    pengunjung membuka direktori lewat "Jelajahi desa". Produksi dibuka dengan sorotan Desanara tentang kerajinan,
    kopi, dan direktori desa. Di development dan pratinjau katalog, sorotan produk dapat membuka halaman produknya.
 5. **Desa**: maksimal enam kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
