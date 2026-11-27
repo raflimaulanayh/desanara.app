@@ -87,10 +87,11 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 
 ## Components
 
-- **Header** uses a sticky logo, a neutral search pill, and a thin divider. On mobile, the drawer holds Tentang and
+- **Header** uses a sticky logo, a neutral search pill, and a thin divider over a translucent surface with backdrop blur. On mobile, the drawer holds Tentang and
   Daftarkan UMKM. Desktop shows Beranda, Produk, Desa, Tentang, and Pengaturan beside the search field. Wide desktops
   also show Daftarkan UMKM.
-- **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in one fixed white bar. Each destination has an
+- **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in a fixed translucent bar with backdrop blur.
+  The bar adds 8 px of space below the tabs and accounts for the device safe area. Each destination has an
   icon and a label. The current destination and hovered tabs use green text and a tint behind the icon.
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two

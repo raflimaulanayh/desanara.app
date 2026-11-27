@@ -63,7 +63,7 @@ Urutan dari atas, di HP:
    kampanye Desanara. Banner berbayar menampilkan nama sponsor. Pengunjung berpindah banner dengan geser atau
    tombol navigasi. Satu kampanye tampil sebagai banner tunggal. Saat slot kosong, ilustrasi sawah mengajak
    pengunjung membuka direktori lewat "Jelajahi desa". Produksi dibuka dengan sorotan Desanara tentang kerajinan,
-   kopi, dan direktori desa. Contoh sponsor tampil di development dan pratinjau katalog.
+   kopi, dan direktori desa. Di development dan pratinjau katalog, sorotan produk dapat membuka halaman produknya.
 5. **Desa**: maksimal enam kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
    menampilkan 12 desa per halaman. Preview katalog memakai 27 desa contoh, termasuk Desa Baros, agar tiga
    halaman direktori bisa ditinjau.

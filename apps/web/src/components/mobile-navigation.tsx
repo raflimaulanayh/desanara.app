@@ -41,7 +41,7 @@ export function MobileNavigation() {
   return (
     <nav
       aria-label={t('primary')}
-      className="border-line bg-surface fixed inset-x-0 bottom-0 z-30 h-(--mobile-nav-space) border-t px-2 pb-[env(safe-area-inset-bottom)] lg:hidden"
+      className="mobile-navigation navigation-glass border-line/75 fixed inset-x-0 bottom-0 z-30 h-(--mobile-nav-space) border-t pb-(--mobile-nav-bottom-padding) lg:hidden"
     >
       <ul className="mx-auto grid h-full max-w-xl grid-cols-4 items-stretch gap-1">
         {tabs.map(({ section, href, label, Icon }) => {
@@ -54,7 +54,7 @@ export function MobileNavigation() {
               : undefined,
             className: cn(
               'group flex h-full min-h-11 flex-col items-center justify-center gap-0.5 rounded-(--radius-compact) px-0.5 py-1 text-center text-xs font-semibold transition-colors focus-visible:outline-offset-[-3px]',
-              active ? 'text-accent' : 'text-muted hover:text-accent',
+              active ? 'text-(--navigation-accent)' : 'text-muted hover:text-(--navigation-accent)',
             ),
           }
           const content = (
