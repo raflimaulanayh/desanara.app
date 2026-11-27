@@ -40,21 +40,24 @@ export function ExplorePageSkeleton({
     <Container className={explorePageLayout(mapView)}>
       <h1 className={mapView ? 'sr-only' : 'page-title'}>{title}</h1>
       <div className={exploreToolbarLayout(mapView)} aria-hidden>
-        <SkeletonBlock
-          className={cn('h-10 rounded-full sm:max-w-lg', mapView && 'flex-[1_1_12rem]')}
-        />
         {mapView ? (
-          <SkeletonBlock className="h-9 w-20 rounded-full" />
+          <>
+            <SkeletonBlock className="h-10 flex-[1_1_12rem] rounded-full sm:max-w-lg" />
+            <SkeletonBlock className="h-9 w-20 rounded-full" />
+          </>
         ) : (
           <>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <SkeletonBlock className="h-10 rounded-full sm:flex-1 lg:max-w-xl" />
+              <div className="flex items-center justify-between gap-2 sm:justify-end">
+                <SkeletonBlock className="h-10 w-24 rounded-full" />
+                <SkeletonBlock className="h-10 w-36 rounded-full" />
+              </div>
+            </div>
             <div className="flex gap-2 py-0.5">
               {['w-16', 'w-24', 'w-20'].map((width) => (
                 <SkeletonBlock key={width} className={cn('h-9 rounded-full', width)} />
               ))}
-            </div>
-            <div className="flex items-center justify-between gap-2">
-              <SkeletonBlock className="h-9 w-20 rounded-full" />
-              <SkeletonBlock className="h-9 w-32 rounded-full" />
             </div>
           </>
         )}

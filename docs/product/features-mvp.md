@@ -55,10 +55,10 @@ Cara setiap peran memakai fitur ini: [alur pengguna](user-flows.md).
 
 ## Legal
 
-| Fitur                                             | Status       |
-| ------------------------------------------------- | ------------ |
-| Kebijakan privasi, syarat dan ketentuan           | Direncanakan |
-| Alamat UMKM tidak pernah tampil di halaman publik | Selesai      |
+| Fitur                                             | Status  |
+| ------------------------------------------------- | ------- |
+| Kebijakan privasi, syarat dan ketentuan           | Selesai |
+| Alamat UMKM tidak pernah tampil di halaman publik | Selesai |
 
 ## Setelah MVP inti
 

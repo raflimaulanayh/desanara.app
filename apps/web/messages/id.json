@@ -54,15 +54,24 @@
     "failed": "Perubahan belum berhasil. Coba lagi."
   },
   "footer": {
-    "about": "Katalog produk UMKM dari desa-desa mitra. Pesanan dikirim langsung ke pembuatnya lewat WhatsApp — tanpa perantara, tanpa potongan.",
-    "byline": "Dikelola oleh",
+    "about": "Katalog produk UMKM dari desa-desa mitra. Pesanan dikirim langsung ke pembuatnya lewat WhatsApp, tanpa perantara dan tanpa potongan.",
     "links": "Tautan",
-    "explore": "Jelajah produk",
-    "about_link": "Tentang program",
-    "credit": "© {year} HIMA Sistem Informasi, SATU University",
-    "tagline": "Oleh-oleh khas desa",
+    "byline": "Dikelola oleh",
+    "programme": "Program Pengabdian kepada Masyarakat, HIMA Sistem Informasi, SATU University",
+    "groupExplore": "Jelajahi",
+    "groupAbout": "Desanara",
+    "groupContact": "Hubungi kami",
+    "products": "Produk",
+    "villages": "Desa",
+    "about_link": "Tentang Desanara",
+    "join": "Daftarkan UMKM",
     "credits": "Kredit foto",
-    "join": "Daftarkan UMKM"
+    "settings": "Pengaturan",
+    "partner": "Ajak kerja sama",
+    "credit": "© {year} HIMA Sistem Informasi, SATU University",
+    "socials": "Media sosial HIMASIF",
+    "privacy": "Kebijakan privasi",
+    "terms": "Syarat dan ketentuan"
   },
   "status": {
     "open": "Buka",
@@ -112,16 +121,19 @@
       "bamboo": {
         "title": "Besek bambu dari Baros",
         "browse": "Lihat kerajinan",
-        "action": "Lihat produk"
+        "action": "Lihat produk",
+        "body": "Anyaman tangan dari perajin Desa Baros, untuk wadah makanan dan hantaran."
       },
       "coffee": {
         "title": "Kopi arabika dari Baros",
-        "action": "Lihat kopi"
+        "action": "Lihat kopi",
+        "body": "Kopi arabika dari Desa Baros, tersedia dalam bentuk biji dan bubuk."
       },
       "villages": {
         "title": "Kenali desa di balik produknya",
         "action": "Jelajahi desa"
-      }
+      },
+      "goTo": "Ke banner {n}"
     },
     "categoryShort": {
       "makanan-camilan": "Makanan",
@@ -133,7 +145,14 @@
     },
     "sellerTitle": "Punya usaha di desa?",
     "sellerBody": "Daftarkan usahamu di Desanara. Pembeli bisa langsung pesan lewat WhatsApp, tanpa potongan.",
-    "sellerCta": "Daftarkan UMKM"
+    "sellerCta": "Daftarkan UMKM",
+    "sellerLead": "Bawa karyamu ke lebih banyak pembeli.",
+    "sellerPerks": {
+      "free": "Gratis, tanpa potongan",
+      "whatsapp": "Pesanan langsung ke WhatsApp",
+      "help": "Dibantu pendamping desa"
+    },
+    "sellerMore": "Pelajari dulu"
   },
   "stories": {
     "loading": "Memuat cerita UMKM…",
@@ -149,7 +168,10 @@
     "next": "Cerita berikutnya",
     "position": "Cerita {current} dari {total}",
     "viewProduct": "Lihat produk",
-    "status": { "preorder": "PO dibuka", "shop-open": "Toko buka" },
+    "status": {
+      "preorder": "PO dibuka",
+      "shop-open": "Toko buka"
+    },
     "captions": {
       "bamboo": "Besek baru selesai dianyam.",
       "bamboo-weaving": "Dari bilah bambu sampai jadi besek.",
@@ -317,45 +339,297 @@
   },
   "about": {
     "title": "Tentang Desanara",
-    "lead": "Desanara adalah program HIMA Sistem Informasi, SATU University: katalog produk UMKM dari desa mitra, disertai pendampingan dan edukasi digital untuk pelaku usahanya.",
-    "how": "Setiap desa punya halaman sendiri yang dikelola admin desa. UMKM diverifikasi sekali oleh desa, lalu produknya bisa langsung dipesan pembeli lewat WhatsApp — tanpa perantara, tanpa potongan.",
-    "pilot": "Desanara dimulai dari Desa Baros, Kecamatan Arjasari, Kabupaten Bandung.",
-    "joinTitle": "Punya usaha di desa? Daftarkan UMKM-mu",
-    "joinBody": "Pendaftaran online sedang kami siapkan. Untuk sekarang, hubungi admin desamu atau tim HIMASIF lewat Instagram",
-    "hero": {
-      "title": "Karya Desa, untuk Indonesia.",
-      "subtitle": "Temukan produk unggulan, dukung UMKM lokal, dan pesan langsung ke pembuatnya.",
-      "explore": "Jelajahi produk",
-      "join": "Daftarkan UMKM"
+    "metaDescription": "Desanara adalah katalog produk UMKM dari desa-desa mitra di Jawa Barat. Pesanan langsung sampai ke WhatsApp pembuatnya, tanpa potongan.",
+    "splash": {
+      "skip": "Ketuk untuk melewati"
     },
-    "orderTitle": "Cara pesan",
-    "order": {
-      "1": {
-        "title": "Pilih produk",
-        "body": "Telusuri per desa atau cari langsung namanya."
+    "hero": {
+      "title": "Ragam Karya, Cerita Nusantara.",
+      "lead": "Desanara adalah katalog produk UMKM dari desa-desa mitra. Setiap produk tampil bersama nama desanya, dan pesanan langsung sampai ke WhatsApp pembuatnya.",
+      "buyer": "Jelajahi produk desa",
+      "seller": "Saya punya usaha di desa",
+      "mosaicLabel": "Produk dari desa mitra",
+      "facts": "<biz>{businesses}</biz> UMKM dari <vil>{villages}</vil> desa mitra di Kabupaten Bandung, Garut, dan Sumedang.",
+      "cardPlace": "Desa Baros, Kabupaten Bandung"
+    },
+    "problem": {
+      "title": "Produk desa itu banyak. Yang sulit adalah menemukannya.",
+      "items": {
+        "hidden": {
+          "word": "Tersembunyi",
+          "body": "Banyak UMKM desa membuat produk yang bagus, tetapi pembelinya masih sebatas tetangga dan kenalan."
+        },
+        "scattered": {
+          "word": "Tercecer",
+          "body": "Pembeli yang mencari oleh-oleh atau produk khas sebuah desa tidak tahu harus mulai dari mana."
+        },
+        "unready": {
+          "word": "Belum siap",
+          "body": "Foto, deskripsi, dan harga yang jelas belum disiapkan, padahal itulah yang membuat pembeli yakin."
+        }
       },
-      "2": {
-        "title": "Chat penjual",
-        "body": "Tentukan jumlah, lalu buka WhatsApp dengan pesanan yang sudah tertulis."
-      },
-      "3": {
-        "title": "Sepakati langsung",
-        "body": "Bayar dan pengiriman diatur langsung dengan pembuatnya."
+      "answer": "Desanara menjawabnya dengan dua hal: <hl>katalog yang menyatukan produk dari banyak desa</hl>, dan <hl>pendampingan langsung dari mahasiswa</hl> untuk menyiapkan halaman setiap usaha.",
+      "visual": {
+        "ring": "Hanya tetangga dan kenalan",
+        "query": "keripik khas Desa Baros",
+        "empty": "Belum ada hasil yang jelas",
+        "rawName": "keripik balado",
+        "rawPrice": "harga? tanya aja",
+        "found": "Ditemukan di Desanara"
       }
+    },
+    "order": {
+      "lead": "Pilih jumlah dan tulis catatan. Desanara menyusun pesanannya, lalu WhatsApp penjual terbuka dengan pesan yang sudah tertulis. Coba ubah pesanan di bawah ini.",
+      "quantity": "Jumlah",
+      "decrease": "Kurangi",
+      "increase": "Tambah",
+      "note": "Catatan untuk penjual",
+      "noteHint": "Contoh: digiling halus",
+      "total": "Total",
+      "chatLabel": "Pratinjau pesan WhatsApp",
+      "typing": "Ketik pesan",
+      "languageNote": "",
+      "after": "Bayar dan pengiriman disepakati langsung dengan penjual. Desanara tidak memotong sepeser pun.",
+      "cta": "Cari produk lain",
+      "titleLead": "Pesan semudah",
+      "titleRest": "mengirim chat.",
+      "step1": "Pilih jumlah",
+      "step2": "Tulis catatan",
+      "step3": "Pesanan siap dikirim ke penjual"
+    },
+    "roles": {
+      "lead": "Setiap orang memegang bagiannya sendiri, dan semuanya bertemu di halaman yang sama.",
+      "tabsLabel": "Peran di Desanara",
+      "buyer": {
+        "tab": "Pembeli",
+        "title": "Menemukan produk dan langsung bicara dengan pembuatnya.",
+        "steps": {
+          "1": "Cari produk, atau buka halaman sebuah desa untuk melihat semua UMKM-nya.",
+          "2": "Lihat foto, harga, dan status toko yang dihitung dari jam bukanya.",
+          "3": "Tekan Pesan via WhatsApp. Tidak perlu membuat akun."
+        }
+      },
+      "owner": {
+        "tab": "Pemilik UMKM",
+        "title": "Punya halaman usaha atas nama desanya.",
+        "steps": {
+          "1": "Cerita usaha, produk, dan link toko online tampil di satu halaman.",
+          "2": "Pesanan masuk langsung ke WhatsApp, tanpa potongan.",
+          "3": "Pendamping membantu mengisi data sampai halaman siap tayang."
+        }
+      },
+      "assistant": {
+        "tab": "Pendamping",
+        "title": "Mahasiswa yang membantu UMKM tampil.",
+        "steps": {
+          "1": "Mendaftarkan UMKM lewat formulir empat langkah, langsung dari HP.",
+          "2": "Isian tersimpan otomatis walaupun sinyal putus.",
+          "3": "Mengunggah sampai sepuluh foto per produk. Foto dikompres dan data lokasinya dihapus."
+        }
+      },
+      "admin": {
+        "tab": "Admin desa",
+        "title": "Desa yang memastikan setiap UMKM benar ada.",
+        "steps": {
+          "1": "Memeriksa UMKM baru di daftar Perlu dicek.",
+          "2": "Menyetujui, atau menolak dengan alasan yang dibaca pendamping.",
+          "3": "Menurunkan UMKM yang bermasalah, dengan alasan yang tercatat."
+        }
+      },
+      "hima": {
+        "tab": "Tim HIMA",
+        "title": "Pengelola platform dan desa mitra.",
+        "steps": {
+          "1": "Memverifikasi desa yang ingin bergabung lewat telepon, kunjungan, dan kesepakatan kerja sama.",
+          "2": "Mengaktifkan desa dan mengelola kategori produk.",
+          "3": "Mendampingi desa dan UMKM lewat seminar dan pelatihan."
+        }
+      },
+      "mock": {
+        "open": "Buka",
+        "openDetail": "Tutup pukul 17.00",
+        "shops": "Toko online",
+        "steps": "Langkah 2 dari 4",
+        "stepNames": {
+          "1": "Data usaha",
+          "2": "Kontak",
+          "3": "Lokasi",
+          "4": "Persetujuan"
+        },
+        "whatsapp": "Nomor WhatsApp",
+        "saved": "Tersimpan otomatis",
+        "queue": "Perlu dicek",
+        "approve": "Setujui",
+        "reject": "Tolak",
+        "requirements": "Syarat tayang",
+        "requirement": {
+          "verified": "Terverifikasi desa",
+          "consent": "Persetujuan pemilik",
+          "phone": "Nomor WhatsApp",
+          "active": "Tidak sedang diturunkan"
+        },
+        "villages": "desa"
+      },
+      "titleLead": "Satu platform,",
+      "titleRest": "lima peran."
     },
     "trust": {
-      "verified": {
-        "title": "Diverifikasi desa",
-        "body": "Setiap UMKM dicek dan disetujui admin desanya sebelum tampil."
+      "lead": "Sebuah usaha baru tampil setelah melewati tiga tahap. Tidak ada yang bisa melompati pemeriksaan desa.",
+      "steps": {
+        "submitted": {
+          "title": "Didaftarkan",
+          "body": "Pendamping atau pemilik mengisi data usaha, nomor WhatsApp, dan persetujuan pemilik.",
+          "status": "Menunggu verifikasi"
+        },
+        "checked": {
+          "title": "Dicek desa",
+          "body": "Admin desa memastikan usaha itu benar ada di desanya dan datanya sesuai.",
+          "status": "Terverifikasi desa"
+        },
+        "live": {
+          "title": "Tayang",
+          "body": "Usaha tampil di Desanara dengan tanda diverifikasi desa.",
+          "status": "Tayang di Desanara"
+        }
       },
-      "direct": {
-        "title": "Langsung ke pembuat",
-        "body": "Tanpa perantara dan tanpa potongan — uangmu sampai ke pembuatnya."
+      "promisesTitle": "Yang kami jaga",
+      "promises": {
+        "address": {
+          "title": "Alamat tetap privat",
+          "body": "Alamat rumah, RT/RW, dan titik peta usaha tidak pernah tampil. Lokasi publik berhenti di tingkat desa."
+        },
+        "schedule": {
+          "title": "Status yang jujur",
+          "body": "Status buka dan tutup dihitung dari jadwal, jadi tetap benar walaupun pemilik lupa memperbaruinya."
+        },
+        "commission": {
+          "title": "Tanpa potongan",
+          "body": "Desanara tidak mengambil potongan dan tidak ikut menerima pembayaran."
+        },
+        "consent": {
+          "title": "Atas persetujuan pemilik",
+          "body": "Usaha hanya tayang dengan persetujuan pemiliknya, sesuai UU Pelindungan Data Pribadi."
+        }
       },
-      "mentored": {
-        "title": "Didampingi HIMA SI",
-        "body": "Mahasiswa SATU University mendampingi UMKM menyiapkan produknya."
+      "titleLead": "Setiap UMKM dicek",
+      "titleRest": "oleh desanya sendiri."
+    },
+    "baros": {
+      "body": "Desa Baros di Kecamatan Arjasari, Kabupaten Bandung, menjadi desa pertama Desanara. Usahanya beragam, dari kerajinan dan fesyen sampai makanan olahan.",
+      "photoAlt": "Kawasan wisata bambu di Desa Baros",
+      "crestLabel": "Logo Pemerintah Desa Baros",
+      "commoditiesLabel": "Komoditas unggulan",
+      "commodities": {
+        "ubi": "Ubi",
+        "hanjeli": "Hanjeli",
+        "kopi": "Kopi",
+        "jagung": "Jagung",
+        "jamur": "Jamur tiram"
+      },
+      "direction": "Arah desa jelas: <hl>menjual hasil olahan, bukan bahan mentah</hl>. Hanjeli, misalnya, diolah menjadi rengginang, tape, dan tepung bubur bayi.",
+      "visit": "Kunjungi Desa Baros",
+      "others": "Kini bersama {count} desa lain di <bandung>Kabupaten Bandung</bandung>, <garut>Garut</garut>, dan <sumedang>Sumedang</sumedang>.",
+      "othersLabel": "Desa mitra lainnya",
+      "pause": "Jeda",
+      "play": "Putar",
+      "titleLead": "Dimulai dari",
+      "titleRest": "Desa Baros.",
+      "place": "Kecamatan Arjasari, Kabupaten Bandung",
+      "recordedLine": "<n>{count}</n> UMKM tercatat di desa",
+      "regencies": {
+        "bandung": "Kab. Bandung",
+        "garut": "Kab. Garut",
+        "sumedang": "Kab. Sumedang"
       }
+    },
+    "journey": {
+      "items": {
+        "survey": {
+          "date": "Oktober 2026",
+          "title": "Survei Desa Baros",
+          "body": "Tim HIMASIF bertemu perangkat desa dan koordinator UMKM untuk memahami kebutuhan mereka."
+        },
+        "launch": {
+          "date": "November 2026",
+          "title": "Desanara tayang",
+          "body": "Katalog, halaman desa, dan dashboard untuk desa, pendamping, serta UMKM tayang di desanara.app."
+        },
+        "seminar": {
+          "date": "5 Desember 2026",
+          "title": "Seminar dan showcase di Kantor Desa Baros",
+          "body": "Pelaku UMKM belajar memanfaatkan peluang bisnis digital, lalu didampingi membuat halaman usahanya. Targetnya 30 sampai 60 UMKM tampil.",
+          "place": "Kantor Desa Baros, Kecamatan Arjasari"
+        },
+        "expand": {
+          "date": "2027",
+          "title": "Lebih banyak desa",
+          "body": "Template tampilan desa, keranjang yang dikirim sekaligus ke WhatsApp, aplikasi mobile, dan pendaftaran desa mandiri."
+        },
+        "transact": {
+          "date": "Tahap berikutnya",
+          "title": "Transaksi di platform",
+          "body": "Pembayaran dan ongkos kirim di dalam Desanara, setelah ada badan hukum yang menaunginya."
+        }
+      },
+      "titleLead": "Dari survei desa",
+      "titleRest": "ke katalog Nusantara."
+    },
+    "makers": {
+      "body": "Desanara adalah program Pengabdian kepada Masyarakat HIMA Sistem Informasi, SATU University. Mahasiswa membangun platformnya, lalu turun langsung ke desa untuk mendampingi UMKM.",
+      "titleLead": "Dikembangkan mahasiswa,",
+      "titleRest": "untuk desa.",
+      "programme": "Program Pengabdian kepada Masyarakat 2026",
+      "partnerTitle": "Mari bermitra.",
+      "partnerBody": "Pemerintah desa, kampus, komunitas, atau perusahaan yang ingin mendukung pendampingan UMKM desa bisa mengajak kami bekerja sama.",
+      "partnerCta": "Ajak kerja sama",
+      "creditTitle": "Dibuat oleh"
+    },
+    "faq": {
+      "items": {
+        "free": {
+          "q": "Apakah Desanara gratis?",
+          "a": "Ya. Pembeli tidak membayar apa pun untuk menjelajah, dan UMKM tidak dipungut biaya untuk tampil."
+        },
+        "commission": {
+          "q": "Apakah ada potongan dari setiap penjualan?",
+          "a": "Tidak. Pesanan langsung masuk ke WhatsApp penjual, dan pembayaran tidak lewat Desanara."
+        },
+        "payment": {
+          "q": "Bagaimana cara bayar dan pengiriman?",
+          "a": "Pembayaran dan pengiriman disepakati langsung dengan penjual di WhatsApp. Beberapa UMKM juga mencantumkan toko online mereka."
+        },
+        "account": {
+          "q": "Apakah pembeli perlu membuat akun?",
+          "a": "Tidak. Cukup pilih produk, lalu tekan Pesan via WhatsApp."
+        },
+        "village": {
+          "q": "Bagaimana desa saya bisa bergabung?",
+          "a": "Hubungi tim HIMASIF lewat Instagram. Tim akan memverifikasi desa lewat telepon dan kunjungan, menyepakati kerja sama, lalu mengaktifkan halaman desa."
+        },
+        "privacy": {
+          "q": "Apakah data pemilik usaha aman?",
+          "a": "Alamat jalan, RT/RW, titik peta, dan NIB hanya bisa dilihat tim desa dan pendamping usaha itu. Yang tampil di publik hanya data yang sudah disetujui pemiliknya."
+        },
+        "language": {
+          "q": "Desanara tersedia dalam bahasa apa?",
+          "a": "Bahasa Indonesia dan Inggris. Nama dan deskripsi produk tampil dalam bahasa Inggris bila UMKM mengisi terjemahannya."
+        }
+      },
+      "titleLead": "Yang sering",
+      "titleRest": "ditanyakan.",
+      "moreTitle": "Masih ada pertanyaan?",
+      "moreBody": "Tanyakan langsung ke tim HIMASIF.",
+      "moreCta": "Tanya lewat Instagram"
+    },
+    "join": {
+      "buyerTitle": "Untuk pembeli",
+      "buyerBody": "Telusuri produk dari {count} desa mitra dan pesan langsung ke pembuatnya.",
+      "buyerCta": "Jelajahi produk",
+      "sellerTitle": "Untuk UMKM dan desa",
+      "sellerBody": "Pendaftaran online sedang disiapkan. Untuk sekarang, hubungi admin desamu atau tim HIMASIF lewat Instagram.",
+      "sellerCta": "Hubungi @himasif.su",
+      "titleLead": "Ada karya desa",
+      "titleRest": "yang menunggu ditemukan."
     }
   },
   "states": {
@@ -386,5 +660,179 @@
     "unknownAuthor": "Pembuat tidak dicantumkan",
     "source": "Sumber",
     "changes": "Semua foto diubah ukurannya dan dikompres ulang ke format WebP. Logo dan foto Desa Baros milik Pemerintah Desa Baros (desa mitra)."
+  },
+  "legal": {
+    "updated": "Berlaku sejak 27 November 2026",
+    "contents": "Isi halaman",
+    "contactTitle": "Ada pertanyaan?",
+    "contactBody": "Hubungi tim HIMASIF lewat Instagram, atau sampaikan lewat admin desamu.",
+    "contactCta": "Hubungi @himasif.su",
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "description": "Data apa yang dikumpulkan Desanara, apa yang tampil di publik, dan hak pemilik usaha atas datanya.",
+      "intro": "Desanara menghubungkan pembeli dengan UMKM desa. Halaman ini menjelaskan data apa yang kami kumpulkan, untuk apa, siapa yang bisa melihatnya, dan bagaimana kamu bisa mengaturnya. Kami mengikuti Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.",
+      "sections": [
+        {
+          "id": "pengelola",
+          "title": "Siapa yang mengelola data",
+          "body": [
+            "Desanara dikelola oleh HIMA Sistem Informasi, SATU University, sebagai program Pengabdian kepada Masyarakat. Kami bertanggung jawab atas data yang dikumpulkan lewat situs dan dashboard Desanara."
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Data yang kami kumpulkan",
+          "body": ["Data yang kami simpan bergantung pada cara kamu memakai Desanara."],
+          "items": [
+            "Pengunjung dan pembeli tidak perlu membuat akun. Kami mencatat kunjungan halaman dan klik tombol WhatsApp untuk statistik, <hl>tanpa menyimpan alamat IP, jenis perangkat, atau cookie pelacak</hl>.",
+            "Pilihan bahasa dan cerita UMKM yang sudah kamu lihat disimpan di perangkatmu sendiri, bukan di server kami.",
+            "Untuk setiap UMKM: nama usaha, nama pemilik, cerita usaha, produk dan fotonya, nomor WhatsApp, link toko online, <hl>alamat jalan, RT/RW, titik peta, dan NIB</hl> bila diisi.",
+            "Untuk pengguna dashboard (admin desa, pendamping, dan pemilik UMKM): nama, alamat email, dan kata sandi yang disimpan dalam bentuk acak (hash)."
+          ]
+        },
+        {
+          "id": "publik",
+          "title": "Apa yang tampil di publik",
+          "items": [
+            "Tampil di publik setelah pemilik setuju: nama usaha, nama pemilik, cerita usaha, produk, nomor WhatsApp, dan link toko online.",
+            "Selalu tampil: nama desa, kecamatan, dan kabupaten.",
+            "Tidak pernah tampil di publik: alamat jalan, RT/RW, titik peta, dan NIB. Data ini hanya bisa dilihat tim desa dan pendamping UMKM tersebut.",
+            "Email dan kata sandi akun tidak pernah tampil."
+          ]
+        },
+        {
+          "id": "persetujuan",
+          "title": "Persetujuan pemilik usaha",
+          "body": [
+            "Sebuah UMKM baru bisa tayang setelah pemiliknya menyetujui datanya dipublikasikan. Pendamping membacakan apa saja yang akan tampil, lalu pemilik menandatangani formulir persetujuan. Waktu dan cara persetujuan dicatat.",
+            "<hl>Pemilik bisa menarik persetujuan kapan saja</hl>. Begitu ditarik, halaman UMKM langsung disembunyikan dari publik."
+          ]
+        },
+        {
+          "id": "penggunaan",
+          "title": "Untuk apa data digunakan",
+          "items": [
+            "Menampilkan katalog produk dan halaman usaha.",
+            "Menghubungkan pembeli dengan penjual lewat WhatsApp.",
+            "Memastikan setiap UMKM benar ada, melalui verifikasi oleh admin desanya.",
+            "Menyusun statistik kunjungan dan klik WhatsApp sebagai laporan dampak untuk desa dan UMKM.",
+            "Menjaga keamanan akun, misalnya mengirim kode verifikasi ke email."
+          ],
+          "note": ["<hl>Kami tidak menjual data dan tidak memakainya untuk iklan</hl>."]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Pesanan lewat WhatsApp",
+          "body": [
+            "Saat kamu menekan Pesan via WhatsApp, aplikasi WhatsApp di perangkatmu terbuka dengan pesan yang sudah terisi. Percakapan dan pembayaran terjadi langsung antara kamu dan penjual. Desanara tidak membaca, menyimpan, atau ikut dalam percakapan itu. Penggunaan WhatsApp mengikuti kebijakan privasi WhatsApp."
+          ]
+        },
+        {
+          "id": "penyimpanan",
+          "title": "Tempat data disimpan",
+          "body": [
+            "Data disimpan di layanan pihak ketiga yang kami pakai untuk menjalankan Desanara: Vercel untuk situs, Supabase (PostgreSQL) untuk basis data di wilayah Singapura, Cloudflare R2 untuk foto, dan Resend untuk mengirim email. Data hanya dipakai untuk menjalankan Desanara.",
+            "Sebelum diunggah, setiap foto diproses di perangkat sehingga informasi lokasi (GPS) di dalam foto terhapus."
+          ]
+        },
+        {
+          "id": "keamanan",
+          "title": "Keamanan",
+          "items": [
+            "Setiap pengguna dashboard hanya bisa melihat dan mengubah data desa atau UMKM tempat ia terdaftar.",
+            "Akun dibuat lewat undangan, dan email harus diverifikasi sebelum bisa masuk.",
+            "Setiap perubahan data penting dicatat: siapa yang mengubah, apa yang diubah, dan kapan."
+          ]
+        },
+        {
+          "id": "hak",
+          "title": "Hak kamu atas data",
+          "body": [
+            "Pemilik usaha berhak melihat datanya, meminta perbaikan, menarik persetujuan, dan meminta datanya dihapus. Sampaikan permintaan lewat pendamping, admin desa, atau tim HIMASIF. Kami akan memprosesnya sesegera mungkin."
+          ]
+        },
+        {
+          "id": "perubahan",
+          "title": "Perubahan kebijakan",
+          "body": [
+            "Kebijakan ini bisa diperbarui saat Desanara berkembang. Tanggal berlaku di bagian atas halaman akan ikut diperbarui."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Syarat dan Ketentuan",
+      "description": "Aturan memakai Desanara untuk pembeli, UMKM, dan desa mitra.",
+      "intro": "Dengan memakai situs dan dashboard Desanara, kamu menyetujui syarat berikut. Bahasanya kami buat sesederhana mungkin.",
+      "sections": [
+        {
+          "id": "layanan",
+          "title": "Tentang layanan",
+          "body": [
+            "Desanara adalah katalog produk UMKM dari desa-desa mitra, dikelola oleh HIMA Sistem Informasi, SATU University. <hl>Desanara bukan toko dan tidak menerima pembayaran</hl>. Pemesanan terjadi langsung antara pembeli dan penjual lewat WhatsApp."
+          ]
+        },
+        {
+          "id": "pembeli",
+          "title": "Untuk pembeli",
+          "items": [
+            "Harga, ketersediaan, mutu produk, pembayaran, dan pengiriman disepakati langsung dengan penjual.",
+            "Desanara tidak menjadi pihak dalam transaksi, jadi pastikan rincian pesanan sebelum membayar.",
+            "Status buka dan tutup toko dihitung dari jadwal yang diisi penjual dan bisa berbeda dengan keadaan sebenarnya."
+          ]
+        },
+        {
+          "id": "umkm",
+          "title": "Untuk UMKM",
+          "items": [
+            "Data usaha dan produk yang diisi harus benar dan milik usaha sendiri.",
+            "Foto yang diunggah harus milik sendiri atau sudah mendapat izin dari pemiliknya.",
+            "UMKM tampil setelah diverifikasi admin desa dan disetujui pemiliknya.",
+            "Tampil di Desanara tidak dipungut biaya, dan <hl>tidak ada potongan dari penjualan</hl>."
+          ]
+        },
+        {
+          "id": "desa",
+          "title": "Peran desa dan tim HIMA",
+          "body": [
+            "Admin desa memverifikasi UMKM di desanya dan dapat menurunkan UMKM yang bermasalah dengan alasan yang tercatat. Tim HIMA mengelola platform, mengaktifkan desa mitra, dan mendampingi desa serta UMKM."
+          ]
+        },
+        {
+          "id": "larangan",
+          "title": "Yang tidak boleh",
+          "items": [
+            "Menawarkan produk yang melanggar hukum atau membahayakan.",
+            "Memberikan informasi palsu atau menipu pembeli.",
+            "Memakai foto, merek, atau karya orang lain tanpa izin.",
+            "Mengunggah konten yang menghina atau memecah belah."
+          ],
+          "note": [
+            "Konten yang melanggar dapat disembunyikan atau dihapus oleh admin desa atau tim HIMA."
+          ]
+        },
+        {
+          "id": "konten",
+          "title": "Konten dan merek",
+          "body": [
+            "Cerita, produk, dan foto tetap milik UMKM. Dengan menayangkannya, pemilik mengizinkan Desanara menampilkannya di situs dan materi pengenalan Desanara. Nama dan logo Desanara, HIMASIF, SATU University, serta logo desa adalah milik pemiliknya masing-masing."
+          ]
+        },
+        {
+          "id": "tanggung-jawab",
+          "title": "Batas tanggung jawab",
+          "body": [
+            "Desanara disediakan apa adanya. Kami berusaha menjaga situs tetap berjalan dan datanya benar, tetapi tidak bertanggung jawab atas transaksi, kerugian, atau sengketa antara pembeli dan penjual."
+          ]
+        },
+        {
+          "id": "perubahan",
+          "title": "Perubahan layanan dan syarat",
+          "body": [
+            "Fitur dan syarat ini dapat berubah saat Desanara berkembang. Tanggal berlaku di bagian atas halaman akan ikut diperbarui. Syarat ini mengikuti hukum yang berlaku di Indonesia."
+          ]
+        }
+      ]
+    }
   }
 }

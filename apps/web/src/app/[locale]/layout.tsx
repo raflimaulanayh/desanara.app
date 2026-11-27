@@ -5,8 +5,10 @@ import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import type { ReactNode } from 'react'
+import { splashBootScript } from '@/components/about/splash-boot'
 import { MobileNavigation } from '@/components/mobile-navigation'
 import { PwaProvider } from '@/components/pwa-provider'
+import { ScrollManager } from '@/components/scroll-manager'
 import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { routing } from '@/i18n/routing'
@@ -56,7 +58,11 @@ export default async function LocaleLayout({
   const [t, states] = await Promise.all([getTranslations('nav'), getTranslations('states')])
 
   return (
-    <html lang={locale} className={fontVariables}>
+    // The about splash marks <html data-splash> before hydration (components/about/about-splash.tsx).
+    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: splashBootScript }} />
+      </head>
       <body className="bg-background text-foreground min-h-dvh antialiased">
         <a
           href="#main"
@@ -65,6 +71,7 @@ export default async function LocaleLayout({
           {t('skip')}
         </a>
         <NextIntlClientProvider>
+          <ScrollManager />
           <PwaProvider>
             <div className="site-shell flex min-h-dvh flex-col pb-(--mobile-nav-space) lg:pb-0">
               <OfflineNotice message={states('offline')} />

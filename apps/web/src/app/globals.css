@@ -36,6 +36,11 @@
   }
 }
 
+/* In-page jumps (#section links, skip link) glide; reduced motion turns this off further down. */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
 }
@@ -366,4 +371,552 @@ main:has(.catalogue-home) + footer {
   from {
     transform: translateY(18px);
   }
+}
+
+/* About page (PLAN-about-page). Forest green is the brand's darkest green, used for one dark section. */
+@theme {
+  --color-forest: #235239;
+}
+
+/* Splash (components/about/about-splash.tsx), shown only while <html data-splash> is set. A forest-green
+   sunrise: terrace rings draw in and turn slowly, the leaves grow, the white wordmark rises, a thin line
+   fills, then a circular opening grows from the centre to reveal the hero. All CSS, so it starts with the
+   first paint and still ends without JavaScript. The pointer nudges --sx/--sy for a little depth. */
+/* Starts below zero so the soft edge stays fully covered until the opening begins. */
+@property --splash-hole {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: -260px;
+}
+
+.about-splash {
+  display: none;
+}
+
+html[data-splash] .about-splash {
+  --sx: 0;
+  --sy: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      60rem 40rem at 50% 58%,
+      color-mix(in oklab, var(--color-forest) 70%, #3f8a55),
+      transparent
+    ),
+    var(--color-forest);
+  cursor: pointer;
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent var(--splash-hole),
+    #000 calc(var(--splash-hole) + 240px)
+  );
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    transparent var(--splash-hole),
+    #000 calc(var(--splash-hole) + 240px)
+  );
+  animation: about-splash-open 1.25s cubic-bezier(0.7, 0, 0.2, 1) 2.15s forwards;
+}
+
+.about-splash-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  gap: 2.25rem;
+  transform: translate(calc(var(--sx) * 10px), calc(var(--sy) * 8px));
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  /* Moves gently forward and fades as the opening grows, like stepping into the page. */
+  animation: about-splash-forward 1.25s cubic-bezier(0.7, 0, 0.2, 1) 2.15s forwards;
+}
+
+.about-splash-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(44rem, 150vw);
+  height: auto;
+  translate: calc(-50% + var(--sx) * -18px) calc(-58% + var(--sy) * -14px);
+  transition: translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.about-splash-rings g {
+  transform-origin: 50% 50%;
+  animation: about-splash-turn 40s linear infinite;
+}
+
+.about-splash-rings circle {
+  stroke-dasharray: 1;
+  animation: about-splash-draw 1.9s cubic-bezier(0.45, 0, 0.15, 1)
+    calc(0.1s + var(--ring, 0) * 0.14s) both;
+}
+
+.about-splash-logo {
+  position: relative;
+  width: min(14rem, 56vw);
+  height: auto;
+  overflow: visible;
+}
+
+/* The logo on forest green: white wordmark, a softer tagline and brighter leaf gradients. */
+.about-splash [data-part='wordmark'] {
+  fill: #fff;
+}
+
+.about-splash [data-part='tagline'] {
+  fill: rgb(255 255 255 / 0.72);
+}
+
+.about-splash linearGradient stop:last-child {
+  stop-color: #6cac4e;
+}
+
+.about-splash [data-part^='leaf'] {
+  transform-box: fill-box;
+  animation: about-splash-leaf 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.about-splash [data-part='leaf-tall'] {
+  transform-origin: 0% 100%;
+}
+
+.about-splash [data-part='leaf-small'] {
+  transform-origin: 100% 100%;
+  animation-delay: 0.38s;
+}
+
+.about-splash [data-part^='letter-'] {
+  transform-box: fill-box;
+  animation: about-splash-letter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.about-splash [data-part='letter-d'] {
+  animation-delay: 0.62s;
+}
+.about-splash [data-part='letter-e'] {
+  animation-delay: 0.67s;
+}
+.about-splash [data-part='letter-s'] {
+  animation-delay: 0.72s;
+}
+.about-splash [data-part='letter-a1'] {
+  animation-delay: 0.77s;
+}
+.about-splash [data-part='letter-n'] {
+  animation-delay: 0.82s;
+}
+.about-splash [data-part='letter-a2'] {
+  animation-delay: 0.87s;
+}
+.about-splash [data-part='letter-r'] {
+  animation-delay: 0.92s;
+}
+.about-splash [data-part='letter-a3'] {
+  animation-delay: 0.97s;
+}
+
+.about-splash [data-part='tagline'] {
+  animation: about-splash-fade 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both;
+}
+
+.about-splash-hint {
+  position: absolute;
+  bottom: max(2rem, calc(var(--safe-area-bottom) + 1.25rem));
+  left: 50%;
+  translate: -50% 0;
+  color: rgb(255 255 255 / 0.6);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  animation: about-splash-fade 0.4s ease 0.9s both;
+}
+
+/* Hero content rises in as the opening grows. Items set their order with --i. */
+html[data-splash] [data-hero-item] {
+  animation: about-hero-in 1.1s cubic-bezier(0.16, 1, 0.3, 1) calc(2.45s + var(--i, 0) * 90ms) both;
+}
+
+/* Tap, click or Escape: open straight away from wherever the sequence is. */
+html[data-splash='skip'] .about-splash {
+  animation: about-splash-open 0.75s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+html[data-splash='skip'] .about-splash-stage {
+  animation: about-splash-forward 0.75s cubic-bezier(0.7, 0, 0.2, 1) forwards;
+}
+
+html[data-splash='skip'] [data-hero-item] {
+  animation-delay: calc(0.3s + var(--i, 0) * 60ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-splash] .about-splash {
+    display: none;
+  }
+
+  html[data-splash] [data-hero-item] {
+    animation: none;
+  }
+}
+
+@keyframes about-splash-open {
+  to {
+    --splash-hole: 150vmax;
+    visibility: hidden;
+  }
+}
+
+@keyframes about-splash-forward {
+  to {
+    scale: 1.12;
+    opacity: 0;
+  }
+}
+
+@keyframes about-splash-turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes about-splash-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+@keyframes about-splash-leaf {
+  from {
+    transform: scale(0.4) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+@keyframes about-splash-letter {
+  from {
+    transform: translateY(40%);
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
+@keyframes about-splash-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes about-hero-in {
+  from {
+    transform: translateY(1.75rem);
+    opacity: 0;
+  }
+}
+
+/* Steps that light up as they pass the middle of the screen (data-step, about-motion.tsx).
+   They start lit unless AboutMotion is running (data-motion), so no JavaScript or reduced motion
+   still shows every step. */
+.about-step-dot {
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+[data-motion] [data-step]:not([data-active]) .about-step-dot {
+  background: var(--surface);
+  color: var(--muted);
+  box-shadow: inset 0 0 0 2px var(--line-strong);
+}
+
+/* Partner village ribbon: drifts slowly, pauses on hover, focus or the pause button. */
+.about-ribbon-track {
+  animation: about-ribbon 60s linear infinite;
+}
+
+.about-ribbon:is(:hover, :focus-within, [data-paused]) .about-ribbon-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-ribbon-track {
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .about-ribbon-track > [aria-hidden] {
+    display: none;
+  }
+}
+
+@keyframes about-ribbon {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* About hero product strip (components/about/hero-strip.tsx): one slow loop with soft edges. It pauses on
+   hover, focus or the pause button, and becomes a scrollable row with reduced motion. */
+.about-strip-viewport {
+  mask-image: linear-gradient(to right, transparent, #000 7%, #000 93%, transparent);
+}
+
+.about-strip-track {
+  animation: about-ribbon 90s linear infinite;
+}
+
+.about-strip:is(:hover, :focus-within, [data-paused]) .about-strip-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-strip-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    mask-image: none;
+    scroll-padding-inline: 1rem;
+  }
+
+  .about-strip-track {
+    padding-inline: 1rem;
+    animation: none;
+  }
+
+  .about-strip-track > [aria-hidden] {
+    display: none;
+  }
+
+  .about-strip-track li {
+    scroll-snap-align: start;
+  }
+}
+
+/* About hero sunrise (components/about/about-sun.tsx): the sun settles in, then the terrace rings draw
+   from left to right. After the splash, it waits for the panel to lift. */
+.about-sun-ring {
+  stroke-dasharray: 1;
+}
+
+/* Rings fade where the headline and copy sit, and the horizon fades behind the photos. */
+.about-sun-mask {
+  --sun-text: radial-gradient(ellipse 34% 56% at 50% 32%, transparent 45%, #000 100%);
+  --sun-horizon: linear-gradient(to bottom, #000 78%, transparent);
+  -webkit-mask-image: var(--sun-text), var(--sun-horizon);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--sun-text), var(--sun-horizon);
+  mask-composite: intersect;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .about-sun-core {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: about-sun-rise 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+
+  .about-sun-ring {
+    animation: about-sun-draw 1.8s cubic-bezier(0.65, 0, 0.35, 1)
+      calc(0.35s + var(--ring, 0) * 0.12s) both;
+  }
+
+  html[data-splash] .about-sun-core {
+    animation-delay: 2.4s;
+  }
+
+  html[data-splash] .about-sun-ring {
+    animation-delay: calc(2.6s + var(--ring, 0) * 0.12s);
+  }
+}
+
+@keyframes about-sun-rise {
+  from {
+    transform: translateY(14%) scale(0.92);
+    opacity: 0;
+  }
+}
+
+@keyframes about-sun-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+
+/* Highlighter strokes in sun yellow (about page). Drawn when their data-step block reaches the middle of
+   the screen; shown in full without JavaScript or with reduced motion. */
+.about-mark {
+  background-image: linear-gradient(
+    color-mix(in oklab, var(--sun) 42%, white),
+    color-mix(in oklab, var(--sun) 42%, white)
+  );
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  background-size: 100% 0.4em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  transition: background-size 1.1s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.about-mark + .about-mark,
+.about-mark ~ .about-mark {
+  transition-delay: 0.35s;
+}
+
+[data-motion] [data-step]:not([data-active]) .about-mark {
+  background-size: 0% 0.4em;
+}
+
+/* Problem story (components/about/problem-visual.tsx): on desktop one visual holds every state and shows
+   the one named by data-state; the steps beside it dim until they are current. */
+.about-story-visual[data-story-visual] .about-story-layer {
+  opacity: 0;
+  transform: translateY(1.25rem) scale(0.96);
+  filter: blur(6px);
+}
+
+.about-story-visual[data-story-visual][data-state='0'] [data-layer='0'],
+.about-story-visual[data-story-visual][data-state='1'] [data-layer='1'],
+.about-story-visual[data-story-visual][data-state='2'] [data-layer='2'],
+.about-story-visual[data-story-visual][data-state='3'] [data-layer='3'] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (width >= 64rem) {
+  .about-story-step {
+    transition: opacity 0.5s ease;
+  }
+
+  [data-story-ready] .about-story-step:not([data-current]) {
+    opacity: 0.28;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-story-layer,
+  .about-story-step {
+    transition: none !important;
+  }
+}
+
+/* A WhatsApp bubble line that just changed in the order demo (order-simulator.tsx). */
+@media (prefers-reduced-motion: no-preference) {
+  .about-flash {
+    border-radius: 0.25rem;
+    animation: about-flash 1.2s ease-out;
+  }
+}
+
+@keyframes about-flash {
+  from {
+    background-color: color-mix(in oklab, var(--sun) 55%, transparent);
+  }
+  to {
+    background-color: transparent;
+  }
+}
+
+/* A role panel settling in when its tab is chosen (role-tabs.tsx). */
+@media (prefers-reduced-motion: no-preference) {
+  .about-tab-in {
+    animation: about-tab-in 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+}
+
+@keyframes about-tab-in {
+  from {
+    transform: translateY(0.75rem);
+    opacity: 0;
+  }
+}
+
+/* Desktop header (site-header.tsx): a full-width bar at the top of the page that eases into a floating
+   capsule, as wide as the page content, once the page scrolls. Every property that changes is animated
+   on the same curve, and the join pill fades and folds away instead of disappearing. */
+.header-bar.navigation-glass::before {
+  border-radius: inherit;
+}
+
+@media (width >= 64rem) {
+  .site-header {
+    --header-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --header-speed: 0.55s;
+    transition: padding-top var(--header-speed) var(--header-ease);
+  }
+
+  .site-header[data-scrolled] {
+    padding-top: calc(var(--safe-area-top) + 0.75rem);
+  }
+
+  .header-bar {
+    width: 100%;
+    margin-inline: auto;
+    border: 1px solid transparent;
+    border-bottom-color: color-mix(in oklab, var(--line) 75%, transparent);
+    border-radius: 0;
+    box-shadow: 0 12px 32px -16px rgb(28 25 23 / 0);
+    transition:
+      width var(--header-speed) var(--header-ease),
+      border-radius var(--header-speed) var(--header-ease),
+      border-color var(--header-speed) var(--header-ease),
+      box-shadow var(--header-speed) var(--header-ease);
+  }
+
+  .site-header[data-scrolled] .header-bar {
+    /* Matches Container: max-w-6xl (72rem) less px-6 on each side. */
+    width: min(calc(100% - 3rem), 69rem);
+    border-color: color-mix(in oklab, var(--line) 75%, transparent);
+    border-radius: 2.25rem;
+    box-shadow: 0 12px 32px -16px rgb(28 25 23 / 0.3);
+  }
+
+  .header-inner {
+    transition: padding var(--header-speed) var(--header-ease);
+  }
+
+  .site-header[data-scrolled] .header-inner {
+    padding-inline: 1.25rem 0.5rem;
+  }
+
+  .header-join {
+    max-width: 16rem;
+    overflow: hidden;
+    transition:
+      max-width var(--header-speed) var(--header-ease),
+      opacity 0.3s ease,
+      margin var(--header-speed) var(--header-ease),
+      visibility 0s linear var(--header-speed);
+  }
+
+  .site-header:not([data-scrolled]) .header-join {
+    transition-delay: 0s;
+  }
+
+  .site-header[data-scrolled] .header-join {
+    max-width: 0;
+    margin-left: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header,
+  .header-bar,
+  .header-inner,
+  .header-join {
+    transition: none;
+  }
+}
+
+/* A page that ends on a full-bleed coloured section (data-footer-flush) meets the footer directly. */
+.site-shell:has([data-footer-flush]) > footer {
+  margin-top: 0;
 }

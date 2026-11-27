@@ -54,15 +54,24 @@
     "failed": "That didn't work. Please try again."
   },
   "footer": {
-    "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp — no middleman, no commission.",
-    "byline": "Run by",
+    "about": "A catalogue of products from partner villages. Orders go straight to the maker on WhatsApp, with no middleman and no commission.",
     "links": "Links",
-    "explore": "Explore products",
-    "about_link": "About the programme",
-    "credit": "© {year} HIMA Information Systems, SATU University",
-    "tagline": "Village specialities",
+    "byline": "Run by",
+    "programme": "Community service programme, HIMA Sistem Informasi, SATU University",
+    "groupExplore": "Explore",
+    "groupAbout": "Desanara",
+    "groupContact": "Contact",
+    "products": "Products",
+    "villages": "Villages",
+    "about_link": "About Desanara",
+    "join": "Register your business",
     "credits": "Photo credits",
-    "join": "Register your business"
+    "settings": "Settings",
+    "partner": "Work with us",
+    "credit": "© {year} HIMA Sistem Informasi, SATU University",
+    "socials": "HIMASIF social media",
+    "privacy": "Privacy policy",
+    "terms": "Terms and conditions"
   },
   "status": {
     "open": "Open",
@@ -112,16 +121,19 @@
       "bamboo": {
         "title": "Woven bamboo boxes from Baros",
         "browse": "Browse crafts",
-        "action": "View product"
+        "action": "View product",
+        "body": "Hand-woven by craftspeople in Desa Baros, for food and gift boxes."
       },
       "coffee": {
         "title": "Arabica coffee from Baros",
-        "action": "View coffee"
+        "action": "View coffee",
+        "body": "Arabica coffee from Desa Baros, as whole beans or ground."
       },
       "villages": {
         "title": "Meet the villages behind the products",
         "action": "Explore villages"
-      }
+      },
+      "goTo": "Go to banner {n}"
     },
     "categoryShort": {
       "makanan-camilan": "Food",
@@ -133,7 +145,14 @@
     },
     "sellerTitle": "Run a business in a village?",
     "sellerBody": "Register it on Desanara. Orders go straight to your WhatsApp, with no commission.",
-    "sellerCta": "Register your business"
+    "sellerCta": "Register your business",
+    "sellerLead": "Bring your work to more buyers.",
+    "sellerPerks": {
+      "free": "Free, no commission",
+      "whatsapp": "Orders straight to WhatsApp",
+      "help": "Help from village assistants"
+    },
+    "sellerMore": "Learn more"
   },
   "stories": {
     "loading": "Loading stories from local makers…",
@@ -149,7 +168,10 @@
     "next": "Next story",
     "position": "Story {current} of {total}",
     "viewProduct": "View product",
-    "status": { "preorder": "Pre-orders", "shop-open": "Shop open" },
+    "status": {
+      "preorder": "Pre-orders",
+      "shop-open": "Shop open"
+    },
     "captions": {
       "bamboo": "These bamboo boxes are freshly woven.",
       "bamboo-weaving": "From bamboo strips to a woven box.",
@@ -317,45 +339,297 @@
   },
   "about": {
     "title": "About Desanara",
-    "lead": "Desanara is a programme by HIMA Information Systems, SATU University: a catalogue of products from partner villages, with digital mentoring and training for the people who make them.",
-    "how": "Each village has its own page managed by its village admin. Businesses are verified once by the village, then buyers can order their products directly on WhatsApp — no middleman, no commission.",
-    "pilot": "Pilot village: Desa Baros, Arjasari district, Bandung regency.",
-    "joinTitle": "Run a business in a partner village? Register it",
-    "joinBody": "Online registration is on its way. For now, contact your village admin or the HIMASIF team on Instagram",
-    "hero": {
-      "title": "Village craft, for all of Indonesia.",
-      "subtitle": "Find standout products, support local businesses, and order straight from the makers.",
-      "explore": "Explore now",
-      "join": "Register your business"
+    "metaDescription": "Desanara is a catalogue of small businesses from partner villages in West Java. Orders go straight to the maker's WhatsApp, with no commission.",
+    "splash": {
+      "skip": "Tap to skip"
     },
-    "orderTitle": "How to order",
-    "order": {
-      "1": {
-        "title": "Pick a product",
-        "body": "Browse by village or search by name."
+    "hero": {
+      "title": "Ragam Karya, Cerita Nusantara.",
+      "lead": "Desanara is a catalogue of products made by small businesses in partner villages. Every product carries the name of its village, and every order goes straight to the maker on WhatsApp.",
+      "buyer": "Browse village products",
+      "seller": "I run a village business",
+      "mosaicLabel": "Products from partner villages",
+      "facts": "<biz>{businesses}</biz> businesses from <vil>{villages}</vil> partner villages in Bandung, Garut and Sumedang regencies.",
+      "cardPlace": "Desa Baros, Bandung Regency"
+    },
+    "problem": {
+      "title": "Villages make plenty. Finding it is the hard part.",
+      "items": {
+        "hidden": {
+          "word": "Hidden",
+          "body": "Many village businesses make good products, yet their buyers rarely reach beyond neighbours and friends."
+        },
+        "scattered": {
+          "word": "Scattered",
+          "body": "People looking for souvenirs or a village's speciality have no obvious place to start."
+        },
+        "unready": {
+          "word": "Not ready",
+          "body": "Clear photos, descriptions and prices are often missing, and those are what give a buyer confidence."
+        }
       },
-      "2": {
-        "title": "Chat the seller",
-        "body": "Choose a quantity, then open WhatsApp with your order already written."
-      },
-      "3": {
-        "title": "Agree directly",
-        "body": "Payment and delivery are arranged directly with the maker."
+      "answer": "Desanara answers with two things: <hl>one catalogue that brings many villages together</hl>, and <hl>students who work with each business</hl> to prepare its page.",
+      "visual": {
+        "ring": "Only neighbours and friends",
+        "query": "Desa Baros snacks",
+        "empty": "No clear results yet",
+        "rawName": "balado chips",
+        "rawPrice": "price? just ask",
+        "found": "Found on Desanara"
       }
+    },
+    "order": {
+      "lead": "Choose a quantity and add a note. Desanara writes the order, then the seller's WhatsApp opens with the message ready to send. Try changing the order below.",
+      "quantity": "Quantity",
+      "decrease": "Decrease",
+      "increase": "Increase",
+      "note": "Note for the seller",
+      "noteHint": "For example: finely ground",
+      "total": "Total",
+      "chatLabel": "WhatsApp message preview",
+      "typing": "Type a message",
+      "languageNote": "The message is always written in Indonesian, so the seller can read it easily.",
+      "after": "Payment and delivery are agreed directly with the seller. Desanara takes nothing from the sale.",
+      "cta": "Find more products",
+      "titleLead": "Ordering is as easy as",
+      "titleRest": "sending a chat.",
+      "step1": "Choose a quantity",
+      "step2": "Add a note",
+      "step3": "Ready to send to the seller"
+    },
+    "roles": {
+      "lead": "Everyone looks after their own part, and it all comes together on the same pages.",
+      "tabsLabel": "Roles in Desanara",
+      "buyer": {
+        "tab": "Buyers",
+        "title": "Find a product and talk to the person who made it.",
+        "steps": {
+          "1": "Search for a product, or open a village page to see all of its businesses.",
+          "2": "See photos, prices, and whether the shop is open, worked out from its opening hours.",
+          "3": "Tap Order via WhatsApp. No account needed."
+        }
+      },
+      "owner": {
+        "tab": "Business owners",
+        "title": "A business page that carries the village's name.",
+        "steps": {
+          "1": "The business story, products and online shop links sit on one page.",
+          "2": "Orders arrive straight on WhatsApp, with no commission.",
+          "3": "An assistant helps fill in the details until the page is ready."
+        }
+      },
+      "assistant": {
+        "tab": "Assistants",
+        "title": "Students who help businesses get online.",
+        "steps": {
+          "1": "Register a business through a four-step form, right from a phone.",
+          "2": "Entries are saved automatically, even when the signal drops.",
+          "3": "Upload up to ten photos per product. Photos are compressed and their location data removed."
+        }
+      },
+      "admin": {
+        "tab": "Village admins",
+        "title": "The village confirms that every business is real.",
+        "steps": {
+          "1": "Review new businesses in the To check list.",
+          "2": "Approve, or reject with a reason the assistant can read.",
+          "3": "Take down a business when there is a problem, with the reason recorded."
+        }
+      },
+      "hima": {
+        "tab": "HIMA team",
+        "title": "Running the platform and its partner villages.",
+        "steps": {
+          "1": "Verify villages that want to join by phone, visit and a partnership agreement.",
+          "2": "Activate villages and manage product categories.",
+          "3": "Support villages and businesses through seminars and training."
+        }
+      },
+      "mock": {
+        "open": "Open",
+        "openDetail": "Closes at 17.00",
+        "shops": "Online shops",
+        "steps": "Step 2 of 4",
+        "stepNames": {
+          "1": "Business",
+          "2": "Contact",
+          "3": "Location",
+          "4": "Consent"
+        },
+        "whatsapp": "WhatsApp number",
+        "saved": "Saved automatically",
+        "queue": "To check",
+        "approve": "Approve",
+        "reject": "Reject",
+        "requirements": "Ready to publish",
+        "requirement": {
+          "verified": "Verified by the village",
+          "consent": "Owner's consent",
+          "phone": "WhatsApp number",
+          "active": "Not taken down"
+        },
+        "villages": "villages"
+      },
+      "titleLead": "One platform,",
+      "titleRest": "five roles."
     },
     "trust": {
-      "verified": {
-        "title": "Village verified",
-        "body": "Every business is checked and approved by its village admin before it appears."
+      "lead": "A new business appears only after three steps. Nobody can skip the village check.",
+      "steps": {
+        "submitted": {
+          "title": "Registered",
+          "body": "An assistant or the owner enters the business details, WhatsApp number and the owner's consent.",
+          "status": "Waiting for review"
+        },
+        "checked": {
+          "title": "Checked by the village",
+          "body": "The village admin confirms the business really exists in the village and the details are right.",
+          "status": "Verified by the village"
+        },
+        "live": {
+          "title": "Published",
+          "body": "The business appears on Desanara with the verified-by-village badge.",
+          "status": "Live on Desanara"
+        }
       },
-      "direct": {
-        "title": "Straight to the maker",
-        "body": "No middleman and no commission — your money reaches the maker."
+      "promisesTitle": "What we protect",
+      "promises": {
+        "address": {
+          "title": "Addresses stay private",
+          "body": "Home addresses, neighbourhood numbers and map pins are never shown. Public locations stop at the village."
+        },
+        "schedule": {
+          "title": "Honest opening status",
+          "body": "Open and closed are worked out from the weekly schedule, so the status stays right even when owners forget to update it."
+        },
+        "commission": {
+          "title": "No commission",
+          "body": "Desanara takes no cut and never handles the payment."
+        },
+        "consent": {
+          "title": "With the owner's consent",
+          "body": "A business is published only with its owner's consent, as Indonesia's Personal Data Protection Law requires."
+        }
       },
-      "mentored": {
-        "title": "Mentored by HIMA SI",
-        "body": "SATU University students help each business prepare its products."
+      "titleLead": "Every business is checked",
+      "titleRest": "by its own village."
+    },
+    "baros": {
+      "body": "Desa Baros, in Arjasari district, Bandung Regency, is Desanara's first village. Its businesses range from crafts and fashion to processed food.",
+      "photoAlt": "The bamboo tourism area in Desa Baros",
+      "crestLabel": "Crest of the Desa Baros village government",
+      "commoditiesLabel": "Signature commodities",
+      "commodities": {
+        "ubi": "Sweet potato",
+        "hanjeli": "Job's tears (hanjeli)",
+        "kopi": "Coffee",
+        "jagung": "Corn",
+        "jamur": "Oyster mushroom"
+      },
+      "direction": "The village has a clear aim: <hl>sell processed goods, not raw crops</hl>. Hanjeli, for example, becomes rengginang crackers, tape and baby porridge flour.",
+      "visit": "Visit Desa Baros",
+      "others": "Now joined by {count} more villages in <bandung>Bandung</bandung>, <garut>Garut</garut> and <sumedang>Sumedang</sumedang> regencies.",
+      "othersLabel": "Other partner villages",
+      "pause": "Pause",
+      "play": "Play",
+      "titleLead": "It started in",
+      "titleRest": "Desa Baros.",
+      "place": "Arjasari district, Bandung Regency",
+      "recordedLine": "<n>{count}</n> businesses recorded in the village",
+      "regencies": {
+        "bandung": "Bandung Regency",
+        "garut": "Garut Regency",
+        "sumedang": "Sumedang Regency"
       }
+    },
+    "journey": {
+      "items": {
+        "survey": {
+          "date": "October 2026",
+          "title": "Desa Baros survey",
+          "body": "The HIMASIF team met village officials and the business coordinator to understand what they needed."
+        },
+        "launch": {
+          "date": "November 2026",
+          "title": "Desanara goes live",
+          "body": "The catalogue, village pages and dashboards for villages, assistants and businesses launched at desanara.app."
+        },
+        "seminar": {
+          "date": "5 December 2026",
+          "title": "Seminar and showcase at the Desa Baros village office",
+          "body": "Business owners learn to use digital opportunities, then get help building their business pages. The goal is 30 to 60 businesses online.",
+          "place": "Desa Baros village office, Arjasari"
+        },
+        "expand": {
+          "date": "2027",
+          "title": "More villages",
+          "body": "Village page templates, a cart sent to WhatsApp in one go, a mobile app, and self-service sign-up for villages."
+        },
+        "transact": {
+          "date": "Next stage",
+          "title": "Payments on the platform",
+          "body": "Payment and shipping inside Desanara, once a legal entity is in place to run them."
+        }
+      },
+      "titleLead": "From one village survey",
+      "titleRest": "to a catalogue of Nusantara."
+    },
+    "makers": {
+      "body": "Desanara is a community service programme of HIMA Sistem Informasi, SATU University. Students build the platform, then go to the villages to work with the businesses in person.",
+      "titleLead": "Built by students,",
+      "titleRest": "for villages.",
+      "programme": "Community service programme 2026",
+      "partnerTitle": "Let’s work together.",
+      "partnerBody": "Village governments, universities, communities and companies that want to support village businesses can reach out to work with us.",
+      "partnerCta": "Get in touch",
+      "creditTitle": "Made by"
+    },
+    "faq": {
+      "items": {
+        "free": {
+          "q": "Is Desanara free?",
+          "a": "Yes. Buyers pay nothing to browse, and businesses pay nothing to be listed."
+        },
+        "commission": {
+          "q": "Does Desanara take a cut of each sale?",
+          "a": "No. Orders go straight to the seller's WhatsApp, and payment never passes through Desanara."
+        },
+        "payment": {
+          "q": "How do payment and delivery work?",
+          "a": "You agree on payment and delivery with the seller on WhatsApp. Some businesses also list their online shops."
+        },
+        "account": {
+          "q": "Do buyers need an account?",
+          "a": "No. Pick a product and tap Order via WhatsApp."
+        },
+        "village": {
+          "q": "How can my village join?",
+          "a": "Contact the HIMASIF team on Instagram. The team verifies the village by phone and a visit, agrees a partnership, then activates the village page."
+        },
+        "privacy": {
+          "q": "Is business owners' data safe?",
+          "a": "Street addresses, neighbourhood numbers, map pins and business registration numbers are visible only to the village team and the business's assistant. Only details the owner has agreed to share are public."
+        },
+        "language": {
+          "q": "Which languages is Desanara in?",
+          "a": "Indonesian and English. Product names and descriptions appear in English when the business has added a translation."
+        }
+      },
+      "titleLead": "Frequently",
+      "titleRest": "asked.",
+      "moreTitle": "Still have a question?",
+      "moreBody": "Ask the HIMASIF team directly.",
+      "moreCta": "Ask on Instagram"
+    },
+    "join": {
+      "buyerTitle": "For buyers",
+      "buyerBody": "Browse products from {count} partner villages and order straight from the makers.",
+      "buyerCta": "Browse products",
+      "sellerTitle": "For businesses and villages",
+      "sellerBody": "Online sign-up is on its way. For now, contact your village admin or the HIMASIF team on Instagram.",
+      "sellerCta": "Message @himasif.su",
+      "titleLead": "Village work is",
+      "titleRest": "waiting to be found."
     }
   },
   "states": {
@@ -386,5 +660,179 @@
     "unknownAuthor": "Author not stated",
     "source": "Source",
     "changes": "All photos were resized and recompressed to WebP. The Desa Baros logo and photo belong to the Desa Baros village government (partner village)."
+  },
+  "legal": {
+    "updated": "Effective from 27 November 2026",
+    "contents": "On this page",
+    "contactTitle": "Questions?",
+    "contactBody": "Contact the HIMASIF team on Instagram, or reach out through your village admin.",
+    "contactCta": "Message @himasif.su",
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "What data Desanara collects, what is shown publicly, and the rights business owners have over their data.",
+      "intro": "Desanara connects buyers with village businesses. This page explains what data we collect, why, who can see it, and how you can control it. We follow Indonesia's Personal Data Protection Law (Law No. 27 of 2022).",
+      "sections": [
+        {
+          "id": "pengelola",
+          "title": "Who manages the data",
+          "body": [
+            "Desanara is run by HIMA Sistem Informasi, SATU University, as a community service programme. We are responsible for the data collected through the Desanara website and dashboard."
+          ]
+        },
+        {
+          "id": "data",
+          "title": "Data we collect",
+          "body": ["What we store depends on how you use Desanara."],
+          "items": [
+            "Visitors and buyers do not need an account. We count page views and WhatsApp button taps for statistics, <hl>without storing IP addresses, device details or tracking cookies</hl>.",
+            "Your language choice and the business stories you have seen are kept on your own device, not on our servers.",
+            "For each business: business name, owner name, story, products and their photos, WhatsApp number, online shop links, street address, neighbourhood numbers (RT/RW), map pin, and business registration number (NIB) if provided.",
+            "For dashboard users (village admins, assistants and business owners): name, email address, and a password stored as a hash."
+          ]
+        },
+        {
+          "id": "publik",
+          "title": "What is shown publicly",
+          "items": [
+            "Shown after the owner agrees: business name, owner name, story, products, WhatsApp number and online shop links.",
+            "Always shown: village, district and regency.",
+            "Never shown publicly: <hl>street address, RT/RW, map pin and NIB</hl>. Only the village team and the business's assistant can see them.",
+            "Account emails and passwords are never shown."
+          ]
+        },
+        {
+          "id": "persetujuan",
+          "title": "Business owner consent",
+          "body": [
+            "A business is published only after its owner agrees to its data being shown. The assistant reads out what will be public, and the owner signs a consent form. The time and method of consent are recorded.",
+            "<hl>Owners can withdraw consent at any time</hl>. Once withdrawn, the business page is hidden from the public straight away."
+          ]
+        },
+        {
+          "id": "penggunaan",
+          "title": "How we use data",
+          "items": [
+            "To show the product catalogue and business pages.",
+            "To connect buyers with sellers on WhatsApp.",
+            "To confirm each business is real, through verification by its village admin.",
+            "To count page views and WhatsApp taps as impact reports for villages and businesses.",
+            "To keep accounts secure, for example by emailing verification codes."
+          ],
+          "note": ["<hl>We do not sell data and do not use it for advertising</hl>."]
+        },
+        {
+          "id": "whatsapp",
+          "title": "Orders through WhatsApp",
+          "body": [
+            "When you tap Order via WhatsApp, the WhatsApp app on your device opens with the message filled in. The conversation and payment happen directly between you and the seller. Desanara does not read, store or take part in that conversation. Your use of WhatsApp follows WhatsApp's own privacy policy."
+          ]
+        },
+        {
+          "id": "penyimpanan",
+          "title": "Where data is stored",
+          "body": [
+            "Data is stored with third-party services we use to run Desanara: Vercel for the website, Supabase (PostgreSQL) for the database in the Singapore region, Cloudflare R2 for photos, and Resend for sending email. Data is used only to run Desanara.",
+            "Before upload, every photo is processed on the device so that location (GPS) information inside it is removed."
+          ]
+        },
+        {
+          "id": "keamanan",
+          "title": "Security",
+          "items": [
+            "Each dashboard user can only see and change data for the village or business they belong to.",
+            "Accounts are created by invitation, and the email address must be verified before signing in.",
+            "Every important change is recorded: who made it, what changed and when."
+          ]
+        },
+        {
+          "id": "hak",
+          "title": "Your rights",
+          "body": [
+            "Business owners may see their data, ask for corrections, withdraw consent and ask for their data to be deleted. Send requests through your assistant, your village admin or the HIMASIF team, and we will handle them as soon as we can."
+          ]
+        },
+        {
+          "id": "perubahan",
+          "title": "Changes to this policy",
+          "body": [
+            "This policy may be updated as Desanara grows. The effective date at the top of the page will change with it."
+          ]
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms and Conditions",
+      "description": "The rules for using Desanara as a buyer, a business or a partner village.",
+      "intro": "By using the Desanara website and dashboard, you agree to the terms below. We have kept them as plain as we can.",
+      "sections": [
+        {
+          "id": "layanan",
+          "title": "About the service",
+          "body": [
+            "Desanara is a catalogue of products from businesses in partner villages, run by HIMA Sistem Informasi, SATU University. <hl>Desanara is not a shop and does not take payments</hl>. Orders happen directly between buyer and seller on WhatsApp."
+          ]
+        },
+        {
+          "id": "pembeli",
+          "title": "For buyers",
+          "items": [
+            "Price, availability, product quality, payment and delivery are agreed directly with the seller.",
+            "Desanara is not a party to the transaction, so confirm the order details before paying.",
+            "A shop's open or closed status is worked out from the schedule the seller entered and may differ from the actual situation."
+          ]
+        },
+        {
+          "id": "umkm",
+          "title": "For businesses",
+          "items": [
+            "Business and product details must be accurate and belong to your own business.",
+            "Uploaded photos must be your own or used with the owner's permission.",
+            "A business appears after it is verified by the village admin and approved by its owner.",
+            "Being listed on Desanara is free, and <hl>there is no commission on sales</hl>."
+          ]
+        },
+        {
+          "id": "desa",
+          "title": "The role of villages and the HIMA team",
+          "body": [
+            "Village admins verify the businesses in their village and can take down a business when there is a problem, with the reason recorded. The HIMA team runs the platform, activates partner villages and supports villages and businesses."
+          ]
+        },
+        {
+          "id": "larangan",
+          "title": "What is not allowed",
+          "items": [
+            "Offering products that are illegal or dangerous.",
+            "Giving false information or misleading buyers.",
+            "Using other people's photos, brands or work without permission.",
+            "Posting content that is insulting or divisive."
+          ],
+          "note": [
+            "Content that breaks these rules can be hidden or removed by the village admin or the HIMA team."
+          ]
+        },
+        {
+          "id": "konten",
+          "title": "Content and brands",
+          "body": [
+            "Stories, products and photos remain the business's own. By publishing them, the owner allows Desanara to show them on the site and in Desanara's introductory materials. The Desanara, HIMASIF and SATU University names and logos, and village crests, belong to their respective owners."
+          ]
+        },
+        {
+          "id": "tanggung-jawab",
+          "title": "Limits of liability",
+          "body": [
+            "Desanara is provided as is. We work to keep the site running and its data accurate, but we are not responsible for transactions, losses or disputes between buyers and sellers."
+          ]
+        },
+        {
+          "id": "perubahan",
+          "title": "Changes to the service and terms",
+          "body": [
+            "Features and these terms may change as Desanara grows. The effective date at the top of the page will change with them. These terms are governed by the laws of Indonesia."
+          ]
+        }
+      ]
+    }
   }
 }

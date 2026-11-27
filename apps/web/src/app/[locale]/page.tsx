@@ -1,14 +1,14 @@
-import { buttonVariants } from '@heroui/styles'
 import { BRAND_NAME } from '@repo/i18n'
 import { Container } from '@repo/ui/components/container'
 import { LoadingRegion } from '@repo/ui/components/loading-region'
-import { ArrowRight, Store } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Suspense } from 'react'
 import type { ComponentProps } from 'react'
 import { CatalogueState, CatalogueUnavailable } from '@/components/catalogue-state'
 import { CategoryGrid, CategoryGridSkeleton } from '@/components/home/category-grid'
 import { HomePromotions } from '@/components/home/home-promotions'
+import { SellerInvite } from '@/components/home/seller-invite'
 import { StoryRail } from '@/components/home/story-rail'
 import { ProductGrid, ProductGridSkeleton } from '@/components/product-card'
 import { VillageGrid, VillageGridSkeleton } from '@/components/village-card'
@@ -28,7 +28,7 @@ import {
 } from '@/lib/data'
 import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
-import { JOIN_HREF, VILLAGES_HASH, VILLAGES_PATH } from '@/lib/paths'
+import { VILLAGES_HASH, VILLAGES_PATH } from '@/lib/paths'
 import type { StoryProduct } from '@/lib/story-order'
 
 export const revalidate = 300
@@ -120,7 +120,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <section
         id={VILLAGES_HASH}
         aria-labelledby="villages-title"
-        className="scroll-mt-32 pt-8 sm:pt-12 lg:scroll-mt-20"
+        className="scroll-mt-32 pt-8 sm:pt-12 lg:scroll-mt-28"
       >
         <Container>
           <div className="flex items-center justify-between gap-2">
@@ -152,36 +152,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         </Container>
       </section>
 
-      <section aria-labelledby="seller-title" className="pt-8 sm:pt-12">
-        <Container>
-          <div className="border-line bg-surface flex flex-col gap-4 rounded-(--radius) border p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5">
-            <div className="flex min-w-0 items-start gap-3">
-              <span className="bg-accent-soft text-accent-soft-foreground grid size-9 shrink-0 place-items-center rounded-(--radius)">
-                <Store className="size-4" aria-hidden />
-              </span>
-              <div className="min-w-0">
-                <h2 id="seller-title" className="section-title">
-                  {t('sellerTitle')}
-                </h2>
-                <p className="text-muted mt-1 max-w-[52ch] text-sm leading-relaxed">
-                  {t('sellerBody')}
-                </p>
-              </div>
-            </div>
-            <Link
-              href={JOIN_HREF}
-              className={buttonVariants({
-                variant: 'primary',
-                className:
-                  'h-auto min-h-11 w-full rounded-full px-4 py-2 text-center font-semibold whitespace-normal sm:w-auto sm:shrink-0',
-              })}
-            >
-              {t('sellerCta')}
-              <ArrowRight className="size-4 shrink-0" aria-hidden />
-            </Link>
-          </div>
-        </Container>
-      </section>
+      <SellerInvite />
     </div>
   )
 }
