@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-27 — Kembalikan bilah PWA ke tepi bawah
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Navigasi PWA kembali selebar layar dan menempel ke tepi bawah. Baris tab tetap ringkas, dengan
+  padding bawah minimum 2 px yang mengikuti area aman jika perangkat memerlukan ruang lebih.
+
 ## 2026-11-27 — Ringkas navigasi PWA terpasang
 
 - **Area**: apps/web

@@ -41,7 +41,7 @@ export function MobileNavigation() {
   return (
     <nav
       aria-label={t('primary')}
-      className="mobile-navigation navigation-glass border-line/75 fixed inset-x-0 bottom-(--mobile-nav-offset) z-30 h-(--mobile-nav-height) border-t pb-(--mobile-nav-bottom-padding) lg:hidden"
+      className="mobile-navigation navigation-glass border-line/75 fixed inset-x-0 bottom-0 z-30 h-(--mobile-nav-space) border-t pb-(--mobile-nav-bottom-padding) lg:hidden"
     >
       <ul className="mx-auto grid h-full max-w-xl grid-cols-4 items-stretch gap-1">
         {tabs.map(({ section, href, label, Icon }) => {

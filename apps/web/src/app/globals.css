@@ -12,9 +12,7 @@
   --mobile-nav-row: 3.5rem;
   --mobile-nav-icon-height: 1.75rem;
   --mobile-nav-bottom-padding: max(0.25rem, var(--safe-area-bottom));
-  --mobile-nav-offset: 0px;
-  --mobile-nav-height: calc(var(--mobile-nav-row) + var(--mobile-nav-bottom-padding));
-  --mobile-nav-space: calc(var(--mobile-nav-height) + var(--mobile-nav-offset));
+  --mobile-nav-space: calc(var(--mobile-nav-row) + var(--mobile-nav-bottom-padding));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
 }
@@ -29,9 +27,7 @@
   :root {
     --mobile-nav-row: 3rem;
     --mobile-nav-icon-height: 1.5rem;
-    --mobile-nav-bottom-padding: 0.25rem;
-    /* Keep the row above the system inset, with the inset outside the glass. */
-    --mobile-nav-offset: max(0px, calc(var(--safe-area-bottom) - var(--mobile-nav-bottom-padding)));
+    --mobile-nav-bottom-padding: max(0.125rem, var(--safe-area-bottom));
     touch-action: pan-x pan-y;
   }
 }
@@ -130,21 +126,6 @@ body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)) {
     black calc(100% - var(--mobile-nav-bottom-padding) + 0.25rem),
     transparent
   );
-}
-
-@media (display-mode: standalone) {
-  .mobile-navigation {
-    inset-inline: max(0.5rem, env(safe-area-inset-left, 0px))
-      max(0.5rem, env(safe-area-inset-right, 0px));
-    border-width: 1px;
-    border-radius: var(--radius);
-    padding-inline: 0.25rem;
-  }
-
-  .mobile-navigation.navigation-glass::before {
-    border-radius: inherit;
-    mask-image: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
