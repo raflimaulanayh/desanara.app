@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-27 — Ringkas bilah navigasi bawah
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Bilah navigasi lebih pendek. Padding bawah mengikuti area aman perangkat dengan jarak minimum 4 px,
+  dan ruang di bawah konten mengikuti tinggi bilah yang sama.
+
 ## 2026-11-27 — Rapikan tipografi dan tambah contoh banner gambar penuh
 
 - **Area**: apps/web

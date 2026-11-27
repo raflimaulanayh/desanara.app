@@ -8,9 +8,8 @@
 :root {
   --radius-compact: 0.5rem;
   --safe-area-top: env(safe-area-inset-top, 0px);
-  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --mobile-nav-bottom-padding: calc(0.5rem + var(--safe-area-bottom));
-  --mobile-nav-space: calc(4rem + var(--mobile-nav-bottom-padding));
+  --mobile-nav-bottom-padding: max(0.25rem, env(safe-area-inset-bottom, 0px));
+  --mobile-nav-space: calc(3.5rem + var(--mobile-nav-bottom-padding));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
 }
