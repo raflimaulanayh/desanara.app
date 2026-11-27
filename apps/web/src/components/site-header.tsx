@@ -21,7 +21,7 @@ export async function SiteHeader() {
     { href: '/tentang', label: t('about') },
   ]
   return (
-    <header className="site-header bg-surface lg:border-line/75 sticky top-0 z-20 lg:border-b">
+    <header className="site-header navigation-glass border-line/75 sticky top-0 z-20 border-b">
       <Container className="grid grid-cols-[2.5rem_1fr_2.5rem] items-center gap-y-1.5 pt-1.5 pb-2 lg:flex lg:gap-5 lg:py-2.5">
         <MobileMenu openLabel={t('menu')} closeLabel={t('menuClose')}>
           <nav aria-label={t('menu')}>

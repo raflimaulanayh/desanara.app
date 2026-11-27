@@ -28,7 +28,7 @@ export function MobileMenu({
       </Button>
       <Drawer.Backdrop>
         <Drawer.Content placement="left">
-          <Drawer.Dialog className="bg-surface w-[min(18rem,85vw)] p-0">
+          <Drawer.Dialog className="bg-surface w-[min(18rem,85vw)] p-0 pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)] pl-[env(safe-area-inset-left,0px)]">
             <Drawer.Header className="border-line flex-row items-center justify-between gap-2 border-b px-4 py-2.5">
               <Drawer.Heading className="text-base font-bold">{openLabel}</Drawer.Heading>
               <Drawer.CloseTrigger aria-label={closeLabel} className="relative inset-auto size-8" />

@@ -15,6 +15,20 @@ Format:
 
 ---
 
+## 2026-11-27 — Perbarui artwork Sorotan beranda
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Banner Jelajahi Desa memakai gambar perajin baru dan ajakan yang bisa dibaca di layar. Banner contoh
+  tampil sebagai sorotan produk.
+
+## 2026-11-27 — Rapikan header dan navigasi bawah
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Kedua bilah memakai permukaan putih transparan dengan efek blur. Navigasi bawah diberi jarak tambahan
+  dan mengikuti area aman perangkat.
+
 ## 2026-11-27 — Tambah slot promosi di Beranda
 
 - **Area**: apps/web

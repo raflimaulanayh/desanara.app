@@ -7,7 +7,10 @@
 
 :root {
   --radius-compact: 0.5rem;
-  --mobile-nav-space: calc(4rem + env(safe-area-inset-bottom, 0px));
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --mobile-nav-bottom-padding: calc(0.5rem + var(--safe-area-bottom));
+  --mobile-nav-space: calc(4rem + var(--mobile-nav-bottom-padding));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
 }
@@ -74,9 +77,42 @@ body {
   }
 }
 
-body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)),
-.site-header:has(+ main :is(.catalogue-home, .catalogue-explore)) {
+body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)) {
   background: var(--catalogue-background);
+}
+
+.site-shell {
+  padding-inline: env(safe-area-inset-left, 0px) env(safe-area-inset-right, 0px);
+}
+
+.navigation-glass::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--surface);
+  content: '';
+  pointer-events: none;
+}
+
+.navigation-glass {
+  --navigation-accent: color-mix(in srgb, var(--accent) 80%, var(--foreground));
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .navigation-glass::before {
+    background: color-mix(in srgb, var(--surface) 84%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    backdrop-filter: blur(18px) saturate(130%);
+  }
+}
+
+.site-header {
+  padding-top: var(--safe-area-top);
+}
+
+.mobile-navigation {
+  padding-inline: max(0.5rem, env(safe-area-inset-left, 0px))
+    max(0.5rem, env(safe-area-inset-right, 0px));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -144,6 +180,10 @@ main:has(> .catalogue-explore-map) {
 @media (width < 64rem) {
   .site-header:has(+ main .product-detail) {
     display: none;
+  }
+
+  main:has(.product-detail, .catalogue-explore-map) {
+    padding-top: var(--safe-area-top);
   }
 
   .product-detail .product-detail-price {

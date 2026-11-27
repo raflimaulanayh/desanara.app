@@ -13,7 +13,7 @@ type Promotion = {
   image: string
   imageOnly?: boolean
   sponsor?: string
-  sample?: { previewSlug: string; catalogueSlug: string; sponsor: string }
+  sample?: { previewSlug: string; catalogueSlug: string }
 }
 
 const publishedPromotions: Promotion[] = [
@@ -24,7 +24,6 @@ const publishedPromotions: Promotion[] = [
     sample: {
       previewSlug: 'besek-bambu',
       catalogueSlug: 'anyaman-bambu-pak-ujang-besek-bambu-isi-10',
-      sponsor: 'Anyaman Pak Ujang',
     },
   },
   {
@@ -34,14 +33,12 @@ const publishedPromotions: Promotion[] = [
     sample: {
       previewSlug: 'kopi-baros',
       catalogueSlug: 'kopi-gunung-baros-arabika-biji-200g',
-      sponsor: 'Kopi Gunung Baros',
     },
   },
   {
     id: 'villages',
     href: VILLAGES_PATH,
-    image: '/brand/catalogue-landscape.webp',
-    imageOnly: true,
+    image: '/brand/village-discovery-promo.webp',
   },
 ]
 
@@ -52,18 +49,22 @@ export async function HomePromotions({ preview }: { preview: boolean }) {
   const showSamples = preview || process.env.NODE_ENV === 'development'
   const promotions = publishedPromotions.map((promotion) => {
     const { sample } = promotion
-    if (!showSamples || !sample) return promotion
+    const action =
+      promotion.id === 'bamboo' && !showSamples
+        ? 'bamboo.browse'
+        : (`${promotion.id}.action` as const)
+    if (!showSamples || !sample) return { ...promotion, action }
     return {
       ...promotion,
       href: `/produk/${preview ? sample.previewSlug : sample.catalogueSlug}`,
-      sponsor: sample.sponsor,
+      action,
     }
   })
   return (
     <section aria-label={t('title')} className="pt-7 md:pt-9">
       <Container>
         <PromotionCarousel count={promotions.length}>
-          {promotions.map(({ id, href, image, imageOnly, sponsor }) => (
+          {promotions.map(({ id, href, image, imageOnly, sponsor, action }) => (
             <li key={id}>
               <Link
                 href={href}
@@ -95,7 +96,7 @@ export async function HomePromotions({ preview }: { preview: boolean }) {
                       {t(`${id}.title`)}
                     </h3>
                     <span className="mt-2 inline-flex items-center gap-1.5 text-xs leading-snug font-bold text-white sm:text-sm">
-                      {t(id === 'bamboo' && !sponsor ? 'bamboo.browse' : `${id}.action`)}
+                      {t(action)}
                       <ArrowRight className="size-4 shrink-0" aria-hidden />
                     </span>
                   </>
