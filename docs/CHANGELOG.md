@@ -80,6 +80,13 @@ Format:
   `gsap`, `@gsap/react`) dan mati untuk pengguna dengan preferensi gerak dikurangi.
 - Terkait: PLAN-about-page.md
 
+## 2026-11-27 — Pulihkan tampilan bilah bawah yang menyatu dengan layar
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Navigasi memakai kembali ukuran dan latar kaca yang sama di browser dan PWA. Latar mengisi area
+  aman hingga tepi bawah layar agar konten di belakang bilah tidak terbaca.
+
 ## 2026-11-27 — Kembalikan bilah PWA ke tepi bawah
 
 - **Area**: apps/web
