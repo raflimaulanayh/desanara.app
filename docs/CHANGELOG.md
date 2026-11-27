@@ -15,6 +15,13 @@ Format:
 
 ---
 
+## 2026-11-27 — Tambah slot promosi di Beranda
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Slot setelah Kategori menampung banner sponsor dan kampanye Desanara yang bisa digeser manual.
+  Sorotan kerajinan, kopi, dan desa mengisi peluncuran. Banner Jelajahi Desa tampil saat slot kosong.
+
 ## 2026-11-27 — Penanda UMKM mengikuti zoom peta
 
 - **Area**: apps/web

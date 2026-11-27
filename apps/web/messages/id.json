@@ -102,8 +102,27 @@
     "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
     "bannerMobileTitle": "Jelajahi Karya Desa Nusantara",
     "bannerDescription": "Temukan produk dari berbagai desa di Indonesia.",
-    "bannerCta": "Jelajahi produk",
-    "bannerVillageCta": "Lihat desa",
+    "bannerVillageCta": "Jelajahi desa",
+    "promotions": {
+      "title": "Sorotan",
+      "previous": "Banner sebelumnya",
+      "next": "Banner berikutnya",
+      "position": "Banner {current} dari {count}",
+      "sponsoredBy": "Disponsori oleh {sponsor}",
+      "bamboo": {
+        "title": "Besek bambu dari Baros",
+        "browse": "Lihat kerajinan",
+        "action": "Lihat produk"
+      },
+      "coffee": {
+        "title": "Kopi arabika dari Baros",
+        "action": "Lihat kopi"
+      },
+      "villages": {
+        "title": "Kenali desa di balik produknya",
+        "action": "Jelajahi desa"
+      }
+    },
     "categoryShort": {
       "makanan-camilan": "Makanan",
       "minuman": "Minuman",

@@ -95,8 +95,9 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
   products share a row, with a link to the full catalogue. Categories follow in a horizontal row of tinted icons
-  with labels. The rice-terrace banner and village cards follow categories. Desktop shows four products and the
-  category links in a grid. Keep the home village preview to six cards. The village directory shows 12 cards per
+  with labels. The promotion slot follows categories, then the village cards. Sponsored campaigns name their
+  sponsor. Multiple campaigns use swipe and previous/next controls. The village discovery banner fills an empty
+  slot. Desktop shows four products and a grid of category links. Keep the home village preview to six cards. The village directory shows 12 cards per
   page, with equal horizontal padding around the home directory link's hover area.
   The seller invitation uses a white card and the HeroUI primary green action.
 - **Catalogue results** retain the current filters when searching and use compact category links. A full-width

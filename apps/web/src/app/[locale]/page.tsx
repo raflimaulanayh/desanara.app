@@ -8,7 +8,7 @@ import { Suspense } from 'react'
 import type { ComponentProps } from 'react'
 import { CatalogueState, CatalogueUnavailable } from '@/components/catalogue-state'
 import { CategoryGrid, CategoryGridSkeleton } from '@/components/home/category-grid'
-import { HomeBanner } from '@/components/home/home-banner'
+import { HomePromotions } from '@/components/home/home-promotions'
 import { StoryRail } from '@/components/home/story-rail'
 import { ProductGrid, ProductGridSkeleton } from '@/components/product-card'
 import { VillageGrid, VillageGridSkeleton } from '@/components/village-card'
@@ -115,9 +115,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       >
         <HomeCategories request={categories} title={t('categoriesTitle')} />
       </Suspense>
-      <Suspense fallback={<HomeBanner />}>
-        <FeaturedBanner request={villages} preview={preview} />
-      </Suspense>
+      <HomePromotions preview={preview} />
 
       <section
         id={VILLAGES_HASH}
@@ -216,20 +214,6 @@ async function loadStoryProducts(locale: string): Promise<Record<string, StoryPr
 }
 
 type VillagesRequest = Promise<Awaited<ReturnType<typeof getVillages>> | null>
-
-async function FeaturedBanner({
-  request,
-  preview,
-}: {
-  request: VillagesRequest
-  preview: boolean
-}) {
-  const villages = await request
-  const featured = preview
-    ? villages?.[0]
-    : villages?.toSorted((a, b) => b.businessCount - a.businessCount)[0]
-  return <HomeBanner villageSlug={featured?.slug} />
-}
 
 async function HomeVillages({
   request,
