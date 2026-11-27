@@ -92,10 +92,10 @@ buttons and overlays. Keep filters and toolbar controls compact, with 36 px fiel
   also show Daftarkan UMKM.
 - **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in a fixed translucent bar with backdrop blur.
   The tabs use a 56 px row, with bottom padding of 4 px or the device safe area, whichever is larger.
-  The glass fades below the row when the system needs extra clearance. In the installed PWA, the tab row
-  is 48 px high, with 4 px of bottom padding and the device clearance outside the glass. Each destination
-  has an icon and a label. The current destination and hovered tabs use
-  green text and a tint behind the icon.
+  The glass fades below the row when the system needs extra clearance. The installed PWA also anchors
+  the full-width bar to the bottom edge and uses a 48 px row with a 2 px minimum bottom inset. Each
+  destination has an icon and a label. The current destination and
+  hovered tabs use green text and a tint behind the icon.
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
   products share a row, with a link to the full catalogue. Categories follow in a horizontal row of tinted icons
