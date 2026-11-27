@@ -53,7 +53,7 @@ export function MobileNavigation() {
                 : ('location' as const)
               : undefined,
             className: cn(
-              'group flex h-full min-h-11 flex-col items-center justify-center gap-0.5 rounded-(--radius-compact) p-0.5 text-center text-xs font-semibold transition-colors focus-visible:outline-offset-[-3px]',
+              'group flex h-full min-h-11 flex-col items-center justify-center gap-0.5 rounded-(--radius-compact) px-0.5 py-1 text-center text-xs font-semibold transition-colors focus-visible:outline-offset-[-3px]',
               active ? 'text-(--navigation-accent)' : 'text-muted hover:text-(--navigation-accent)',
             ),
           }
@@ -61,7 +61,7 @@ export function MobileNavigation() {
             <>
               <span
                 className={cn(
-                  'grid h-(--mobile-nav-icon-height) w-14 shrink-0 place-items-center rounded-full transition-colors',
+                  'grid h-7 w-14 shrink-0 place-items-center rounded-full transition-colors',
                   active ? 'bg-accent/14' : 'group-hover:bg-accent/14',
                 )}
               >
