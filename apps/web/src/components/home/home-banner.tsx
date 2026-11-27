@@ -6,7 +6,7 @@ import { Link } from '@/i18n/navigation'
 import landscape from '../../../public/brand/catalogue-landscape.webp'
 
 /** The catalogue banner uses the mobile mockup's village action and the laptop mockup's tagline. */
-export async function HomeBanner({ villageSlug }: { villageSlug?: string }) {
+export async function HomeBanner() {
   const t = await getTranslations('home')
   const action =
     'bg-sun text-foreground hover:bg-sun/90 min-h-11 w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-bold transition-colors'
@@ -40,17 +40,17 @@ export async function HomeBanner({ villageSlug }: { villageSlug?: string }) {
               {t('bannerDescription')}
             </p>
             <Link
-              href={villageSlug ? `/desa/${villageSlug}` : '/jelajah'}
+              href="/desa"
               className={`${action} mt-3 inline-flex focus-visible:outline-white md:hidden`}
             >
-              {villageSlug ? t('bannerVillageCta') : t('bannerCta')}
+              {t('bannerVillageCta')}
               <ArrowRight className="size-4 shrink-0" aria-hidden />
             </Link>
             <Link
-              href="/jelajah"
+              href="/desa"
               className={`${action} mt-5 hidden md:inline-flex md:px-5 md:text-base`}
             >
-              {t('bannerCta')}
+              {t('bannerVillageCta')}
               <ArrowRight className="size-5 shrink-0" aria-hidden />
             </Link>
           </div>

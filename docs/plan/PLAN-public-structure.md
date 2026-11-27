@@ -43,7 +43,7 @@ Non-goals:
 
 - Subdomain baru untuk pengenalan.
 - Akun pembeli, keranjang, wishlist, atau rekomendasi personal.
-- Pengaturan banner dari dashboard (CMS). Ilustrasi banner disimpan sebagai aset web.
+- Pengaturan kampanye dari dashboard dan penagihan iklan. Materi kampanye menggunakan aset web.
 - Perubahan API, skema database, atau izin.
 
 ## 3. Keputusan (produk, arsitektur, API)
@@ -59,9 +59,11 @@ Urutan dari atas, di HP:
    pertama menampilkan foto, nama, asal desa, dan harga.
 3. **Kategori berikon** memakai deret horizontal yang dapat digeser di HP dan grid enam kolom di layar lebar.
    Ikon diambil dari kolom `categories.icon` dan dipetakan ke ikon Lucide di web. Tab Produk membuka `/jelajah`.
-4. **Banner** menampilkan ilustrasi sawah dengan judul "Jelajahi Karya Desa Nusantara" dan tombol Mentari "Lihat Desa".
-   Tombol membuka desa dengan jumlah UMKM terverifikasi terbanyak dalam daftar publik. Jika daftar masih kosong,
-   tombol "Jelajahi produk" membuka `/jelajah`. Ilustrasi menggambarkan lanskap desa secara umum.
+4. **Sorotan** menempati slot banner di bawah kategori. Slot memuat promosi sponsor UMKM atau brand serta
+   kampanye Desanara. Banner berbayar menampilkan nama sponsor. Pengunjung berpindah banner dengan geser atau
+   tombol navigasi. Satu kampanye tampil sebagai banner tunggal. Saat slot kosong, ilustrasi sawah mengajak
+   pengunjung membuka direktori lewat "Jelajahi desa". Produksi dibuka dengan sorotan Desanara tentang kerajinan,
+   kopi, dan direktori desa. Contoh sponsor tampil di development dan pratinjau katalog.
 5. **Desa**: maksimal enam kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
    menampilkan 12 desa per halaman. Preview katalog memakai 27 desa contoh, termasuk Desa Baros, agar tiga
    halaman direktori bisa ditinjau.
@@ -70,8 +72,8 @@ Urutan dari atas, di HP:
 
 Hero splash, panduan pemesanan, dan informasi verifikasi tersedia di `/tentang`.
 
-Desktop menampilkan empat produk terbaru sebelum kategori dan banner. Di banner, tagline "Ragam Karya, Cerita
-Nusantara." dan tombol "Jelajahi produk" tampil dengan ilustrasi dari kanan.
+Desktop menampilkan empat produk terbaru sebelum kategori dan Sorotan. Banner cadangan menampilkan tagline
+"Ragam Karya, Cerita Nusantara." dengan ilustrasi dari kanan.
 
 Jelajah memakai kartu hasil berjajar foto dan informasi di HP. Pencarian Beranda dan Jelajah menampilkan saran
 produk serta UMKM setelah pengguna mengetik dua karakter. Saran membuka halaman produk atau UMKM.
@@ -82,8 +84,8 @@ diikuti harga, asal desa, penjual,
 dan tombol WhatsApp. Pengaturan jumlah dan catatan bisa dibuka di
 bawah tombol. [Pratinjau Cerita UMKM](PLAN-cerita-umkm.md) tampil tepat di atas kartu produk Beranda.
 
-Pratinjau menampilkan UMKM dan produk contoh di 27 desa di Kabupaten Bandung, Garut, dan Sumedang. Baros membuka
-banner Beranda dan memakai aset desa yang sudah tersedia. Bojongsoang dan Mekarwangi memakai lambang
+Pratinjau menampilkan UMKM dan produk contoh di 27 desa di Kabupaten Bandung, Garut, dan Sumedang. Baros memakai
+aset desa yang sudah tersedia. Bojongsoang dan Mekarwangi memakai lambang
 Kabupaten Bandung sebagai identitas wilayah. Aset bersumber dari [portal Desa Mekarwangi](https://www.mekarwangi-ibun.desa.id/index.php/).
 
 Mode Peta memakai ruang layar di bawah pencarian dan filter. Tombol Daftar tersedia di bagian

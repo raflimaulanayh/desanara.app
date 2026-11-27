@@ -102,8 +102,27 @@
     "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
     "bannerMobileTitle": "Explore Indonesia’s Villages",
     "bannerDescription": "Discover products from villages across Indonesia.",
-    "bannerCta": "Explore products",
-    "bannerVillageCta": "See village",
+    "bannerVillageCta": "Explore villages",
+    "promotions": {
+      "title": "Highlights",
+      "previous": "Previous banner",
+      "next": "Next banner",
+      "position": "Banner {current} of {count}",
+      "sponsoredBy": "Sponsored by {sponsor}",
+      "bamboo": {
+        "title": "Woven bamboo boxes from Baros",
+        "browse": "Browse crafts",
+        "action": "View product"
+      },
+      "coffee": {
+        "title": "Arabica coffee from Baros",
+        "action": "View coffee"
+      },
+      "villages": {
+        "title": "Meet the villages behind the products",
+        "action": "Explore villages"
+      }
+    },
     "categoryShort": {
       "makanan-camilan": "Food",
       "minuman": "Drinks",
