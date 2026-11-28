@@ -48,6 +48,12 @@ The API session middleware builds an `Actor` (`apps/api/src/lib/actor.ts`) from 
 | `business.invite_owner` (hand-over)                                                             | Yes         | Yes                         | via assignment    | Yes         | No (see below)       |
 | `business.invite_members` (invite the owner's helpers)                                          | Yes         | Yes                         | No                | Yes         | No                   |
 | `product.create/update/publish/delete`                                                          | Yes         | Yes                         | via assignment    | Yes         | Yes                  |
+| `review.moderate` (approve or reject buyer reviews of the village)                              | Yes         | Yes                         | Yes               | No          | No                   |
+| `review.view`, `review.reply` (all reviews of the business, one public reply)                   | Yes         | Yes                         | via assignment    | Yes         | Yes                  |
+
+Buyer reviews are moderated by a neutral party: the business sees every review of its products and may reply,
+but never approves or rejects them (PLAN-product-reviews). A reply is only allowed on an approved review (409
+`review_not_approved`).
 
 A village assistant who creates a business becomes its `assistant` (business membership) in the same
 transaction. `business.invite_owner` for a business `assistant` is granted only when that person is also a

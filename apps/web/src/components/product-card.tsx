@@ -81,7 +81,7 @@ export async function ProductCard({
         <h3 className="line-clamp-2 text-base leading-snug font-bold tracking-tight wrap-break-word">
           {name}
         </h3>
-        <ProductRating isSeed={p.isSeed} slug={p.slug} />
+        <ProductRating average={p.ratingAverage} count={p.ratingCount} />
         {showVillage ? (
           <p className="text-muted flex items-start gap-1 text-xs leading-snug font-semibold sm:text-sm">
             <MapPin className="text-accent mt-px size-3.5 shrink-0" aria-hidden />

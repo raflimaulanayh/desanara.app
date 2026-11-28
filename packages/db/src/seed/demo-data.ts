@@ -587,41 +587,59 @@ export const demoVillages: DemoVillage[] = [
 ]
 
 /**
- * Sample photos per product slug → file under apps/web/public/media/seed/products/<name>.webp
- * (Wikimedia Commons stock photos; source + licence in the .json next to each file and in CREDITS.md).
- * Products without an entry show the category tile until a real photo is uploaded.
+ * Sample photos per product slug, in gallery order. Keys are under the media base URL
+ * (apps/web/public/media locally, R2 in production): the first photo is the cover. Wikimedia Commons stock
+ * photos; source and licence sit in the .json next to each file and in CREDITS.md. `*-detail` files are
+ * tighter crops of the photo with the same name. Process shots come from the village stories.
  */
-export const productPhotos: Record<string, string> = {
-  'keripik-singkong-original': 'chips-a',
-  'keripik-singkong-balado': 'chips-b',
-  'arabika-biji-200g': 'coffee-beans',
-  'arabika-bubuk-200g': 'coffee-ground',
-  'kopi-susu-gula-aren': 'coffee-iced',
-  'besek-bambu-isi-10': 'besek',
-  'tudung-saji-bambu': 'besek-trays',
-  'lampu-hias-bambu': 'lamp',
-  'keranjang-bambu': 'basket',
-  'madu-hutan-250ml': 'honey-a',
-  'madu-hutan-500ml': 'honey-b',
-  'dodol-ketan-original': 'dodol',
-  'dodol-durian': 'dodol',
-  'telur-asin-isi-10': 'egg-salted',
-  'telur-asin-bakar': 'egg-brown',
-  'dompet-kulit-pria': 'wallet',
-  'sabuk-kulit': 'belt',
-  'tas-selempang-kulit': 'bag',
-  'jeruk-keprok-1kg': 'tangerine',
-  'jeruk-keprok-5kg': 'tangerine',
-  'kain-batik-tulis': 'batik',
-  'syal-batik': 'batik-green',
-  'abon-ikan-original': 'abon-a',
-  'abon-ikan-pedas': 'abon-b',
-  'bandrek-serbuk': 'bandrek',
-  'ubi-oven-1kg': 'ubi-roasted',
-  'keripik-ubi': 'ubi-chips',
-  'talenan-kayu-jati': 'board',
-  'sendok-kayu-set': 'spoons',
-  'hiasan-dinding-ukir': 'carving',
-  'sale-pisang-basah': 'sale-a',
-  'sale-pisang-goreng': 'sale-b',
+const photo = (name: string) => `seed/products/${name}.webp`
+const story = (name: string) => `seed/stories/${name}.webp`
+
+export const productPhotos: Record<string, string[]> = {
+  'keripik-singkong-original': [
+    photo('chips-a'),
+    story('cassava-frying'),
+    story('cassava-packing'),
+  ],
+  'keripik-singkong-balado': [photo('chips-b'), story('cassava-ready'), story('cassava-frying')],
+  'opak-bakar': [photo('opak-whole'), photo('opak')],
+  'rengginang-terasi': [photo('rengginang'), photo('rengginang-bowl')],
+  'arabika-biji-200g': [photo('coffee-beans'), story('coffee-roasting'), story('coffee-brewing')],
+  'arabika-bubuk-200g': [photo('coffee-ground'), story('coffee-brewing'), story('coffee-roasting')],
+  'kopi-susu-gula-aren': [photo('coffee-iced'), story('coffee-ready')],
+  'besek-bambu-isi-10': [photo('besek'), story('bamboo-finished'), story('bamboo-weaving')],
+  'tudung-saji-bambu': [photo('besek-trays'), story('bamboo-weaving'), story('bamboo-detail')],
+  'lampu-hias-bambu': [photo('lamp'), story('bamboo-detail')],
+  'keranjang-bambu': [photo('basket'), story('bamboo-weaving')],
+  'paket-sayur-mingguan': [photo('vegetables'), photo('vegetables-market')],
+  'cabai-rawit-1kg': [photo('chili'), photo('chili-plant')],
+  'madu-hutan-250ml': [photo('honey-a'), story('garden-honey')],
+  'madu-hutan-500ml': [photo('honey-b'), story('garden-honey')],
+  'dodol-ketan-original': [photo('dodol'), story('dodol')],
+  'dodol-durian': [story('dodol'), photo('dodol')],
+  'wajit-daun-jagung': [photo('wajit'), photo('wajit-slice')],
+  'telur-asin-isi-10': [photo('egg-salted'), story('salted-eggs')],
+  'telur-asin-bakar': [photo('egg-brown'), story('salted-eggs')],
+  'dompet-kulit-pria': [photo('wallet'), story('leather-wallet')],
+  'sabuk-kulit': [photo('belt'), photo('belt-detail')],
+  'tas-selempang-kulit': [photo('bag'), photo('bag-detail')],
+  'jeruk-keprok-1kg': [photo('tangerine'), photo('tangerine-detail')],
+  'jeruk-keprok-5kg': [photo('tangerine-detail'), photo('tangerine')],
+  'kain-batik-tulis': [photo('batik'), photo('batik-detail')],
+  'syal-batik': [photo('batik-green'), photo('batik-green-detail')],
+  'masker-kain-batik': [photo('batik-detail'), photo('batik-green-detail')],
+  'abon-ikan-original': [photo('abon-a'), photo('abon-a-detail')],
+  'abon-ikan-pedas': [photo('abon-b'), photo('abon-b-detail')],
+  'bandrek-serbuk': [photo('bandrek'), story('ginger-bandrek')],
+  'bajigur-serbuk': [photo('bajigur'), photo('bajigur-cups')],
+  'tahu-goreng-isi-20': [photo('tofu-fried'), photo('tofu-fried-b')],
+  'tahu-kuning-isi-10': [photo('tofu-yellow'), photo('tofu-fried-b')],
+  'ubi-oven-1kg': [photo('ubi-roasted'), photo('ubi-roasted-detail')],
+  'ubi-mentah-5kg': [photo('ubi-raw-b'), photo('ubi-raw')],
+  'keripik-ubi': [photo('ubi-chips'), story('sweet-potato-chips')],
+  'talenan-kayu-jati': [photo('board'), photo('board-detail')],
+  'sendok-kayu-set': [photo('spoons'), story('wooden-spoons')],
+  'hiasan-dinding-ukir': [photo('carving'), photo('carving-detail')],
+  'sale-pisang-basah': [photo('sale-a'), story('dried-banana')],
+  'sale-pisang-goreng': [photo('sale-b'), story('dried-banana')],
 }

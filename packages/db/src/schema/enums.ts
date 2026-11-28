@@ -23,3 +23,11 @@ export const analyticsEventType = pgEnum('analytics_event_type', [
   'marketplace_click',
 ])
 export const locale = pgEnum('locale', ['id', 'en'])
+/** Buyer reviews wait for a village admin or assistant before they are public (PLAN-product-reviews). */
+export const reviewStatus = pgEnum('review_status', ['pending', 'approved', 'rejected'])
+export const reviewRejectionReason = pgEnum('review_rejection_reason', [
+  'spam',
+  'abusive',
+  'personal_data',
+  'off_topic',
+])

@@ -137,3 +137,12 @@ test('Pengaturan desa: village admins and super admins, never assistants or owne
   )
   expect(labels(actor({ businessRoles: { b1: 'owner' } }))).not.toContain('villageSettings')
 })
+
+test('Ulasan: village moderators, business members and the super admin', () => {
+  const labels = (a: Parameters<typeof navFor>[0]) => navFor(a, (k) => k).map((i) => i.label)
+  expect(labels(actor({ villageRoles: { v1: 'village_assistant' } }))).toContain('reviews')
+  expect(labels(actor({ villageRoles: { v1: 'village_admin' } }))).toContain('reviews')
+  expect(labels(actor({ businessRoles: { b1: 'owner' } }))).toContain('reviews')
+  expect(labels(actor({ globalRole: 'super_admin' }))).toContain('reviews')
+  expect(labels(actor({}))).not.toContain('reviews')
+})

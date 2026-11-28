@@ -10,7 +10,9 @@ import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
 import { ProductGallery } from '@/components/product-gallery'
 import { ProductGrid } from '@/components/product-card'
+import { ProductDescription } from '@/components/product-description'
 import { ProductRating } from '@/components/product-rating'
+import { ProductReviews } from '@/components/product-reviews'
 import { Price } from '@/components/price'
 import { productDetailLayout } from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
@@ -18,7 +20,13 @@ import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
 import { getPreviewProduct, isCataloguePreview } from '@/lib/catalogue-preview'
-import { getBusiness, getProduct, getStoryProduct, readSection } from '@/lib/data'
+import {
+  getBusiness,
+  getProduct,
+  getProductReviews,
+  getStoryProduct,
+  readSection,
+} from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -90,16 +98,40 @@ export default async function ProductPage({ params }: { params: Params }) {
   const webUrl = siteUrl()
   const village = business.village
   const photos = product.images.length > 0 ? product.images : [null]
-  const relatedProducts = (
-    await Promise.all(
-      product.more.map(({ slug }) =>
-        preview ? Promise.resolve(getPreviewProduct(slug)?.product ?? null) : getStoryProduct(slug),
-      ),
-    )
-  ).filter((related) => related !== null)
+  const [reviews, relatedProducts] = await Promise.all([
+    preview ? Promise.resolve(null) : getProductReviews(product.slug),
+    loadRelated(),
+  ])
+  async function loadRelated() {
+    return (
+      await Promise.all(
+        product.more.map(({ slug }) =>
+          preview
+            ? Promise.resolve(getPreviewProduct(slug)?.product ?? null)
+            : getStoryProduct(slug),
+        ),
+      )
+    ).filter((related) => related !== null)
+  }
+  const facts = [
+    ...(product.category
+      ? [
+          {
+            label: t('facts.category'),
+            value: pick(locale, product.category.name, product.category.nameEn),
+          },
+        ]
+      : []),
+    { label: t('facts.village'), value: village.name },
+    { label: t('facts.seller'), value: business.name },
+    {
+      label: t('facts.stock'),
+      value: product.isAvailable ? t('facts.inStock') : t('facts.outOfStock'),
+    },
+  ]
 
   return (
-    <VillageTheme theme={village.theme}>
+    <VillageTheme theme={village.theme} radius={false}>
       {preview ? null : <TrackView event={{ type: 'product_view', productSlug: product.slug }} />}
       <Container className={productDetailLayout.container}>
         <div className={productDetailLayout.titleBar}>
@@ -136,30 +168,48 @@ export default async function ProductPage({ params }: { params: Params }) {
         </nav>
 
         <div className={productDetailLayout.grid}>
-          <ProductGallery
-            photos={photos.map((img) => ({
-              src: mediaUrl(img?.key, preview),
-              alt: img?.alt ?? name,
-            }))}
-            category={product.category?.slug}
-          />
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+            <ProductGallery
+              photos={photos.map((img) => ({
+                src: mediaUrl(img?.key, preview),
+                alt: img?.alt ?? name,
+              }))}
+              category={product.category?.slug}
+            />
+          </div>
 
           <div className={productDetailLayout.details}>
-            <div className="space-y-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <ProductRating isSeed={product.isSeed} slug={product.slug} />
-                {product.category ? (
-                  <span className="text-muted text-xs">
-                    · {pick(locale, product.category.name, product.category.nameEn)}
+            <div>
+              {product.category ? (
+                <p className="text-muted text-xs font-semibold">
+                  {pick(locale, product.category.name, product.category.nameEn)}
+                </p>
+              ) : null}
+              <h1 className="page-title mt-1 text-balance">{name}</h1>
+              {(product.ratingCount ?? 0) > 0 ? (
+                <a
+                  href="#ulasan"
+                  className="hover:text-accent mt-2 inline-flex min-h-8 items-center gap-1.5 text-sm"
+                >
+                  <ProductRating
+                    average={product.ratingAverage}
+                    count={product.ratingCount}
+                    showCount={false}
+                    className="text-sm"
+                  />
+                  <span aria-hidden className="text-muted">
+                    ·
                   </span>
-                ) : null}
-              </div>
-              <h1 className="page-title text-balance">{name}</h1>
-              <p className="mt-1.5 lg:mt-3">
+                  <span className="text-muted decoration-line-strong underline underline-offset-4">
+                    {t('reviewsLink', { count: product.ratingCount })}
+                  </span>
+                </a>
+              ) : null}
+              <p className="mt-2 lg:mt-4">
                 <Price
                   price={product.price}
                   compareAtPrice={product.compareAtPrice}
-                  className="product-detail-price text-xl font-bold tabular-nums sm:text-2xl"
+                  className="product-detail-price text-2xl font-bold tabular-nums sm:text-[1.75rem]"
                   strikeClassName="text-sm"
                   showBadge
                 />
@@ -221,7 +271,19 @@ export default async function ProductPage({ params }: { params: Params }) {
                 name: product.name,
                 price: product.price,
                 compareAtPrice: product.compareAtPrice,
+                imageUrl: mediaUrl(product.images[0]?.key, preview),
+                category: product.category?.slug,
               }}
+              otherProducts={relatedProducts
+                .filter((related) => related.isAvailable && related.slug !== product.slug)
+                .map((related) => ({
+                  slug: related.slug,
+                  name: related.name,
+                  price: related.price,
+                  compareAtPrice: related.compareAtPrice,
+                  imageUrl: mediaUrl(related.imageKey, preview),
+                  category: related.category?.slug,
+                }))}
               businessName={business.name}
               businessSlug={business.slug}
               villageName={village.name}
@@ -230,20 +292,23 @@ export default async function ProductPage({ params }: { params: Params }) {
               available={product.isAvailable}
               preview={preview}
             />
-
-            {description ? (
-              <section className="border-line rounded-(--radius) border p-4 sm:p-5">
-                <h2 className="section-title">{t('description')}</h2>
-                <p className="text-muted mt-2 max-w-[68ch] text-sm leading-relaxed whitespace-pre-line">
-                  {description}
-                </p>
-              </section>
-            ) : null}
           </div>
         </div>
 
+        <div className="mt-8 grid gap-10 lg:mt-12 lg:gap-14">
+          <ProductDescription facts={facts} description={description} />
+          {preview ? null : (
+            <ProductReviews
+              slug={product.slug}
+              productName={name}
+              businessName={business.name}
+              reviews={reviews}
+            />
+          )}
+        </div>
+
         {relatedProducts.length > 0 ? (
-          <section className="mt-12">
+          <section className="mt-12 lg:mt-14">
             <h2 className="section-title">{t('moreTitle', { business: business.name })}</h2>
             <div className="mt-4">
               <ProductGrid products={relatedProducts} preview={preview} showSeller={false} />

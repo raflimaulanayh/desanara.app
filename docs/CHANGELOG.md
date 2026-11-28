@@ -15,6 +15,46 @@ Format:
 
 ---
 
+## 2026-11-28 — Langkah pesan sebelum WhatsApp
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Tombol Pesan via WhatsApp kini membuka satu langkah singkat: jumlah barang (bisa menambah produk lain dari toko
+  yang sama), nama, cara terima (ambil sendiri, diantar, ekspedisi), kecamatan atau kota bila dikirim, catatan,
+  total, dan pratinjau pesan. Pesan WhatsApp jadi lebih ramah dan lengkap ("Halo ..., saya mau pesan", "2 x",
+  "per item"), jadi penjual tidak perlu bertanya ulang. Data pemesan hanya diingat di perangkat pembeli.
+  Tampilannya dirapikan dengan istilah yang umum dipakai (Buat pesanan, Data pembeli, Cara pengambilan, Total
+  belanja, Lanjut ke WhatsApp). Produk lain dari toko tampil sebagai slider agar tetap ringkas walau jumlahnya banyak. Kolom isian dan kolom pencarian kini putih dengan garis tepi yang
+  jelas (hijau saat diketik) agar teks kontras; kolom form bersudut sedang seperti pilihan pengambilan.
+
+## 2026-11-28 — Peta Jelajah bertingkat: total desa, desa, UMKM
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Peta `/jelajah` kini bertingkat. Saat diperkecil, desa yang berdekatan menjadi gelembung jumlah ("19 desa");
+  ketuk untuk memecahnya menjadi desa. Desa yang punya UMKM membuka sheet desa dan menampilkan pin tiap UMKM,
+  dengan tautan Rute ke desa. Pin toko atau kartu UMKM membuka sheet toko berisi produknya, Rute ke toko, dan
+  Lihat toko; menutupnya kembali ke desa. Desa tanpa UMKM tetap membuka profil desanya.
+- Semua UMKM di Desa Mekarwangi dan Desa Sindangjaya kini punya titik toko di peta seperti Baros.
+
+## 2026-11-28 — Ulasan pembeli dan revamp detail produk
+
+- **Area**: apps/web, apps/dashboard, apps/api, packages/db, packages/auth, packages/validators, packages/ui
+- **Jenis**: Added
+- Pembeli bisa menulis ulasan (bintang, nama, cerita) dari halaman produk tanpa akun. Ulasan baru menunggu
+  moderasi pendamping atau admin desa di menu Ulasan dashboard; UMKM melihat semua ulasan produknya dan bisa
+  membalas, tetapi tidak bisa menolak. Rating di kartu dan detail produk kini dihitung dari ulasan yang disetujui,
+  menggantikan angka contoh. Endpoint publik dilindungi honeypot dan rate limit (kunci alamat di-hash).
+- Detail produk dirombak: rating dengan tautan ke ulasan, kartu Detail produk (tabel fakta dan deskripsi per
+  paragraf dengan Baca selengkapnya), section ulasan, galeri tetap terlihat di desktop. Halaman produk memakai
+  radius kartu platform walau di dalam tema desa, jadi sudutnya sama dengan katalog.
+- Seed: setiap produk demo punya deskripsi 2 sampai 4 paragraf (ID dan EN), minimal 2 foto (foto Commons baru dan
+  potongan detail, kredit di sidecar `.json`), dan 185 ulasan. Seed ulang tidak lagi gagal saat akun demo masih
+  dirujuk undangan atau log audit asli; akun itu dipakai ulang.
+- Migrasi baru `0009_product_reviews`: jalankan `bun run db:migrate`, lalu `bun run --cwd apps/api media:upload-seed`
+  dan `bun run db:seed` di database tujuan.
+- Terkait: PLAN-product-reviews.md
+
 ## 2026-11-28 — Peta semua desa, petunjuk arah, dan rapikan beranda di ponsel
 
 - **Area**: apps/web, packages/db

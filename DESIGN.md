@@ -133,9 +133,13 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
 - **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
   Compact circles show the number of matching shop locations up to `99+` on a pannable Leaflet basemap,
   with 44 px touch targets. Villages without shop locations use a pin icon. Without a search or category, every
-  other published village shows as a smaller muted pin that opens its profile. The details panel shows
-  the full village name and total matching businesses, with the slider arrows level with the name, and a
-  Directions action that opens Google Maps at the village centre (never a business address). The map fills the available viewport
+  other published village shows as a smaller muted pin that opens its profile. The map has three levels:
+  zoomed out, nearby villages merge into a count bubble ("19 desa"); tapping it zooms until the villages
+  split. A village with businesses opens the village sheet and its store pins (full name, business count, a
+  "Rute ke desa" link to Google Maps at the village centre, slider arrows level with the name); a village
+  without businesses opens its profile. A store pin, or a business card in the village sheet, opens the store
+  sheet: its products, "Rute ke toko" to that storefront point and "Lihat toko"; closing it goes back to the
+  village. Storefront points come only from the public set, never from dashboard addresses. The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
   list link above the provider credit returns to the results with the same search and filters. Village results
   open in a bottom sheet with a drag handle. Swiping down, tapping outside, or pressing Escape dismisses the
@@ -193,6 +197,10 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   trust steps play once as a sequence: each step lights up, then its connector fills to the next. Scroll motion uses GSAP + ScrollTrigger on this page only. Content is readable
   without JavaScript, and reduced motion keeps everything still. Avoid repeated icon-in-circle cards and
   side-stripe quotes.
+- **Fields**: the search bar and public form fields use HeroUI `secondary` fields restyled in apps/web
+  globals.css: white fill, a 1px outline between `line` and `line-strong` drawn as an inset shadow (no layout shift), `line-strong` on
+  hover and a 1px accent green outline while typing. Typed text stays 16 px (smaller makes iOS zoom in); placeholders are 14 px. The search bar is a pill; form
+  fields use `rounded-(--radius-compact)`, like the option tiles beside them.
 - **Search form** uses a HeroUI `ComboBox` with a pill-shaped `InputGroup`. After two characters, a compact
   list under the field links to matching products and businesses. A free-text search submits a GET request
   with the current filters. HeroUI draws one focus ring around the group.
@@ -206,12 +214,29 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   Village pages show a cover photo or a gradient in the village colour, a white-framed crest, Montserrat headings and
   the verification badge. Official crests are shown untouched.
   A thin circular border frames the crest. A labelled regency emblem may fill the slot until a village logo is available.
-- **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked
-  rows for the village and seller.
+- **Product detail** on phones uses a compact title bar above the gallery. Category, name, the rating link
+  ("4,2 · 5 ulasan", jumps to the reviews) and price lead into two linked rows for the village and seller, then the
+  order panel. Below the fold: a "Detail produk" card (fact table, then the description in paragraphs, clamped
+  with "Baca selengkapnya" on phones) and the buyer reviews. On desktop the gallery stays in view while the right
+  column scrolls. Product pages keep the platform radius even inside a village theme (only the accent follows the
+  village), so cards match the catalogue.
+- **Buyer reviews** (PLAN-product-reviews): a summary card (large average, five stars, 5-to-1 amber bars) beside the
+  list on desktop, above it on phones. Each review shows an initial avatar on a soft tint, name, stars, relative
+  date and text; the business reply sits in a cream `--radius-compact` block underneath. Five reviews load first,
+  "Lihat ulasan lainnya" appends more. "Tulis ulasan" opens a HeroUI Modal (bottom sheet on phones) with a
+  44 px star picker, name and story with a counter, and a note that reviews appear after a village assistant
+  checks them. Without reviews the section is an invitation to write the first one. Cards show the star, average
+  and count only when a product has approved reviews.
 - **Product gallery** supports swipe, arrow buttons, and keyboard navigation. Tapping a photo opens it uncropped in a
   dark full-screen viewer. When there are multiple photos, the viewer shows the current position and a thumbnail strip.
-- **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. The quantity stepper
-  and note sit in an expandable section. The total updates when the quantity exceeds one.
+- **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. It opens one short
+  step ("Buat pesanan", HeroUI Modal, bottom sheet on phones) before WhatsApp, in sections divided by
+  hairlines: "Produk dipesan" (this product with a pill stepper, plus "Tambah produk lain dari toko ini" as a
+  swipeable rail of small cards with 28 px round + buttons (44 px touch area), arrow buttons from `sm`), "Data pembeli" (white outlined fields like the search bar, name, "Cara pengambilan" as three icon tiles:
+  Ambil sendiri / Diantar penjual / Ekspedisi, "Kecamatan/kota tujuan" only when it is delivered, optional
+  note), then "Lihat isi pesan" and a privacy note in an accent-soft callout (shield icon aligned to the first line). The footer pairs "Total belanja" with "Lanjut ke
+  WhatsApp", which validates and opens WhatsApp with a friendly message (greeting, "2 x item", "Rp17.000 per
+  item", total, name, pickup or delivery). Name, method and district are remembered on the device only.
 - **Open-status badge**: dot + label (Buka / Tutup / Tutup sementara) with detail text where there is room; never shown
   without a schedule.
 - **Verified badge**: accent-soft pill with a check icon.

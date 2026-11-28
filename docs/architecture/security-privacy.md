@@ -73,6 +73,7 @@ and isolation is enforced and tested in the service and repository layers. See [
 | Village, district, regency                                              | Public                                                   |
 | Street address, RT/RW, map pin, NIB                                     | Dashboard only (village team and the business's members) |
 | Account email, phone, password hash                                     | Never public                                             |
+| Buyer review: chosen display name, stars, text                          | Public after a village admin or assistant approves it    |
 
 - **Consent before publishing.** `consentAt`, `consentMethod` and `consentRecordedBy` are stored. The dashboard reads a
   consent text to the owner and requires a signed paper form. Publishing is refused without consent.
@@ -82,6 +83,14 @@ and isolation is enforced and tested in the service and repository layers. See [
 - **Photos**: re-encoded on a canvas in the browser, which drops EXIF metadata including GPS.
 - **Analytics events** (`POST /v1/events`) store the event type, the entity ids resolved on the server, and the locale.
   No IP address, user agent or cookie id is stored (the `referrer` column exists but the endpoint does not fill it).
+- **Order details** (name, how to receive, district or town, note) are typed into the order step and go only into the
+  WhatsApp message the buyer sends. The API never receives them; the browser remembers name, method and district in
+  `localStorage` (`desanara:buyer`) so the next order is quicker. No full address or phone number is asked.
+- **Buyer reviews** (`POST /v1/products/{slug}/reviews`) need no account and store only a display name, the stars, the
+  text and the locale. No phone, email or IP address is kept. Abuse controls: a hidden honeypot field, a limit of 3
+  reviews an hour and 1 per product a day per client address (counted in `rate_limits` under a SHA-256 of the
+  address and the app secret), and moderation before anything is public. The form asks buyers not to write phone
+  numbers or addresses, and moderators reject reviews with personal data.
 - **Demo data** is flagged `is_seed = true`, uses the team's WhatsApp number, and is removed with `db:seed:reset`
   before the site goes public ([deploy guide](../guides/deploy.md)).
 
@@ -99,7 +108,8 @@ Flow and limits: [storage](storage.md). Security-relevant points:
 
 State changes write a row to `audit_logs` in the same transaction: who, what entity, which action, and a field-level
 diff. Examples: `business.create`, `business.update`, `business.delete`, verification and takedown,
-`product.create`, `product.update`, `product.delete`, `product.reorder_images`, `media.attach`, `media.remove`.
+`product.create`, `product.update`, `product.delete`, `product.reorder_images`, `media.attach`, `media.remove`,
+`review.moderate`, `review.reply`.
 Action names are stable so a future notification service can subscribe to them.
 
 ## HTTP hardening

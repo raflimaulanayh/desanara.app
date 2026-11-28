@@ -48,6 +48,8 @@ export type VillageAction =
   | 'business.create'
   | 'business.verify'
   | 'business.takedown'
+  /** Approve or reject buyer reviews of any product in the village (neutral party, PLAN-product-reviews). */
+  | 'review.moderate'
 export type BusinessAction =
   /** Read the private view of one business (consent, verification, takedown). */
   | 'business.view'
@@ -64,6 +66,10 @@ export type BusinessAction =
   | 'business.invite_members'
   | 'business.view_analytics'
   | 'product.create'
+  /** See every review of the business's products, including pending and rejected ones. */
+  | 'review.view'
+  /** Write or remove the one public reply to an approved review. Never approve or reject. */
+  | 'review.reply'
 export type ProductAction = 'product.update' | 'product.publish' | 'product.delete'
 
 type ActionFor<R extends Resource> = R extends { type: 'platform' }
@@ -88,8 +94,9 @@ const VILLAGE_ROLE_ACTIONS: Record<VillageRole, readonly VillageAction[]> = {
     'business.create',
     'business.verify',
     'business.takedown',
+    'review.moderate',
   ],
-  village_assistant: ['village.view', 'business.create'],
+  village_assistant: ['village.view', 'business.create', 'review.moderate'],
 }
 
 const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | ProductAction)[]> = {
@@ -105,6 +112,8 @@ const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | Pro
     'product.update',
     'product.publish',
     'product.delete',
+    'review.view',
+    'review.reply',
   ],
   assistant: [
     'business.view',
@@ -116,6 +125,8 @@ const BUSINESS_ROLE_ACTIONS: Record<BusinessRole, readonly (BusinessAction | Pro
     'product.update',
     'product.publish',
     'product.delete',
+    'review.view',
+    'review.reply',
   ],
 }
 

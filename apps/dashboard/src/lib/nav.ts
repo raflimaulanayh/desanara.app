@@ -4,7 +4,7 @@ import { type Actor, can } from '@repo/auth/permissions'
  * Menu per role. Visibility uses `can()` on the actor (UX only: the API enforces every action).
  * A page appears here once it exists, so the menu never links to an unfinished screen.
  */
-export type NavIcon = 'home' | 'store' | 'check' | 'settings'
+export type NavIcon = 'home' | 'store' | 'check' | 'settings' | 'reviews'
 
 export interface NavItem {
   href: string
@@ -13,7 +13,7 @@ export interface NavItem {
 }
 
 /** Message keys under `nav.*`. */
-type Label = 'home' | 'businesses' | 'verifications' | 'villageSettings'
+type Label = 'home' | 'businesses' | 'verifications' | 'villageSettings' | 'reviews'
 
 interface NavRule {
   href: string
@@ -27,6 +27,7 @@ const villageIds = (a: Actor) => Object.keys(a.villageRoles)
 export const NAV_RULES: NavRule[] = [
   { href: '/', label: 'home', icon: 'home', visible: () => true },
   { href: '/businesses', label: 'businesses', icon: 'store', visible: (a) => canSeeBusinesses(a) },
+  { href: '/reviews', label: 'reviews', icon: 'reviews', visible: (a) => canSeeReviews(a) },
   {
     href: '/villages',
     label: 'villageSettings',
@@ -50,6 +51,12 @@ export const canSeeBusinesses = (a: Actor) =>
   Object.keys(a.businessRoles).length > 0
 
 const isSuperAdmin = (a: Actor) => can(a, 'village.create', { type: 'platform' })
+
+/** Moderators of a village, members of a business, or the super admin (PLAN-product-reviews). */
+export const canSeeReviews = (a: Actor) =>
+  isSuperAdmin(a) ||
+  villageIds(a).some((villageId) => can(a, 'review.moderate', { type: 'village', villageId })) ||
+  Object.keys(a.businessRoles).length > 0
 
 /** Villages whose settings this person may change (super admins: every village, listed separately). */
 export const manageableVillageIds = (a: Actor) =>

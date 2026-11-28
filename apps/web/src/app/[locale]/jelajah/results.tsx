@@ -54,6 +54,7 @@ export async function ExploreResults({
   queryParams,
   mapView,
   selectedSlug,
+  selectedBusiness,
   href: query,
   preview,
   villageName,
@@ -62,6 +63,7 @@ export async function ExploreResults({
   queryParams: ProductQuery & { page: number; pageSize: number }
   mapView: boolean
   selectedSlug?: string
+  selectedBusiness?: string
   href: (overrides: Record<string, string | undefined>) => string
   preview: boolean
   villageName?: string
@@ -233,8 +235,11 @@ export async function ExploreResults({
                 ...point,
                 href: query({ selected: point.slug }),
                 listHref: query({ view: undefined, village: point.slug }),
+                businessHref: (business: string) => query({ selected: point.slug, business }),
               }))}
               selectedSlug={selectedSlug}
+              selectedBusiness={selectedBusiness}
+              products={results.data}
               preview={preview}
               businessLocations={preview ? previewBusinessLocations : demoLocations}
               closeHref={query({})}

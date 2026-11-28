@@ -15,7 +15,7 @@ export function ExploreVillageSheet({
 }: {
   title: string
   label: string
-  count: string
+  count: ReactNode
   closeHref: string
   children: ReactNode
   footer: ReactNode

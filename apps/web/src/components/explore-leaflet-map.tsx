@@ -35,12 +35,15 @@ type VillageMarker = MapMarker & {
 export type ExploreLeafletProps = {
   villages: VillageMarker[]
   selectedSlug?: string
+  /** `business:<slug>` of the store open in the sheet (third level). */
+  selectedBusinessSlug?: string
   businessPoints: MapMarker[]
   allBusinessPoints: MapMarker[]
 }
 
 type SafariGesture = Event & { scale: number; clientX: number; clientY: number }
 const businessZoom = 15
+const storeZoom = 17
 
 function projectVillage({ lat, lng }: MapCoordinates, zoom: number) {
   return L.CRS.EPSG3857.latLngToPoint(L.latLng(lat, lng), zoom)
@@ -104,6 +107,7 @@ function boundsKey(points: MapCoordinates[]) {
 export default function ExploreLeafletMap({
   villages,
   selectedSlug,
+  selectedBusinessSlug,
   businessPoints,
   allBusinessPoints,
 }: ExploreLeafletProps) {
@@ -114,7 +118,7 @@ export default function ExploreLeafletMap({
   const markers = useRef(new Map<string, { marker: L.Marker; target: HTMLDivElement }>())
   const previousBounds = useRef('')
   const activeView = useRef<{ key: string; center: L.LatLng } | undefined>(undefined)
-  const [initialView] = useState({ villages, selectedSlug, businessPoints })
+  const [initialView] = useState({ villages, selectedSlug, selectedBusinessSlug, businessPoints })
   const [targets, setTargets] = useState<ReadonlyMap<string, HTMLDivElement>>(new Map())
   const [tilesFailed, setTilesFailed] = useState(false)
   const [zoom, setZoom] = useState<number | null>(null)
@@ -177,7 +181,14 @@ export default function ExploreLeafletMap({
     const initialVillage = initialView.villages.find(
       ({ slug }) => slug === initialView.selectedSlug,
     )
-    if (initialVillage) {
+    const initialStore = initialView.businessPoints.find(
+      ({ slug }) => slug === initialView.selectedBusinessSlug,
+    )
+    if (initialVillage && initialStore) {
+      const center = L.latLng(initialStore.lat, initialStore.lng)
+      instance.setView(center, storeZoom, { animate: false })
+      activeView.current = { key: `store:${initialStore.slug}`, center }
+    } else if (initialVillage) {
       const center = fitSelectedVillage(instance, initialVillage, initialView.businessPoints, false)
       activeView.current = {
         key: `${initialVillage.slug}:${boundsKey(initialView.businessPoints)}`,
@@ -239,6 +250,16 @@ export default function ExploreLeafletMap({
       activeView.current = undefined
       return
     }
+    const store = businessPoints.find(({ slug }) => slug === selectedBusinessSlug)
+    if (store) {
+      const key = `store:${store.slug}`
+      if (key === activeView.current?.key) return
+      const center = L.latLng(store.lat, store.lng)
+      instance.invalidateSize({ animate: false })
+      revealPins(instance, center, Math.max(instance.getZoom(), storeZoom))
+      activeView.current = { key, center }
+      return
+    }
     const key = `${selectedVillage.slug}:${boundsKey(businessPoints)}`
     if (key === activeView.current?.key) return
 
@@ -247,7 +268,7 @@ export default function ExploreLeafletMap({
       key,
       center: fitSelectedVillage(instance, selectedVillage, businessPoints, true),
     }
-  }, [selectedVillage, businessPoints])
+  }, [selectedVillage, businessPoints, selectedBusinessSlug])
 
   useEffect(() => {
     const instance = map.current
@@ -284,7 +305,11 @@ export default function ExploreLeafletMap({
       markers.current
         .get(village.slug)
         ?.marker.setZIndexOffset(
-          village.slug === selectedVillage?.slug || village.slug.startsWith('business:') ? 500 : 0,
+          village.slug === selectedBusinessSlug
+            ? 800
+            : village.slug === selectedVillage?.slug || village.slug.startsWith('business:')
+              ? 500
+              : 0,
         )
     }
 
@@ -295,7 +320,7 @@ export default function ExploreLeafletMap({
       if (!selectedVillage) fitVillages(instance, villages)
       previousBounds.current = bounds
     }
-  }, [pins, villages, selectedVillage, businessGroups])
+  }, [pins, villages, selectedVillage, businessGroups, selectedBusinessSlug])
 
   return (
     <div className="relative size-full">
@@ -455,12 +480,24 @@ export default function ExploreLeafletMap({
               <Link
                 href={business.href}
                 prefetch={false}
+                scroll={false}
                 aria-label={t('openBusinessPin', { name: business.name })}
+                aria-current={business.slug === selectedBusinessSlug ? 'true' : undefined}
                 title={business.name}
                 className="explore-business-marker group grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
               >
-                <span className="border-accent bg-surface text-accent group-hover:bg-accent group-hover:text-accent-foreground grid size-8 place-items-center rounded-full border shadow-xs">
-                  <Store className="size-4" aria-hidden />
+                <span
+                  className={cn(
+                    'grid place-items-center rounded-full border shadow-xs',
+                    business.slug === selectedBusinessSlug
+                      ? 'bg-accent text-accent-foreground size-10 border-2 border-white shadow-sm'
+                      : 'border-accent bg-surface text-accent group-hover:bg-accent group-hover:text-accent-foreground size-8',
+                  )}
+                >
+                  <Store
+                    className={business.slug === selectedBusinessSlug ? 'size-5' : 'size-4'}
+                    aria-hidden
+                  />
                 </span>
               </Link>,
               target,

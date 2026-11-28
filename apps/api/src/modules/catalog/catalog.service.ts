@@ -17,6 +17,8 @@ export function toSummary(r: Row) {
     isAvailable: r.isAvailable,
     imageKey: r.imageKey,
     isSeed: r.isSeed,
+    ratingAverage: r.ratingAverage === null ? null : Number(r.ratingAverage),
+    ratingCount: Number(r.ratingCount ?? 0),
     category: r.categorySlug
       ? { slug: r.categorySlug, name: r.categoryName ?? '', nameEn: r.categoryNameEn }
       : null,

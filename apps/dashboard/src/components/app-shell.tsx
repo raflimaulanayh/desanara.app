@@ -6,7 +6,15 @@ import { cn } from '@repo/ui/cn'
 import { Container } from '@repo/ui/components/container'
 import { SkeletonBlock } from '@repo/ui/components/loading-region'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { CircleCheck, House, LogOut, Settings, Store, type LucideIcon } from 'lucide-react'
+import {
+  CircleCheck,
+  House,
+  LogOut,
+  MessageSquareText,
+  Settings,
+  Store,
+  type LucideIcon,
+} from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -25,6 +33,7 @@ const ICONS: Record<NavIcon, LucideIcon> = {
   store: Store,
   check: CircleCheck,
   settings: Settings,
+  reviews: MessageSquareText,
 }
 
 const shellLayout = 'min-h-dvh lg:grid lg:grid-cols-[15rem_1fr]'

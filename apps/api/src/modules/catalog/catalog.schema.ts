@@ -23,6 +23,9 @@ export const productSummarySchema = z
     isFree: z.boolean(),
     isAvailable: z.boolean(),
     imageKey: z.string().nullable(),
+    /** Average of approved buyer reviews to one decimal, null without reviews. */
+    ratingAverage: z.number().nullable(),
+    ratingCount: z.number().int(),
     category: z
       .object({ slug: z.string(), name: z.string(), nameEn: z.string().nullable() })
       .nullable(),

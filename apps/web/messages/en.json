@@ -269,9 +269,15 @@
       "selected": "Businesses in {village}",
       "listVillage": "See village products",
       "removeVillage": "Remove the {village} filter",
-      "directions": "Directions",
       "directionsLabel": "Get directions to {village} in Google Maps (opens a new tab)",
-      "otherVillagePin": "{name} has no matching products yet. Open the village profile"
+      "otherVillagePin": "{name} has no matching products yet. Open the village profile",
+      "directionsVillage": "Route to village",
+      "directionsStore": "Route to shop",
+      "directionsStoreLabel": "Directions to {name} in Google Maps (opens a new tab)",
+      "openStore": "Open shop",
+      "openStoreCard": "Show {name} on the map",
+      "storeSelected": "{name} in {village}",
+      "productCount": "{count, plural, one {# product} other {# products}}"
     }
   },
   "village": {
@@ -312,8 +318,7 @@
   },
   "product": {
     "detailTitle": "Product details",
-    "noRating": "No ratings yet",
-    "ratingLabel": "Rating {rating} out of 5",
+    "ratingLabel": "Rated {rating} out of 5 from {count} reviews",
     "backToProducts": "Back to the product catalogue",
     "backToHome": "Back to home",
     "breadcrumb": "Breadcrumb",
@@ -333,22 +338,61 @@
     "closeGallery": "Close gallery",
     "photoOf": "Photo {n} of {total}",
     "prevPhoto": "Previous photo",
-    "nextPhoto": "Next photo"
+    "nextPhoto": "Next photo",
+    "reviewsLink": "{count, plural, one {# review} other {# reviews}}",
+    "details": "Product details",
+    "readMore": "Read more",
+    "readLess": "Show less",
+    "facts": {
+      "category": "Category",
+      "village": "Village",
+      "seller": "Sold by",
+      "stock": "Availability",
+      "inStock": "In stock",
+      "outOfStock": "Out of stock"
+    }
   },
   "order": {
-    "options": "Quantity and order note",
-    "previewTitle": "WhatsApp message preview",
-    "quantity": "Quantity",
+    "previewTitle": "See the message",
     "decrease": "Decrease",
     "increase": "Increase",
     "note": "Note for the seller",
-    "noteHint": "e.g. spicy, deliver on Saturday",
-    "total": "Total",
-    "send": "Order via WhatsApp",
-    "sendHint": "WhatsApp opens with this order. The final price and shipping are agreed directly with the seller.",
+    "noteHint": "For example: extra spicy, deliver Saturday",
+    "total": "Order total",
+    "send": "Order on WhatsApp",
+    "sendHint": "Add the quantity and your details, then continue the chat with the seller on WhatsApp.",
     "unavailable": "This product is out of stock.",
     "noWhatsApp": "The seller hasn't added a WhatsApp number yet.",
-    "unavailableButton": "Out of stock"
+    "unavailableButton": "Out of stock",
+    "title": "Place an order",
+    "items": "Items",
+    "quantityOf": "Quantity of {name}",
+    "addMore": "Add more from this shop",
+    "add": "Add",
+    "addItem": "Add {name}",
+    "buyer": "Your details",
+    "name": "Name",
+    "delivery": "Pickup or delivery",
+    "methods": {
+      "pickup": "Pick up",
+      "delivery": "Seller delivers",
+      "courier": "Courier"
+    },
+    "area": "Delivery district or town",
+    "areaHint": "For example: Arjasari, Bandung",
+    "areaNote": "Used to estimate delivery. Send the full address in the chat.",
+    "errorName": "Enter your name.",
+    "errorDelivery": "Choose pickup or delivery.",
+    "errorArea": "Enter the delivery district or town.",
+    "privacy": "These details go only to the seller on WhatsApp. Desanara does not store them.",
+    "sent": "WhatsApp is open. Just send the message to the seller.",
+    "sendNow": "Continue to WhatsApp",
+    "previewSend": "See message",
+    "close": "Close",
+    "namePlaceholder": "Name for the order",
+    "optional": "(optional)",
+    "previousProducts": "Previous products",
+    "nextProducts": "Next products"
   },
   "about": {
     "title": "About Desanara",
@@ -846,6 +890,45 @@
           ]
         }
       ]
+    }
+  },
+  "reviews": {
+    "title": "Buyer reviews",
+    "subtitle": "From buyers who ordered on WhatsApp. A village assistant checks every review before it appears.",
+    "outOf": "out of 5",
+    "basedOn": "{count, plural, one {# review} other {# reviews}}",
+    "starRow": "{star} stars: {count} reviews",
+    "starsLabel": "{rating} out of 5 stars",
+    "emptyTitle": "No reviews yet",
+    "emptyBody": "Bought this before? Be the first to share how it was.",
+    "write": "Write a review",
+    "more": "Show more reviews",
+    "loading": "Loading reviews...",
+    "loadFailed": "More reviews could not load. Try again.",
+    "unavailable": "Reviews cannot load right now.",
+    "sellerReply": "Reply from {business}",
+    "form": {
+      "title": "Write a review",
+      "intro": "For {product}",
+      "rating": "Rate this product",
+      "ratingNames": ["Very poor", "Poor", "Okay", "Good", "Excellent"],
+      "name": "Name",
+      "nameHint": "Shown with your review. A nickname is fine.",
+      "body": "Tell us how it was",
+      "bodyHint": "Taste, packaging, size, or how the seller helped.",
+      "counter": "{count}/{max}",
+      "privacy": "Do not include phone numbers or addresses. Reviews appear after a village assistant checks them.",
+      "submit": "Send review",
+      "sending": "Sending...",
+      "cancel": "Cancel",
+      "successTitle": "Thank you!",
+      "successBody": "We received your review. It appears after a village assistant checks it.",
+      "close": "Close",
+      "errorRating": "Choose a star rating first.",
+      "errorName": "Enter a name of at least 2 letters.",
+      "errorBody": "Tell us a little more, at least 10 letters.",
+      "errorTooMany": "You already reviewed this product. Try again tomorrow.",
+      "errorGeneric": "Your review was not sent. Check your connection and try again."
     }
   }
 }

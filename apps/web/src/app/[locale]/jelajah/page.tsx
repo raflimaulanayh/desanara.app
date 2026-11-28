@@ -104,6 +104,7 @@ async function ExploreView({
   const view = mapView ? 'map' : undefined
   const village = filterValue(sp.village)
   const selectedSlug = mapView ? one(sp.selected) : undefined
+  const selectedBusiness = selectedSlug ? one(sp.business) : undefined
   const queryParams = {
     q,
     region,
@@ -314,6 +315,7 @@ async function ExploreView({
           queryParams={queryParams}
           mapView={mapView}
           selectedSlug={selectedSlug}
+          selectedBusiness={selectedBusiness}
           href={query}
           preview={preview}
           villageName={selectedVillage?.name}

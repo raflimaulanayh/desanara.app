@@ -66,7 +66,7 @@ export function OrderSimulator({
   const message = buildOrderMessage({
     businessName: product.businessName,
     villageName: product.villageName,
-    line: { name: product.name, price: product.price, quantity },
+    lines: [{ name: product.name, price: product.price, quantity }],
     note: note.trim() || undefined,
     productUrl,
   })

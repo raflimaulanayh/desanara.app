@@ -44,4 +44,8 @@ export const errorResponses = {
     description: 'Validation failed',
     content: { 'application/json': { schema: errorResponseSchema } },
   },
+  429: {
+    description: 'Too many requests',
+    content: { 'application/json': { schema: errorResponseSchema } },
+  },
 } as const

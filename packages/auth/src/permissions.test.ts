@@ -205,3 +205,31 @@ describe('invitations', () => {
     expect(can(helper, 'business.update', business)).toBe(true)
   })
 })
+
+describe('product reviews', () => {
+  const village = { type: 'village', villageId: V1 } as const
+  const business = { type: 'business', villageId: V1, businessId: B1 } as const
+  const otherBusiness = { type: 'business', villageId: V2, businessId: B3 } as const
+
+  test('village admins and assistants moderate reviews of their own village only', () => {
+    expect(can(villageAdmin, 'review.moderate', village)).toBe(true)
+    expect(can(villageAssistant, 'review.moderate', village)).toBe(true)
+    expect(can(superAdmin, 'review.moderate', village)).toBe(true)
+    expect(can(villageAdmin, 'review.moderate', { type: 'village', villageId: V2 })).toBe(false)
+  })
+
+  test('the business never moderates its own reviews', () => {
+    expect(can(owner, 'review.moderate', village)).toBe(false)
+    expect(can(helper, 'review.moderate', village)).toBe(false)
+  })
+
+  test('the business sees and replies to reviews of its own products', () => {
+    for (const member of [owner, helper, villageAssistant, villageAdmin]) {
+      expect(can(member, 'review.view', business)).toBe(true)
+      expect(can(member, 'review.reply', business)).toBe(true)
+    }
+    expect(can(owner, 'review.view', otherBusiness)).toBe(false)
+    expect(can(owner, 'review.reply', { ...business, businessId: B2 })).toBe(false)
+    expect(can(null, 'review.view', business)).toBe(false)
+  })
+})

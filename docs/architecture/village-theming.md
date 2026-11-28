@@ -30,6 +30,8 @@ import { villageThemeAttributes } from '@repo/ui/village-theme'
 ```
 
 - Server-rendered inline variables → no flash of the platform theme.
+- Product pages pass `{ radius: false }` (`<VillageTheme radius={false}>`): they belong to the shared catalogue,
+  so cards keep the platform corners while the accent still follows the village.
 - `[data-village-theme]` (packages/ui/src/theme.css) recomputes HeroUI's derived variables from the village accent.
 - Load the curated fonts once in the web root layout with `next/font/google`, exposing
   `--font-barlow-condensed`, `--font-bitter`, `--font-nunito`, `--font-poppins` (`apps/web/src/lib/fonts.ts`; village faces are not preloaded).

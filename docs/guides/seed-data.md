@@ -8,12 +8,14 @@ bun run db:seed:reset  # hapus data demo saja (is_seed = true); data referensi, 
 ## Isi
 
 - **Referensi (asli, tidak dihapus):** seluruh 91.599 wilayah Kepmendagri 2025 (provinsi sampai desa, dengan titik tengahnya) dan 6 kategori + terjemahan EN.
-- **Demo (fiktif, `is_seed = true`):** 3 desa: **Desa Baros** (desa pilot asli, Kec. Arjasari, Kab. Bandung — memakai lambang resmi Pemerintah Desa Baros dan foto wisatanya; hanya UMKM/produknya yang demo) serta Mekarwangi (Kab. Garut) dan Sindangjaya (Kab. Sumedang) yang fiktif,
+- **Demo (fiktif, `is_seed = true`):** 3 desa: **Desa Baros** (desa pilot asli, Kec. Arjasari, Kab. Bandung — memakai lambang resmi Pemerintah Desa Baros dan foto wisatanya; hanya UMKM/produknya yang demo) serta Mekarwangi (Kab. Garut) dan Sindangjaya (Kab. Cianjur) yang fiktif,
   16 UMKM (3 menunggu verifikasi), 42 produk (38 tayang), ±1.400 event view/klik WA 30 hari terakhir.
+  Setiap produk punya deskripsi 2 sampai 4 paragraf (ID dan EN, `demo-content.ts`), minimal 2 foto, dan 3 sampai 7
+  ulasan pembeli (185 ulasan; 4 masih menunggu moderasi di Desa Baros untuk demo dashboard Ulasan).
   Tiap desa punya tema berbeda: Baros teal + Barlow Condensed + sharp, Mekarwangi merah bata + Bitter + sharp,
   Sindangjaya hijau + Nunito + rounded. Sebagian besar UMKM punya jam buka; Dodol Ibu Euis sedang "tutup sementara" 3 hari.
 
-Nama UMKM dan orang adalah fiktif (termasuk UMKM di Desa Baros). Desa Baros memakai kode desa resminya (`32.04.16.2005`); dua desa fiktif menunjuk kode kabupaten agar tidak menempel pada desa sungguhan.
+Nama UMKM dan orang adalah fiktif (termasuk UMKM di Desa Baros). Desa Baros memakai kode desa resminya (`32.04.16.2005`). Dua desa fiktif memakai kode desa yang namanya sama (Mekarwangi, Kec. Tarogong Kaler, Garut dan Sindangjaya, Kec. Cipanas, Cianjur) agar muncul di peta; deskripsinya tetap ditandai data demo.
 
 ## Nomor WhatsApp demo
 
@@ -37,6 +39,10 @@ di `.env`. Bila kosong, seed memakai kata sandi bawaan yang hanya diizinkan untu
 pernah ditulis di repositori dan dipegang pengurus tim.
 
 ## Production
+
+Akun demo yang sudah dipakai untuk pekerjaan nyata (misalnya mengirim undangan atau memverifikasi UMKM) tidak
+dihapus saat seed ulang: seed memakainya kembali dan hanya memperbarui nama, peran, dan kata sandinya, sehingga
+undangan dan log audit asli tetap utuh.
 
 Script menolak berjalan saat `NODE_ENV=production` kecuali diberi `--allow-production`. Seed produksi hanya untuk
 keperluan demo seminar, lalu dibersihkan dengan `db:seed:reset` setelah data UMKM asli masuk.

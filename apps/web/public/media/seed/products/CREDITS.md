@@ -7,3 +7,4 @@ are removed with `bun run db:seed:reset`.
 
 Attribution is kept in the sidecar files; if the site ever shows these photos publicly, add a credits page that
 lists author and licence per photo before launch.
+Detail crops (`*-detail.webp`) are tighter crops of the photo with the same name; same author and licence.

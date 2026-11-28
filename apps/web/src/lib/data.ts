@@ -113,6 +113,20 @@ const readProduct = cache(
 export const getProduct = cache((slug: string) => orNotFound(() => readProduct(slug)))
 export const getStoryProduct = (slug: string) => readSection(readProduct(slug))
 
+/** First page of approved buyer reviews with the rating summary (PLAN-product-reviews). */
+export const REVIEWS_PAGE_SIZE = 5
+export const getProductReviews = (slug: string) =>
+  readSection(
+    (async () =>
+      unwrap(
+        await api.v1.products[':slug'].reviews.$get({
+          param: { slug },
+          query: { page: '1', pageSize: String(REVIEWS_PAGE_SIZE) },
+        }),
+      ))(),
+  )
+export type ProductReviewPage = NonNullable<Awaited<ReturnType<typeof getProductReviews>>>
+
 export interface ProductQuery {
   q?: string
   category?: string

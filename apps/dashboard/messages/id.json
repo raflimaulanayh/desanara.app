@@ -57,7 +57,8 @@
     "home": "Beranda",
     "businesses": "UMKM",
     "verifications": "Verifikasi",
-    "villageSettings": "Pengaturan desa"
+    "villageSettings": "Pengaturan desa",
+    "reviews": "Ulasan"
   },
   "home": {
     "villages": "Desa",
@@ -457,5 +458,54 @@
     "assistantRole": "Asisten UMKM",
     "businessHintOwner": "Undang pemilik UMKM agar bisa mengelola tokonya sendiri.",
     "businessHintHelper": "Undang asisten yang membantu mengelola UMKM ini."
+  },
+  "reviews": {
+    "title": "Ulasan pembeli",
+    "introModerator": "Periksa ulasan sebelum tampil di halaman produk. Tolak hanya spam, kata kasar, data pribadi, atau yang tidak terkait produk. Ulasan negatif yang jujur tetap disetujui.",
+    "introBusiness": "Ulasan produkmu dari pembeli. Pendamping desa memeriksanya sebelum tampil. Kamu bisa membalas ulasan yang sudah tampil.",
+    "scope": "Lihat ulasan dari",
+    "scopeAll": "Semua desa",
+    "tabs": {
+      "pending": "Menunggu",
+      "approved": "Tampil",
+      "rejected": "Ditolak"
+    },
+    "empty": {
+      "pending": "Tidak ada ulasan yang menunggu. Semua sudah diperiksa.",
+      "approved": "Belum ada ulasan yang tampil.",
+      "rejected": "Belum ada ulasan yang ditolak."
+    },
+    "stars": "{rating} dari 5 bintang",
+    "product": "Produk",
+    "openProduct": "Buka produk",
+    "approve": "Setujui",
+    "reject": "Tolak",
+    "hide": "Sembunyikan",
+    "restore": "Tampilkan lagi",
+    "rejectTitle": "Alasan penolakan",
+    "cancel": "Batal",
+    "confirmReject": "Tolak ulasan",
+    "reasons": {
+      "spam": "Spam atau iklan",
+      "abusive": "Kata kasar",
+      "personal_data": "Berisi data pribadi",
+      "off_topic": "Tidak terkait produk"
+    },
+    "rejectedFor": "Ditolak: {reason}",
+    "reply": "Balas",
+    "editReply": "Ubah balasan",
+    "removeReply": "Hapus balasan",
+    "replyLabel": "Balasan untuk {name}",
+    "replyHint": "Tampil di bawah ulasan, atas nama UMKM.",
+    "saveReply": "Kirim balasan",
+    "yourReply": "Balasan UMKM",
+    "done": {
+      "approved": "Ulasan disetujui dan tampil di halaman produk.",
+      "rejected": "Ulasan ditolak.",
+      "replied": "Balasan tersimpan.",
+      "replyRemoved": "Balasan dihapus."
+    },
+    "failed": "Belum tersimpan. Coba lagi.",
+    "more": "Muat ulasan lainnya"
   }
 }

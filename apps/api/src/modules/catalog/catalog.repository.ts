@@ -10,6 +10,7 @@ import {
 } from '@repo/db'
 import { and, asc, count, desc, eq, ilike, inArray, like, or, sql, type SQL } from 'drizzle-orm'
 import { publicBusiness, publicProduct, publicVillage } from '../../lib/visibility'
+import { ratingAverageSql, ratingCountSql } from '../reviews/reviews.repository'
 
 const enCategory = sql<string | null>`(
   select ${categoryTranslations.name} from ${categoryTranslations}
@@ -35,6 +36,8 @@ const summaryColumns = {
   isAvailable: products.isAvailable,
   imageKey: firstImage,
   isSeed: products.isSeed,
+  ratingAverage: ratingAverageSql,
+  ratingCount: ratingCountSql,
   categorySlug: categories.slug,
   categoryName: categories.name,
   categoryNameEn: enCategory,

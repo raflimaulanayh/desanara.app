@@ -9,6 +9,7 @@ import {
   productTranslations,
 } from './catalog'
 import { regions } from './regions'
+import { productReviews } from './reviews'
 import { villageMembers, villages } from './villages'
 
 export const usersRelations = relations(users, ({ many }) => ({
@@ -73,4 +74,10 @@ export const productImagesRelations = relations(productImages, ({ one }) => ({
 
 export const productTranslationsRelations = relations(productTranslations, ({ one }) => ({
   product: one(products, { fields: [productTranslations.productId], references: [products.id] }),
+}))
+
+export const productReviewsRelations = relations(productReviews, ({ one }) => ({
+  product: one(products, { fields: [productReviews.productId], references: [products.id] }),
+  business: one(businesses, { fields: [productReviews.businessId], references: [businesses.id] }),
+  village: one(villages, { fields: [productReviews.villageId], references: [villages.id] }),
 }))
