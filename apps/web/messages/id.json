@@ -269,7 +269,7 @@
       "selected": "UMKM di {village}",
       "listVillage": "Lihat produk desa",
       "removeVillage": "Hapus filter {village}",
-      "directions": "Petunjuk arah",
+      "directions": "Rute",
       "directionsLabel": "Petunjuk arah ke {village} di Google Maps (membuka tab baru)",
       "otherVillagePin": "{name} belum punya produk yang cocok. Buka profil desa"
     }

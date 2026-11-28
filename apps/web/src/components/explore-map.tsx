@@ -121,14 +121,14 @@ export async function ExploreMap({
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={t('directionsLabel', { village: selected.name })}
-                  className="border-line-strong text-foreground hover:bg-wash flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full border px-4 text-sm font-semibold transition-colors"
+                  className="border-line-strong text-foreground hover:bg-wash flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full border px-4 text-sm font-semibold whitespace-nowrap transition-colors"
                 >
                   <Navigation className="size-4 shrink-0" aria-hidden />
                   {t('directions')}
                 </a>
                 <Link
                   href={selected.listHref}
-                  className="bg-accent text-accent-foreground flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
+                  className="bg-accent text-accent-foreground flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-sm font-bold whitespace-nowrap transition-colors hover:bg-[var(--accent-hover)]"
                 >
                   {t('listVillage')}
                   <ArrowRight className="size-4 shrink-0" aria-hidden />

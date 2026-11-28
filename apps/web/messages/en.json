@@ -269,7 +269,7 @@
       "selected": "Businesses in {village}",
       "listVillage": "See village products",
       "removeVillage": "Remove the {village} filter",
-      "directions": "Directions",
+      "directions": "Route",
       "directionsLabel": "Get directions to {village} in Google Maps (opens a new tab)",
       "otherVillagePin": "{name} has no matching products yet. Open the village profile"
     }

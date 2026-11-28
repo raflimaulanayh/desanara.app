@@ -23,6 +23,7 @@ Format:
   kini menampilkan semua desa: desa tanpa produk yang cocok tampil sebagai pin lebih tenang menuju profil desa.
   Sheet desa punya tombol Petunjuk arah ke Google Maps (titik pusat desa, bukan alamat usaha), dan tombol
   geser usaha pindah ke header sejajar nama desa.
+  Label tombolnya dipendekkan menjadi Rute agar kedua tombol tetap satu baris di ponsel.
 - Banner "Kenali desa di balik produknya" kini menampilkan judul sebagai teks di atas foto, dan kartu ajakan
   UMKM dirapikan ukurannya di ponsel.
 - Seed demo: Desa Mekarwangi dan Desa Sindangjaya memakai kode wilayah tingkat desa agar punya titik di peta.
