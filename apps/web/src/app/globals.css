@@ -126,7 +126,7 @@ body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)) {
   }
 }
 
-.site-header:has(+ main .catalogue-explore) .site-search {
+.site-header:has(+ main :is(.catalogue-explore, .village-directory)) .site-search {
   display: none;
 }
 
@@ -286,16 +286,11 @@ main:has(.catalogue-home) + footer {
   }
 }
 
-:is(.catalogue-home, .catalogue-explore) .product-card-price,
 .product-detail-price {
   color: var(--accent);
 }
 
 @media (width < 40rem) {
-  .catalogue-home .product-card-photo {
-    aspect-ratio: 4 / 3;
-  }
-
   .catalogue-latest li:nth-child(n + 3) {
     display: none;
   }

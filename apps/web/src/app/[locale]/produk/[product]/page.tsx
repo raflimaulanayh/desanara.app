@@ -9,6 +9,8 @@ import { CatalogueUnavailable } from '@/components/catalogue-state'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
 import { ProductGallery } from '@/components/product-gallery'
+import { ProductGrid } from '@/components/product-card'
+import { ProductRating } from '@/components/product-rating'
 import { Price } from '@/components/price'
 import { productDetailLayout } from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
@@ -16,7 +18,7 @@ import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
 import { getPreviewProduct, isCataloguePreview } from '@/lib/catalogue-preview'
-import { getBusiness, getProduct, readSection } from '@/lib/data'
+import { getBusiness, getProduct, getStoryProduct, readSection } from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -63,7 +65,7 @@ function OriginRow({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="hover:bg-wash flex min-h-12 items-center gap-3 py-2 transition-colors"
+      className="hover:bg-wash focus-visible:outline-accent flex min-h-12 items-center gap-3 px-4 py-3 transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
     >
       {children}
       <ChevronRight className="text-muted size-4 shrink-0" aria-hidden />
@@ -88,6 +90,13 @@ export default async function ProductPage({ params }: { params: Params }) {
   const webUrl = siteUrl()
   const village = business.village
   const photos = product.images.length > 0 ? product.images : [null]
+  const relatedProducts = (
+    await Promise.all(
+      product.more.map(({ slug }) =>
+        preview ? Promise.resolve(getPreviewProduct(slug)?.product ?? null) : getStoryProduct(slug),
+      ),
+    )
+  ).filter((related) => related !== null)
 
   return (
     <VillageTheme theme={village.theme}>
@@ -136,8 +145,16 @@ export default async function ProductPage({ params }: { params: Params }) {
           />
 
           <div className={productDetailLayout.details}>
-            <div>
-              <h1 className="page-title lg:font-village text-balance">{name}</h1>
+            <div className="space-y-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <ProductRating isSeed={product.isSeed} slug={product.slug} />
+                {product.category ? (
+                  <span className="text-muted text-xs">
+                    · {pick(locale, product.category.name, product.category.nameEn)}
+                  </span>
+                ) : null}
+              </div>
+              <h1 className="page-title text-balance">{name}</h1>
               <p className="mt-1.5 lg:mt-3">
                 <Price
                   price={product.price}
@@ -147,14 +164,12 @@ export default async function ProductPage({ params }: { params: Params }) {
                   showBadge
                 />
               </p>
-              {product.category ? (
-                <p className="text-muted mt-1 hidden text-sm lg:block">
-                  {pick(locale, product.category.name, product.category.nameEn)}
-                </p>
-              ) : null}
             </div>
 
-            <section aria-label={t('origin')} className="divide-line divide-y">
+            <section
+              aria-label={t('origin')}
+              className="border-line bg-surface divide-line divide-y overflow-hidden rounded-(--radius) border"
+            >
               <OriginRow href={`/desa/${village.slug}`}>
                 <MapPin
                   className="lg:text-accent size-5 shrink-0 text-(--catalogue-accent)"
@@ -164,9 +179,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <p className="text-muted sr-only text-xs font-semibold lg:not-sr-only">
                     {t('fromVillage')}
                   </p>
-                  <p className="lg:font-village text-base font-semibold wrap-break-word">
-                    {village.name}
-                  </p>
+                  <p className="text-base font-semibold wrap-break-word">{village.name}</p>
                   {village.regionName ? (
                     <p className="text-muted hidden text-sm lg:block">{village.regionName}</p>
                   ) : null}
@@ -219,9 +232,9 @@ export default async function ProductPage({ params }: { params: Params }) {
             />
 
             {description ? (
-              <section>
+              <section className="border-line rounded-(--radius) border p-4 sm:p-5">
                 <h2 className="section-title">{t('description')}</h2>
-                <p className="mt-2 max-w-[68ch] leading-relaxed whitespace-pre-line">
+                <p className="text-muted mt-2 max-w-[68ch] text-sm leading-relaxed whitespace-pre-line">
                   {description}
                 </p>
               </section>
@@ -229,31 +242,12 @@ export default async function ProductPage({ params }: { params: Params }) {
           </div>
         </div>
 
-        {product.more.length > 0 ? (
+        {relatedProducts.length > 0 ? (
           <section className="mt-12">
             <h2 className="section-title">{t('moreTitle', { business: business.name })}</h2>
-            <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {product.more.map((m) => (
-                <li key={m.slug}>
-                  <Link
-                    href={`/produk/${m.slug}`}
-                    className="border-line flex h-full flex-col gap-1 rounded-(--radius) border p-3 transition-shadow hover:shadow-md"
-                  >
-                    <span className="line-clamp-2 text-sm font-medium">
-                      {pick(locale, m.name, m.nameEn)}
-                    </span>
-                    <span className="mt-auto pt-1">
-                      <Price
-                        price={m.price}
-                        compareAtPrice={m.compareAtPrice}
-                        className="font-bold tabular-nums"
-                        strikeClassName="text-xs"
-                      />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-4">
+              <ProductGrid products={relatedProducts} preview={preview} showSeller={false} />
+            </div>
           </section>
         ) : null}
       </Container>

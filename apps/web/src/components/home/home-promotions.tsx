@@ -85,9 +85,28 @@ export async function HomePromotions({ preview }: { preview: boolean }) {
                       alt={`${t(`${id}.title`)}. ${t(action)}.`}
                       fill
                       sizes="(min-width: 1152px) 1104px, (min-width: 640px) calc(100vw - 48px), calc(100vw - 32px)"
-                      className="-z-20 object-cover"
+                      className="-z-20 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                       style={{ objectPosition: imagePosition }}
                     />
+                    {/* Ad layout: the headline sits on the dark wall at the left of the photo, no button. */}
+                    <div
+                      className="absolute inset-0 -z-10 bg-linear-to-r from-stone-950/70 via-stone-950/25 via-45% to-transparent"
+                      aria-hidden
+                    />
+                    <div className="flex w-3/5 flex-col justify-end gap-1.5 p-4 text-white sm:p-6 md:w-1/2 md:justify-center md:gap-2.5 md:p-10 lg:p-12">
+                      <p
+                        aria-hidden
+                        className="text-[0.6875rem] font-semibold tracking-[0.08em] text-[#b4e076] uppercase sm:text-xs"
+                      >
+                        Desanara
+                      </p>
+                      <p
+                        aria-hidden
+                        className="max-w-[12ch] text-lg leading-[1.15] font-semibold tracking-[-0.015em] text-balance sm:text-2xl md:max-w-[13ch] md:text-[2.25rem] md:leading-[1.08] md:tracking-[-0.025em]"
+                      >
+                        {t(`${id}.title`)}
+                      </p>
+                    </div>
                     {sponsor ? (
                       <span className="sr-only">{t('sponsoredBy', { sponsor })}</span>
                     ) : null}

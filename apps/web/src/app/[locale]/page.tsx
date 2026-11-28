@@ -32,7 +32,7 @@ import { VILLAGES_HASH, VILLAGES_PATH } from '@/lib/paths'
 import type { StoryProduct } from '@/lib/story-order'
 
 export const revalidate = 300
-const homeVillageLimit = 6
+const homeVillageLimit = 5
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params

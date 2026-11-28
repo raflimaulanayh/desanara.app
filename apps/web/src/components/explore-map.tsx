@@ -1,12 +1,17 @@
 import { cn } from '@repo/ui/cn'
-import { ArrowRight, List } from 'lucide-react'
+import { ArrowRight, Navigation } from 'lucide-react'
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/navigation'
 import { mapBusinessPins, type groupMapBusinesses, type MapCoordinates } from '@/lib/catalogue-map'
 import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
-import { ExploreBusinessSlider } from './explore-business-slider'
+import {
+  ExploreBusinessSlider,
+  ExploreBusinessSliderControls,
+  ExploreBusinessSliderRail,
+} from './explore-business-slider'
 import { ExploreMapCanvas } from './explore-map-canvas'
+import { ExploreMapFrame } from './explore-map-frame'
 import { ExploreVillageSheet } from './explore-village-sheet'
 import { ProductPhoto } from './product-photo'
 
@@ -22,8 +27,11 @@ export async function ExploreMap({
   businessLocations,
   closeHref,
   listHref,
+  otherVillages = [],
 }: {
   villages: Village[]
+  /** Villages without matching products: quieter pins that open the village profile. */
+  otherVillages?: (MapCoordinates & { slug: string; name: string; href: string })[]
   selectedSlug?: string
   preview: boolean
   businessLocations?: ReadonlyMap<string, MapCoordinates>
@@ -68,71 +76,87 @@ export async function ExploreMap({
     </li>
   ))
 
+  const showSlider = (selected?.businesses.length ?? 0) > 2
+
   return (
     <div className="flex flex-1 flex-col">
-      <div className="explore-map-canvas bg-wash relative isolate min-h-44 min-w-0 flex-1 overflow-hidden">
+      <ExploreMapFrame listHref={listHref}>
         <ExploreMapCanvas
-          villages={villages.map(({ slug, name, lat, lng, href, businesses }) => ({
-            slug,
-            name,
-            lat,
-            lng,
-            href,
-            locationCount: businesses.filter(({ business }) =>
-              businessLocations?.has(business.slug),
-            ).length,
-          }))}
+          villages={[
+            ...villages.map(({ slug, name, lat, lng, href, businesses }) => ({
+              slug,
+              name,
+              lat,
+              lng,
+              href,
+              locationCount: businesses.filter(({ business }) =>
+                businessLocations?.has(business.slug),
+              ).length,
+            })),
+            ...otherVillages.map((village) => ({
+              ...village,
+              label: t('otherVillagePin', { name: village.name }),
+              locationCount: 0,
+              muted: true,
+            })),
+          ]}
           selectedSlug={selectedSlug}
           businessPoints={businessPoints}
           allBusinessPoints={allBusinessPoints}
         />
-        <Link
-          href={listHref}
-          aria-label={t('backToList')}
-          className="explore-list-link bg-accent text-accent-foreground absolute bottom-[calc(1.75rem+env(safe-area-inset-bottom))] left-1/2 z-10 flex min-h-11 w-max -translate-x-1/2 items-center justify-center gap-2 rounded-full px-4 text-sm font-bold whitespace-nowrap shadow-sm transition-colors hover:bg-[var(--accent-hover)]"
-        >
-          <List className="size-4 shrink-0" aria-hidden />
-          {t('listMode')}
-        </Link>
-      </div>
+      </ExploreMapFrame>
 
       {selected ? (
-        <ExploreVillageSheet
-          key={selected.slug}
-          title={selected.name}
-          label={t('selected', { village: selected.name })}
-          count={t('count', { count: selected.businesses.length })}
-          closeHref={closeHref}
-          footer={
-            <Link
-              href={selected.listHref}
-              className="bg-accent text-accent-foreground flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
-            >
-              {t('listVillage')}
-              <ArrowRight className="size-4 shrink-0" aria-hidden />
-            </Link>
-          }
-        >
-          {selected.businesses.length > 2 ? (
-            <ExploreBusinessSlider key={selected.slug} locationNote={locationNote}>
-              {businessCards}
-            </ExploreBusinessSlider>
-          ) : (
-            <>
-              {locationNote ? (
-                <p className="text-muted mt-1 shrink-0 text-xs leading-snug">{locationNote}</p>
-              ) : null}
-              <ul
-                className={cn(
-                  'mt-2 grid gap-2 p-0.5',
-                  selected.businesses.length === 2 && 'grid-cols-2',
-                )}
-              >
+        <ExploreBusinessSlider key={selected.slug}>
+          <ExploreVillageSheet
+            title={selected.name}
+            label={t('selected', { village: selected.name })}
+            count={t('count', { count: selected.businesses.length })}
+            closeHref={closeHref}
+            actions={showSlider ? <ExploreBusinessSliderControls /> : undefined}
+            footer={
+              <div className="flex gap-2">
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${selected.lat},${selected.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t('directionsLabel', { village: selected.name })}
+                  className="border-line-strong text-foreground hover:bg-wash flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-full border px-4 text-sm font-semibold transition-colors"
+                >
+                  <Navigation className="size-4 shrink-0" aria-hidden />
+                  {t('directions')}
+                </a>
+                <Link
+                  href={selected.listHref}
+                  className="bg-accent text-accent-foreground flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center text-sm font-bold transition-colors hover:bg-[var(--accent-hover)]"
+                >
+                  {t('listVillage')}
+                  <ArrowRight className="size-4 shrink-0" aria-hidden />
+                </Link>
+              </div>
+            }
+          >
+            {showSlider ? (
+              <ExploreBusinessSliderRail locationNote={locationNote}>
                 {businessCards}
-              </ul>
-            </>
-          )}
-        </ExploreVillageSheet>
+              </ExploreBusinessSliderRail>
+            ) : (
+              <>
+                {locationNote ? (
+                  <p className="text-muted mt-1 shrink-0 text-xs leading-snug">{locationNote}</p>
+                ) : null}
+                <ul
+                  className={cn(
+                    'mt-2 grid gap-2 p-0.5',
+                    selected.businesses.length === 2 && 'grid-cols-2',
+                  )}
+                >
+                  {businessCards}
+                </ul>
+              </>
+            )}
+          </ExploreVillageSheet>
+        </ExploreBusinessSlider>
       ) : null}
     </div>
   )

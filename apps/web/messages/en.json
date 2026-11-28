@@ -105,7 +105,6 @@
     "latestTitle": "Latest products",
     "seeAll": "See all",
     "villagesEmpty": "No villages yet.",
-    "villagesPageEmpty": "No villages on this page.",
     "seeAllVillages": "View all villages",
     "latestEmpty": "No products yet.",
     "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
@@ -269,10 +268,21 @@
       "retry": "Try again",
       "selected": "Businesses in {village}",
       "listVillage": "See village products",
-      "removeVillage": "Remove the {village} filter"
+      "removeVillage": "Remove the {village} filter",
+      "directions": "Directions",
+      "directionsLabel": "Get directions to {village} in Google Maps (opens a new tab)",
+      "otherVillagePin": "{name} has no matching products yet. Open the village profile"
     }
   },
   "village": {
+    "directorySearch": "Search villages",
+    "directoryEmpty": "No matching villages",
+    "directoryEmptyBody": "Try a different village name or choose another area.",
+    "directoryShowing": "Showing {shown} of {total} villages",
+    "directoryMore": "Load more",
+    "directoryMapCount": "{count, plural, one {# village} other {# villages}} on the map",
+    "directoryMapPartial": "{count} of {total, plural, one {# village} other {# villages}} on the map",
+    "directoryOpenVillage": "Open {name} profile",
     "regencyCrest": "{regency} emblem",
     "products": "Products from {village}",
     "productsEmpty": "No products yet.",
@@ -287,6 +297,7 @@
     "noBusinesses": "No verified businesses in this village yet."
   },
   "business": {
+    "openMap": "Open location in Google Maps (new tab)",
     "productsEmpty": "This business hasn't listed any products yet.",
     "owner": "Owner: {name}",
     "hoursTitle": "Opening hours",
@@ -301,6 +312,8 @@
   },
   "product": {
     "detailTitle": "Product details",
+    "noRating": "No ratings yet",
+    "ratingLabel": "Rating {rating} out of 5",
     "backToProducts": "Back to the product catalogue",
     "backToHome": "Back to home",
     "breadcrumb": "Breadcrumb",

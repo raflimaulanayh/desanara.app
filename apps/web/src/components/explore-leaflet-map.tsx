@@ -2,6 +2,7 @@
 
 import { Button } from '@heroui/react'
 import { mapTileConfig } from '@repo/ui/map-tiles'
+import { cn } from '@repo/ui/cn'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { MapPin, Minus, Plus, Store } from 'lucide-react'
@@ -18,14 +19,18 @@ import {
   type MapCoordinates,
 } from '@/lib/catalogue-map'
 
-type PinLink = { name: string; href: string }
+type PinLink = { name: string; href: string; label?: string }
 
 type MapMarker = PinLink &
   MapCoordinates & {
     slug: string
   }
 
-type VillageMarker = MapMarker & { locationCount: number }
+type VillageMarker = MapMarker & {
+  locationCount: number
+  /** A village with no matching products: a quieter pin that opens its profile page. */
+  muted?: boolean
+}
 
 export type ExploreLeafletProps = {
   villages: VillageMarker[]
@@ -387,16 +392,22 @@ export default function ExploreLeafletMap({
             prefetch={false}
             scroll={false}
             aria-label={
-              village.locationCount > 0
+              village.label ??
+              (village.locationCount > 0
                 ? t('marker', { village: village.name, count: village.locationCount })
-                : t('openVillagePin', { name: village.name })
+                : t('openVillagePin', { name: village.name }))
             }
             title={village.name}
             className="explore-map-marker group relative z-20 grid size-full place-items-center rounded-full focus-visible:outline-offset-0"
           >
             <span
               aria-hidden
-              className="border-accent/60 bg-surface text-accent group-hover:border-accent group-hover:bg-wash grid size-9 place-items-center rounded-full border text-sm leading-none font-bold tabular-nums shadow-xs motion-safe:transition-colors"
+              className={cn(
+                'group-hover:border-accent group-hover:bg-wash grid place-items-center rounded-full border leading-none font-bold tabular-nums shadow-xs motion-safe:transition-colors',
+                village.muted
+                  ? 'border-line-strong bg-surface/90 text-muted group-hover:text-accent size-8 text-xs'
+                  : 'border-accent/60 bg-surface text-accent size-9 text-sm',
+              )}
             >
               {village.locationCount > 0 ? (
                 village.locationCount > 99 ? (
@@ -405,7 +416,7 @@ export default function ExploreLeafletMap({
                   village.locationCount
                 )
               ) : (
-                <MapPin className="size-4" />
+                <MapPin className={village.muted ? 'size-3.5' : 'size-4'} />
               )}
             </span>
           </Link>,
@@ -501,7 +512,7 @@ function PinFan({ pins }: { pins: PinLink[] }) {
                 href={pin.href}
                 prefetch={false}
                 scroll={false}
-                aria-label={t('openVillagePin', { name: pin.name })}
+                aria-label={pin.label ?? t('openVillagePin', { name: pin.name })}
                 title={pin.name}
                 className="group pointer-events-auto grid size-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full focus-visible:outline-offset-0"
               >

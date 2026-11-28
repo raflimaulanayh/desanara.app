@@ -8,13 +8,14 @@ import { pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { Price, PromoBadge } from './price'
 import { ProductPhoto } from './product-photo'
+import { ProductRating } from './product-rating'
 
 const cardFrame =
-  'border-line bg-surface flex h-full flex-col overflow-hidden rounded-(--radius) border'
+  'border-line bg-surface flex h-full flex-col overflow-hidden rounded-[0.75rem] border'
 const rowFrame = 'max-sm:flex-row max-sm:gap-1 max-sm:p-1.5'
 const photoFrame = 'relative overflow-hidden'
 const rowPhotoFrame = 'max-sm:w-[36%] max-sm:shrink-0 max-sm:rounded-(--radius-compact)'
-const photoShape = 'product-card-photo aspect-square'
+const photoShape = 'aspect-[4/3] sm:aspect-square'
 const rowPhotoShape = 'max-sm:aspect-[4/3] max-sm:h-full max-sm:w-full'
 const cardContent = 'flex min-w-0 flex-1 flex-col gap-1.5 px-3 py-2.5 sm:px-4 sm:py-3'
 
@@ -80,6 +81,7 @@ export async function ProductCard({
         <h3 className="line-clamp-2 text-base leading-snug font-bold tracking-tight wrap-break-word">
           {name}
         </h3>
+        <ProductRating isSeed={p.isSeed} slug={p.slug} />
         {showVillage ? (
           <p className="text-muted flex items-start gap-1 text-xs leading-snug font-semibold sm:text-sm">
             <MapPin className="text-accent mt-px size-3.5 shrink-0" aria-hidden />
@@ -96,7 +98,7 @@ export async function ProductCard({
             <Price
               price={p.price}
               compareAtPrice={p.compareAtPrice}
-              className="product-card-price text-base font-bold tabular-nums"
+              className="text-base font-bold text-[var(--accent)] tabular-nums"
               strikeClassName="text-xs"
             />
           </p>
@@ -158,6 +160,7 @@ export function ProductGridSkeleton({
           </div>
           <div className={cardContent}>
             <SkeletonBlock className="h-[1.375rem] w-4/5" />
+            <SkeletonBlock className="h-4 w-12" />
             {showVillage ? <SkeletonBlock className="h-4 w-3/5 sm:h-5" /> : null}
             {showSeller ? <SkeletonBlock className="h-[1.25rem] w-1/2 sm:h-[1.375rem]" /> : null}
             <div className="mt-auto pt-0.5">

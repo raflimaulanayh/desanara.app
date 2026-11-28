@@ -105,7 +105,6 @@
     "latestTitle": "Produk desa terbaru",
     "seeAll": "Lihat semua",
     "villagesEmpty": "Belum ada desa mitra.",
-    "villagesPageEmpty": "Tidak ada desa di halaman ini.",
     "seeAllVillages": "Lihat semua desa",
     "latestEmpty": "Belum ada produk.",
     "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
@@ -269,10 +268,21 @@
       "retry": "Coba lagi",
       "selected": "UMKM di {village}",
       "listVillage": "Lihat produk desa",
-      "removeVillage": "Hapus filter {village}"
+      "removeVillage": "Hapus filter {village}",
+      "directions": "Petunjuk arah",
+      "directionsLabel": "Petunjuk arah ke {village} di Google Maps (membuka tab baru)",
+      "otherVillagePin": "{name} belum punya produk yang cocok. Buka profil desa"
     }
   },
   "village": {
+    "directorySearch": "Cari desa",
+    "directoryEmpty": "Tidak ada desa yang cocok",
+    "directoryEmptyBody": "Coba nama desa yang lain atau pilih wilayah lain.",
+    "directoryShowing": "Menampilkan {shown} dari {total} desa",
+    "directoryMore": "Muat lebih banyak",
+    "directoryMapCount": "{count} desa di peta",
+    "directoryMapPartial": "{count} dari {total} desa di peta",
+    "directoryOpenVillage": "Buka profil {name}",
     "regencyCrest": "Lambang {regency}",
     "products": "Produk dari {village}",
     "productsEmpty": "Belum ada produk.",
@@ -287,6 +297,7 @@
     "noBusinesses": "Belum ada UMKM terverifikasi di desa ini."
   },
   "business": {
+    "openMap": "Buka lokasi di Google Maps (tab baru)",
     "productsEmpty": "UMKM ini belum punya produk yang tayang.",
     "owner": "Pemilik: {name}",
     "hoursTitle": "Jam buka",
@@ -301,6 +312,8 @@
   },
   "product": {
     "detailTitle": "Detail produk",
+    "noRating": "Belum ada rating",
+    "ratingLabel": "Rating {rating} dari 5",
     "backToProducts": "Kembali ke katalog produk",
     "backToHome": "Kembali ke beranda",
     "breadcrumb": "Navigasi halaman",

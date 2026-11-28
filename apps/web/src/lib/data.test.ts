@@ -3,6 +3,7 @@ import { expect, spyOn, test } from 'bun:test'
 import {
   getMapProducts,
   getStoryProduct,
+  getVillageDirectory,
   getVillagesForFilter,
   readSection,
   searchProducts,
@@ -55,6 +56,70 @@ test('the village selector includes options from subsequent public directory pag
   try {
     expect((await getVillagesForFilter()).map(({ slug }) => slug)).toEqual([first.slug, last.slug])
     expect(new URL(String(fetch.mock.calls[1]?.[0])).searchParams.get('page')).toBe('2')
+  } finally {
+    fetch.mockRestore()
+  }
+})
+
+test('load more keeps previously visible villages alongside the next batch', async () => {
+  const villages = Array.from({ length: 27 }, (_, index) => ({ slug: `desa-${index + 1}` }))
+  const fetch = spyOn(globalThis, 'fetch')
+    .mockResolvedValueOnce(Response.json({ data: villages.slice(0, 12), meta: { total: 27 } }))
+    .mockResolvedValueOnce(Response.json({ data: villages.slice(0, 24), meta: { total: 27 } }))
+  try {
+    const first = await getVillageDirectory(1, '')
+    const more = await getVillageDirectory(2, '')
+    expect(first.data).toHaveLength(12)
+    expect(more.data).toHaveLength(24)
+    expect(more.data.slice(0, 12)).toEqual(first.data)
+    expect(more.total).toBe(27)
+    expect(
+      fetch.mock.calls.map(([url]) => new URL(String(url)).searchParams.get('pageSize')),
+    ).toEqual(['12', '24'])
+  } finally {
+    fetch.mockRestore()
+  }
+})
+
+test('village search finds names beyond the first API page with multiple case-insensitive terms', async () => {
+  const fetch = spyOn(globalThis, 'fetch')
+    .mockResolvedValueOnce(Response.json({ data: [{ name: 'Desa Baros' }], meta: { total: 51 } }))
+    .mockResolvedValueOnce(
+      Response.json({ data: [{ name: 'Desa Cileunyi Wetan' }], meta: { total: 51 } }),
+    )
+  try {
+    expect(await getVillageDirectory(1, 'WETAN cileunyi')).toMatchObject({
+      data: [{ name: 'Desa Cileunyi Wetan' }],
+      total: 1,
+    })
+  } finally {
+    fetch.mockRestore()
+  }
+})
+
+test('the directory map includes every village matching search and regency across API pages', async () => {
+  const matching = Array.from({ length: 13 }, (_, index) => ({
+    name: `Desa Mekar ${index + 1}`,
+    regionCode: '32.04.05.2001',
+  }))
+  const fetch = spyOn(globalThis, 'fetch')
+    .mockResolvedValueOnce(
+      Response.json({
+        data: [
+          ...matching.slice(0, 12),
+          { name: 'Desa Mekar Garut', regionCode: '32.05.03.2011' },
+          { name: 'Desa Baros', regionCode: '32.04.16.2005' },
+        ],
+        meta: { total: 51 },
+      }),
+    )
+    .mockResolvedValueOnce(Response.json({ data: matching.slice(12), meta: { total: 51 } }))
+
+  try {
+    expect(await getVillageDirectory(undefined, 'mekar', '32.04')).toMatchObject({
+      data: matching,
+      total: 13,
+    })
   } finally {
     fetch.mockRestore()
   }

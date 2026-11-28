@@ -493,9 +493,11 @@ export function searchPreviewProducts({
   }
 }
 
+export const previewVillagePoints = [
+  ...previewMapPoints,
+  ...additionalVillages.map(({ slug, point }) => ({ slug, ...point })),
+]
+
 export function groupPreviewMapBusinesses(products: ProductSummary[]) {
-  return groupMapBusinesses(products, [
-    ...previewMapPoints,
-    ...additionalVillages.map(({ slug, point }) => ({ slug, ...point })),
-  ])
+  return groupMapBusinesses(products, previewVillagePoints)
 }

@@ -3,13 +3,10 @@ import { Container } from '@repo/ui/components/container'
 import { LoadingRegion, SkeletonBlock } from '@repo/ui/components/loading-region'
 import { ProductGridSkeleton } from './product-card'
 
+export const mapPageLayout = 'catalogue-explore-map flex max-w-none flex-1 flex-col px-0 sm:px-0'
+
 export function explorePageLayout(mapView: boolean) {
-  return cn(
-    'catalogue-explore',
-    mapView
-      ? 'catalogue-explore-map flex max-w-none flex-1 flex-col px-0 sm:px-0'
-      : 'pt-2 pb-8 sm:pt-7 sm:pb-10',
-  )
+  return cn('catalogue-explore', mapView ? mapPageLayout : 'pt-2 pb-8 sm:pt-7 sm:pb-10')
 }
 
 export function exploreToolbarLayout(mapView: boolean) {

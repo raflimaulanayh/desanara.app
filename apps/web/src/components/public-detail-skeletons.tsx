@@ -25,12 +25,13 @@ export function ProductPageSkeleton({ label }: { label: string }) {
           <SkeletonBlock className={cn(productDetailLayout.cover, 'w-full rounded-(--radius)')} />
           <div className={productDetailLayout.details}>
             <div>
+              <SkeletonBlock className="mb-2 h-4 w-32" />
               <SkeletonBlock className="h-[1.5625rem] w-3/4 sm:h-[1.875rem]" />
               <SkeletonBlock className="mt-1.5 h-7 w-28 sm:h-8 lg:mt-3" />
             </div>
-            <div className="divide-line divide-y">
+            <div className="border-line divide-line divide-y overflow-hidden rounded-(--radius) border">
               {[0, 1].map((row) => (
-                <div key={row} className="flex min-h-12 items-center gap-3 py-2">
+                <div key={row} className="flex min-h-12 items-center gap-3 px-4 py-3">
                   <SkeletonBlock className="size-5 shrink-0" />
                   <div className="min-w-0 flex-1">
                     <SkeletonBlock className="mb-1 hidden h-3 w-16 lg:block" />
@@ -68,10 +69,14 @@ export function VillagePageSkeleton({ label }: { label: string }) {
           {[0, 1, 2].map((index) => (
             <li
               key={index}
-              className="border-line bg-surface flex flex-col gap-2 rounded-(--radius) border p-4"
+              className="border-line bg-surface flex min-w-0 snap-start items-center gap-3 rounded-[0.75rem] border p-3"
             >
-              <SkeletonBlock className="h-[1.375rem] w-3/4" />
-              <SkeletonBlock className="h-5 w-1/2" />
+              <div className="min-w-0 flex-1 space-y-2">
+                <SkeletonBlock className="h-5 w-3/4" />
+                <SkeletonBlock className="h-4 w-1/2" />
+                <SkeletonBlock className="h-7 w-16 rounded-full" />
+              </div>
+              <SkeletonBlock className="size-4 shrink-0" />
             </li>
           ))}
         </ul>
@@ -97,7 +102,7 @@ export function BusinessPageSkeleton({ label }: { label: string }) {
             <SkeletonBlock className="mt-2 h-5 w-52" />
             <SkeletonBlock className="mt-4 h-6 w-28 rounded-full" />
           </div>
-          <SkeletonBlock className="h-12 w-full rounded-full sm:w-40" />
+          <SkeletonBlock className="h-11 w-full rounded-full sm:w-40" />
         </div>
         <div className={businessPageGrid}>
           <div>

@@ -71,8 +71,7 @@ Public page titles use `page-title` (20 px on phones, 24 px from `sm`). Section 
 from `md`. The about hero has its own larger scale (see About page below).
 Body text stays at least 16 px with a line length of up to 68ch. Search hints and compact controls use 14 px,
 and supporting labels use 12–14 px. Search input text stays 16 px on phones. Keep card names to two lines
-and check long names at 320 px. Villages may swap the display face through `font-village` for their own
-headings. Prices use bold, tabular numerals.
+and check long names at 320 px. Village and business headings use Montserrat. Prices use bold, tabular numerals.
 
 ## Layout & shape
 
@@ -100,7 +99,7 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
 - **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in a fixed translucent bar with backdrop blur.
   The tabs use a 56 px row, with bottom padding of 4 px or the device safe area, whichever is larger.
   In the browser and installed PWA, the full-width glass extends through the safe area to the bottom
-  edge. Each destination has an icon and a label. The current
+  edge. Each destination has an icon and a label. Desa opens the village directory. The current
   destination and hovered tabs use green text and a tint behind the icon.
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
@@ -108,8 +107,9 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   with labels on phones, and from `sm` as bordered cards (icon above a left-aligned name, a green tint and an
   arrow on hover). The promotion slot follows categories, then the village cards. Sponsored campaigns name their
   sponsor. Multiple campaigns use swipe, previous/next controls and clickable position dots. On phones a campaign is a photo with text over a dark gradient; from `md` it splits into a cream text panel (title, one-line description, green pill) and the photo on the right. Image-only campaigns stay full width. The village discovery banner (headline only, no call-to-action text in the artwork) fills an empty
-  slot. Desktop shows four products and the category cards. Keep the home village preview to six cards. The village directory shows 12 cards per
-  page, with equal horizontal padding around the home directory link's hover area.
+  slot. Desktop shows four products and the category cards. Keep the home village section to five cards
+  with a link to the directory. The directory has a compact search field and adds 12 cards at a time with a Load
+  more action.
   The seller invitation is a forest-green panel: a two-tone heading (white, then light green), three true benefits as outlined chips with check marks, a stack of round product photos, a white Daftarkan UMKM pill and a Pelajari dulu link to the about page.
 - **Catalogue results** retain the current filters when searching. On wider screens the search, Filter and list or map switch sit on one row, with category chips below (white with a hairline, light-green on hover, green when active). A full-width
   HeroUI bottom `Sheet` groups region, village, category, and sorting in list and map modes. Region, village,
@@ -132,8 +132,10 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   headings visible. Reserve space only for the section that is still loading.
 - **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
   Compact circles show the number of matching shop locations up to `99+` on a pannable Leaflet basemap,
-  with 44 px touch targets. Villages without shop locations use a pin icon. The details panel shows
-  the full village name and total matching businesses. The map fills the available viewport
+  with 44 px touch targets. Villages without shop locations use a pin icon. Without a search or category, every
+  other published village shows as a smaller muted pin that opens its profile. The details panel shows
+  the full village name and total matching businesses, with the slider arrows level with the name, and a
+  Directions action that opens Google Maps at the village centre (never a business address). The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
   list link above the provider credit returns to the results with the same search and filters. Village results
   open in a bottom sheet with a drag handle. Swiping down, tapping outside, or pressing Escape dismisses the
@@ -201,7 +203,7 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   green prices and keeps seller information on the detail page. Out-of-stock uses a
   dark pill on the photo. The entire card opens the detail page.
 - **Village card / village page**: village links on the catalogue home show the crest, name, area, and business count.
-  Village pages show a cover photo or a gradient in the village colour, a white-framed crest, village display font and
+  Village pages show a cover photo or a gradient in the village colour, a white-framed crest, Montserrat headings and
   the verification badge. Official crests are shown untouched.
   A thin circular border frames the crest. A labelled regency emblem may fill the slot until a village logo is available.
 - **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked

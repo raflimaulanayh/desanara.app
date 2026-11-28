@@ -15,6 +15,19 @@ Format:
 
 ---
 
+## 2026-11-28 — Peta semua desa, petunjuk arah, dan rapikan beranda di ponsel
+
+- **Area**: apps/web, packages/db
+- **Jenis**: Changed
+- Menu Desa di navbar desktop kini membuka direktori `/desa`. Peta `/jelajah` tanpa pencarian atau kategori
+  kini menampilkan semua desa: desa tanpa produk yang cocok tampil sebagai pin lebih tenang menuju profil desa.
+  Sheet desa punya tombol Petunjuk arah ke Google Maps (titik pusat desa, bukan alamat usaha), dan tombol
+  geser usaha pindah ke header sejajar nama desa.
+- Banner "Kenali desa di balik produknya" kini menampilkan judul sebagai teks di atas foto, dan kartu ajakan
+  UMKM dirapikan ukurannya di ponsel.
+- Seed demo: Desa Mekarwangi dan Desa Sindangjaya memakai kode wilayah tingkat desa agar punya titik di peta.
+  Perlu `bun run db:seed` ulang di database tujuan.
+
 ## 2026-11-27 — Splash halaman Tentang yang baru
 
 - **Area**: apps/web
@@ -122,6 +135,14 @@ Format:
 - Foto kembali mengisi seluruh banner Sorotan, dengan judul semibold dan ajakan berbobot medium.
   Banner Jelajahi desa memakai file gambar Indonesia dan Inggris yang sudah memuat judul dan ajakan.
 
+## 2026-11-27 — Peta dan filter direktori desa
+
+- **Area**: apps/web
+- **Jenis**: Added
+- Direktori desa punya mode Peta dan Daftar dengan pencarian dan filter kabupaten atau kota yang sama.
+  Penanda membuka profil desa dan memakai koordinat pusat desa yang tersedia.
+- Terkait: PLAN-public-structure.md
+
 ## 2026-11-27 — Perbarui artwork Sorotan beranda
 
 - **Area**: apps/web
@@ -143,6 +164,59 @@ Format:
 - Slot setelah Kategori menampung banner sponsor dan kampanye Desanara yang bisa digeser manual.
   Sorotan kerajinan, kopi, dan desa mengisi peluncuran. Banner Jelajahi Desa tampil saat slot kosong.
 - Banner dapat memakai gambar penuh dengan judul opsional. Ukuran tombol navigasi mengikuti slider di sheet peta.
+
+## 2026-11-27 — Navigasi desa dan lokasi UMKM
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Tombol desa di banner membuka direktori desa. Profil UMKM menampilkan nama pemilik dan lokasi wilayah
+  dengan tautan ke Google Maps. Titik contoh Baros memakai koordinat simulasi yang sama dengan peta katalog.
+
+## 2026-11-27 — Perjelas keterangan jam operasional
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Detail jam buka dan tutup pada profil UMKM menggunakan ikon jam dan teks yang lebih mudah dibaca.
+- Tombol chat penjual mengikuti ukuran teks dan ikon tombol WhatsApp pada detail produk.
+
+## 2026-11-27 — Samakan tipografi antarmuka publik
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Nama UMKM dan judul produk mengikuti Montserrat seperti halaman publik lainnya pada semua ukuran layar.
+
+## 2026-11-27 — Rapikan daftar UMKM desa
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Judul dan bagian halaman desa mengikuti tipografi utama. Kartu UMKM menampilkan nama, informasi produk,
+  dan status usaha serta bisa digeser mendatar di layar HP dengan jarak tepi yang konsisten.
+
+## 2026-11-27 — Konsistensi sudut kartu produk
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Kartu produk dan skeleton memakai radius yang sama pada halaman umum maupun halaman desa.
+
+## 2026-11-27 — Samakan kartu produk terkait
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Produk lain dari penjual memakai komponen kartu yang sama dengan beranda, termasuk rasio foto,
+  harga, lokasi, dan rating produk.
+
+## 2026-11-27 — Rapikan hover asal produk dan penjual
+
+- **Area**: apps/web
+- **Jenis**: Fixed
+- Area hover dan fokus tautan desa serta penjual mengisi baris hingga tepi kartu dengan batas tengah yang lurus.
+
+## 2026-11-27 — Tampilan detail produk dan rating katalog
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Detail produk menampilkan informasi penjual dan asal dalam kartu yang lebih rapi. Rating contoh pada
+  produk seed terlihat konsisten di detail dan katalog, sementara produk lain menampilkan status belum ada rating.
 
 ## 2026-11-27 — Penanda UMKM mengikuti zoom peta
 
@@ -170,6 +244,17 @@ Format:
 - **Jenis**: Changed
 - Ketuk pin desa untuk membuka hasil dalam bottom sheet. Geser pegangan ke bawah, ketuk di luar sheet,
   atau tekan Escape untuk kembali ke peta.
+
+## 2026-11-27 — Cari desa dan muat hasil bertahap
+
+- **Area**: apps/web
+- **Jenis**: Changed
+- Beranda menampilkan maksimal lima desa. Direktori menyediakan pencarian nama desa dan tombol
+  **Muat lebih banyak** untuk menambah hingga 12 desa di bawah hasil sebelumnya.
+- Kolom cari desa memakai tampilan yang sama dengan pencarian produk. Pencarian pada header
+  disembunyikan saat direktori desa terbuka.
+- Tab **Desa** di navigasi bawah langsung membuka direktori desa.
+- Keterangan verifikasi UMKM pada profil desa memerlukan tanggal verifikasi untuk setiap UMKM yang tampil.
 
 ## 2026-11-27 — Pusat desa tetap terlihat saat pin toko belum tersedia
 

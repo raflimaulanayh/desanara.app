@@ -18,6 +18,7 @@ Decision and reasons: [ADR 0007](../adr/0007-village-theming.md).
 | logo / banner | `villages.logoKey`, `villages.bannerKey`           | R2 keys, not in the JSON                         |
 
 Storage: `villages.theme` (published, null = default), `villages.theme_draft`, `villages.theme_published_at`.
+The font setting remains stored for compatibility. Public pages currently use Montserrat for their headings.
 
 ## Rendering (apps/web)
 

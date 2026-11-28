@@ -322,7 +322,7 @@ export const demoVillages: DemoVillage[] = [
     theme: { version: 1, template: 'classic', accent: '#b23a1e', font: 'bitter', radius: 'sharp' },
     slug: 'mekarwangi',
     name: 'Desa Mekarwangi',
-    regionCode: '32.05',
+    regionCode: '32.05.04.2010',
     description: '(Data demo) Desa sentra kulit dan dodol dengan banyak perajin rumahan.',
     businesses: [
       {
@@ -471,7 +471,7 @@ export const demoVillages: DemoVillage[] = [
     },
     slug: 'sindangjaya',
     name: 'Desa Sindangjaya',
-    regionCode: '32.11',
+    regionCode: '32.03.28.2007',
     description: '(Data demo) Desa penghasil tahu, ubi cilembu, dan kerajinan kayu.',
     businesses: [
       {
