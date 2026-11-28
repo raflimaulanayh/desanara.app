@@ -21,7 +21,9 @@ import { manageBusinessRoutes } from './modules/manage-businesses/manage-busines
 import { mediaRoutes } from './modules/media/media.routes'
 import { manageProductRoutes } from './modules/manage-products/manage-products.routes'
 import { manageVillageRoutes } from './modules/manage-villages/manage-villages.routes'
+import { manageReviewRoutes } from './modules/manage-reviews/manage-reviews.routes'
 import { regionRoutes } from './modules/regions/regions.routes'
+import { reviewRoutes } from './modules/reviews/reviews.routes'
 import { villageRoutes } from './modules/villages/villages.routes'
 
 /**
@@ -95,7 +97,9 @@ export function createApp({
     .route('/v1/manage/media', mediaRoutes)
     .route('/v1/manage/villages', manageVillageRoutes)
     .route('/v1/manage/invitations', manageInvitationRoutes)
+    .route('/v1/manage/reviews', manageReviewRoutes)
     .route('/v1/manage', manageProductRoutes)
+    .route('/v1', reviewRoutes)
     .route('/v1', catalogRoutes)
 
   if (docs.mode !== 'off') {

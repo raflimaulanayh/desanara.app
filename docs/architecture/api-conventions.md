@@ -26,6 +26,7 @@
   | 404  | `NOT_FOUND`                                               |
   | 409  | `CONFLICT`                                                |
   | 422  | `VALIDATION_FAILED` (`details` = `z.treeifyError` output) |
+  | 429  | `RATE_LIMITED` (public writes such as buyer reviews)      |
   | 500  | `INTERNAL`                                                |
 
 - Pagination: `?page=1&pageSize=20`, `pageSize ≤ 50` (`paginationSchema`).

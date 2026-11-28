@@ -11,13 +11,16 @@ export function ExploreVillageSheet({
   closeHref,
   children,
   footer,
+  actions,
 }: {
   title: string
   label: string
-  count: string
+  count: ReactNode
   closeHref: string
   children: ReactNode
   footer: ReactNode
+  /** Sits at the end of the header row, level with the village name (the slider buttons). */
+  actions?: ReactNode
 }) {
   const router = useRouter()
 
@@ -34,11 +37,14 @@ export function ExploreVillageSheet({
             className="explore-map-details border-line bg-surface max-h-[58dvh] rounded-t-(--radius) border-t"
           >
             <Sheet.Handle aria-hidden className="py-2.5" />
-            <Sheet.Header className="mx-auto w-full max-w-lg gap-0.5 px-4 pt-0 pb-1">
-              <Sheet.Heading className="text-base leading-tight font-bold sm:text-lg">
-                {title}
-              </Sheet.Heading>
-              <p className="text-muted text-xs font-medium">{count}</p>
+            <Sheet.Header className="mx-auto flex w-full max-w-lg flex-row items-center gap-3 px-4 pt-0 pb-1">
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                <Sheet.Heading className="truncate text-base leading-tight font-bold sm:text-lg">
+                  {title}
+                </Sheet.Heading>
+                <p className="text-muted text-xs font-medium">{count}</p>
+              </div>
+              {actions}
             </Sheet.Header>
             <Sheet.Body className="mx-auto w-full max-w-lg px-4 py-0">{children}</Sheet.Body>
             <Sheet.Footer className="mx-auto w-full max-w-lg px-4 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">

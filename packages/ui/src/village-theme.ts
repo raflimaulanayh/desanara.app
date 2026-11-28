@@ -31,20 +31,31 @@ const FONT_VARIABLE: Record<VillageFont, string> = {
   poppins: 'var(--font-poppins)',
 }
 
-export function villageThemeStyle(theme: VillageTheme): CSSProperties {
+export interface VillageThemeOptions {
+  /**
+   * Apply the village corner style. Product pages are part of the shared catalogue, so they keep the
+   * platform radius and take only the village ink and face (PLAN-product-reviews).
+   */
+  radius?: boolean
+}
+
+export function villageThemeStyle(
+  theme: VillageTheme,
+  { radius = true }: VillageThemeOptions = {},
+): CSSProperties {
   return {
     '--accent': theme.accent,
     '--accent-foreground': readableForeground(theme.accent),
-    '--radius': RADIUS[theme.radius],
+    ...(radius ? { '--radius': RADIUS[theme.radius] } : {}),
     '--village-font': FONT_VARIABLE[theme.font],
   } as CSSProperties
 }
 
 /** Accepts the raw JSONB from the API; invalid values fall back to the default theme. */
-export function villageThemeAttributes(raw: unknown) {
+export function villageThemeAttributes(raw: unknown, options?: VillageThemeOptions) {
   const theme = parseVillageTheme(raw)
   return {
     'data-village-theme': theme.template,
-    style: villageThemeStyle(theme),
+    style: villageThemeStyle(theme, options),
   } as const
 }

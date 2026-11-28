@@ -71,8 +71,7 @@ Public page titles use `page-title` (20 px on phones, 24 px from `sm`). Section 
 from `md`. The about hero has its own larger scale (see About page below).
 Body text stays at least 16 px with a line length of up to 68ch. Search hints and compact controls use 14 px,
 and supporting labels use 12–14 px. Search input text stays 16 px on phones. Keep card names to two lines
-and check long names at 320 px. Villages may swap the display face through `font-village` for their own
-headings. Prices use bold, tabular numerals.
+and check long names at 320 px. Village and business headings use Montserrat. Prices use bold, tabular numerals.
 
 ## Layout & shape
 
@@ -100,7 +99,7 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
 - **Mobile navigation** puts Beranda, Produk, Desa, and Pengaturan in a fixed translucent bar with backdrop blur.
   The tabs use a 56 px row, with bottom padding of 4 px or the device safe area, whichever is larger.
   In the browser and installed PWA, the full-width glass extends through the safe area to the bottom
-  edge. Each destination has an icon and a label. The current
+  edge. Each destination has an icon and a label. Desa opens the village directory. The current
   destination and hovered tabs use green text and a tint behind the icon.
 - **Settings** shows the display language choices with an explicit selected state. The page is available in both locales.
 - **Catalogue home** opens with search, available stories, and the newest products. On phones the first two
@@ -108,8 +107,9 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   with labels on phones, and from `sm` as bordered cards (icon above a left-aligned name, a green tint and an
   arrow on hover). The promotion slot follows categories, then the village cards. Sponsored campaigns name their
   sponsor. Multiple campaigns use swipe, previous/next controls and clickable position dots. On phones a campaign is a photo with text over a dark gradient; from `md` it splits into a cream text panel (title, one-line description, green pill) and the photo on the right. Image-only campaigns stay full width. The village discovery banner (headline only, no call-to-action text in the artwork) fills an empty
-  slot. Desktop shows four products and the category cards. Keep the home village preview to six cards. The village directory shows 12 cards per
-  page, with equal horizontal padding around the home directory link's hover area.
+  slot. Desktop shows four products and the category cards. Keep the home village section to five cards
+  with a link to the directory. The directory has a compact search field and adds 12 cards at a time with a Load
+  more action.
   The seller invitation is a forest-green panel: a two-tone heading (white, then light green), three true benefits as outlined chips with check marks, a stack of round product photos, a white Daftarkan UMKM pill and a Pelajari dulu link to the about page.
 - **Catalogue results** retain the current filters when searching. On wider screens the search, Filter and list or map switch sit on one row, with category chips below (white with a hairline, light-green on hover, green when active). A full-width
   HeroUI bottom `Sheet` groups region, village, category, and sorting in list and map modes. Region, village,
@@ -132,8 +132,14 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   headings visible. Reserve space only for the section that is still loading.
 - **Catalogue map** shares the catalogue search and filters. Production uses public village centre coordinates.
   Compact circles show the number of matching shop locations up to `99+` on a pannable Leaflet basemap,
-  with 44 px touch targets. Villages without shop locations use a pin icon. The details panel shows
-  the full village name and total matching businesses. The map fills the available viewport
+  with 44 px touch targets. Villages without shop locations use a pin icon. Without a search or category, every
+  other published village shows as a smaller muted pin that opens its profile. The map has three levels:
+  zoomed out, nearby villages merge into a count bubble ("19 desa"); tapping it zooms until the villages
+  split. A village with businesses opens the village sheet and its store pins (full name, business count, a
+  "Rute ke desa" link to Google Maps at the village centre, slider arrows level with the name); a village
+  without businesses opens its profile. A store pin, or a business card in the village sheet, opens the store
+  sheet: its products, "Rute ke toko" to that storefront point and "Lihat toko"; closing it goes back to the
+  village. Storefront points come only from the public set, never from dashboard addresses. The map fills the available viewport
   below a compact toolbar. On mobile, its own controls replace the global header and bottom navigation. A labelled
   list link above the provider credit returns to the results with the same search and filters. Village results
   open in a bottom sheet with a drag handle. Swiping down, tapping outside, or pressing Escape dismisses the
@@ -191,6 +197,10 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   trust steps play once as a sequence: each step lights up, then its connector fills to the next. Scroll motion uses GSAP + ScrollTrigger on this page only. Content is readable
   without JavaScript, and reduced motion keeps everything still. Avoid repeated icon-in-circle cards and
   side-stripe quotes.
+- **Fields**: the search bar and public form fields use HeroUI `secondary` fields restyled in apps/web
+  globals.css: white fill, a 1px outline between `line` and `line-strong` drawn as an inset shadow (no layout shift), `line-strong` on
+  hover and a 1px accent green outline while typing. Typed text stays 16 px (smaller makes iOS zoom in); placeholders are 14 px. The search bar is a pill; form
+  fields use `rounded-(--radius-compact)`, like the option tiles beside them.
 - **Search form** uses a HeroUI `ComboBox` with a pill-shaped `InputGroup`. After two characters, a compact
   list under the field links to matching products and businesses. A free-text search submits a GET request
   with the current filters. HeroUI draws one focus ring around the group.
@@ -201,15 +211,32 @@ smooth`), off with reduced motion. Anchored sections leave room for the floating
   green prices and keeps seller information on the detail page. Out-of-stock uses a
   dark pill on the photo. The entire card opens the detail page.
 - **Village card / village page**: village links on the catalogue home show the crest, name, area, and business count.
-  Village pages show a cover photo or a gradient in the village colour, a white-framed crest, village display font and
+  Village pages show a cover photo or a gradient in the village colour, a white-framed crest, Montserrat headings and
   the verification badge. Official crests are shown untouched.
   A thin circular border frames the crest. A labelled regency emblem may fill the slot until a village logo is available.
-- **Product detail** on phones uses a compact title bar above the gallery. The name and price lead into two linked
-  rows for the village and seller.
+- **Product detail** on phones uses a compact title bar above the gallery. Category, name, the rating link
+  ("4,2 · 5 ulasan", jumps to the reviews) and price lead into two linked rows for the village and seller, then the
+  order panel. Below the fold: a "Detail produk" card (fact table, then the description in paragraphs, clamped
+  with "Baca selengkapnya" on phones) and the buyer reviews. On desktop the gallery stays in view while the right
+  column scrolls. Product pages keep the platform radius even inside a village theme (only the accent follows the
+  village), so cards match the catalogue.
+- **Buyer reviews** (PLAN-product-reviews): a summary card (large average, five stars, 5-to-1 amber bars) beside the
+  list on desktop, above it on phones. Each review shows an initial avatar on a soft tint, name, stars, relative
+  date and text; the business reply sits in a cream `--radius-compact` block underneath. Five reviews load first,
+  "Lihat ulasan lainnya" appends more. "Tulis ulasan" opens a HeroUI Modal (bottom sheet on phones) with a
+  44 px star picker, name and story with a counter, and a note that reviews appear after a village assistant
+  checks them. Without reviews the section is an invitation to write the first one. Cards show the star, average
+  and count only when a product has approved reviews.
 - **Product gallery** supports swipe, arrow buttons, and keyboard navigation. Tapping a photo opens it uncropped in a
   dark full-screen viewer. When there are multiple photos, the viewer shows the current position and a thumbnail strip.
-- **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. The quantity stepper
-  and note sit in an expandable section. The total updates when the quantity exceeds one.
+- **Order panel (product page)** puts the WhatsApp-green button after the origin and seller. It opens one short
+  step ("Buat pesanan", HeroUI Modal, bottom sheet on phones) before WhatsApp, in sections divided by
+  hairlines: "Produk dipesan" (this product with a pill stepper, plus "Tambah produk lain dari toko ini" as a
+  swipeable rail of small cards with 28 px round + buttons (44 px touch area), arrow buttons from `sm`), "Data pembeli" (white outlined fields like the search bar, name, "Cara pengambilan" as three icon tiles:
+  Ambil sendiri / Diantar penjual / Ekspedisi, "Kecamatan/kota tujuan" only when it is delivered, optional
+  note), then "Lihat isi pesan" and a privacy note in an accent-soft callout (shield icon aligned to the first line). The footer pairs "Total belanja" with "Lanjut ke
+  WhatsApp", which validates and opens WhatsApp with a friendly message (greeting, "2 x item", "Rp17.000 per
+  item", total, name, pickup or delivery). Name, method and district are remembered on the device only.
 - **Open-status badge**: dot + label (Buka / Tutup / Tutup sementara) with detail text where there is room; never shown
   without a schedule.
 - **Verified badge**: accent-soft pill with a check icon.

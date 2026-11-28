@@ -13,6 +13,7 @@ erDiagram
   categories ||--o{ products : groups
   products ||--o{ product_images : has
   products ||--o{ product_translations : has
+  products ||--o{ product_reviews : reviewed_in
   users ||--o{ village_members : is
   users ||--o{ business_members : is
 ```
@@ -48,6 +49,13 @@ erDiagram
   open/closed status, computed with `computeOpenStatus()` in the village time zone (`villages.timezone`,
   default `Asia/Jakarta`). No schedule = no status shown.
   [village-theming.md](village-theming.md). Always read with `parseVillageTheme()`.
+- `product_reviews` (PLAN-product-reviews): buyer reviews with `reviewer_name`, `rating` (1 to 5, check
+  constraint), `body`, `locale` and `status` (`review_status` = pending | approved | rejected). `village_id` and
+  `business_id` are denormalised from the product for moderation queues. A rejection stores
+  `rejection_reason` (`review_rejection_reason` = spam | abusive | personal_data | off_topic); `moderated_by/at`
+  and `reply`, `replied_by/at` record who decided and the business's one public reply. No contact details or IP
+  addresses are kept; public rate limits count hashed keys in `rate_limits`. Only approved, not deleted reviews
+  are public, and only they count towards `ratingAverage` / `ratingCount` on catalogue products.
 - Translations: Indonesian is the base column; optional rows in `*_translations` (`locale = 'en'`) override it.
   Read with a fallback to the base column.
 

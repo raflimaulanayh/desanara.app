@@ -53,7 +53,10 @@ export function pinFanOffsets(count: number) {
   return offsets
 }
 
-export function groupMapBusinesses(products: ProductSummary[], points: VillagePoint[]) {
+export function groupMapBusinesses<P extends VillagePoint>(
+  products: ProductSummary[],
+  points: P[],
+) {
   const byVillage = new Map<string, Map<string, ProductSummary>>()
   for (const product of products) {
     const businesses = byVillage.get(product.village.slug) ?? new Map<string, ProductSummary>()
@@ -70,17 +73,18 @@ export function groupMapBusinesses(products: ProductSummary[], points: VillagePo
 
 export function mapBusinessPins(
   products: ProductSummary[],
-  locations?: ReadonlyMap<string, MapCoordinates>,
+  locations: ReadonlyMap<string, MapCoordinates> | undefined,
+  href: (product: ProductSummary) => string,
 ) {
-  return products.flatMap(({ slug, business }) => {
-    const point = locations?.get(business.slug)
+  return products.flatMap((product) => {
+    const point = locations?.get(product.business.slug)
     return point
       ? [
           {
             ...point,
-            slug: `business:${business.slug}`,
-            name: business.name,
-            href: `/produk/${slug}`,
+            slug: `business:${product.business.slug}`,
+            name: product.business.name,
+            href: href(product),
           },
         ]
       : []

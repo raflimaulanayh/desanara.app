@@ -15,6 +15,7 @@ export type ErrorCode =
   | 'FORBIDDEN'
   | 'NOT_FOUND'
   | 'CONFLICT'
+  | 'RATE_LIMITED'
   | 'SERVICE_UNAVAILABLE'
   | 'INTERNAL'
 
@@ -38,6 +39,10 @@ export class AppError extends Error {
   /** 409. `reason` is a stable machine code the dashboard can translate (in `details.reason`). */
   static conflict(message: string, reason: string) {
     return new AppError(409, 'CONFLICT', message, { reason })
+  }
+  /** 429 when a public endpoint is called too often from one address. */
+  static rateLimited() {
+    return new AppError(429, 'RATE_LIMITED', 'Too many requests, try again later')
   }
   /** 422 for a rule checked by the service, in the same `details` shape as request validation. */
   static invalid(field: string, message: string) {

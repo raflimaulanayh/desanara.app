@@ -8,7 +8,8 @@ export const productDetailLayout = {
 
 export const villageCover = 'relative h-[clamp(10rem,30vw,20rem)] overflow-hidden'
 export const villageCrestPosition = '-mt-10 sm:-mt-12'
-export const villageBusinessGrid = 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3'
+export const villageBusinessGrid =
+  '-mx-1 grid auto-cols-[78%] grid-flow-col snap-x snap-mandatory scroll-px-1 gap-3 overflow-x-auto px-1 py-1 sm:mx-0 sm:grid-flow-row sm:auto-cols-auto sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-3'
 export const businessPageContainer = 'pt-5 pb-8'
 export const businessPageHeader =
   'mt-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'

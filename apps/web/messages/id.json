@@ -105,7 +105,6 @@
     "latestTitle": "Produk desa terbaru",
     "seeAll": "Lihat semua",
     "villagesEmpty": "Belum ada desa mitra.",
-    "villagesPageEmpty": "Tidak ada desa di halaman ini.",
     "seeAllVillages": "Lihat semua desa",
     "latestEmpty": "Belum ada produk.",
     "bannerTitle": "Ragam Karya, <line>Cerita Nusantara.</line>",
@@ -269,10 +268,27 @@
       "retry": "Coba lagi",
       "selected": "UMKM di {village}",
       "listVillage": "Lihat produk desa",
-      "removeVillage": "Hapus filter {village}"
+      "removeVillage": "Hapus filter {village}",
+      "directionsLabel": "Petunjuk arah ke {village} di Google Maps (membuka tab baru)",
+      "otherVillagePin": "{name} belum punya produk yang cocok. Buka profil desa",
+      "directionsVillage": "Rute ke desa",
+      "directionsStore": "Rute ke toko",
+      "directionsStoreLabel": "Petunjuk arah ke {name} di Google Maps (membuka tab baru)",
+      "openStore": "Lihat toko",
+      "openStoreCard": "Tampilkan {name} di peta",
+      "storeSelected": "{name} di {village}",
+      "productCount": "{count, plural, other {# produk}}"
     }
   },
   "village": {
+    "directorySearch": "Cari desa",
+    "directoryEmpty": "Tidak ada desa yang cocok",
+    "directoryEmptyBody": "Coba nama desa yang lain atau pilih wilayah lain.",
+    "directoryShowing": "Menampilkan {shown} dari {total} desa",
+    "directoryMore": "Muat lebih banyak",
+    "directoryMapCount": "{count} desa di peta",
+    "directoryMapPartial": "{count} dari {total} desa di peta",
+    "directoryOpenVillage": "Buka profil {name}",
     "regencyCrest": "Lambang {regency}",
     "products": "Produk dari {village}",
     "productsEmpty": "Belum ada produk.",
@@ -287,6 +303,7 @@
     "noBusinesses": "Belum ada UMKM terverifikasi di desa ini."
   },
   "business": {
+    "openMap": "Buka lokasi di Google Maps (tab baru)",
     "productsEmpty": "UMKM ini belum punya produk yang tayang.",
     "owner": "Pemilik: {name}",
     "hoursTitle": "Jam buka",
@@ -301,6 +318,7 @@
   },
   "product": {
     "detailTitle": "Detail produk",
+    "ratingLabel": "Rating {rating} dari 5, {count} ulasan",
     "backToProducts": "Kembali ke katalog produk",
     "backToHome": "Kembali ke beranda",
     "breadcrumb": "Navigasi halaman",
@@ -320,22 +338,61 @@
     "closeGallery": "Tutup galeri",
     "photoOf": "Foto {n} dari {total}",
     "prevPhoto": "Foto sebelumnya",
-    "nextPhoto": "Foto berikutnya"
+    "nextPhoto": "Foto berikutnya",
+    "reviewsLink": "{count, plural, other {# ulasan}}",
+    "details": "Detail produk",
+    "readMore": "Baca selengkapnya",
+    "readLess": "Tutup",
+    "facts": {
+      "category": "Kategori",
+      "village": "Asal desa",
+      "seller": "Dijual oleh",
+      "stock": "Ketersediaan",
+      "inStock": "Tersedia",
+      "outOfStock": "Sedang habis"
+    }
   },
   "order": {
-    "options": "Jumlah dan catatan pesanan",
-    "previewTitle": "Pratinjau pesan WhatsApp",
-    "quantity": "Jumlah",
+    "previewTitle": "Lihat isi pesan",
     "decrease": "Kurangi",
     "increase": "Tambah",
     "note": "Catatan untuk penjual",
-    "noteHint": "Contoh: pedas, dikirim hari Sabtu",
-    "total": "Total",
+    "noteHint": "Contoh: level pedas, kirim hari Sabtu",
+    "total": "Total belanja",
     "send": "Pesan via WhatsApp",
-    "sendHint": "Pesanan ini otomatis terisi di WhatsApp. Tanya harga akhir dan ongkir langsung ke penjual.",
+    "sendHint": "Isi jumlah dan data pembeli, lalu lanjutkan chat dengan penjual di WhatsApp.",
     "unavailable": "Produk ini sedang kosong.",
     "noWhatsApp": "Penjual belum mencantumkan nomor WhatsApp.",
-    "unavailableButton": "Stok kosong"
+    "unavailableButton": "Stok kosong",
+    "title": "Buat pesanan",
+    "items": "Produk dipesan",
+    "quantityOf": "Jumlah {name}",
+    "addMore": "Tambah produk lain dari toko ini",
+    "add": "Tambah",
+    "addItem": "Tambah {name}",
+    "buyer": "Data pembeli",
+    "name": "Nama",
+    "delivery": "Cara pengambilan",
+    "methods": {
+      "pickup": "Ambil sendiri",
+      "delivery": "Diantar penjual",
+      "courier": "Ekspedisi"
+    },
+    "area": "Kecamatan/kota tujuan",
+    "areaHint": "Contoh: Arjasari, Kab. Bandung",
+    "areaNote": "Untuk perkiraan ongkir. Alamat lengkap bisa dikirim lewat chat.",
+    "errorName": "Nama wajib diisi.",
+    "errorDelivery": "Pilih cara pengambilan.",
+    "errorArea": "Kecamatan/kota tujuan wajib diisi.",
+    "privacy": "Data ini hanya dikirim ke penjual lewat WhatsApp. Desanara tidak menyimpannya.",
+    "sent": "WhatsApp sudah terbuka. Tinggal kirim pesannya ke penjual.",
+    "sendNow": "Lanjut ke WhatsApp",
+    "previewSend": "Lihat pesan",
+    "close": "Tutup",
+    "namePlaceholder": "Nama untuk pesanan",
+    "optional": "(opsional)",
+    "previousProducts": "Produk sebelumnya",
+    "nextProducts": "Produk berikutnya"
   },
   "about": {
     "title": "Tentang Desanara",
@@ -833,6 +890,45 @@
           ]
         }
       ]
+    }
+  },
+  "reviews": {
+    "title": "Ulasan pembeli",
+    "subtitle": "Dari pembeli yang memesan lewat WhatsApp. Setiap ulasan diperiksa pendamping desa sebelum tampil.",
+    "outOf": "dari 5",
+    "basedOn": "{count, plural, other {# ulasan}}",
+    "starRow": "{star} bintang: {count} ulasan",
+    "starsLabel": "{rating} dari 5 bintang",
+    "emptyTitle": "Belum ada ulasan",
+    "emptyBody": "Sudah pernah membeli produk ini? Jadi yang pertama berbagi pengalamanmu.",
+    "write": "Tulis ulasan",
+    "more": "Lihat ulasan lainnya",
+    "loading": "Memuat ulasan...",
+    "loadFailed": "Ulasan lainnya belum bisa dimuat. Coba lagi.",
+    "unavailable": "Ulasan belum bisa dimuat saat ini.",
+    "sellerReply": "Balasan {business}",
+    "form": {
+      "title": "Tulis ulasan",
+      "intro": "Untuk {product}",
+      "rating": "Nilai produk ini",
+      "ratingNames": ["Sangat kurang", "Kurang", "Cukup", "Bagus", "Sangat bagus"],
+      "name": "Nama",
+      "nameHint": "Tampil di ulasan. Boleh nama panggilan.",
+      "body": "Ceritakan pengalamanmu",
+      "bodyHint": "Rasa, kemasan, ukuran, atau pelayanan penjual.",
+      "counter": "{count}/{max}",
+      "privacy": "Jangan tulis nomor HP atau alamat. Ulasan tampil setelah diperiksa pendamping desa.",
+      "submit": "Kirim ulasan",
+      "sending": "Mengirim...",
+      "cancel": "Batal",
+      "successTitle": "Terima kasih!",
+      "successBody": "Ulasanmu sudah kami terima dan akan tampil setelah diperiksa pendamping desa.",
+      "close": "Tutup",
+      "errorRating": "Pilih jumlah bintang dulu.",
+      "errorName": "Isi nama minimal 2 huruf.",
+      "errorBody": "Ceritakan sedikit lebih banyak, minimal 10 huruf.",
+      "errorTooMany": "Kamu sudah mengirim ulasan untuk produk ini. Coba lagi besok.",
+      "errorGeneric": "Ulasan belum terkirim. Periksa koneksi lalu coba lagi."
     }
   }
 }

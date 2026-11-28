@@ -23,8 +23,8 @@ export const HIMASIF_SOCIALS = [
 ] as const
 
 /** Highlights the section containing the current public page. */
-export function publicNavSection(pathname: string, hash = '') {
-  if (pathname === '/') return hash === `#${VILLAGES_HASH}` ? 'villages' : 'home'
+export function publicNavSection(pathname: string) {
+  if (pathname === '/') return 'home'
   if (pathname === '/jelajah' || pathname.startsWith('/produk/')) return 'products'
   if (pathname === VILLAGES_PATH || pathname.startsWith(`${VILLAGES_PATH}/`)) return 'villages'
   if (pathname === SETTINGS_PATH) return 'settings'

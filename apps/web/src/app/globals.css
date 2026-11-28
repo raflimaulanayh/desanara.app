@@ -12,6 +12,43 @@
   --mobile-nav-space: calc(3.5rem + var(--mobile-nav-bottom-padding));
   --catalogue-background: color-mix(in oklab, var(--wash) 16%, var(--surface));
   --catalogue-accent: var(--accent);
+  /* Fields (search, forms): white with a visible warm outline, green while typing. */
+  --field-fill: var(--surface);
+  /* Halfway between the two hairline tokens: visible on white without looking heavy. */
+  --field-outline: color-mix(in oklab, var(--line) 55%, var(--line-strong));
+  --field-outline-hover: var(--line-strong);
+}
+
+/*
+ * HeroUI `secondary` fields share one look, so the search bar and the order and review forms match: a white
+ * fill and a 1px outline drawn as an inset shadow (no layout shift), a shade darker on hover, accent green on focus.
+ */
+.input--secondary,
+.input-group--secondary,
+.textarea--secondary {
+  --input-bg: var(--field-fill);
+  --input-bg-hover: var(--field-fill);
+  --input-bg-focus: var(--field-fill);
+  --input-group-bg: var(--field-fill);
+  --input-group-bg-hover: var(--field-fill);
+  --input-group-bg-focus: var(--field-fill);
+  --textarea-bg: var(--field-fill);
+  --textarea-bg-hover: var(--field-fill);
+  --textarea-bg-focus: var(--field-fill);
+  box-shadow: inset 0 0 0 1px var(--field-outline);
+  transition: box-shadow 150ms ease;
+}
+.input--secondary:hover:not(:focus),
+.input-group--secondary:hover:not(:focus-within),
+.textarea--secondary:hover:not(:focus) {
+  box-shadow: inset 0 0 0 1px var(--field-outline-hover);
+}
+.input--secondary:focus,
+.input--secondary[data-focused='true'],
+.input-group--secondary:focus-within,
+.textarea--secondary:focus,
+.textarea--secondary[data-focused='true'] {
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 
 @media (width < 64rem) {
@@ -126,7 +163,7 @@ body:has(:is(.catalogue-home, .catalogue-explore, .product-detail)) {
   }
 }
 
-.site-header:has(+ main .catalogue-explore) .site-search {
+.site-header:has(+ main :is(.catalogue-explore, .village-directory)) .site-search {
   display: none;
 }
 
@@ -286,16 +323,11 @@ main:has(.catalogue-home) + footer {
   }
 }
 
-:is(.catalogue-home, .catalogue-explore) .product-card-price,
 .product-detail-price {
   color: var(--accent);
 }
 
 @media (width < 40rem) {
-  .catalogue-home .product-card-photo {
-    aspect-ratio: 4 / 3;
-  }
-
   .catalogue-latest li:nth-child(n + 3) {
     display: none;
   }

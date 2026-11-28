@@ -5,7 +5,7 @@ import { cn } from '@repo/ui/cn'
 import { useOnline } from '@repo/ui/components/offline-notice'
 import { ArrowUpRight, Search, Store } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
-import { useContext, useEffect, useState, type ComponentProps } from 'react'
+import { useContext, useEffect, useState, type ComponentProps, type ReactNode } from 'react'
 import { ButtonContext } from 'react-aria-components/Button'
 import { ComboBoxStateContext } from 'react-aria-components/ComboBox'
 import type { SearchSuggestion } from '@/app/api/search-suggestions/route'
@@ -15,13 +15,54 @@ function canSuggest(query: string) {
   return query.trim().length >= 2 && /[\p{L}\p{N}]/u.test(query)
 }
 
+export function SearchInputGroup({ children }: { children: ReactNode }) {
+  const t = useTranslations('home')
+
+  return (
+    <InputGroup fullWidth variant="secondary" className="h-10 rounded-full">
+      <InputGroup.Prefix className="text-muted border-0 pr-2">
+        <Search className="size-4 shrink-0" aria-hidden />
+      </InputGroup.Prefix>
+      {children}
+      <InputGroup.Suffix className="border-0 px-1">
+        {/* A submit button inside a combobox must stay separate from its trigger. */}
+        <ButtonContext.Provider value={null}>
+          <Button
+            type="submit"
+            variant="ghost"
+            size="sm"
+            className="text-accent h-8 min-h-0 rounded-full px-3 font-bold"
+          >
+            {t('searchSubmit')}
+          </Button>
+        </ButtonContext.Provider>
+      </InputGroup.Suffix>
+    </InputGroup>
+  )
+}
+
+export function SearchInput({ placeholder, ...props }: ComponentProps<typeof InputGroup.Input>) {
+  return (
+    <InputGroup.Input
+      type="search"
+      aria-label={placeholder}
+      placeholder={placeholder}
+      enterKeyHint="search"
+      autoComplete="off"
+      maxLength={100}
+      className="min-w-0 py-1 text-base placeholder:text-sm sm:text-sm"
+      {...props}
+    />
+  )
+}
+
 function SuggestionInput({
   onQueryChange,
   ...props
 }: ComponentProps<typeof InputGroup.Input> & { onQueryChange: (query: string) => void }) {
   const comboBox = useContext(ComboBoxStateContext)
   return (
-    <InputGroup.Input
+    <SearchInput
       {...props}
       onChange={(event) => {
         onQueryChange(event.target.value)
@@ -128,34 +169,9 @@ export function SearchForm({
         items={items}
         onInputChange={setInput}
       >
-        <InputGroup fullWidth variant="secondary" className="h-10 rounded-full">
-          <InputGroup.Prefix className="text-muted border-0 pr-2">
-            <Search className="size-4 shrink-0" aria-hidden />
-          </InputGroup.Prefix>
-          <SuggestionInput
-            type="search"
-            onQueryChange={setInput}
-            aria-label={placeholder}
-            placeholder={placeholder}
-            enterKeyHint="search"
-            autoComplete="off"
-            maxLength={100}
-            className="min-w-0 py-1 text-base placeholder:text-sm sm:text-sm"
-          />
-          <InputGroup.Suffix className="border-0 px-1">
-            {/* The search submit button sits in the group without becoming the combobox trigger. */}
-            <ButtonContext.Provider value={null}>
-              <Button
-                type="submit"
-                variant="ghost"
-                size="sm"
-                className="text-accent h-8 min-h-0 rounded-full px-3 font-bold"
-              >
-                {t('searchSubmit')}
-              </Button>
-            </ButtonContext.Provider>
-          </InputGroup.Suffix>
-        </InputGroup>
+        <SearchInputGroup>
+          <SuggestionInput onQueryChange={setInput} placeholder={placeholder} />
+        </SearchInputGroup>
         <ComboBox.Popover
           placement="bottom start"
           className="border-line bg-surface w-(--trigger-width) min-w-0 rounded-(--radius) border p-1 shadow-lg"

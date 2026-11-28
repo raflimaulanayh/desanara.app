@@ -1,6 +1,6 @@
 import { Container } from '@repo/ui/components/container'
 import { cn } from '@repo/ui/cn'
-import { MapPin } from 'lucide-react'
+import { ChevronRight, MapPin } from 'lucide-react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
@@ -67,6 +67,9 @@ async function VillageContent({ slug }: { slug: string }) {
   const crest = villageCrest(village, preview)
   const banner = mediaUrl(village.bannerKey, preview)
   const productTotal = businesses?.reduce((n, b) => n + b.productCount, 0) ?? 0
+  const allBusinessesVerified = Boolean(
+    businesses?.length && businesses.every(({ verifiedAt }) => verifiedAt),
+  )
 
   return (
     <VillageTheme theme={village.theme}>
@@ -96,7 +99,7 @@ async function VillageContent({ slug }: { slug: string }) {
               size={88}
             />
           </div>
-          <h1 className="page-title font-village mt-3">{village.name}</h1>
+          <h1 className="page-title mt-3">{village.name}</h1>
           <div className="text-muted mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
             {village.regionName ? (
               <span className="inline-flex items-center gap-1">
@@ -108,7 +111,7 @@ async function VillageContent({ slug }: { slug: string }) {
               <span>{t('stats', { businesses: businesses.length, products: productTotal })}</span>
             ) : null}
           </div>
-          {preview || Boolean(businesses?.length) ? (
+          {preview || allBusinessesVerified ? (
             <div className="mt-4 flex flex-wrap items-center gap-3">
               {preview ? null : <VerifiedBadge />}
               <span className="text-muted text-sm">
@@ -124,9 +127,7 @@ async function VillageContent({ slug }: { slug: string }) {
 
       <section className="pt-12">
         <Container>
-          <h2 className="section-title font-village">
-            {t('businessesTitle', { village: village.name })}
-          </h2>
+          <h2 className="section-title">{t('businessesTitle', { village: village.name })}</h2>
           <div className="mt-5">
             {!businesses ? (
               <CatalogueUnavailable />
@@ -140,26 +141,31 @@ async function VillageContent({ slug }: { slug: string }) {
             ) : (
               <ul className={villageBusinessGrid}>
                 {businesses.map((b) => (
-                  <li key={b.id}>
+                  <li key={b.id} className="min-w-0 snap-start">
                     <Link
                       href={`/desa/${village.slug}/${b.slug}`}
-                      className="border-line bg-surface flex h-full flex-col gap-2 rounded-(--radius) border p-4 transition-shadow hover:shadow-md"
+                      className="border-line bg-surface hover:border-accent hover:bg-wash/50 focus-visible:outline-accent flex h-full items-center gap-3 rounded-[0.75rem] border p-3 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2"
                     >
-                      <p className="text-base leading-snug font-bold wrap-anywhere">{b.name}</p>
-                      <p className="text-muted text-sm">
-                        {[b.ownerName, t('productCount', { count: b.productCount })]
-                          .filter(Boolean)
-                          .join(' · ')}
-                      </p>
-                      <OpenStatusBadge
-                        className="mt-auto pt-1"
-                        showDetail={false}
-                        initial={initialStatus(b, village.timezone)}
-                        hours={b.openingHours}
-                        closedUntil={b.closedUntil}
-                        closedNote={b.closedNote}
-                        timeZone={village.timezone}
-                      />
+                      <div className="min-w-0 flex-1">
+                        <p className="line-clamp-2 text-sm leading-snug font-bold wrap-anywhere">
+                          {b.name}
+                        </p>
+                        <p className="text-muted mt-1 truncate text-xs">
+                          {[b.ownerName, t('productCount', { count: b.productCount })]
+                            .filter(Boolean)
+                            .join(' · ')}
+                        </p>
+                        <OpenStatusBadge
+                          className="mt-2"
+                          showDetail={false}
+                          initial={initialStatus(b, village.timezone)}
+                          hours={b.openingHours}
+                          closedUntil={b.closedUntil}
+                          closedNote={b.closedNote}
+                          timeZone={village.timezone}
+                        />
+                      </div>
+                      <ChevronRight className="text-muted size-4 shrink-0" aria-hidden />
                     </Link>
                   </li>
                 ))}
@@ -171,7 +177,7 @@ async function VillageContent({ slug }: { slug: string }) {
 
       <section className="pt-12">
         <Container>
-          <h2 className="section-title font-village">{t('products', { village: village.name })}</h2>
+          <h2 className="section-title">{t('products', { village: village.name })}</h2>
           <div className="mt-5">
             {!products ? (
               <CatalogueUnavailable />

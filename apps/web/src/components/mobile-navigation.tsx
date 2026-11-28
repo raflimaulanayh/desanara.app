@@ -3,40 +3,20 @@
 import { cn } from '@repo/ui/cn'
 import { Home, LayoutGrid, MapPin, Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useSyncExternalStore } from 'react'
 import { Link, usePathname } from '@/i18n/navigation'
-import { publicNavSection, SETTINGS_PATH, VILLAGES_HASH } from '@/lib/paths'
+import { publicNavSection, SETTINGS_PATH, VILLAGES_PATH } from '@/lib/paths'
 
 const tabs = [
   { section: 'home', href: '/', label: 'homeLink', Icon: Home },
   { section: 'products', href: '/jelajah', label: 'products', Icon: LayoutGrid },
-  {
-    section: 'villages',
-    href: { pathname: '/', hash: VILLAGES_HASH },
-    label: 'villages',
-    Icon: MapPin,
-  },
+  { section: 'villages', href: VILLAGES_PATH, label: 'villages', Icon: MapPin },
   { section: 'settings', href: SETTINGS_PATH, label: 'settings', Icon: Settings },
 ] as const
-
-function subscribeToHash(onChange: () => void) {
-  window.addEventListener('hashchange', onChange)
-  window.addEventListener('popstate', onChange)
-  return () => {
-    window.removeEventListener('hashchange', onChange)
-    window.removeEventListener('popstate', onChange)
-  }
-}
 
 export function MobileNavigation() {
   const t = useTranslations('nav')
   const pathname = usePathname()
-  const hash = useSyncExternalStore(
-    subscribeToHash,
-    () => window.location.hash,
-    () => '',
-  )
-  const currentSection = publicNavSection(pathname, hash)
+  const currentSection = publicNavSection(pathname)
 
   return (
     <nav
@@ -74,12 +54,10 @@ export function MobileNavigation() {
               <span className="whitespace-nowrap max-[360px]:text-[0.6875rem]">{t(label)}</span>
             </>
           )
-          // Native same-page anchors publish hashchange and keep the URL and active tab together.
-          const anchor = section === 'villages' ? `#${VILLAGES_HASH}` : '#'
           return (
             <li key={section} className="min-w-0">
-              {pathname === '/' && (section === 'home' || section === 'villages') ? (
-                <a href={anchor} {...linkProps}>
+              {pathname === '/' && section === 'home' ? (
+                <a href="#" {...linkProps}>
                   {content}
                 </a>
               ) : (

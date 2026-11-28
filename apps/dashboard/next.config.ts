@@ -16,6 +16,11 @@ const images: NextConfig['images'] = mediaBase
   : undefined
 
 const nextConfig: NextConfig = {
+  // A second local server (another branch or database) keeps its Next.js artifacts separate.
+  distDir:
+    process.env.NODE_ENV === 'development'
+      ? process.env.DESANARA_DASHBOARD_DEV_DIST_DIR || undefined
+      : undefined,
   images,
   transpilePackages: [
     '@repo/ui',

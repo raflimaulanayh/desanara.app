@@ -65,9 +65,10 @@ Urutan dari atas, di HP:
    gambar sesuai bahasa halaman. Satu kampanye tampil sebagai banner tunggal. Saat slot kosong, ilustrasi sawah mengajak
    pengunjung membuka direktori lewat "Jelajahi desa". Produksi dibuka dengan sorotan Desanara tentang kerajinan,
    kopi, dan direktori desa. Di development dan pratinjau katalog, sorotan produk dapat membuka halaman produknya.
-5. **Desa**: maksimal enam kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
-   menampilkan 12 desa per halaman. Preview katalog memakai 27 desa contoh, termasuk Desa Baros, agar tiga
-   halaman direktori bisa ditinjau.
+5. **Desa**: maksimal lima kartu dan aksi **Lihat semua desa**. Direktori `/desa` (EN `/en/desa`)
+   menyediakan pencarian nama desa dan filter kabupaten atau kota. Tombol **Muat lebih banyak**
+   menambahkan hingga 12 desa ke daftar yang sedang dilihat. Mode **Peta** menampilkan semua hasil
+   yang punya koordinat pusat desa. Kartu dan penanda membuka profil desa dan daftar UMKM-nya.
 6. **Ajakan penjual**: satu kartu kecil "Punya usaha di desa? Daftarkan UMKM" ke `/gabung`, seperti link "Mulai
    Berjualan" di marketplace. Tidak di atas, agar pembeli langsung melihat produk.
 

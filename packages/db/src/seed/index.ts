@@ -7,7 +7,7 @@
  * Docs: docs/guides/seed-data.md
  */
 import { hashPassword } from 'better-auth/crypto'
-import { eq } from 'drizzle-orm'
+import { and, eq, inArray } from 'drizzle-orm'
 import { createDb, type Database } from '../index'
 import {
   accounts,
@@ -16,6 +16,7 @@ import {
   businesses,
   categories,
   categoryTranslations,
+  productReviews,
   products,
   productImages,
   productTranslations,
@@ -30,6 +31,7 @@ import {
   demoVillages,
   productPhotos,
 } from './demo-data'
+import { demoProductContent } from './demo-content'
 import { importRegions } from '../regions/import'
 import { categorySeed } from './reference-data'
 
@@ -80,10 +82,30 @@ function rng(seed: number) {
 
 async function resetDemoData(tx: Database) {
   await tx.delete(analyticsEvents).where(eq(analyticsEvents.isSeed, true))
+  await tx.delete(productReviews).where(eq(productReviews.isSeed, true))
   await tx.delete(products).where(eq(products.isSeed, true))
   await tx.delete(businesses).where(eq(businesses.isSeed, true))
   await tx.delete(villages).where(eq(villages.isSeed, true))
-  await tx.delete(users).where(eq(users.isSeed, true))
+
+  const seedUsers = await tx.select({ id: users.id }).from(users).where(eq(users.isSeed, true))
+  const seedUserIds = seedUsers.map(({ id }) => id)
+  if (!seedUserIds.length) return
+  // Memberships of demo accounts are recreated below, also in real villages such as Baros.
+  await tx.delete(villageMembers).where(inArray(villageMembers.userId, seedUserIds))
+  await tx.delete(businessMembers).where(inArray(businessMembers.userId, seedUserIds))
+  // A demo account may have done real work (sent an invitation, verified a business, left an audit
+  // row). Those rows must survive, so such an account is kept and reused by createDemoUser.
+  let kept = 0
+  for (const id of seedUserIds) {
+    try {
+      await tx.transaction(async (savepoint) => {
+        await savepoint.delete(users).where(eq(users.id, id))
+      })
+    } catch {
+      kept++
+    }
+  }
+  if (kept) console.log(`Kept ${kept} demo account(s) that real rows still reference.`)
 }
 
 async function upsertReferenceData(tx: Database) {
@@ -117,8 +139,23 @@ async function createDemoUser(
   name: string,
   globalRole: 'super_admin' | null = null,
 ) {
-  const id = crypto.randomUUID()
-  await tx.insert(users).values({ id, name, email, emailVerified: true, globalRole, isSeed: true })
+  const [existing] = await tx.select({ id: users.id }).from(users).where(eq(users.email, email))
+  if (existing) {
+    // Kept by resetDemoData because real rows reference it: refresh it instead of inserting.
+    await tx
+      .update(users)
+      .set({ name, globalRole, emailVerified: true, isSeed: true })
+      .where(eq(users.id, existing.id))
+    await tx
+      .delete(accounts)
+      .where(and(eq(accounts.userId, existing.id), eq(accounts.providerId, 'credential')))
+  }
+  const id = existing?.id ?? crypto.randomUUID()
+  if (!existing) {
+    await tx
+      .insert(users)
+      .values({ id, name, email, emailVerified: true, globalRole, isSeed: true })
+  }
   // Better Auth email/password accounts: providerId "credential", accountId = user id.
   await tx.insert(accounts).values({
     id: crypto.randomUUID(),
@@ -239,15 +276,17 @@ async function insertDemoData(tx: Database) {
       }
 
       for (const pr of b.products) {
+        const slug = `${b.slug}-${pr.slug}`
+        const content = demoProductContent[slug]
         const [product] = await tx
           .insert(products)
           .values({
             businessId,
             villageId,
             categoryId: categoryIds[pr.category],
-            slug: `${b.slug}-${pr.slug}`,
+            slug,
             name: pr.name,
-            description: pr.description,
+            description: content?.description ?? pr.description,
             price: pr.price,
             compareAtPrice: demoCompareAtPrices[pr.slug] ?? null,
             status: b.verified ? 'published' : 'draft',
@@ -255,18 +294,53 @@ async function insertDemoData(tx: Database) {
             isSeed: true,
           })
           .returning({ id: products.id })
-        if (pr.en) {
-          await tx
-            .insert(productTranslations)
-            .values({ productId: product!.id, locale: 'en', name: pr.en })
-        }
-        const photo = productPhotos[pr.slug]
-        if (photo) {
-          await tx.insert(productImages).values({
-            productId: product!.id,
-            storageKey: `seed/products/${photo}.webp`,
-            alt: pr.name,
+        const productId = product!.id
+        if (pr.en || content) {
+          await tx.insert(productTranslations).values({
+            productId,
+            locale: 'en',
+            name: pr.en ?? pr.name,
+            description: content?.descriptionEn ?? null,
           })
+        }
+        const photos = productPhotos[pr.slug] ?? []
+        if (photos.length) {
+          await tx.insert(productImages).values(
+            photos.map((storageKey, sortOrder) => ({
+              productId,
+              storageKey,
+              alt: sortOrder === 0 ? pr.name : `${pr.name} (${sortOrder + 1})`,
+              sortOrder,
+            })),
+          )
+        }
+        // Buyer reviews (PLAN-product-reviews): approved by the village admin, a few left pending.
+        if (content?.reviews.length) {
+          await tx.insert(productReviews).values(
+            content.reviews.map((review) => {
+              const createdAt = new Date(Date.now() - review.daysAgo * 86_400_000)
+              const approved = review.status !== 'pending'
+              return {
+                productId,
+                businessId,
+                villageId,
+                reviewerName: review.name,
+                rating: review.rating,
+                body: review.body,
+                locale: review.locale,
+                status: approved ? ('approved' as const) : ('pending' as const),
+                moderatedBy: approved ? adminId : null,
+                moderatedAt: approved ? new Date(createdAt.getTime() + 6 * 3_600_000) : null,
+                reply: approved ? (review.reply ?? null) : null,
+                repliedBy: approved && review.reply ? (assistantId ?? adminId) : null,
+                repliedAt:
+                  approved && review.reply ? new Date(createdAt.getTime() + 26 * 3_600_000) : null,
+                isSeed: true,
+                createdAt,
+                updatedAt: createdAt,
+              }
+            }),
+          )
         }
         if (b.verified) productIdsForStats.push({ productId: product!.id, businessId, villageId })
       }

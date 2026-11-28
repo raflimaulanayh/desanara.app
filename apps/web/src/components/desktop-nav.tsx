@@ -31,21 +31,13 @@ export function DesktopNav({
   join: { href: Href; label: string }
 }) {
   const pathname = usePathname()
-  const [hash, setHash] = useState('')
   const listRef = useRef<HTMLUListElement>(null)
   const [pill, setPill] = useState<{ left: number; width: number } | null>(null)
-
-  useEffect(() => {
-    const read = () => setHash(window.location.hash)
-    read()
-    window.addEventListener('hashchange', read)
-    return () => window.removeEventListener('hashchange', read)
-  }, [pathname])
 
   const current =
     pathname === '/tentang' || pathname.startsWith('/tentang/')
       ? 'about'
-      : publicNavSection(pathname, hash)
+      : publicNavSection(pathname)
 
   useIsoLayoutEffect(() => {
     const list = listRef.current

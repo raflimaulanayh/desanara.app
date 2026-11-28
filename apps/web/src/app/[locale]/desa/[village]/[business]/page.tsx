@@ -19,7 +19,8 @@ import { VillageTheme } from '@/components/village/village-theme'
 import { WhatsAppIcon } from '@/components/whatsapp-icon'
 import { Link } from '@/i18n/navigation'
 import { isCataloguePreview } from '@/lib/catalogue-preview'
-import { getBusiness, readSection, searchProducts } from '@/lib/data'
+import { getBusiness, getRegion, getVillage, readSection, searchProducts } from '@/lib/data'
+import { getDemoBusinessLocations } from '@/lib/demo-business-locations'
 import { initialStatus } from '@/lib/status'
 import { pageAlternates } from '@/lib/site-url'
 
@@ -52,6 +53,20 @@ export default async function BusinessPage({ params }: { params: Params }) {
   ])
   if (!business) return <CatalogueUnavailable fullPage />
   if (business.village.slug !== villageSlug) notFound()
+  const village = preview ? null : await readSection(getVillage(villageSlug))
+  const region = village?.regionCode ? await readSection(getRegion(village.regionCode)) : null
+  const regionParts = region?.fullName.split(',').map((part) => part.trim()) ?? []
+  const location = [
+    business.village.name,
+    ...(regionParts.length
+      ? region?.level === 'village'
+        ? regionParts.slice(1)
+        : regionParts
+      : []),
+  ].join(', ')
+  const demoPoint = getDemoBusinessLocations(products?.data ?? []).get(business.slug)
+  const mapQuery = demoPoint ? `${demoPoint.lat},${demoPoint.lng}` : location
+  const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`
 
   const hours = (business.openingHours ?? {}) as Partial<
     Record<(typeof weekdays)[number], { open: string; close: string }[]>
@@ -92,20 +107,25 @@ export default async function BusinessPage({ params }: { params: Params }) {
 
         <header className={businessPageHeader}>
           <div className="min-w-0">
-            <h1 className="page-title font-village">{business.name}</h1>
+            <h1 className="page-title">{business.name}</h1>
             <div className="text-muted mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
               {business.ownerName ? (
                 <span className="inline-flex items-center gap-1">
                   <User className="size-4" aria-hidden />
-                  {t('owner', { name: business.ownerName })}
+                  {business.ownerName}
                 </span>
               ) : null}
-              {/* Location stops at the village, like marketplaces show only the seller's city: the
-                street/RT/RW is often the owner's home (UU PDP), so it never leaves the dashboard. */}
-              <span className="inline-flex items-center gap-1">
-                <MapPin className="size-4" aria-hidden />
-                {[business.village.name, business.village.regionName].filter(Boolean).join(', ')}
-              </span>
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-accent inline-flex items-start gap-1 underline-offset-2 hover:underline"
+              >
+                <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden />
+                <span>{location}</span>
+                <ExternalLink className="mt-0.5 size-3.5 shrink-0" aria-hidden />
+                <span className="sr-only">{t('openMap')}</span>
+              </a>
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
               {verifiedDate ? (
@@ -128,9 +148,9 @@ export default async function BusinessPage({ params }: { params: Params }) {
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-wa hover:bg-wa-hover inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full px-6 font-bold text-white transition-colors"
+              className="bg-wa hover:bg-wa-hover inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-full px-5 text-center text-sm font-bold text-white no-underline transition-colors"
             >
-              <WhatsAppIcon className="size-5" />
+              <WhatsAppIcon className="size-5 shrink-0" />
               {t('chat')}
             </a>
           ) : null}

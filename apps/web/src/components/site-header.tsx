@@ -1,7 +1,7 @@
 import { getLocale, getTranslations } from 'next-intl/server'
 import { Info, Store } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
-import { JOIN_HREF, localePath, SETTINGS_PATH, VILLAGES_HASH } from '@/lib/paths'
+import { JOIN_HREF, localePath, SETTINGS_PATH, VILLAGES_PATH } from '@/lib/paths'
 import { Logo } from './brand/logo'
 import { DesktopNav, type DesktopNavItem } from './desktop-nav'
 import { HeaderScroll } from './header-scroll'
@@ -22,7 +22,7 @@ export async function SiteHeader() {
   const menuItems: DesktopNavItem[] = [
     { section: 'home', href: '/', label: t('homeLink') },
     { section: 'products', href: '/jelajah', label: t('products') },
-    { section: 'villages', href: { pathname: '/', hash: VILLAGES_HASH }, label: t('villages') },
+    { section: 'villages', href: VILLAGES_PATH, label: t('villages') },
     { section: 'about', href: '/tentang', label: t('about') },
     { section: 'settings', href: SETTINGS_PATH, label: t('settings') },
   ]

@@ -136,13 +136,14 @@ test('only villages with known map coordinates receive a marker', () => {
 
 test('business pins use only the provided shop coordinates and match the filtered products', () => {
   const products = searchPreviewProducts({ village: 'desa-baros' }).data
-  expect(mapBusinessPins(products)).toEqual([])
+  const toProduct = ({ slug }: { slug: string }) => `/produk/${slug}`
+  expect(mapBusinessPins(products, undefined, toProduct)).toEqual([])
   const coffeeLocation = previewBusinessLocations.get('kopi-baros')!
   const locations = new Map([
     ['kopi-baros', coffeeLocation],
     ['unrelated', { lat: -7.1, lng: 107.7 }],
   ])
-  expect(mapBusinessPins(products, locations)).toEqual([
+  expect(mapBusinessPins(products, locations, toProduct)).toEqual([
     {
       ...coffeeLocation,
       slug: 'business:kopi-baros',
@@ -169,7 +170,7 @@ test('the six Baros demo businesses get distinct pins and other catalogue entrie
     }
   })
   const locations = getDemoBusinessLocations(products)
-  const pins = mapBusinessPins(products, locations)
+  const pins = mapBusinessPins(products, locations, ({ slug }) => `/produk/${slug}`)
 
   expect(pins).toHaveLength(6)
   expect(new Set(pins.map(({ lat, lng }) => `${lat},${lng}`)).size).toBe(6)
@@ -219,4 +220,26 @@ test('tapping a tight cluster reaches the first separating scale and caps coinci
     { x: -64, y: 0 },
   ])
   expect(new Set(pinFanOffsets(20).map(({ x, y }) => `${x},${y}`)).size).toBe(20)
+})
+
+test('every demo business of the three demo villages has its own storefront point', () => {
+  const product = previewProducts[0]!
+  const entries = [
+    ['mekarwangi', 'kulit-mekarwangi'],
+    ['mekarwangi', 'jeruk-garut-pak-darma'],
+    ['sindangjaya', 'tahu-sindangjaya'],
+    ['sindangjaya', 'sale-pisang-bu-entin'],
+  ] as const
+  const products = entries.map(([village, slug]) => ({
+    ...product,
+    business: { ...product.business, slug },
+    village: { ...product.village, slug: village },
+  }))
+  expect(getDemoBusinessLocations(products).size).toBe(4)
+  // A business slug only matches inside its own village.
+  expect(
+    getDemoBusinessLocations([
+      { ...products[0]!, village: { ...product.village, slug: 'sindangjaya' } },
+    ]).size,
+  ).toBe(0)
 })

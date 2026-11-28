@@ -9,6 +9,10 @@ import { CatalogueUnavailable } from '@/components/catalogue-state'
 import { OpenStatusBadge } from '@/components/open-status'
 import { OrderPanel } from '@/components/order-panel'
 import { ProductGallery } from '@/components/product-gallery'
+import { ProductGrid } from '@/components/product-card'
+import { ProductDescription } from '@/components/product-description'
+import { ProductRating } from '@/components/product-rating'
+import { ProductReviews } from '@/components/product-reviews'
 import { Price } from '@/components/price'
 import { productDetailLayout } from '@/components/public-page-layout'
 import { TrackView } from '@/components/track-view'
@@ -16,7 +20,13 @@ import { VerifiedBadge } from '@/components/verified-badge'
 import { VillageTheme } from '@/components/village/village-theme'
 import { Link } from '@/i18n/navigation'
 import { getPreviewProduct, isCataloguePreview } from '@/lib/catalogue-preview'
-import { getBusiness, getProduct, readSection } from '@/lib/data'
+import {
+  getBusiness,
+  getProduct,
+  getProductReviews,
+  getStoryProduct,
+  readSection,
+} from '@/lib/data'
 import { asLocale, pick } from '@/lib/localize'
 import { mediaUrl } from '@/lib/media'
 import { localePath } from '@/lib/paths'
@@ -63,7 +73,7 @@ function OriginRow({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
       href={href}
-      className="hover:bg-wash flex min-h-12 items-center gap-3 py-2 transition-colors"
+      className="hover:bg-wash focus-visible:outline-accent flex min-h-12 items-center gap-3 px-4 py-3 transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-2px]"
     >
       {children}
       <ChevronRight className="text-muted size-4 shrink-0" aria-hidden />
@@ -88,9 +98,40 @@ export default async function ProductPage({ params }: { params: Params }) {
   const webUrl = siteUrl()
   const village = business.village
   const photos = product.images.length > 0 ? product.images : [null]
+  const [reviews, relatedProducts] = await Promise.all([
+    preview ? Promise.resolve(null) : getProductReviews(product.slug),
+    loadRelated(),
+  ])
+  async function loadRelated() {
+    return (
+      await Promise.all(
+        product.more.map(({ slug }) =>
+          preview
+            ? Promise.resolve(getPreviewProduct(slug)?.product ?? null)
+            : getStoryProduct(slug),
+        ),
+      )
+    ).filter((related) => related !== null)
+  }
+  const facts = [
+    ...(product.category
+      ? [
+          {
+            label: t('facts.category'),
+            value: pick(locale, product.category.name, product.category.nameEn),
+          },
+        ]
+      : []),
+    { label: t('facts.village'), value: village.name },
+    { label: t('facts.seller'), value: business.name },
+    {
+      label: t('facts.stock'),
+      value: product.isAvailable ? t('facts.inStock') : t('facts.outOfStock'),
+    },
+  ]
 
   return (
-    <VillageTheme theme={village.theme}>
+    <VillageTheme theme={village.theme} radius={false}>
       {preview ? null : <TrackView event={{ type: 'product_view', productSlug: product.slug }} />}
       <Container className={productDetailLayout.container}>
         <div className={productDetailLayout.titleBar}>
@@ -127,34 +168,58 @@ export default async function ProductPage({ params }: { params: Params }) {
         </nav>
 
         <div className={productDetailLayout.grid}>
-          <ProductGallery
-            photos={photos.map((img) => ({
-              src: mediaUrl(img?.key, preview),
-              alt: img?.alt ?? name,
-            }))}
-            category={product.category?.slug}
-          />
+          <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+            <ProductGallery
+              photos={photos.map((img) => ({
+                src: mediaUrl(img?.key, preview),
+                alt: img?.alt ?? name,
+              }))}
+              category={product.category?.slug}
+            />
+          </div>
 
           <div className={productDetailLayout.details}>
             <div>
-              <h1 className="page-title lg:font-village text-balance">{name}</h1>
-              <p className="mt-1.5 lg:mt-3">
+              {product.category ? (
+                <p className="text-muted text-xs font-semibold">
+                  {pick(locale, product.category.name, product.category.nameEn)}
+                </p>
+              ) : null}
+              <h1 className="page-title mt-1 text-balance">{name}</h1>
+              {(product.ratingCount ?? 0) > 0 ? (
+                <a
+                  href="#ulasan"
+                  className="hover:text-accent mt-2 inline-flex min-h-8 items-center gap-1.5 text-sm"
+                >
+                  <ProductRating
+                    average={product.ratingAverage}
+                    count={product.ratingCount}
+                    showCount={false}
+                    className="text-sm"
+                  />
+                  <span aria-hidden className="text-muted">
+                    ·
+                  </span>
+                  <span className="text-muted decoration-line-strong underline underline-offset-4">
+                    {t('reviewsLink', { count: product.ratingCount })}
+                  </span>
+                </a>
+              ) : null}
+              <p className="mt-2 lg:mt-4">
                 <Price
                   price={product.price}
                   compareAtPrice={product.compareAtPrice}
-                  className="product-detail-price text-xl font-bold tabular-nums sm:text-2xl"
+                  className="product-detail-price text-2xl font-bold tabular-nums sm:text-[1.75rem]"
                   strikeClassName="text-sm"
                   showBadge
                 />
               </p>
-              {product.category ? (
-                <p className="text-muted mt-1 hidden text-sm lg:block">
-                  {pick(locale, product.category.name, product.category.nameEn)}
-                </p>
-              ) : null}
             </div>
 
-            <section aria-label={t('origin')} className="divide-line divide-y">
+            <section
+              aria-label={t('origin')}
+              className="border-line bg-surface divide-line divide-y overflow-hidden rounded-(--radius) border"
+            >
               <OriginRow href={`/desa/${village.slug}`}>
                 <MapPin
                   className="lg:text-accent size-5 shrink-0 text-(--catalogue-accent)"
@@ -164,9 +229,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <p className="text-muted sr-only text-xs font-semibold lg:not-sr-only">
                     {t('fromVillage')}
                   </p>
-                  <p className="lg:font-village text-base font-semibold wrap-break-word">
-                    {village.name}
-                  </p>
+                  <p className="text-base font-semibold wrap-break-word">{village.name}</p>
                   {village.regionName ? (
                     <p className="text-muted hidden text-sm lg:block">{village.regionName}</p>
                   ) : null}
@@ -208,7 +271,19 @@ export default async function ProductPage({ params }: { params: Params }) {
                 name: product.name,
                 price: product.price,
                 compareAtPrice: product.compareAtPrice,
+                imageUrl: mediaUrl(product.images[0]?.key, preview),
+                category: product.category?.slug,
               }}
+              otherProducts={relatedProducts
+                .filter((related) => related.isAvailable && related.slug !== product.slug)
+                .map((related) => ({
+                  slug: related.slug,
+                  name: related.name,
+                  price: related.price,
+                  compareAtPrice: related.compareAtPrice,
+                  imageUrl: mediaUrl(related.imageKey, preview),
+                  category: related.category?.slug,
+                }))}
               businessName={business.name}
               businessSlug={business.slug}
               villageName={village.name}
@@ -217,43 +292,27 @@ export default async function ProductPage({ params }: { params: Params }) {
               available={product.isAvailable}
               preview={preview}
             />
-
-            {description ? (
-              <section>
-                <h2 className="section-title">{t('description')}</h2>
-                <p className="mt-2 max-w-[68ch] leading-relaxed whitespace-pre-line">
-                  {description}
-                </p>
-              </section>
-            ) : null}
           </div>
         </div>
 
-        {product.more.length > 0 ? (
-          <section className="mt-12">
+        <div className="mt-8 grid gap-10 lg:mt-12 lg:gap-14">
+          <ProductDescription facts={facts} description={description} />
+          {preview ? null : (
+            <ProductReviews
+              slug={product.slug}
+              productName={name}
+              businessName={business.name}
+              reviews={reviews}
+            />
+          )}
+        </div>
+
+        {relatedProducts.length > 0 ? (
+          <section className="mt-12 lg:mt-14">
             <h2 className="section-title">{t('moreTitle', { business: business.name })}</h2>
-            <ul className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
-              {product.more.map((m) => (
-                <li key={m.slug}>
-                  <Link
-                    href={`/produk/${m.slug}`}
-                    className="border-line flex h-full flex-col gap-1 rounded-(--radius) border p-3 transition-shadow hover:shadow-md"
-                  >
-                    <span className="line-clamp-2 text-sm font-medium">
-                      {pick(locale, m.name, m.nameEn)}
-                    </span>
-                    <span className="mt-auto pt-1">
-                      <Price
-                        price={m.price}
-                        compareAtPrice={m.compareAtPrice}
-                        className="font-bold tabular-nums"
-                        strikeClassName="text-xs"
-                      />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <div className="mt-4">
+              <ProductGrid products={relatedProducts} preview={preview} showSeller={false} />
+            </div>
           </section>
         ) : null}
       </Container>

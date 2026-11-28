@@ -17,24 +17,44 @@ import { Link } from '@/i18n/navigation'
 import { groupPreviewMapBusinesses, previewBusinessLocations } from '@/lib/catalogue-preview'
 import { groupMapBusinesses } from '@/lib/catalogue-map'
 import {
+  getDirectoryMapPoints,
   getMapProducts,
   getMapVillagePoints,
+  getVillagesForFilter,
   readSection,
   searchProducts,
   type ProductQuery,
 } from '@/lib/data'
 import { getDemoBusinessLocations } from '@/lib/demo-business-locations'
-import { VILLAGES_HASH } from '@/lib/paths'
+import { VILLAGES_HASH, VILLAGES_PATH } from '@/lib/paths'
+import { regencyCode } from '@/lib/explore-filters'
 
 const actionClass = buttonVariants({
   variant: 'primary',
   className: 'min-h-11 rounded-full px-4 font-semibold',
 })
 
+/** Published villages outside `exclude` (and inside `region` when set) that have a map point. */
+async function readOtherVillages(exclude: Set<string>, region?: string) {
+  const villages = await readSection(getVillagesForFilter())
+  if (!villages) return []
+  const candidates = villages.filter(
+    (item) => !exclude.has(item.slug) && (!region || regencyCode(item.regionCode) === region),
+  )
+  const names = new Map(candidates.map(({ slug, name }) => [slug, name]))
+  const { points } = await getDirectoryMapPoints(candidates)
+  return points.map((point) => ({
+    ...point,
+    name: names.get(point.slug) ?? point.slug,
+    href: `${VILLAGES_PATH}/${point.slug}`,
+  }))
+}
+
 export async function ExploreResults({
   queryParams,
   mapView,
   selectedSlug,
+  selectedBusiness,
   href: query,
   preview,
   villageName,
@@ -43,6 +63,7 @@ export async function ExploreResults({
   queryParams: ProductQuery & { page: number; pageSize: number }
   mapView: boolean
   selectedSlug?: string
+  selectedBusiness?: string
   href: (overrides: Record<string, string | undefined>) => string
   preview: boolean
   villageName?: string
@@ -88,6 +109,12 @@ export async function ExploreResults({
       ? groupPreviewMapBusinesses(results.data)
       : groupMapBusinesses(results.data, locations?.points ?? [])
     : []
+  // Without a search or category, the map also shows every other village (as a quieter pin to its profile),
+  // so buyers see the whole network and not only villages that happen to match.
+  const otherVillages =
+    mapView && !preview && !q && !category && !village
+      ? await readOtherVillages(new Set(mapVillages.map(({ slug }) => slug)), region)
+      : []
   const demoLocations = mapView && !preview ? getDemoBusinessLocations(results.data) : undefined
   const hasDemoLocations = mapVillages.some(({ businesses }) =>
     businesses.some(({ business }) => demoLocations?.has(business.slug)),
@@ -208,12 +235,16 @@ export async function ExploreResults({
                 ...point,
                 href: query({ selected: point.slug }),
                 listHref: query({ view: undefined, village: point.slug }),
+                businessHref: (business: string) => query({ selected: point.slug, business }),
               }))}
               selectedSlug={selectedSlug}
+              selectedBusiness={selectedBusiness}
+              products={results.data}
               preview={preview}
               businessLocations={preview ? previewBusinessLocations : demoLocations}
               closeHref={query({})}
               listHref={listHref}
+              otherVillages={otherVillages}
             />
           </>
         ) : (

@@ -235,6 +235,10 @@ function toProduct(entry: PreviewEntry): ProductSummary {
     isFree: false,
     isAvailable: true,
     imageKey: `seed/products/${entry.photo}`,
+    // Preview mode is fictional and has no review API: a stable rating per slug keeps cards realistic.
+    ratingAverage:
+      4.5 + (Array.from(entry.slug).reduce((sum, c) => sum + c.charCodeAt(0), 0) % 5) / 10,
+    ratingCount: 6 + (entry.slug.length % 17),
     isSeed: true,
     category: previewCategories.find((category) => category.slug === entry.category) ?? null,
     business: { name: entry.business, slug: entry.business.toLowerCase().replaceAll(' ', '-') },
@@ -493,9 +497,11 @@ export function searchPreviewProducts({
   }
 }
 
+export const previewVillagePoints = [
+  ...previewMapPoints,
+  ...additionalVillages.map(({ slug, point }) => ({ slug, ...point })),
+]
+
 export function groupPreviewMapBusinesses(products: ProductSummary[]) {
-  return groupMapBusinesses(products, [
-    ...previewMapPoints,
-    ...additionalVillages.map(({ slug, point }) => ({ slug, ...point })),
-  ])
+  return groupMapBusinesses(products, previewVillagePoints)
 }

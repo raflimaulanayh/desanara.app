@@ -2,6 +2,7 @@
 
 import { computeOpenStatus, localClock, type OpenStatus } from '@repo/validators'
 import { cn } from '@repo/ui/cn'
+import { Clock3 } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 
@@ -83,7 +84,12 @@ export function OpenStatusBadge({
         <span aria-hidden className="size-1.5 rounded-full bg-current" />
         {label}
       </span>
-      {showDetail && detail ? <span className="text-muted text-sm">{detail}</span> : null}
+      {showDetail && detail ? (
+        <span className="text-foreground inline-flex items-start gap-1.5 text-sm leading-snug font-semibold">
+          <Clock3 className="text-muted mt-0.5 size-4 shrink-0" aria-hidden />
+          <span>{detail}</span>
+        </span>
+      ) : null}
     </span>
   )
 }
